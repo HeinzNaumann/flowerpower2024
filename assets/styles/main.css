@@ -1,0 +1,12 @@
+body{
+    background-color: #f0f0f0;
+}
+
+
+@font-face {
+    font-family: 'GelatoScript';
+    src: url('/assets/fonts/GelatoScript.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
