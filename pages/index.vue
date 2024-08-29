@@ -9,7 +9,7 @@
         <div class="branch"></div>
       </div>
       <div class="max-w-2xl text-center mt-16">
-        <h1 class="mt-4 text-4xl text-flowerPowerLila sm:text-6xl font-light">
+        <h1 class="mt-4 text-4xl text-gray-800 sm:text-6xl font-light">
           <span class="font-GelatoScript">{{
             $t("underConstruction.heading")
           }}</span>
