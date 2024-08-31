@@ -9,10 +9,8 @@
         <div class="branch"></div>
       </div>
       <div class="max-w-2xl text-center mt-16">
-        <h1 class="mt-4 text-4xl text-gray-800 sm:text-6xl font-light">
-          <span class="font-GelatoScript">{{
-            $t("underConstruction.heading")
-          }}</span>
+        <h1 class="mt-4 text-4xl text-gray-800 sm:text-6xl font-sans">
+          <span>{{ $t("underConstruction.heading") }}</span>
         </h1>
         <p class="mt-4 text-lg sm:text-xl text-muted-foreground text-gray-800">
           {{ $t("underConstruction.message") }}
@@ -43,12 +41,6 @@
     </div>
   </main>
 </template>
-
-<script setup>
-import { useI18n } from "vue-i18n";
-
-const { t } = useI18n();
-</script>
 
 <style>
 /* Definición de los estilos para el spinner de flor */
