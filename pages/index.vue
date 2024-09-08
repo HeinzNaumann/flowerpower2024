@@ -9,7 +9,7 @@
         <div class="branch"></div>
       </div>
       <div class="max-w-2xl text-center mt-16">
-        <h1 class="mt-4 text-4xl text-gray-800 sm:text-6xl font-sans">
+        <h1 class="mt-4 text-4xl text-gray-800 sm:text-6xl">
           <span>{{ $t("underConstruction.heading") }}</span>
         </h1>
         <p class="mt-4 text-lg sm:text-xl text-muted-foreground text-gray-800">

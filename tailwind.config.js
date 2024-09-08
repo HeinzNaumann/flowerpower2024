@@ -15,6 +15,7 @@ module.exports = {
             },
             fontFamily: {
                 'GelatoScript': ["GelatoScript", "sans-serif"],
+                'rubik': ["Rubik", "sans-serif"],
             }
         },
     },
