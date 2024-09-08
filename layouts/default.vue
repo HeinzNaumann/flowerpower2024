@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header>
+    <Header>
       <div class="absolute top-4 left-4">
         <img
           src="/logo-floristeria-flowerpower.png"
@@ -8,7 +8,7 @@
           class="w-auto h-[70px] md:h-[120px]"
         />
       </div>
-    </header>
+    </Header>
     <main class="">
       <slot />
     </main>
