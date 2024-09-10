@@ -1,0 +1,18 @@
+{
+  "welcome": "Welcome",
+  "underConstruction": {
+    "heading": "Flower Power Website is Under Construction",
+    "message": "We apologize for the inconvenience, but our website is currently undergoing some exciting updates and improvements.",
+    "contact": "Call the shop"
+  },
+  "header": {
+    "register": "Register / Login",
+    "alt": {
+      "logo": "Flower Power Logo",
+      "cart": "Shopping cart",
+      "flag_es": "Spanish flag",
+      "flag_en": "English flag",
+      "flag_de": "German flag"
+    }
+  }
+}

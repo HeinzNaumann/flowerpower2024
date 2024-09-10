@@ -1,0 +1,19 @@
+{
+  "welcome": "Willkommen",
+  "underConstruction": {
+    "heading": "Flower Power Website ist im Aufbau",
+    "message": "Wir entschuldigen uns für die Unannehmlichkeiten, aber unsere Website wird derzeit aufregend aktualisiert und verbessert.",
+    "contact": "Rufen Sie den Laden an"
+  },
+
+  "header": {
+    "register": "Registrieren / Anmelden",
+    "alt": {
+      "logo": "Flower Power Logo",
+      "cart": "Einkaufswagen",
+      "flag_es": "Spanische Flagge",
+      "flag_en": "Englische Flagge",
+      "flag_de": "Deutsche Flagge"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "welcome": "Bienvenido",
+  "underConstruction": {
+    "heading": "El sitio web de Flower Power está en construcción",
+    "message": "Pedimos disculpas por las molestias, pero nuestro sitio web está actualmente en proceso de emocionantes actualizaciones y mejoras.",
+    "contact": "Llama a la tienda"
+  },
+  "header": {
+    "register": "Regístrate / Inicia Sesión",
+    "alt": {
+      "logo": "Logo de Flower Power",
+      "cart": "Carrito de compras",
+      "flag_es": "Bandera de España",
+      "flag_en": "Bandera de Inglaterra",
+      "flag_de": "Bandera de Alemania"
+    }
+  }
+}
