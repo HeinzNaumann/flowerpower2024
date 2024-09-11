@@ -1,18 +1,27 @@
 {
   "welcome": "Welcome",
   "underConstruction": {
-    "heading": "Flower Power Website is Under Construction",
-    "message": "We apologize for the inconvenience, but our website is currently undergoing some exciting updates and improvements.",
-    "contact": "Call the shop"
+    "heading": "Flower Power Website is under construction",
+    "message": "We apologize for the inconvenience, but our website is currently being excitingly updated and improved.",
+    "contact": "Call the store"
   },
+
   "header": {
     "register": "Register / Login",
     "alt": {
       "logo": "Flower Power Logo",
-      "cart": "Shopping cart",
-      "flag_es": "Spanish flag",
-      "flag_en": "English flag",
-      "flag_de": "German flag"
+      "cart": "Shopping Cart",
+      "flag_es": "Spanish Flag",
+      "flag_en": "English Flag",
+      "flag_de": "German Flag"
+    },
+    "links": {
+      "flores": "Flowers",
+      "rosas": "Roses",
+      "plantas": "Plants",
+      "momentos": "Moments",
+      "tienda": "Store",
+      "suscripciones": "Subscriptions"
     }
   }
 }

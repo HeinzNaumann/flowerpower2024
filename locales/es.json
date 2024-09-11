@@ -1,18 +1,27 @@
 {
   "welcome": "Bienvenido",
   "underConstruction": {
-    "heading": "El sitio web de Flower Power está en construcción",
-    "message": "Pedimos disculpas por las molestias, pero nuestro sitio web está actualmente en proceso de emocionantes actualizaciones y mejoras.",
-    "contact": "Llama a la tienda"
+    "heading": "El sitio web Flower Power está en construcción",
+    "message": "Disculpe las molestias, pero nuestro sitio web está siendo actualizado y mejorado.",
+    "contact": "Llame a la tienda"
   },
+
   "header": {
-    "register": "Regístrate / Inicia Sesión",
+    "register": "Registrarse / Iniciar sesión",
     "alt": {
       "logo": "Logo de Flower Power",
-      "cart": "Carrito de compras",
-      "flag_es": "Bandera de España",
-      "flag_en": "Bandera de Inglaterra",
-      "flag_de": "Bandera de Alemania"
+      "cart": "Carro de compras",
+      "flag_es": "Bandera Española",
+      "flag_en": "Bandera Inglesa",
+      "flag_de": "Bandera Alemana"
+    },
+    "links": {
+      "flores": "Flores",
+      "rosas": "Rosas",
+      "plantas": "Plantas",
+      "momentos": "Momentos",
+      "tienda": "Tienda",
+      "suscripciones": "Suscripciones"
     }
   }
 }

@@ -9,7 +9,7 @@
         />
       </a>
       <!-- Hamburger Button for Mobile View -->
-      <div class="lg:hidden">
+      <div class="lg:hidden p-2 mr-4 flex gap-2">
         <button>
           <img
             src="/assets/icons/cart.svg"
@@ -17,11 +17,12 @@
             class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
         </button>
-        <button class="p-2 mr-4" @click="toggleMenu" aria-label="Toggle menu">
+        <button class="" @click="toggleMenu" aria-label="Toggle menu">
+          <!-- Hamburger Icon -->
           <img
             src="/assets/icons/hamburger-menu.svg"
-            :alt="$t('header.alt.menu')"
-            class="h-6 w-6 text-gray-800 hover:opacity-70 transition-opacity duration-200"
+            :alt="$t('header.alt.cart')"
+            class="h-6 w-6 text-gray-80 hover:opacity-70 transition-opacity duration-200"
           />
         </button>
       </div>
@@ -90,6 +91,7 @@
       </div>
     </div>
 
+    <!-- Background Overlay -->
     <transition name="fade">
       <div
         v-if="isMenuOpen"
@@ -128,7 +130,35 @@
         <a class="hover:text-gray-600" href="/">
           {{ $t("header.register") }}
         </a>
-
+        <button>
+          <img
+            src="/assets/icons/cart.svg"
+            :alt="$t('header.alt.cart')"
+            class="size-6 hover:opacity-70 transition-opacity duration-200"
+          />
+        </button>
+        <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
+        <div class="flex flex-col gap-2 mt-4">
+          <a href="/flores" class="hover:text-gray-600">{{
+            $t("header.links.flores")
+          }}</a>
+          <a href="/rosas" class="hover:text-gray-600">{{
+            $t("header.links.rosas")
+          }}</a>
+          <a href="/plantas" class="hover:text-gray-600">{{
+            $t("header.links.plantas")
+          }}</a>
+          <a href="/momentos" class="hover:text-gray-600">{{
+            $t("header.links.momentos")
+          }}</a>
+          <a href="/tienda" class="hover:text-gray-600">{{
+            $t("header.links.tienda")
+          }}</a>
+          <a href="/suscripciones" class="hover:text-gray-600">{{
+            $t("header.links.suscripciones")
+          }}</a>
+        </div>
+        <!-- Flags Side by Side -->
         <div class="flex gap-2 mt-4">
           <a href="#" @click.prevent="changeLanguage('es')">
             <img
@@ -154,6 +184,32 @@
         </div>
       </div>
     </transition>
+    <!-- New Links Section for Desktop View -->
+    <nav
+      class="hidden lg:flex justify-center mt-4 space-x-6 absolute top-[200px] w-screen uppercase"
+    >
+      <a href="/flores" class="hover:text-gray-600">{{
+        $t("header.links.flores")
+      }}</a>
+      <a href="/rosas" class="hover:text-gray-600">{{
+        $t("header.links.rosas")
+      }}</a>
+      <a href="/plantas" class="hover:text-gray-600">{{
+        $t("header.links.plantas")
+      }}</a>
+      <a href="/momentos" class="hover:text-gray-600">{{
+        $t("header.links.momentos")
+      }}</a>
+      <a href="/tienda" class="hover:text-gray-600">{{
+        $t("header.links.tienda")
+      }}</a>
+      <a href="/suscripciones" class="hover:text-gray-600">{{
+        $t("header.links.suscripciones")
+      }}</a>
+      <form class="flex items-center">
+        <input type="text" placeholder="Buscar" class="border p-1 ml-2" />
+      </form>
+    </nav>
   </header>
 </template>
 

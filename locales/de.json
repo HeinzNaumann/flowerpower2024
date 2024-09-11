@@ -14,6 +14,14 @@
       "flag_es": "Spanische Flagge",
       "flag_en": "Englische Flagge",
       "flag_de": "Deutsche Flagge"
+    },
+    "links": {
+      "flores": "Blumen",
+      "rosas": "Rosen",
+      "plantas": "Pflanzen",
+      "momentos": "Momente",
+      "tienda": "Geschäft",
+      "suscripciones": "Abonnements"
     }
   }
 }
