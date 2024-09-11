@@ -1,24 +1,31 @@
 <template>
   <header>
     <div class="absolute top-4 left-4 flex justify-between w-full">
-      <img
-        src="/logo-floristeria-flowerpower.png"
-        :alt="$t('header.alt.logo')"
-        class="w-auto h-[70px] md:h-[120px]"
-      />
+      <a href="/">
+        <img
+          src="/logo-floristeria-flowerpower.png"
+          :alt="$t('header.alt.logo')"
+          class="w-auto h-[70px] md:h-[120px]"
+        />
+      </a>
       <div class="mr-8 flex flex-row gap-3 items-baseline">
-        <a href="/"> {{ $t("header.register") }} </a>
+        <p v-if="isMobile">Estás en un dispositivo móvil.</p>
+        <p v-else-if="isTablet">Estás en una tablet.</p>
+        <p v-else-if="isDesktop">Estás en un desktop.</p>
+        <a class="hover:text-gray-600" href="/">
+          {{ $t("header.register") }}
+        </a>
         <button>
           <img
             src="/assets/icons/cart.svg"
             :alt="$t('header.alt.cart')"
-            class="size-6"
+            class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
         </button>
         <div class="relative inline-block text-left">
           <button
             @click="toggleDropdown"
-            class="inline-flex justify-center w-full bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+            class="inline-flex justify-center w-full bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:opacity-70 transition-opacity duration-200"
           >
             <img
               :src="currentFlag"
@@ -71,12 +78,13 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRouter } from "vue-router";
 
 const { locale } = useI18n();
-const router = useRouter();
+
+const { isDesktop, isTablet, isMobile } = useCustomBreakpoints();
+
 const isOpen = ref(false);
 const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
@@ -91,10 +99,6 @@ const changeLanguage = async (language) => {
   currentFlag.value = `/images/flags/${language}.png`;
   isOpen.value = false;
 
-  await router.push({ path: `/${language}` });
+  await navigateTo({ path: `/${language}` });
 };
 </script>
-
-<style>
-/* Puedes añadir estilos adicionales aquí si es necesario */
-</style>
