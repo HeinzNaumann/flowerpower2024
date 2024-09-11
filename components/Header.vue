@@ -8,10 +8,25 @@
           class="w-auto h-[70px] md:h-[120px]"
         />
       </a>
-      <div class="mr-8 flex flex-row gap-3 items-baseline">
-        <p v-if="isMobile">Estás en un dispositivo móvil.</p>
-        <p v-else-if="isTablet">Estás en una tablet.</p>
-        <p v-else-if="isDesktop">Estás en un desktop.</p>
+      <!-- Hamburger Button for Mobile View -->
+      <div class="lg:hidden">
+        <button>
+          <img
+            src="/assets/icons/cart.svg"
+            :alt="$t('header.alt.cart')"
+            class="size-6 hover:opacity-70 transition-opacity duration-200"
+          />
+        </button>
+        <button class="p-2 mr-4" @click="toggleMenu" aria-label="Toggle menu">
+          <img
+            src="/assets/icons/hamburger-menu.svg"
+            :alt="$t('header.alt.menu')"
+            class="h-6 w-6 text-gray-800 hover:opacity-70 transition-opacity duration-200"
+          />
+        </button>
+      </div>
+      <!-- Desktop Navigation Links -->
+      <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
         <a class="hover:text-gray-600" href="/">
           {{ $t("header.register") }}
         </a>
@@ -74,11 +89,76 @@
         </div>
       </div>
     </div>
+
+    <transition name="fade">
+      <div
+        v-if="isMenuOpen"
+        class="fixed inset-0 bg-black bg-opacity-50 z-20"
+        @click="toggleMenu"
+      ></div>
+    </transition>
+
+    <!-- Sliding Menu from the Right -->
+    <transition name="slide">
+      <div
+        v-if="isMenuOpen"
+        class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-20 p-4 flex flex-col gap-4"
+      >
+        <button
+          class="self-end p-2"
+          @click="toggleMenu"
+          aria-label="Close menu"
+        >
+          <!-- Close Icon -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 text-gray-800"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <a class="hover:text-gray-600" href="/">
+          {{ $t("header.register") }}
+        </a>
+
+        <div class="flex gap-2 mt-4">
+          <a href="#" @click.prevent="changeLanguage('es')">
+            <img
+              src="/images/flags/es.png"
+              :alt="$t('header.alt.flag_es')"
+              class="w-6 h-4"
+            />
+          </a>
+          <a href="#" @click.prevent="changeLanguage('en')">
+            <img
+              src="/images/flags/en.png"
+              :alt="$t('header.alt.flag_en')"
+              class="w-6 h-4"
+            />
+          </a>
+          <a href="#" @click.prevent="changeLanguage('de')">
+            <img
+              src="/images/flags/de.png"
+              :alt="$t('header.alt.flag_de')"
+              class="w-6 h-4"
+            />
+          </a>
+        </div>
+      </div>
+    </transition>
   </header>
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 const { locale } = useI18n();
@@ -86,11 +166,16 @@ const { locale } = useI18n();
 const { isDesktop, isTablet, isMobile } = useCustomBreakpoints();
 
 const isOpen = ref(false);
+const isMenuOpen = ref(false); // State for the mobile menu
 const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
+};
+
+const toggleMenu = () => {
+  isMenuOpen.value = !isMenuOpen.value;
 };
 
 const changeLanguage = async (language) => {
@@ -102,3 +187,27 @@ const changeLanguage = async (language) => {
   await navigateTo({ path: `/${language}` });
 };
 </script>
+
+<style scoped>
+/* Add transition styles for sliding effect */
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+.slide-enter-from {
+  transform: translateX(100%);
+}
+.slide-leave-to {
+  transform: translateX(100%);
+}
+
+/* Fade transition for backdrop */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease-in-out;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
