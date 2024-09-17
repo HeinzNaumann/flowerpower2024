@@ -1,17 +1,15 @@
 <template>
   <header>
     <div class="absolute top-4 left-4 flex justify-between w-full">
-      <a href="/">
+      <NuxtLink to="/">
         <img
           src="/logo-floristeria-flowerpower.png"
           :alt="$t('header.alt.logo')"
           class="w-auto h-[70px] md:h-[120px]"
         />
-      </a>
+      </NuxtLink>
       <!-- Hamburger Button for Mobile View -->
       <div class="lg:hidden p-2 mr-4 flex gap-2 relative items-center">
-        <!-- Added 'relative' -->
-        <!-- Transition wrapper with 'expand' -->
         <transition name="expand">
           <form
             v-if="isOpenMagnifier"
@@ -51,9 +49,9 @@
       </div>
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
-        <a class="hover:text-gray-600" href="/">
+        <NuxtLink class="hover:text-gray-600" to="login-register">
           {{ $t("header.register") }}
-        </a>
+        </NuxtLink>
         <button>
           <img
             src="/assets/icons/cart.svg"
@@ -162,24 +160,24 @@
         </button>
         <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
         <div class="flex flex-col gap-2 mt-4">
-          <a href="/flores" class="hover:text-gray-600">{{
+          <NuxtLink to="/flowers" class="hover:text-gray-600">{{
             $t("header.links.flores")
-          }}</a>
-          <a href="/rosas" class="hover:text-gray-600">{{
+          }}</NuxtLink>
+          <NuxtLink to="/roses" class="hover:text-gray-600">{{
             $t("header.links.rosas")
-          }}</a>
-          <a href="/plantas" class="hover:text-gray-600">{{
+          }}</NuxtLink>
+          <NuxtLink to="/plants" class="hover:text-gray-600">{{
             $t("header.links.plantas")
-          }}</a>
-          <a href="/momentos" class="hover:text-gray-600">{{
+          }}</NuxtLink>
+          <NuxtLink to="/moments" class="hover:text-gray-600">{{
             $t("header.links.momentos")
-          }}</a>
-          <a href="/tienda" class="hover:text-gray-600">{{
+          }}</NuxtLink>
+          <NuxtLink to="/shop" class="hover:text-gray-600">{{
             $t("header.links.tienda")
-          }}</a>
-          <a href="/suscripciones" class="hover:text-gray-600">{{
+          }}</NuxtLink>
+          <NuxtLink to="/subscriptions" class="hover:text-gray-600">{{
             $t("header.links.suscripciones")
-          }}</a>
+          }}</NuxtLink>
         </div>
         <!-- Flags Side by Side -->
         <div class="flex gap-2 mt-4">
@@ -211,24 +209,24 @@
     <nav
       class="hidden lg:flex justify-center mt-4 space-x-6 absolute top-[200px] w-screen uppercase items-center"
     >
-      <a href="/flores" class="hover:text-gray-600">{{
+      <NuxtLink to="/flowers" class="hover:text-gray-600">{{
         $t("header.links.flores")
-      }}</a>
-      <a href="/rosas" class="hover:text-gray-600">{{
+      }}</NuxtLink>
+      <NuxtLink to="/roses" class="hover:text-gray-600">{{
         $t("header.links.rosas")
-      }}</a>
-      <a href="/plantas" class="hover:text-gray-600">{{
+      }}</NuxtLink>
+      <NuxtLink to="/plants" class="hover:text-gray-600">{{
         $t("header.links.plantas")
-      }}</a>
-      <a href="/momentos" class="hover:text-gray-600">{{
+      }}</NuxtLink>
+      <NuxtLink to="/moments" class="hover:text-gray-600">{{
         $t("header.links.momentos")
-      }}</a>
-      <a href="/tienda" class="hover:text-gray-600">{{
+      }}</NuxtLink>
+      <NuxtLink to="/shop" class="hover:text-gray-600">{{
         $t("header.links.tienda")
-      }}</a>
-      <a href="/suscripciones" class="hover:text-gray-600">{{
+      }}</NuxtLink>
+      <NuxtLink to="/subscriptions" class="hover:text-gray-600">{{
         $t("header.links.suscripciones")
-      }}</a>
+      }}</NuxtLink>
       <form class="flex items-center">
         <input
           type="text"
@@ -241,132 +239,74 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from "vue";
-import { useI18n } from "vue-i18n";
-
-// Import custom breakpoint composable if you have one
-// import useCustomBreakpoints from 'path-to-your-composable';
-
 const { locale } = useI18n();
+const localePath = useLocalePath();
 
-// Replace this with your actual breakpoint logic or import
-const isDesktop = ref(false);
-const isTablet = ref(false);
-const isMobile = ref(true);
-
-// Initialize reactive variables
 const isOpen = ref(false);
-const isMenuOpen = ref(false); // State for the mobile menu
+const isMenuOpen = ref(false);
 const isOpenMagnifier = ref(false);
 const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 const formRef = ref(null);
 
-// Toggle dropdown menu
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-// Toggle magnifier form
 const toggleMagnifier = () => {
   isOpenMagnifier.value = !isOpenMagnifier.value;
 };
 
-// Toggle mobile menu
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
-// Change language
 const changeLanguage = async (language) => {
   currentLocale.value = language;
   locale.value = language;
   currentFlag.value = `/images/flags/${language}.png`;
   isOpen.value = false;
 
-  // Navigate to the selected language path
-  await navigateTo({ path: `/${language}` });
+  const path = language === "es" ? "/" : localePath({ path: "/" });
+
+  await navigateTo(path);
 };
 
-// Handle clicks outside the form to close it
 const handleClickOutside = (event) => {
   if (formRef.value && !formRef.value.contains(event.target)) {
     isOpenMagnifier.value = false;
   }
 };
 
-// Watch for changes to isOpenMagnifier to add/remove event listeners
 watch(isOpenMagnifier, (newVal) => {
   if (newVal) {
-    // Add event listener when form is open
     document.addEventListener("click", handleClickOutside);
   } else {
-    // Remove event listener when form is closed
     document.removeEventListener("click", handleClickOutside);
   }
 });
 
-// Clean up event listeners when component is destroyed
 onBeforeUnmount(() => {
   document.removeEventListener("click", handleClickOutside);
 });
 </script>
 
 <style scoped>
-/* Expand transition for the magnifier form */
 .expand-enter-active,
 .expand-leave-active {
   transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-.expand-enter-from {
-  transform: scaleX(0);
-  opacity: 0;
-}
-
-.expand-enter-to {
-  transform: scaleX(1);
-  opacity: 1;
-}
-
-.expand-leave-from {
-  transform: scaleX(1);
-  opacity: 1;
-}
-
-.expand-leave-to {
-  transform: scaleX(0);
-  opacity: 0;
-}
-
-/* Set the transform origin to the right */
-.expand-enter-active,
-.expand-leave-active,
-.expand-enter-from,
-.expand-enter-to,
-.expand-leave-from,
-.expand-leave-to {
   transform-origin: right;
 }
 
-/* Fade transition for backdrop */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease-in-out;
-}
-.fade-enter-from,
-.fade-leave-to {
+.expand-enter-from,
+.expand-leave-to {
+  transform: scaleX(0);
   opacity: 0;
 }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.3s ease-in-out;
-}
-.slide-enter-from {
-  transform: translateX(100%);
-}
-.slide-leave-to {
-  transform: translateX(100%);
+.expand-enter-to,
+.expand-leave-from {
+  transform: scaleX(1);
+  opacity: 1;
 }
 </style>
