@@ -22,6 +22,9 @@
       "momentos": "Moments",
       "tienda": "Store",
       "suscripciones": "Subscriptions"
+    },
+    "input": {
+      "placeholder": "Search"
     }
   }
 }

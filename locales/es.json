@@ -22,6 +22,9 @@
       "momentos": "Momentos",
       "tienda": "Tienda",
       "suscripciones": "Suscripciones"
+    },
+    "input": {
+      "placeholder": "Buscar"
     }
   }
 }

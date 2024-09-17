@@ -9,7 +9,30 @@
         />
       </a>
       <!-- Hamburger Button for Mobile View -->
-      <div class="lg:hidden p-2 mr-4 flex gap-2">
+      <div class="lg:hidden p-2 mr-4 flex gap-2 relative items-center">
+        <!-- Added 'relative' -->
+        <!-- Transition wrapper with 'expand' -->
+        <transition name="expand">
+          <form
+            v-if="isOpenMagnifier"
+            class="items-center relative right-0 top-0 z-30 bl overflow-hidden p-1 rounded"
+            ref="formRef"
+          >
+            <input
+              type="text"
+              :placeholder="$t('header.input.placeholder')"
+              class="w-full border p-1 focus:outline-none focus:shadow-lg transition-all duration-300 ease-in-out delay-150"
+            />
+          </form>
+        </transition>
+        <button @click.stop="toggleMagnifier" class="relative z-10">
+          <img
+            v-if="!isOpenMagnifier"
+            src="/assets/icons/magnifier.svg"
+            :alt="$t('header.alt.cart')"
+            class="size-6 hover:opacity-70 transition-opacity duration-200"
+          />
+        </button>
         <button>
           <img
             src="/assets/icons/cart.svg"
@@ -186,7 +209,7 @@
     </transition>
     <!-- New Links Section for Desktop View -->
     <nav
-      class="hidden lg:flex justify-center mt-4 space-x-6 absolute top-[200px] w-screen uppercase"
+      class="hidden lg:flex justify-center mt-4 space-x-6 absolute top-[200px] w-screen uppercase items-center"
     >
       <a href="/flores" class="hover:text-gray-600">{{
         $t("header.links.flores")
@@ -207,54 +230,123 @@
         $t("header.links.suscripciones")
       }}</a>
       <form class="flex items-center">
-        <input type="text" placeholder="Buscar" class="border p-1 ml-2" />
+        <input
+          type="text"
+          :placeholder="$t('header.input.placeholder')"
+          class="border border-gray-300 p-1 focus:border-gray-800 focus:outline-none focus:shadow-lg transition-all duration-300"
+        />
       </form>
     </nav>
   </header>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount, watch } from "vue";
 import { useI18n } from "vue-i18n";
+
+// Import custom breakpoint composable if you have one
+// import useCustomBreakpoints from 'path-to-your-composable';
 
 const { locale } = useI18n();
 
-const { isDesktop, isTablet, isMobile } = useCustomBreakpoints();
+// Replace this with your actual breakpoint logic or import
+const isDesktop = ref(false);
+const isTablet = ref(false);
+const isMobile = ref(true);
 
+// Initialize reactive variables
 const isOpen = ref(false);
 const isMenuOpen = ref(false); // State for the mobile menu
+const isOpenMagnifier = ref(false);
 const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
+const formRef = ref(null);
 
+// Toggle dropdown menu
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
+// Toggle magnifier form
+const toggleMagnifier = () => {
+  isOpenMagnifier.value = !isOpenMagnifier.value;
+};
+
+// Toggle mobile menu
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
 
+// Change language
 const changeLanguage = async (language) => {
   currentLocale.value = language;
   locale.value = language;
   currentFlag.value = `/images/flags/${language}.png`;
   isOpen.value = false;
 
+  // Navigate to the selected language path
   await navigateTo({ path: `/${language}` });
 };
+
+// Handle clicks outside the form to close it
+const handleClickOutside = (event) => {
+  if (formRef.value && !formRef.value.contains(event.target)) {
+    isOpenMagnifier.value = false;
+  }
+};
+
+// Watch for changes to isOpenMagnifier to add/remove event listeners
+watch(isOpenMagnifier, (newVal) => {
+  if (newVal) {
+    // Add event listener when form is open
+    document.addEventListener("click", handleClickOutside);
+  } else {
+    // Remove event listener when form is closed
+    document.removeEventListener("click", handleClickOutside);
+  }
+});
+
+// Clean up event listeners when component is destroyed
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <style scoped>
-/* Add transition styles for sliding effect */
-.slide-enter-active,
-.slide-leave-active {
-  transition: transform 0.3s ease-in-out;
+/* Expand transition for the magnifier form */
+.expand-enter-active,
+.expand-leave-active {
+  transition: transform 0.5s ease, opacity 0.5s ease;
 }
-.slide-enter-from {
-  transform: translateX(100%);
+
+.expand-enter-from {
+  transform: scaleX(0);
+  opacity: 0;
 }
-.slide-leave-to {
-  transform: translateX(100%);
+
+.expand-enter-to {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.expand-leave-from {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+.expand-leave-to {
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+/* Set the transform origin to the right */
+.expand-enter-active,
+.expand-leave-active,
+.expand-enter-from,
+.expand-enter-to,
+.expand-leave-from,
+.expand-leave-to {
+  transform-origin: right;
 }
 
 /* Fade transition for backdrop */
@@ -265,5 +357,16 @@ const changeLanguage = async (language) => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform 0.3s ease-in-out;
+}
+.slide-enter-from {
+  transform: translateX(100%);
+}
+.slide-leave-to {
+  transform: translateX(100%);
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col justify-center items-center h-screen">
+  <main class="flex flex-col justify-center items-center h-screen mt-16">
     <div
       class="flex min-h-[100dvh] flex-col items-center justify-center bg-background text-foreground"
     >
@@ -41,6 +41,8 @@
     </div>
   </main>
 </template>
+
+<script setup lang></script>
 
 <style>
 /* Definición de los estilos para el spinner de flor */
