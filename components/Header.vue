@@ -74,9 +74,8 @@
             v-if="isOpen"
             class="absolute left-[-7px] z-10 w-10 mt-2 mr-4 bg-white border rounded-md shadow-lg"
           >
-            <a
-              href="#"
-              @click.prevent="changeLanguage('es')"
+            <NuxtLink
+              :to="switchLocalePath('es')"
               class="flex items-center p-2 hover:bg-gray-100"
             >
               <img
@@ -84,10 +83,9 @@
                 :alt="$t('header.alt.flag_es')"
                 class="w-6 h-4"
               />
-            </a>
-            <a
-              href="#"
-              @click.prevent="changeLanguage('en')"
+            </NuxtLink>
+            <NuxtLink
+              :to="switchLocalePath('en')"
               class="flex items-center p-2 hover:bg-gray-100"
             >
               <img
@@ -95,10 +93,9 @@
                 :alt="$t('header.alt.flag_en')"
                 class="w-6 h-4"
               />
-            </a>
-            <a
-              href="#"
-              @click.prevent="changeLanguage('de')"
+            </NuxtLink>
+            <NuxtLink
+              :to="switchLocalePath('de')"
               class="flex items-center p-2 hover:bg-gray-100"
             >
               <img
@@ -106,7 +103,7 @@
                 :alt="$t('header.alt.flag_de')"
                 class="w-6 h-4"
               />
-            </a>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -200,27 +197,27 @@
 
         <!-- Flags Side by Side -->
         <div class="flex gap-2 mt-4">
-          <a href="#" @click.prevent="changeLanguage('es')">
+          <NuxtLink :to="switchLocalePath('es')">
             <img
               src="/images/flags/es.png"
               :alt="$t('header.alt.flag_es')"
               class="w-6 h-4"
             />
-          </a>
-          <a href="#" @click.prevent="changeLanguage('en')">
+          </NuxtLink>
+          <NuxtLink :to="switchLocalePath('en')">
             <img
               src="/images/flags/en.png"
               :alt="$t('header.alt.flag_en')"
               class="w-6 h-4"
             />
-          </a>
-          <a href="#" @click.prevent="changeLanguage('de')">
+          </NuxtLink>
+          <NuxtLink :to="switchLocalePath('de')">
             <img
               src="/images/flags/de.png"
               :alt="$t('header.alt.flag_de')"
               class="w-6 h-4"
             />
-          </a>
+          </NuxtLink>
         </div>
       </div>
     </transition>
@@ -283,22 +280,7 @@ const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 const formRef = ref(null);
 
-const route = useRoute();
-const router = useRouter();
-
-const changeLanguage = async (language) => {
-  currentLocale.value = language;
-  locale.value = language;
-  currentFlag.value = `/images/flags/${language}.png`;
-  isOpen.value = false;
-
-  const newPath = localePath({
-    name: route.name.replace(/___\w+$/, ""),
-    params: { ...route.params, locale: language },
-  });
-
-  await navigateTo(newPath);
-};
+const switchLocalePath = useSwitchLocalePath();
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
