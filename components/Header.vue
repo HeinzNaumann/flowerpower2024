@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="absolute top-4 left-4 flex justify-between w-full">
-      <NuxtLink to="/">
+      <NuxtLink :to="localePath({ path: '/' })">
         <img
           src="/logo-floristeria-flowerpower.png"
           :alt="$t('header.alt.logo')"
@@ -160,25 +160,44 @@
         </button>
         <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
         <div class="flex flex-col gap-2 mt-4">
-          <NuxtLink to="/flowers" class="hover:text-gray-600">{{
-            $t("header.links.flores")
-          }}</NuxtLink>
-          <NuxtLink to="/roses" class="hover:text-gray-600">{{
-            $t("header.links.rosas")
-          }}</NuxtLink>
-          <NuxtLink to="/plants" class="hover:text-gray-600">{{
-            $t("header.links.plantas")
-          }}</NuxtLink>
-          <NuxtLink to="/moments" class="hover:text-gray-600">{{
-            $t("header.links.momentos")
-          }}</NuxtLink>
-          <NuxtLink to="/shop" class="hover:text-gray-600">{{
-            $t("header.links.tienda")
-          }}</NuxtLink>
-          <NuxtLink to="/subscriptions" class="hover:text-gray-600">{{
-            $t("header.links.suscripciones")
-          }}</NuxtLink>
+          <NuxtLink
+            :to="localePath({ path: '/flowers' })"
+            class="hover:text-gray-600"
+          >
+            {{ $t("header.links.flores") }}
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath({ path: '/roses' })"
+            class="hover:text-gray-600"
+          >
+            {{ $t("header.links.rosas") }}
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath({ path: '/plants' })"
+            class="hover:text-gray-600"
+          >
+            {{ $t("header.links.plantas") }}
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath({ path: '/moments' })"
+            class="hover:text-gray-600"
+          >
+            {{ $t("header.links.momentos") }}
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath({ path: '/shop' })"
+            class="hover:text-gray-600"
+          >
+            {{ $t("header.links.tienda") }}
+          </NuxtLink>
+          <NuxtLink
+            :to="localePath({ path: '/subscriptions' })"
+            class="hover:text-gray-600"
+          >
+            {{ $t("header.links.suscripciones") }}
+          </NuxtLink>
         </div>
+
         <!-- Flags Side by Side -->
         <div class="flex gap-2 mt-4">
           <a href="#" @click.prevent="changeLanguage('es')">
@@ -209,24 +228,39 @@
     <nav
       class="hidden lg:flex justify-center mt-4 space-x-6 absolute top-[200px] w-screen uppercase items-center"
     >
-      <NuxtLink to="/flowers" class="hover:text-gray-600">{{
-        $t("header.links.flores")
-      }}</NuxtLink>
-      <NuxtLink to="/roses" class="hover:text-gray-600">{{
-        $t("header.links.rosas")
-      }}</NuxtLink>
-      <NuxtLink to="/plants" class="hover:text-gray-600">{{
-        $t("header.links.plantas")
-      }}</NuxtLink>
-      <NuxtLink to="/moments" class="hover:text-gray-600">{{
-        $t("header.links.momentos")
-      }}</NuxtLink>
-      <NuxtLink to="/shop" class="hover:text-gray-600">{{
-        $t("header.links.tienda")
-      }}</NuxtLink>
-      <NuxtLink to="/subscriptions" class="hover:text-gray-600">{{
-        $t("header.links.suscripciones")
-      }}</NuxtLink>
+      <NuxtLink
+        :to="localePath({ path: '/flowers' })"
+        class="hover:text-gray-600"
+      >
+        {{ $t("header.links.flores") }}
+      </NuxtLink>
+      <NuxtLink
+        :to="localePath({ path: '/roses' })"
+        class="hover:text-gray-600"
+      >
+        {{ $t("header.links.rosas") }}
+      </NuxtLink>
+      <NuxtLink
+        :to="localePath({ path: '/plants' })"
+        class="hover:text-gray-600"
+      >
+        {{ $t("header.links.plantas") }}
+      </NuxtLink>
+      <NuxtLink
+        :to="localePath({ path: '/moments' })"
+        class="hover:text-gray-600"
+      >
+        {{ $t("header.links.momentos") }}
+      </NuxtLink>
+      <NuxtLink :to="localePath({ path: '/shop' })" class="hover:text-gray-600">
+        {{ $t("header.links.tienda") }}
+      </NuxtLink>
+      <NuxtLink
+        :to="localePath({ path: '/subscriptions' })"
+        class="hover:text-gray-600"
+      >
+        {{ $t("header.links.suscripciones") }}
+      </NuxtLink>
       <form class="flex items-center">
         <input
           type="text"
@@ -249,6 +283,23 @@ const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 const formRef = ref(null);
 
+const route = useRoute();
+const router = useRouter();
+
+const changeLanguage = async (language) => {
+  currentLocale.value = language;
+  locale.value = language;
+  currentFlag.value = `/images/flags/${language}.png`;
+  isOpen.value = false;
+
+  const newPath = localePath({
+    name: route.name.replace(/___\w+$/, ""),
+    params: { ...route.params, locale: language },
+  });
+
+  await navigateTo(newPath);
+};
+
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
@@ -259,17 +310,6 @@ const toggleMagnifier = () => {
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
-};
-
-const changeLanguage = async (language) => {
-  currentLocale.value = language;
-  locale.value = language;
-  currentFlag.value = `/images/flags/${language}.png`;
-  isOpen.value = false;
-
-  const path = language === "es" ? "/" : localePath({ path: "/" });
-
-  await navigateTo(path);
 };
 
 const handleClickOutside = (event) => {
