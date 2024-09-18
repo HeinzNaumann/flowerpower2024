@@ -49,16 +49,19 @@
       </div>
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
-        <NuxtLink class="hover:text-gray-600" to="login-register">
+        <NuxtLink
+          class="hover:text-gray-600"
+          :to="localePath({ path: '/login-register' })"
+        >
           {{ $t("header.register") }}
         </NuxtLink>
-        <button>
+        <NuxtLink :to="localePath({ path: '/cart' })">
           <img
             src="/assets/icons/cart.svg"
             :alt="$t('header.alt.cart')"
             class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
-        </button>
+        </NuxtLink>
         <div class="relative inline-block text-left">
           <button
             @click="toggleDropdown"
@@ -145,16 +148,19 @@
             />
           </svg>
         </button>
-        <a class="hover:text-gray-600" href="/">
+        <NuxtLink
+          class="hover:text-gray-600"
+          :to="localePath({ path: '/login-register' })"
+        >
           {{ $t("header.register") }}
-        </a>
-        <button>
+        </NuxtLink>
+        <NuxtLink :to="localePath({ path: '/cart' })">
           <img
             src="/assets/icons/cart.svg"
             :alt="$t('header.alt.cart')"
             class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
-        </button>
+        </NuxtLink>
         <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
         <div class="flex flex-col gap-2 mt-4">
           <NuxtLink
