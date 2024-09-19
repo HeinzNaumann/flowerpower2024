@@ -274,13 +274,13 @@
       <!-- Search Form Positioned Absolutely to the Right -->
       <form
         ref="formRef"
-        class="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center w-64"
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center lg:w-40 xl:w-64"
       >
         <div class="relative w-full">
           <input
             type="text"
             :placeholder="$t('header.input.placeholder')"
-            class="border border-gray-300 p-1 pl-10 focus:border-gray-800 focus:outline-none focus:shadow-lg transition-all duration-300 w-full"
+            class="border border-gray-600 p-1 pl-10 focus:border-gray-800 focus:outline-none focus:shadow-lg transition-all duration-300 w-full"
           />
           <img
             src="/assets/icons/magnifier.svg"
