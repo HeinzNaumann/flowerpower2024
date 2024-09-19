@@ -59,10 +59,10 @@
           <img
             src="/assets/icons/cart.svg"
             :alt="$t('header.alt.cart')"
-            class="size-6 hover:opacity-70 transition-opacity duration-200"
+            class="size-6 hover:opacity-70 transition-opacity duration-200 top-1 relative"
           />
         </NuxtLink>
-        <div class="relative inline-block text-left">
+        <div class="relative inline-block text-left" ref="dropdownRef">
           <button
             @click="toggleDropdown"
             class="inline-flex justify-center w-full bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:opacity-70 transition-opacity duration-200"
@@ -229,51 +229,71 @@
     </transition>
     <!-- New Links Section for Desktop View -->
     <nav
-      class="hidden lg:flex justify-center mt-4 space-x-6 absolute top-[200px] w-screen uppercase items-center"
+      class="hidden lg:flex items-center mt-4 relative uppercase w-full top-[150px]"
     >
-      <NuxtLink
-        :to="localePath({ path: '/flowers' })"
-        class="hover:text-gray-600"
+      <!-- Navigation Links Container -->
+      <div class="flex justify-center gap-8 w-full font-medium">
+        <NuxtLink
+          :to="localePath({ path: '/flowers' })"
+          class="hover:text-gray-600"
+        >
+          {{ $t("header.links.flores") }}
+        </NuxtLink>
+        <NuxtLink
+          :to="localePath({ path: '/roses' })"
+          class="hover:text-gray-600"
+        >
+          {{ $t("header.links.rosas") }}
+        </NuxtLink>
+        <NuxtLink
+          :to="localePath({ path: '/plants' })"
+          class="hover:text-gray-600"
+        >
+          {{ $t("header.links.plantas") }}
+        </NuxtLink>
+        <NuxtLink
+          :to="localePath({ path: '/moments' })"
+          class="hover:text-gray-600"
+        >
+          {{ $t("header.links.momentos") }}
+        </NuxtLink>
+        <NuxtLink
+          :to="localePath({ path: '/shop' })"
+          class="hover:text-gray-600"
+        >
+          {{ $t("header.links.tienda") }}
+        </NuxtLink>
+        <NuxtLink
+          :to="localePath({ path: '/subscriptions' })"
+          class="hover:text-gray-600"
+        >
+          {{ $t("header.links.suscripciones") }}
+        </NuxtLink>
+      </div>
+
+      <!-- Search Form Positioned Absolutely to the Right -->
+      <form
+        ref="formRef"
+        class="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center w-64"
       >
-        {{ $t("header.links.flores") }}
-      </NuxtLink>
-      <NuxtLink
-        :to="localePath({ path: '/roses' })"
-        class="hover:text-gray-600"
-      >
-        {{ $t("header.links.rosas") }}
-      </NuxtLink>
-      <NuxtLink
-        :to="localePath({ path: '/plants' })"
-        class="hover:text-gray-600"
-      >
-        {{ $t("header.links.plantas") }}
-      </NuxtLink>
-      <NuxtLink
-        :to="localePath({ path: '/moments' })"
-        class="hover:text-gray-600"
-      >
-        {{ $t("header.links.momentos") }}
-      </NuxtLink>
-      <NuxtLink :to="localePath({ path: '/shop' })" class="hover:text-gray-600">
-        {{ $t("header.links.tienda") }}
-      </NuxtLink>
-      <NuxtLink
-        :to="localePath({ path: '/subscriptions' })"
-        class="hover:text-gray-600"
-      >
-        {{ $t("header.links.suscripciones") }}
-      </NuxtLink>
-      <form class="flex items-center">
-        <input
-          type="text"
-          :placeholder="$t('header.input.placeholder')"
-          class="border border-gray-300 p-1 focus:border-gray-800 focus:outline-none focus:shadow-lg transition-all duration-300"
-        />
+        <div class="relative w-full">
+          <input
+            type="text"
+            :placeholder="$t('header.input.placeholder')"
+            class="border border-gray-300 p-1 pl-10 focus:border-gray-800 focus:outline-none focus:shadow-lg transition-all duration-300 w-full"
+          />
+          <img
+            src="/assets/icons/magnifier.svg"
+            :alt="$t('header.alt.magnifier')"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
+          />
+        </div>
       </form>
     </nav>
   </header>
 </template>
+
+
 
 <script setup>
 const { locale } = useI18n();
@@ -285,6 +305,7 @@ const isOpenMagnifier = ref(false);
 const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 const formRef = ref(null);
+const dropdownRef = ref(null);
 
 const switchLocalePath = useSwitchLocalePath();
 
@@ -301,21 +322,36 @@ const toggleMenu = () => {
 };
 
 const handleClickOutside = (event) => {
-  if (formRef.value && !formRef.value.contains(event.target)) {
+  if (
+    isOpenMagnifier.value &&
+    formRef.value &&
+    !formRef.value.contains(event.target)
+  ) {
     isOpenMagnifier.value = false;
+  }
+
+  if (
+    isOpen.value &&
+    dropdownRef.value &&
+    !dropdownRef.value.contains(event.target)
+  ) {
+    isOpen.value = false;
   }
 };
 
-watch(isOpenMagnifier, (newVal) => {
-  if (newVal) {
-    document.addEventListener("click", handleClickOutside);
-  } else {
-    document.removeEventListener("click", handleClickOutside);
-  }
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener("click", handleClickOutside);
+onMounted(() => {
+  watchEffect((onCleanup) => {
+    currentLocale.value = locale.value;
+    currentFlag.value = `/images/flags/${currentLocale.value}.png`;
+    if (isOpenMagnifier.value || isOpen.value) {
+      document.addEventListener("click", handleClickOutside);
+      onCleanup(() => {
+        document.removeEventListener("click", handleClickOutside);
+      });
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+  });
 });
 </script>
 
