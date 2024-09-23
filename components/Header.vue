@@ -5,7 +5,7 @@
         <img
           src="/logo-floristeria-flowerpower.png"
           :alt="$t('header.alt.logo')"
-          class="w-auto h-[70px] md:h-[120px]"
+          class="w-auto h-[60px] md:h-[90px]"
         />
       </NuxtLink>
       <!-- Hamburger Button for Mobile View -->
@@ -290,6 +290,7 @@
         </div>
       </form>
     </nav>
+    <HeaderSlider />
   </header>
 </template>
 
