@@ -24,16 +24,16 @@
   >
     <SwiperSlide v-for="(slide, idx) in slides" :key="idx">
       <div class="flex flex-col w-full h-full bg-gray-200 justify-center">
-        <p :src="slide.image" :alt="slide.title" class="text-base">
-          {{ slide.title }}
+        <p :alt="$t(slide.titleKey)" class="text-base">
+          {{ $t(slide.titleKey) }}
         </p>
-        <p v-if="slide.linkText" class="text-sm">
-          <NuxtLink :to="slide.link" class="underline">{{
-            slide.linkText
-          }}</NuxtLink>
+        <p v-if="slide.linkTextKey" class="text-sm">
+          <NuxtLink :to="slide.link" class="underline">
+            {{ $t(slide.linkTextKey) }}
+          </NuxtLink>
         </p>
-        <p v-else class="text-sm">
-          {{ slide.description }}
+        <p v-else-if="slide.descriptionKey" class="text-sm">
+          {{ $t(slide.descriptionKey) }}
         </p>
       </div>
     </SwiperSlide>
@@ -41,19 +41,24 @@
 </template>
 
 <script setup lang="ts">
-import "swiper/css/scrollbar";
-
-const slides = ref([
+interface Slide {
+  id: number;
+  titleKey: string;
+  linkTextKey?: string;
+  link?: string;
+  descriptionKey?: string;
+}
+const slides = ref<Slide[]>([
   {
     id: 1,
-    title: "Comprar Novedades",
-    linkText: "Comprar",
+    titleKey: "home.slides.slide1.title",
+    linkTextKey: "home.slides.slide1.linkText",
     link: "/shop",
   },
   {
     id: 2,
-    title: "Descuento de 10% en tu primera compra",
-    linkText: "Registrate",
+    titleKey: "home.slides.slide2.title",
+    linkTextKey: "home.slides.slide2.linkText",
     link: "/login-register",
   },
 ]);
@@ -65,7 +70,7 @@ const slides = ref([
   justify-content: center;
   align-items: center;
   font-size: 10px;
-  height: 70px;
+  height: 68px;
   font-size: 1rem;
   text-align: center;
 }

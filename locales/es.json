@@ -26,5 +26,17 @@
     "input": {
       "placeholder": "Buscar"
     }
+  },
+  "home": {
+    "slides": {
+      "slide1": {
+        "title": "Comprar Novedades",
+        "linkText": "Comprar"
+      },
+      "slide2": {
+        "title": "Descuento de 10% en tu primera compra",
+        "linkText": "Regístrate"
+      }
+    }
   }
 }

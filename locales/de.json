@@ -26,5 +26,17 @@
     "input": {
       "placeholder": "Suchen"
     }
+  },
+  "home": {
+    "slides": {
+      "slide1": {
+        "title": "Neue Ankünfte kaufen",
+        "linkText": "Jetzt einkaufen"
+      },
+      "slide2": {
+        "title": "10% Rabatt auf Ihren ersten Einkauf",
+        "linkText": "Registrieren"
+      }
+    }
   }
 }

@@ -26,5 +26,17 @@
     "input": {
       "placeholder": "Search"
     }
+  },
+  "home": {
+    "slides": {
+      "slide1": {
+        "title": "Shop New Arrivals",
+        "linkText": "Shop Now"
+      },
+      "slide2": {
+        "title": "10% Off on Your First Purchase",
+        "linkText": "Register"
+      }
+    }
   }
 }
