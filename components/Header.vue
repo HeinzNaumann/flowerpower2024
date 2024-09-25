@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="absolute top-4 left-4 flex justify-between w-full">
+    <div class="top-4 left-4 flex justify-between w-full pt-4">
       <NuxtLink :to="localePath({ path: '/' })">
         <img
           src="/logo-floristeria-flowerpower.png"
@@ -228,9 +228,7 @@
       </div>
     </transition>
     <!-- New Links Section for Desktop View -->
-    <nav
-      class="hidden lg:flex items-center mt-4 relative uppercase w-full top-[150px]"
-    >
+    <nav class="hidden lg:flex items-center mt-4 relative uppercase w-full">
       <!-- Navigation Links Container -->
       <div class="flex justify-center gap-8 w-full font-medium">
         <NuxtLink
@@ -293,8 +291,6 @@
     <HeaderSlider />
   </header>
 </template>
-
-
 
 <script setup>
 const { locale } = useI18n();

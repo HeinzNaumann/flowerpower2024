@@ -1,6 +1,6 @@
 <template>
   <Swiper
-    class="top-[100px] lg:top-[170px]"
+    class="mt-3"
     :height="300"
     :modules="[SwiperAutoplay, SwiperEffectCreative]"
     :slides-per-view="1"
@@ -23,11 +23,13 @@
     }"
   >
     <SwiperSlide v-for="(slide, idx) in slides" :key="idx">
-      <div class="flex flex-col w-full h-full bg-gray-200 justify-center">
-        <p :alt="$t(slide.titleKey)" class="text-base">
+      <div
+        class="flex flex-col w-full h-full bg-gray-100 justify-center items-center text-center p-2"
+      >
+        <p :alt="$t(slide.titleKey)" class="text-sm lg:text-base font-medium">
           {{ $t(slide.titleKey) }}
         </p>
-        <p v-if="slide.linkTextKey" class="text-sm">
+        <p v-if="slide.linkTextKey" class="text-xs lg:text-sm">
           <NuxtLink :to="slide.link" class="underline">
             {{ $t(slide.linkTextKey) }}
           </NuxtLink>
@@ -63,20 +65,3 @@ const slides = ref<Slide[]>([
   },
 ]);
 </script>
-
-<style>
-.swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 10px;
-  height: 68px;
-  font-size: 1rem;
-  text-align: center;
-}
-
-.swiper-cards .swiper-slide {
-  border-radius: 6px;
-  border: 1px solid black;
-}
-</style>
