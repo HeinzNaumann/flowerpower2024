@@ -22,21 +22,21 @@
       },
     }"
   >
-    <SwiperSlide v-for="(slide, idx) in ProductSlides" :key="idx">
+    <SwiperSlide v-for="(slide, id) in products" :key="id">
       <div class="flex flex-col w-full h-full bg-white justify-center p-2">
         <img
-          :src="slide.imageUrl"
-          :alt="slide.alt"
+          :src="`https://flowerpower.es/api/files/product/${slide.images}`"
+          :alt="slide.slug"
           class="h-100 w-100 object-cover border-grey-500 border-1 border-solid border mb-3"
         />
-        <p :alt="$t(slide.titleKey)" class="text-sm lg:text-base font-medium">
-          {{ $t(slide.titleKey) }}
+        <p :alt="$t(slide.title)" class="text-sm lg:text-base font-medium">
+          {{ $t(slide.title) }}
         </p>
 
         <p class="text-sm lg:text-base font-extralight">
-          {{ $t(slide.descriptionKey) }}
+          {{ $t(slide.shortDescription) }}
         </p>
-        <p class="text-sm lg:text-base font-extralight">{{ slide.Price }} €</p>
+        <p class="text-sm lg:text-base font-extralight">{{ slide.price }} €</p>
       </div>
     </SwiperSlide>
   </Swiper>
@@ -45,51 +45,29 @@
 <script setup lang="ts">
 interface ProductSlide {
   id: number;
-  imageUrl: string;
-  alt: string;
-  titleKey: string;
+  images: string;
+  slug: string;
+  title: string;
   link?: string;
-  descriptionKey: string;
-  Price: number;
+  shortDescription: string;
+  price: number;
 }
-const ProductSlides = ref<ProductSlide[]>([
-  {
-    id: 1,
-    imageUrl: "/images/Ramo_con_flores_variadas.jpg",
-    alt: "Ramo con flores variadas",
-    titleKey: "Flower bouquet",
-    descriptionKey: "Ramo con flores variadas",
-    link: "/shop",
-    Price: 20,
-  },
-  {
-    id: 2,
-    imageUrl: "/images/Ramo_con_lilium_y_rosas_alstroemeria.jpg",
-    alt: "Ramo con lilium y rosas alstroemeria",
-    titleKey: "Flower power",
-    descriptionKey: "Algosto de lilium y rosas alstroemeria",
-    link: "/login-register",
-    Price: 25,
-  },
-  {
-    id: 3,
-    imageUrl: "/images/Ramo_con_rosas_azules_y_amarillas.jpg",
-    alt: "Ramo con rosas azules y amarillas",
-    titleKey: "Flower world",
-    descriptionKey: "Ramo con rosas azules y amarillas",
-    link: "/login-register",
-    Price: 30,
-  },
-  {
-    id: 4,
-    imageUrl: "/images/Ramo_de_flor_variada_tonos_rosados.jpg",
-    alt: "Ramo de flores variadas en tonos rosados",
-    titleKey: "home.slides.slide2.title",
-    descriptionKey: "Ramo de flores variadas en tonos rosados",
-    link: "/login-register",
-    Price: 35,
-  },
-]);
+
+interface data {
+  data: ProductSlide[];
+}
+const products = ref<ProductSlide[]>([]);
+
+const fetchProducts = () => {
+  const { data, error } = useFetchApi("products");
+  if (error.value) {
+    console.error("Error fetching products:", error.value);
+  } else {
+    products.value = data.value;
+  }
+};
+
+fetchProducts();
 </script>
 
 <style scoped>
