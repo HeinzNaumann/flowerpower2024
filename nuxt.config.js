@@ -35,4 +35,9 @@ export default defineNuxtConfig({
     seo: true,
     baseUrl: "https://flowerpower.es",
   },
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: process.env.API_BASE_URL || "https://flowerpower.es/api",
+    },
+  },
 });
