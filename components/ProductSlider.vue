@@ -33,7 +33,7 @@
           {{ $t(slide.title) }}
         </p>
 
-        <p class="text-sm lg:text-base font-extralight">
+        <p v-if="isDesktop" class="text-sm lg:text-base font-extralight">
           {{ $t(slide.shortDescription) }}
         </p>
         <p class="text-sm lg:text-base font-extralight">{{ slide.price }} €</p>
@@ -43,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+const { isDesktop } = useCustomBreakpoints();
 interface ProductSlide {
   id: number;
   images: string;
