@@ -5,7 +5,9 @@
     "message": "Wir entschuldigen uns für die Unannehmlichkeiten, aber unsere Website wird derzeit aufregend aktualisiert und verbessert.",
     "contact": "Rufen Sie den Laden an"
   },
-
+  "button": {
+    "buy": "Kaufen"
+  },
   "header": {
     "register": "Registrieren / Anmelden",
     "alt": {
@@ -29,6 +31,12 @@
     }
   },
   "home": {
+    "hero": {
+      "titleFirstHalf": "Erfreuen und ",
+      "titleSecondHalf": "bereichern Sie die Seele",
+      "subtitle": "Winterkollektion"
+    },
+    "title": { "newArrivals": "Neuheit" },
     "slides": {
       "slide1": {
         "title": "Neue Ankünfte kaufen",

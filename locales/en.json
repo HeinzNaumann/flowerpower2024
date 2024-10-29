@@ -5,7 +5,9 @@
     "message": "We apologize for the inconvenience, but our website is currently being excitingly updated and improved.",
     "contact": "Call the store"
   },
-
+  "button": {
+    "buy": "Buy"
+  },
   "header": {
     "register": "Register / Login",
     "alt": {
@@ -29,6 +31,12 @@
     }
   },
   "home": {
+    "hero": {
+      "titleFirstHalf": "Brighten and",
+      "titleSecondHalf": "Enrich the Soul",
+      "subtitle": "Winter Collection"
+    },
+    "title": { "newArrivals": "New Arrivals" },
     "slides": {
       "slide1": {
         "title": "Shop New Arrivals",

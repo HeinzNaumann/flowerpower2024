@@ -5,7 +5,9 @@
     "message": "Disculpe las molestias, pero nuestro sitio web está siendo actualizado y mejorado.",
     "contact": "Llame a la tienda"
   },
-
+  "button": {
+    "buy": "Comprar"
+  },
   "header": {
     "register": "Registrarse / Iniciar sesión",
     "alt": {
@@ -29,6 +31,12 @@
     }
   },
   "home": {
+    "hero": {
+      "titleFirstHalf": "Alegra y",
+      "titleSecondHalf": "Enriquece el Alma",
+      "subtitle": "Colección de invierno"
+    },
+    "title": { "newArrivals": "Novedad" },
     "slides": {
       "slide1": {
         "title": "Comprar Novedades",

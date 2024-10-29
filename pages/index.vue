@@ -2,8 +2,11 @@
   <div class="mx-12">
     <Hero />
 
-    <h1 class="my-5 font-medium text-xl">Tendencias</h1>
     <ProductSlider />
+    <h1 class="my-5 font-medium text-2xl">
+      {{ $t("home.title.newArrivals") }}
+    </h1>
+    <ProductHero />
   </div>
 </template>
 
