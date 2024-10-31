@@ -14,16 +14,28 @@
           class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10"
         >
           <button
-            @click="sortProducts('asc')"
+            @click="sortProducts('price', 'asc')"
             class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
           >
             Price: Low to High
           </button>
           <button
-            @click="sortProducts('desc')"
+            @click="sortProducts('price', 'desc')"
             class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
           >
             Price: High to Low
+          </button>
+          <button
+            @click="sortProducts('name', 'asc')"
+            class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+          >
+            Name: A to Z
+          </button>
+          <button
+            @click="sortProducts('name', 'desc')"
+            class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+          >
+            Name: Z to A
           </button>
         </div>
       </div>
@@ -139,9 +151,15 @@ const fetchProducts = () => {
 
 fetchProducts();
 
-const sortProducts = (order: "asc" | "desc") => {
+const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
   products.value.sort((a, b) => {
-    return order === "asc" ? a.price - b.price : b.price - a.price;
+    if (type === "price") {
+      return order === "asc" ? a.price - b.price : b.price - a.price;
+    } else {
+      return order === "asc"
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title);
+    }
   });
   showDropdown.value = false;
 };
