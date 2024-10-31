@@ -81,5 +81,24 @@
     },
     "location": "España",
     "copyright": "© 2020 Floristería Flower Power. Todos los derechos reservados."
+  },
+  "categories": {
+    "sections": {
+      "occasions": "Ocasiones",
+      "moments": "Momentos",
+      "weddings": "Bodas"
+    },
+    "links": {
+      "birthday": "Cumpleaños",
+      "birth": "Nacimiento",
+      "congratulations": "Enhorabuena",
+      "loremIpsum": "Lorem ipsum",
+      "romantic": "Romántico",
+      "sayThankYou": "Dar las gracias",
+      "goodMorning": "Buenos días",
+      "goodNight": "Buenas noches",
+      "proposal": "Pedida de mano",
+      "anniversary": "Aniversario"
+    }
   }
 }

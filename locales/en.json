@@ -82,5 +82,24 @@
     },
     "location": "Spain",
     "copyright": "© 2020 Flower Power Florist. All rights reserved."
+  },
+  "categories": {
+    "sections": {
+      "occasions": "Occasions",
+      "moments": "Moments",
+      "weddings": "Weddings"
+    },
+    "links": {
+      "birthday": "Birthday",
+      "birth": "Birth",
+      "congratulations": "Congratulations",
+      "loremIpsum": "Lorem ipsum",
+      "romantic": "Romantic",
+      "sayThankYou": "Say thank you",
+      "goodMorning": "Good morning",
+      "goodNight": "Good night",
+      "proposal": "Proposal",
+      "anniversary": "Anniversary"
+    }
   }
 }

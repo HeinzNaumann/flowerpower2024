@@ -39,18 +39,19 @@
     "title": {
       "newArrivals": "Neuheit",
       "featured": "Empfohlen"
-    }
-  },
-  "slides": {
-    "slide1": {
-      "title": "Neue Ankünfte kaufen",
-      "linkText": "Jetzt einkaufen"
     },
-    "slide2": {
-      "title": "10% Rabatt auf Ihren ersten Einkauf",
-      "linkText": "Registrieren"
+    "slides": {
+      "slide1": {
+        "title": "Neue Ankünfte kaufen",
+        "linkText": "Jetzt einkaufen"
+      },
+      "slide2": {
+        "title": "10% Rabatt auf Ihren ersten Einkauf",
+        "linkText": "Registrieren"
+      }
     }
   },
+
   "footer": {
     "sections": {
       "getHelp": "HILFE ERHALTEN",
@@ -84,5 +85,24 @@
     },
     "location": "Spanien",
     "copyright": "© 2020 Floristería Flower Power. Alle Rechte vorbehalten."
+  },
+  "categories": {
+    "sections": {
+      "occasions": "Anlässe",
+      "moments": "Momente",
+      "weddings": "Hochzeiten"
+    },
+    "links": {
+      "birthday": "Geburtstag",
+      "birth": "Geburt",
+      "congratulations": "Herzlichen Glückwunsch",
+      "loremIpsum": "Lorem ipsum",
+      "romantic": "Romantisch",
+      "sayThankYou": "Danke sagen",
+      "goodMorning": "Guten Morgen",
+      "goodNight": "Gute Nacht",
+      "proposal": "Heiratsantrag",
+      "anniversary": "Jahrestag"
+    }
   }
 }

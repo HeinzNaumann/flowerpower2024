@@ -1,6 +1,5 @@
 <template>
   <div class="relative flex flex-col md:flex-row">
-    <!-- Text Section for larger screens -->
     <div
       class="hidden md:grid bg-[#3F2D50] w-1/3 content-center justify-items-start justify-center gap-2 text-white pl-8 xl:pl-0"
     >
@@ -17,16 +16,13 @@
       </a>
     </div>
 
-    <!-- Image Section -->
     <div class="w-full md:w-1/2 lg:w-2/3 relative">
-      <!-- Añadido "relative" aquí -->
       <img
         src="/images/floristeriaFlowerPower-Hero.webp"
         alt="{{ $t('header.alt.logo') }}"
         class="h-[800px] object-cover w-full"
       />
 
-      <!-- Text Section for mobile -->
       <div
         class="absolute bottom-0 left-0 p-4 w-full text-white space-y-3 md:hidden pl-8"
       >

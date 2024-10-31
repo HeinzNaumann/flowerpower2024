@@ -8,6 +8,7 @@
     <FeaturedHero />
     <ProductSlider />
     <ProductHero />
+    <CategoriesLinks />
   </div>
 </template>
 
