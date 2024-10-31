@@ -36,7 +36,7 @@
       "titleSecondHalf": "Enriquece el Alma",
       "subtitle": "Colección de invierno"
     },
-    "title": { "newArrivals": "Novedad" },
+    "title": { "newArrivals": "Novedad", "featured": "Destacado" },
     "slides": {
       "slide1": {
         "title": "Comprar Novedades",
@@ -47,5 +47,39 @@
         "linkText": "Regístrate"
       }
     }
+  },
+  "footer": {
+    "sections": {
+      "getHelp": "OBTENER AYUDA",
+      "aboutFlowerPower": "ACERCA DE FLOWER POWER"
+    },
+    "links": {
+      "faq": "Preguntas y respuestas",
+      "shippingAndDelivery": "Envío y entregas",
+      "privacyPolicy": "Política de privacidad",
+      "bouquetCare": "Cuidado de ramos",
+      "ourHistory": "Nuestra Historia",
+      "team": "Equipo",
+      "physicalStore": "Tienda física",
+      "contact": "Contacto",
+      "termsOfUse": "Condiciones de uso",
+      "termsOfSale": "Condiciones de venta",
+      "legalNotice": "Aviso legal",
+      "cookieSettings": "Configuración de cookies"
+    },
+    "socialMedia": {
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "instagram": "Instagram"
+    },
+    "alt": {
+      "expand": "Expandir",
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "instagram": "Instagram",
+      "mapPin": "Mapa"
+    },
+    "location": "España",
+    "copyright": "© 2020 Floristería Flower Power. Todos los derechos reservados."
   }
 }

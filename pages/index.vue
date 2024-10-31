@@ -3,9 +3,10 @@
     <Hero />
 
     <ProductSlider />
-    <h1 class="my-5 font-medium text-2xl">
-      {{ $t("home.title.newArrivals") }}
-    </h1>
+
+    <ProductHero />
+    <FeaturedHero />
+    <ProductSlider />
     <ProductHero />
   </div>
 </template>

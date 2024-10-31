@@ -36,16 +36,53 @@
       "titleSecondHalf": "bereichern Sie die Seele",
       "subtitle": "Winterkollektion"
     },
-    "title": { "newArrivals": "Neuheit" },
-    "slides": {
-      "slide1": {
-        "title": "Neue Ankünfte kaufen",
-        "linkText": "Jetzt einkaufen"
-      },
-      "slide2": {
-        "title": "10% Rabatt auf Ihren ersten Einkauf",
-        "linkText": "Registrieren"
-      }
+    "title": {
+      "newArrivals": "Neuheit",
+      "featured": "Empfohlen"
     }
+  },
+  "slides": {
+    "slide1": {
+      "title": "Neue Ankünfte kaufen",
+      "linkText": "Jetzt einkaufen"
+    },
+    "slide2": {
+      "title": "10% Rabatt auf Ihren ersten Einkauf",
+      "linkText": "Registrieren"
+    }
+  },
+  "footer": {
+    "sections": {
+      "getHelp": "HILFE ERHALTEN",
+      "aboutFlowerPower": "ÜBER FLOWER POWER"
+    },
+    "links": {
+      "faq": "Häufig gestellte Fragen",
+      "shippingAndDelivery": "Versand und Lieferung",
+      "privacyPolicy": "Datenschutzrichtlinie",
+      "bouquetCare": "Straußpflege",
+      "ourHistory": "Unsere Geschichte",
+      "team": "Team",
+      "physicalStore": "Ladengeschäft",
+      "contact": "Kontakt",
+      "termsOfUse": "Nutzungsbedingungen",
+      "termsOfSale": "Verkaufsbedingungen",
+      "legalNotice": "Impressum",
+      "cookieSettings": "Cookie-Einstellungen"
+    },
+    "socialMedia": {
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "instagram": "Instagram"
+    },
+    "alt": {
+      "expand": "Erweitern",
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "instagram": "Instagram",
+      "mapPin": "Karte"
+    },
+    "location": "Spanien",
+    "copyright": "© 2020 Floristería Flower Power. Alle Rechte vorbehalten."
   }
 }

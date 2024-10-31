@@ -12,6 +12,6 @@
     <main class="">
       <slot />
     </main>
-    <footer></footer>
+    <Footer />
   </div>
 </template>

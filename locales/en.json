@@ -36,7 +36,7 @@
       "titleSecondHalf": "Enrich the Soul",
       "subtitle": "Winter Collection"
     },
-    "title": { "newArrivals": "New Arrivals" },
+    "title": { "newArrivals": "New Arrivals", "featured": "Featured" },
     "slides": {
       "slide1": {
         "title": "Shop New Arrivals",
@@ -47,5 +47,40 @@
         "linkText": "Register"
       }
     }
+  },
+
+  "footer": {
+    "sections": {
+      "getHelp": "GET HELP",
+      "aboutFlowerPower": "ABOUT FLOWER POWER"
+    },
+    "links": {
+      "faq": "Frequently Asked Questions",
+      "shippingAndDelivery": "Shipping and Delivery",
+      "privacyPolicy": "Privacy Policy",
+      "bouquetCare": "Bouquet Care",
+      "ourHistory": "Our History",
+      "team": "Team",
+      "physicalStore": "Physical Store",
+      "contact": "Contact",
+      "termsOfUse": "Terms of Use",
+      "termsOfSale": "Terms of Sale",
+      "legalNotice": "Legal Notice",
+      "cookieSettings": "Cookie Settings"
+    },
+    "socialMedia": {
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "instagram": "Instagram"
+    },
+    "alt": {
+      "expand": "Expand",
+      "facebook": "Facebook",
+      "youtube": "YouTube",
+      "instagram": "Instagram",
+      "mapPin": "Map"
+    },
+    "location": "Spain",
+    "copyright": "© 2020 Flower Power Florist. All rights reserved."
   }
 }

@@ -1,10 +1,14 @@
 <template>
+  <!-- eslint-disable vue/no-multiple-template-root -->
+  <h1 class="my-5 font-medium text-2xl">
+    {{ $t("home.title.newArrivals") }}
+  </h1>
   <div class="flex flex-col md:flex-row gap-4 mb-10 justify-around">
     <div class="relative card-container">
       <img
         src="public/images/bouquet-red-gerberas-tulips-mixed.webp"
         alt="Ramo de flores con anémonas moradas, dalias lilas y lisianthus"
-        class="w-full h-full object-cover max-w-4xl"
+        class="w-full h-full object-cover"
       />
       <div
         class="cta-image-container absolute bottom-5 left-5 md:bottom-10 md:left-10"
@@ -24,7 +28,7 @@
       <img
         src="public/images/bouquet-purple-anemones-dahlias-lisianthus.webp"
         alt="Ramo de flores con gerberas rojas, tulipanes y follaje verde"
-        class="w-full h-full object-cover max-w-4xl"
+        class="w-full h-full object-cover"
       />
       <div
         class="cta-image-container absolute bottom-5 left-5 md:bottom-10 md:left-10"
