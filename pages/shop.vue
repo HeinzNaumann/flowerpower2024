@@ -93,27 +93,24 @@
       <!-- Grid de productos -->
       <main class="w-full md:w-3/4 md:pl-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="(slide, id) in products" :key="id">
+          <div v-for="(product, id) in products" :key="id">
             <div
               class="flex flex-col w-full h-full bg-white justify-center p-2"
             >
               <img
-                :src="`https://flowerpower.es/api/files/product/${slide.images}`"
-                :alt="slide.slug"
+                :src="`https://flowerpower.es/api/files/product/${product.images}`"
+                :alt="product.slug"
                 class="h-100 w-100 object-cover border-grey-500 border-1 border-solid border mb-3"
               />
-              <p
-                :alt="$t(slide.title)"
-                class="text-sm lg:text-base font-medium"
-              >
-                {{ $t(slide.title) }}
+              <p :alt="product.title" class="text-sm lg:text-base font-medium">
+                {{ product.title }}
               </p>
 
               <p class="text-sm lg:text-base font-extralight">
-                {{ $t(slide.shortDescription) }}
+                {{ product.shortDescription }}
               </p>
               <p class="text-sm lg:text-base font-extralight">
-                {{ slide.price }} €
+                {{ product.price }} €
               </p>
             </div>
           </div>
@@ -124,35 +121,26 @@
 </template>
 
 <script setup lang="ts">
-interface Productproduct {
-  id: number;
-  images: string;
-  slug: string;
-  title: string;
-  link?: string;
-  shortDescription: string;
-  price: number;
-}
+// Define interfaces para tipado
 
-interface data {
-  data: Productproduct[];
-}
-const products = ref<Productproduct[]>([]);
+import type { Product } from "~/types/types";
+
+const route = useRoute();
 const showDropdown = ref(false);
 
-const fetchProducts = () => {
-  const { data, error } = useFetchApi("products");
-  if (error.value) {
-    console.error("Error fetching products:", error.value);
-  } else {
-    products.value = data.value;
-  }
-};
+// Usa el composable para obtener los productos
+const { data, error } = useFetchApi("products");
 
-fetchProducts();
+// Computa los productos, asegurando que sea un array
+const products = computed<Product[]>(() => data.value || []);
+
+// Manejo de errores
+const errorMessage = computed(() =>
+  error.value ? error.value || "Error desconocido" : null
+);
 
 const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
-  products.value.sort((a, b) => {
+  products.value.sort((a: any, b: any) => {
     if (type === "price") {
       return order === "asc" ? a.price - b.price : b.price - a.price;
     } else {

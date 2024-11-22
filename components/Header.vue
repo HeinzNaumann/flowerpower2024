@@ -232,25 +232,40 @@
       <!-- Navigation Links Container -->
       <div class="flex justify-center gap-8 w-full font-medium">
         <NuxtLink
-          :to="localePath({ path: '/flowers' })"
+          :to="
+            localePath({
+              name: 'shop',
+              query: { tags: $t('header.links.flores') },
+            })
+          "
           class="hover:text-gray-600"
         >
           {{ $t("header.links.flores") }}
         </NuxtLink>
         <NuxtLink
-          :to="localePath({ path: '/roses' })"
+          :to="
+            localePath({
+              name: 'shop',
+              query: { tags: $t('header.links.rosas') },
+            })
+          "
           class="hover:text-gray-600"
         >
           {{ $t("header.links.rosas") }}
         </NuxtLink>
         <NuxtLink
-          :to="localePath({ path: '/plants' })"
+          :to="
+            localePath({
+              name: 'shop',
+              query: { tags: $t('header.links.plantas') },
+            })
+          "
           class="hover:text-gray-600"
         >
           {{ $t("header.links.plantas") }}
         </NuxtLink>
         <NuxtLink
-          :to="localePath({ path: '/moments' })"
+          :to="localePath({ name: 'shop', query: { tags: 'momentos' } })"
           class="hover:text-gray-600"
         >
           {{ $t("header.links.momentos") }}

@@ -59,16 +59,14 @@ interface data {
 }
 const products = ref<ProductSlide[]>([]);
 
-const fetchProducts = () => {
-  const { data, error } = useFetchApi("products");
+const fetchProducts = async () => {
+  const { data, error } = await useFetchApi("products");
   if (error.value) {
     console.error("Error fetching products:", error.value);
   } else {
     products.value = data.value;
   }
 };
-
-fetchProducts();
 </script>
 
 <style scoped>
