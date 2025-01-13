@@ -44,29 +44,20 @@
 
 <script setup lang="ts">
 const { isDesktop } = useCustomBreakpoints();
-interface ProductSlide {
-  id: number;
-  images: string;
-  slug: string;
-  title: string;
-  link?: string;
-  shortDescription: string;
-  price: number;
-}
+import type { Product } from "~/types/types";
 
-interface data {
-  data: ProductSlide[];
-}
-const products = ref<ProductSlide[]>([]);
+const products = ref<Product[]>([]);
 
-const fetchProducts = async () => {
-  const { data, error } = await useFetchApi("products");
-  if (error.value) {
-    console.error("Error fetching products:", error.value);
+onMounted(async () => {
+  const { data, error } = await useFetchSlider("products");
+
+  if (!error.value && data.value !== null) {
+    products.value = data.value as Product[];
   } else {
-    products.value = data.value;
+    console.error("No se pudieron cargar los productos");
+    products.value = [];
   }
-};
+});
 </script>
 
 <style scoped>

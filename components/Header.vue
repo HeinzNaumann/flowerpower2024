@@ -88,7 +88,7 @@
               />
             </NuxtLink>
             <NuxtLink
-              :to="switchLocalePath('en')"
+              :to="getLocalePathWithQuery('en')"
               class="flex items-center p-2 hover:bg-gray-100"
             >
               <img
@@ -265,7 +265,12 @@
           {{ $t("header.links.plantas") }}
         </NuxtLink>
         <NuxtLink
-          :to="localePath({ name: 'shop', query: { tags: 'momentos' } })"
+          :to="
+            localePath({
+              name: 'shop',
+              query: { tags: $t('header.links.momentos') },
+            })
+          "
           class="hover:text-gray-600"
         >
           {{ $t("header.links.momentos") }}
@@ -319,7 +324,16 @@ const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 const formRef = ref(null);
 const dropdownRef = ref(null);
 
+const route = useRoute();
+
 const switchLocalePath = useSwitchLocalePath();
+
+const getLocalePathWithQuery = (lang) => {
+  return {
+    path: switchLocalePath(lang),
+    query: { ...route.query, lang },
+  };
+};
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;

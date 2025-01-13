@@ -121,20 +121,15 @@
 </template>
 
 <script setup lang="ts">
-// Define interfaces para tipado
-
 import type { Product } from "~/types/types";
 
 const route = useRoute();
 const showDropdown = ref(false);
 
-// Usa el composable para obtener los productos
 const { data, error } = useFetchApi("products");
 
-// Computa los productos, asegurando que sea un array
 const products = computed<Product[]>(() => data.value || []);
 
-// Manejo de errores
 const errorMessage = computed(() =>
   error.value ? error.value || "Error desconocido" : null
 );

@@ -32,3 +32,29 @@ export const useFetchApi = (typeRequest: string) => {
 
   return { data, error };
 };
+
+// useFetchApi.ts (simplificado)
+export const useFetchSlider = async (typeRequest: string) => {
+  const data = ref<Product[] | null>(null);
+  const error = ref<Error | null>(null);
+
+  const config = useRuntimeConfig();
+  const apiUrl = config.public.apiBaseUrl;
+  const { locale } = useI18n();
+  const route = useRoute();
+
+  try {
+    data.value = await $fetch<Product[]>(`${apiUrl}/${typeRequest}`, {
+      method: "GET",
+      query: {
+        tags: route.query.tags,
+        lang: locale.value,
+        limit: 60,
+      },
+    });
+  } catch (err) {
+    error.value = err as Error;
+  }
+
+  return { data, error };
+};
