@@ -98,7 +98,7 @@
               class="flex flex-col w-full h-full bg-white justify-center p-2"
             >
               <img
-                :src="`https://flowerpower.es/api/files/product/${product.images}`"
+                :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
                 :alt="product.slug"
                 class="h-100 w-100 object-cover border-grey-500 border-1 border-solid border mb-3"
               />
@@ -129,6 +129,7 @@ const showDropdown = ref(false);
 const { data, error } = useFetchApi("products");
 
 const products = computed<Product[]>(() => data.value || []);
+const config = useRuntimeConfig();
 
 const errorMessage = computed(() =>
   error.value ? error.value || "Error desconocido" : null

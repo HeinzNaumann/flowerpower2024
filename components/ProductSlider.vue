@@ -25,7 +25,7 @@
     <SwiperSlide v-for="(slide, id) in products" :key="id">
       <div class="flex flex-col w-full h-full bg-white justify-center p-2">
         <img
-          :src="`https://flowerpower.es/api/files/product/${slide.images}`"
+          :src="`${config.public.apiBaseUrl}/files/product/${slide.images}`"
           :alt="slide.slug"
           class="h-100 w-100 object-cover border-grey-500 border-1 border-solid border mb-3"
         />
@@ -47,6 +47,7 @@ const { isDesktop } = useCustomBreakpoints();
 import type { Product } from "~/types/types";
 
 const products = ref<Product[]>([]);
+const config = useRuntimeConfig();
 
 onMounted(async () => {
   const { data, error } = await useFetchSlider("products");

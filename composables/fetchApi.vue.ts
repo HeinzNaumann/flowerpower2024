@@ -24,7 +24,7 @@ export const useFetchApi = (typeRequest: string) => {
           "Content-Type": "application/json",
         },
       });
-      data.value = response; // Ensure data.value can be null
+      data.value = response;
     } catch (err) {
       error.value = err as Error;
     }
@@ -33,7 +33,6 @@ export const useFetchApi = (typeRequest: string) => {
   return { data, error };
 };
 
-// useFetchApi.ts (simplificado)
 export const useFetchSlider = async (typeRequest: string) => {
   const data = ref<Product[] | null>(null);
   const error = ref<Error | null>(null);
