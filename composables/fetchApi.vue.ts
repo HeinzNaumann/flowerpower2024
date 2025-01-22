@@ -29,7 +29,6 @@ export const useFetchApi = (typeRequest: string) => {
       error.value = err as Error;
     }
   });
-
   return { data, error };
 };
 

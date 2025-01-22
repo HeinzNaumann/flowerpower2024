@@ -45,16 +45,7 @@
     <div class="flex flex-col md:flex-row">
       <!-- Sidebar con filtros -->
       <aside class="w-full md:w-1/4 space-y-8">
-        <div>
-          <h3 class="font-bold text-lg">Flores</h3>
-          <ul class="space-y-2 mt-2">
-            <li><a href="#" class="hover:underline">Rosas (3)</a></li>
-            <li><a href="#" class="hover:underline">Margaritas (2)</a></li>
-            <li><a href="#" class="hover:underline">Claveles (5)</a></li>
-            <li><a href="#" class="hover:underline">Gerberas (6)</a></li>
-          </ul>
-        </div>
-
+        <Filtros :typeData="typeData" title="Flores" />
         <div>
           <h3 class="font-bold text-lg">Colores</h3>
           <div class="flex flex-wrap mt-2 gap-2">
@@ -70,24 +61,8 @@
             ></span>
           </div>
         </div>
-
-        <div>
-          <h3 class="font-bold text-lg">Momentos</h3>
-          <ul class="space-y-2 mt-2">
-            <li><a href="#" class="hover:underline">Buenos días (4)</a></li>
-            <li><a href="#" class="hover:underline">Cumpleaños (7)</a></li>
-            <li><a href="#" class="hover:underline">Aniversario (9)</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3 class="font-bold text-lg">Ocasiones</h3>
-          <ul class="space-y-2 mt-2">
-            <li><a href="#" class="hover:underline">Buenos días (4)</a></li>
-            <li><a href="#" class="hover:underline">Cumpleaños (7)</a></li>
-            <li><a href="#" class="hover:underline">Aniversario (9)</a></li>
-          </ul>
-        </div>
+        <Filtros :typeData="typeData" title="Momentos" />
+        <Filtros :typeData="typeData" title="Ocasiones" />
       </aside>
 
       <!-- Grid de productos -->
@@ -125,16 +100,58 @@ import type { Product } from "~/types/types";
 
 const route = useRoute();
 const showDropdown = ref(false);
-
 const { data, error } = useFetchApi("products");
-
-const products = computed<Product[]>(() => data.value || []);
 const config = useRuntimeConfig();
 
-const errorMessage = computed(() =>
-  error.value ? error.value || "Error desconocido" : null
-);
+const categories = ["flowers", "moments", "occasions"] as const;
+type Category = (typeof categories)[number];
 
+// 2) We'll store objects { name, count } instead of just string arrays
+type CategoryItem = { name: string; count: number };
+
+const typeData = ref<Record<Category, CategoryItem[]>>({
+  flowers: [],
+  moments: [],
+  occasions: [],
+});
+
+const products = computed<Product[]>(() => data.value || []);
+
+// Watch for product changes
+watch(
+  products,
+  (newProducts) => {
+    const updated: Record<Category, CategoryItem[]> = {
+      flowers: [],
+      moments: [],
+      occasions: [],
+    };
+
+    categories.forEach((category) => {
+      const rawStrings = newProducts.flatMap(
+        (product) => product[category] || []
+      );
+
+      const allItems = rawStrings.flatMap((str) =>
+        str.split(",").map((s) => s.trim())
+      );
+
+      const freqMap = allItems.reduce((acc, item) => {
+        if (!item) return acc;
+        acc[item] = (acc[item] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      updated[category] = Object.entries(freqMap).map(([name, count]) => ({
+        name,
+        count,
+      }));
+    });
+
+    typeData.value = updated;
+  },
+  { immediate: true }
+);
 const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
   products.value.sort((a: any, b: any) => {
     if (type === "price") {

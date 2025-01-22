@@ -11,4 +11,7 @@ export interface Product {
   shortDescription: string;
   colors: string[];
   tags: string[];
+  moments: string[];
+  flowers: string[];
+  occasions: string[];
 }
