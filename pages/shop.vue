@@ -45,24 +45,10 @@
     <div class="flex flex-col md:flex-row">
       <!-- Sidebar con filtros -->
       <aside class="w-full md:w-1/4 space-y-8">
-        <Filtros :typeData="typeData" title="Flores" />
-        <div>
-          <h3 class="font-bold text-lg">Colores</h3>
-          <div class="flex flex-wrap mt-2 gap-2">
-            <span class="w-6 h-6 bg-red-500 rounded-full"></span>
-            <span class="w-6 h-6 bg-orange-500 rounded-full"></span>
-            <span class="w-6 h-6 bg-yellow-500 rounded-full"></span>
-            <span class="w-6 h-6 bg-blue-500 rounded-full"></span>
-            <span class="w-6 h-6 bg-black rounded-full"></span>
-            <span class="w-6 h-6 bg-pink-500 rounded-full"></span>
-            <span class="w-6 h-6 bg-purple-500 rounded-full"></span>
-            <span
-              class="w-6 h-6 bg-white border border-gray-300 rounded-full"
-            ></span>
-          </div>
-        </div>
-        <Filtros :typeData="typeData" title="Momentos" />
-        <Filtros :typeData="typeData" title="Ocasiones" />
+        <Filters :typeData="typeData" title="Flores" />
+        <FilterColors :colors="availableColors" />
+        <Filters :typeData="typeData" title="Momentos" />
+        <Filters :typeData="typeData" title="Ocasiones" />
       </aside>
 
       <!-- Grid de productos -->
@@ -106,7 +92,6 @@ const config = useRuntimeConfig();
 const categories = ["flowers", "moments", "occasions"] as const;
 type Category = (typeof categories)[number];
 
-// 2) We'll store objects { name, count } instead of just string arrays
 type CategoryItem = { name: string; count: number };
 
 const typeData = ref<Record<Category, CategoryItem[]>>({
@@ -117,7 +102,8 @@ const typeData = ref<Record<Category, CategoryItem[]>>({
 
 const products = computed<Product[]>(() => data.value || []);
 
-// Watch for product changes
+const availableColors = ref<string[]>([]);
+
 watch(
   products,
   (newProducts) => {
@@ -133,7 +119,11 @@ watch(
       );
 
       const allItems = rawStrings.flatMap((str) =>
-        str.split(",").map((s) => s.trim())
+        str.split(",").map((s) => {
+          const trimmed = s.trim();
+          if (!trimmed) return "";
+          return trimmed[0].toUpperCase() + trimmed.slice(1).toLowerCase();
+        })
       );
 
       const freqMap = allItems.reduce((acc, item) => {
@@ -149,6 +139,11 @@ watch(
     });
 
     typeData.value = updated;
+
+    const allColors = newProducts.flatMap((product) => product.colors || []);
+    availableColors.value = Array.from(
+      new Set(allColors.map((color) => color.toLowerCase()))
+    );
   },
   { immediate: true }
 );
