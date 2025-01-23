@@ -48,6 +48,14 @@
       }
     }
   },
+  "shop": {
+    "filtersTitle": {
+      "flowers": "Flores",
+      "moments": "Momentos",
+      "occasions": "Ocasiones",
+      "colors": "Colores"
+    }
+  },
   "footer": {
     "sections": {
       "getHelp": "OBTENER AYUDA",

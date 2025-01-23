@@ -1,7 +1,7 @@
 <!-- src/components/AvailableColors.vue -->
 <template>
   <div>
-    <h3 class="font-bold text-lg">Colores</h3>
+    <h3 class="font-bold text-lg">{{ title }}</h3>
     <div class="flex flex-wrap mt-2 gap-2">
       <span
         v-for="color in mappedColors"
@@ -32,6 +32,11 @@ const props = defineProps({
     type: Array as () => string[],
     required: true,
     default: () => [],
+  },
+  title: {
+    type: String,
+    required: true,
+    default: "colors",
   },
 });
 

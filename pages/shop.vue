@@ -45,10 +45,22 @@
     <div class="flex flex-col md:flex-row">
       <!-- Sidebar con filtros -->
       <aside class="w-full md:w-1/4 space-y-8">
-        <Filters :typeData="typeData" title="Flores" />
-        <FilterColors :colors="availableColors" />
-        <Filters :typeData="typeData" title="Momentos" />
-        <Filters :typeData="typeData" title="Ocasiones" />
+        <Filters
+          :typeData="typeData"
+          :title="$t('shop.filtersTitle.flowers')"
+        />
+        <FilterColors
+          :colors="availableColors"
+          :title="$t('shop.filtersTitle.colors')"
+        />
+        <Filters
+          :typeData="typeData"
+          :title="$t('shop.filtersTitle.moments')"
+        />
+        <Filters
+          :typeData="typeData"
+          :title="$t('shop.filtersTitle.occasions')"
+        />
       </aside>
 
       <!-- Grid de productos -->

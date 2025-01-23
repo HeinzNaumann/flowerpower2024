@@ -51,6 +51,14 @@
       }
     }
   },
+  "shop": {
+    "filtersTitle": {
+      "flowers": "Blumen",
+      "moments": "Momente",
+      "occasions": "Anlässe",
+      "colors": "Farben"
+    }
+  },
 
   "footer": {
     "sections": {
