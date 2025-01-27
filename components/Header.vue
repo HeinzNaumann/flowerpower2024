@@ -78,7 +78,7 @@
             class="absolute left-[-7px] z-10 w-10 mt-2 mr-4 bg-white border rounded-md shadow-lg"
           >
             <NuxtLink
-              :to="switchLocalePath('es')"
+              :to="getLocalePathWithQuery('es')"
               class="flex items-center p-2 hover:bg-gray-100"
             >
               <img
@@ -98,7 +98,7 @@
               />
             </NuxtLink>
             <NuxtLink
-              :to="switchLocalePath('de')"
+              :to="getLocalePathWithQuery('de')"
               class="flex items-center p-2 hover:bg-gray-100"
             >
               <img
@@ -315,6 +315,8 @@
 <script setup>
 const { locale } = useI18n();
 const localePath = useLocalePath();
+const switchLocalePath = useSwitchLocalePath();
+const route = useRoute();
 
 const isOpen = ref(false);
 const isMenuOpen = ref(false);
@@ -324,14 +326,45 @@ const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 const formRef = ref(null);
 const dropdownRef = ref(null);
 
-const route = useRoute();
+const tagTranslations = {
+  es: {
+    flores: "flores",
+    rosas: "rosas",
+    plantas: "plantas",
+    momentos: "momentos",
+  },
+  en: {
+    flores: "flowers",
+    rosas: "roses",
+    plantas: "plants",
+    momentos: "moments",
+  },
+  de: {
+    flores: "blumen",
+    rosas: "rosen",
+    plantas: "pflanzen",
+    momentos: "momente",
+  },
+};
 
-const switchLocalePath = useSwitchLocalePath();
+const translateTag = (tag, fromLang, toLang) => {
+  const fromTags = tagTranslations[fromLang];
+  const toTags = tagTranslations[toLang];
+
+  const entry = Object.entries(fromTags).find(([key, value]) => value === tag);
+  return entry ? toTags[entry[0]] : tag;
+};
 
 const getLocalePathWithQuery = (lang) => {
+  const newQuery = { ...route.query };
+
+  if (newQuery.tags) {
+    newQuery.tags = translateTag(newQuery.tags, currentLocale.value, lang);
+  }
+
   return {
     path: switchLocalePath(lang),
-    query: { ...route.query, lang },
+    query: newQuery,
   };
 };
 
