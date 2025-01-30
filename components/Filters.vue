@@ -4,9 +4,21 @@
     <ul class="space-y-2 mt-2">
       <!-- Recorremos 'categories' que ahora es CategoryItem[] -->
       <li v-for="category in categories" :key="category.name">
-        <a href="#" class="hover:underline">
+        <NuxtLink
+          :to="
+            localePath({
+              name: 'shop',
+              query: {
+                tags: route.query.tags,
+                [currentCategory]: $t(
+                  `filters.${category.name.toLowerCase().replace(/\s+/g, '')}`
+                ),
+              },
+            })
+          "
+        >
           {{ category.name }} ({{ category.count }})
-        </a>
+        </NuxtLink>
       </li>
     </ul>
   </div>
@@ -14,6 +26,9 @@
 
 <script setup lang="ts">
 import { defineProps, ref, watch } from "vue";
+
+const localePath = useLocalePath();
+const route = useRoute(); // Usamos route para acceder a los parámetros de la URL
 
 type CategoryItem = { name: string; count: number };
 
@@ -24,7 +39,7 @@ const props = defineProps<{
 
 const title = ref<string>("");
 const categories = ref<CategoryItem[]>([]);
-const length = ref<number>(0);
+const currentCategory = ref<string>(""); // Para manejar la clave dinámica del query
 
 watch(
   () => props.typeData,
@@ -51,17 +66,17 @@ function updateCategories() {
     props.title === "Blumen"
   ) {
     categories.value = props.typeData.flowers || [];
-    length.value = categories.value.length;
+    currentCategory.value = "flowers"; // Clave para la categoría
   } else if (
     props.title === "Momentos" ||
     props.title === "Moments" ||
     props.title === "Momente"
   ) {
     categories.value = props.typeData.moments || [];
-    length.value = categories.value.length;
+    currentCategory.value = "moments"; // Clave para la categoría
   } else {
     categories.value = props.typeData.occasions || [];
-    length.value = categories.value.length;
+    currentCategory.value = "occasions"; // Clave para la categoría
   }
 }
 </script>

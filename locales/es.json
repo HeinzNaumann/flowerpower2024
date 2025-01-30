@@ -108,5 +108,23 @@
       "proposal": "Pedida de mano",
       "anniversary": "Aniversario"
     }
+  },
+  "filters": {
+    "flores": "flores",
+    "rosas": "rosas",
+    "fresias": "fresias",
+    "margaritas": "margaritas",
+    "gerberas": "gerberas",
+    "rojo": "rojo",
+    "rosa": "rosa",
+    "blanco": "blanco",
+    "amarillo": "amarillo",
+    "morado": "morado",
+    "naranja": "naranja",
+    "azul": "azul",
+    "buenosdias": "buenos dias",
+    "aniversarios": "aniversarios",
+    "bodas": "bodas",
+    "cumpleanios": "cumpleaños"
   }
 }

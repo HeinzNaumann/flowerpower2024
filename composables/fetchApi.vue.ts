@@ -11,15 +11,30 @@ export const useFetchApi = (typeRequest: string) => {
   const { locale } = useI18n();
   const route = useRoute();
 
-  const url = computed(() => `${apiUrl}/${typeRequest}`);
-  const tags = computed(() => route.query.tags);
-  const oldTags = ref(route.query.tags);
+  // Construye dinámicamente la query basada en los filtros disponibles
+  const queryParams = computed(() => {
+    const { tags, occasions, moments, flowers, limit = 60 } = route.query;
 
+    // Retorna un objeto con los filtros presentes
+    return {
+      tags: tags || undefined,
+      occasions: occasions || undefined,
+      moments: moments || undefined,
+      flowers: flowers || undefined,
+      lang: locale.value,
+      limit: Number(limit), // Asegúrate de que sea un número
+    };
+  });
+
+  // Construir URL base
+  const url = computed(() => `${apiUrl}/${typeRequest}`);
+
+  // Hacer la llamada al API
   watchEffect(async () => {
     try {
       const response = await $fetch<Product[]>(url.value, {
         method: "GET",
-        query: { tags: tags.value, lang: locale.value, limit: 60 },
+        query: queryParams.value, // Pasa los parámetros dinámicos aquí
         headers: {
           "Content-Type": "application/json",
         },
@@ -29,9 +44,9 @@ export const useFetchApi = (typeRequest: string) => {
       error.value = err as Error;
     }
   });
+
   return { data, error };
 };
-
 export const useFetchSlider = async (typeRequest: string) => {
   const data = ref<Product[] | null>(null);
   const error = ref<Error | null>(null);
