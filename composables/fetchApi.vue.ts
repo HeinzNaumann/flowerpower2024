@@ -13,7 +13,14 @@ export const useFetchApi = (typeRequest: string) => {
 
   // Construye dinámicamente la query basada en los filtros disponibles
   const queryParams = computed(() => {
-    const { tags, occasions, moments, flowers, limit = 60 } = route.query;
+    const {
+      tags,
+      occasions,
+      moments,
+      flowers,
+      colors,
+      limit = 60,
+    } = route.query;
 
     // Retorna un objeto con los filtros presentes
     return {
@@ -23,6 +30,7 @@ export const useFetchApi = (typeRequest: string) => {
       flowers: flowers || undefined,
       lang: locale.value,
       limit: Number(limit), // Asegúrate de que sea un número
+      colors: colors || undefined,
     };
   });
 

@@ -108,5 +108,23 @@
       "proposal": "Proposal",
       "anniversary": "Anniversary"
     }
+  },
+  "filters": {
+    "flowers": "flowers",
+    "roses": "roses",
+    "freesias": "freesias",
+    "daisies": "daisies",
+    "gerberas": "gerberas",
+    "red": "red",
+    "pink": "pink",
+    "white": "white",
+    "yellow": "yellow",
+    "purple": "purple",
+    "orange": "orange",
+    "blue": "blue",
+    "goodmorning": "good morning",
+    "anniversaries": "anniversaries",
+    "weddings": "weddings",
+    "birthdays": "birthdays"
   }
 }

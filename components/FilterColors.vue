@@ -1,30 +1,46 @@
-<!-- src/components/AvailableColors.vue -->
 <template>
   <div>
     <h3 class="font-bold text-lg">{{ title }}</h3>
     <div class="flex flex-wrap mt-2 gap-2">
-      <span
+      <NuxtLink
         v-for="color in mappedColors"
         :key="color.class"
-        :class="[color.class]"
-        class="w-6 h-6 rounded-full cursor-pointer"
+        :to="
+          localePath({
+            name: 'shop',
+            query: {
+              ...route.query,
+              colors: $t(
+                `filters.${color.name.toLowerCase().replace(/\s+/g, '')}`
+              ),
+            },
+          })
+        "
         :title="capitalize(color.name)"
-        @click="handleClick(color.name)"
-      ></span>
+        :class="[
+          color.class,
+          'inline-block',
+          'w-6',
+          'h-6',
+          'rounded-full',
+          'cursor-pointer',
+        ]"
+      >
+        <!-- Esto puede estar vacío, pero al menos necesitamos abrir y cerrar la etiqueta -->
+      </NuxtLink>
     </div>
   </div>
 </template>
-
 <script setup lang="ts">
 import { computed } from "vue";
-import { defineEmits } from "vue";
 import { useI18n } from "vue-i18n";
 
-// Emite un evento al seleccionar un color
-const emit = defineEmits(["selectColor"]);
+// -- IMPORTANTE: si antes usabas defineEmits(["selectColor"]),
+// puede que ya no sea necesario si todo el manejo se hace por ruta.
 
-// Obtiene el idioma actual directamente
-const { locale } = useI18n();
+// Obtenemos route y localePath
+const route = useRoute();
+const localePath = useLocalePath();
 
 // Define las propiedades que recibe el componente
 const props = defineProps({
@@ -40,6 +56,7 @@ const props = defineProps({
   },
 });
 
+// Mapeo de colores según el idioma
 const colorMapping: Record<string, Record<string, string>> = {
   es: {
     rojo: "bg-red-500",
@@ -64,7 +81,6 @@ const colorMapping: Record<string, Record<string, string>> = {
     purple: "bg-purple-500",
     green: "bg-green-500",
     gray: "bg-gray-500",
-    // Añade más mapeos según sea necesario
   },
   de: {
     rot: "bg-red-500",
@@ -80,6 +96,9 @@ const colorMapping: Record<string, Record<string, string>> = {
   },
 };
 
+const { locale, t } = useI18n();
+
+// Computamos los colores mapeados
 const mappedColors = computed(() => {
   const currentLang = locale.value || "es";
   const mapping = colorMapping[currentLang] || {};
@@ -90,28 +109,27 @@ const mappedColors = computed(() => {
     const normalizedColor = color.toLowerCase();
     const className = mapping[normalizedColor] || "bg-gray-300";
 
-    // Solo agregar si la clase no está ya en el mapa y la clase no es la por defecto
+    // Solo agregamos si la clase no es la por defecto
+    // y si no está ya en el mapa
     if (className !== "bg-gray-300" && !classMap.has(className)) {
       classMap.set(className, normalizedColor);
     }
   });
 
+  // Devolvemos un array con objeto { name, class } por cada color
   return Array.from(classMap.entries()).map(([className, colorName]) => ({
     name: colorName,
     class: className,
   }));
 });
 
+// Función para capitalizar
 const capitalize = (str: string) => {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
-
-const handleClick = (colorName: string) => {
-  emit("selectColor", colorName);
-};
 </script>
 
 <style scoped>
-/* Puedes añadir estilos adicionales si es necesario */
+/* Estilos opcionales */
 </style>

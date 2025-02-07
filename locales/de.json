@@ -112,5 +112,23 @@
       "proposal": "Heiratsantrag",
       "anniversary": "Jahrestag"
     }
+  },
+  "filters": {
+    "blumen": "blumen",
+    "rosen": "rosen",
+    "freesien": "freesien",
+    "margeriten": "margeriten",
+    "gerbera": "gerbera",
+    "rot": "rot",
+    "rosa": "rosa",
+    "weiß": "weiß",
+    "gelb": "gelb",
+    "lila": "lila",
+    "orange": "orange",
+    "blau": "blau",
+    "gutenmorgen": "guten morgen",
+    "jahrestage": "jahrestage",
+    "hochzeiten": "hochzeiten",
+    "geburtstage": "geburtstage"
   }
 }
