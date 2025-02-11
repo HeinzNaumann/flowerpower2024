@@ -67,7 +67,10 @@
       <main class="w-full md:w-3/4 md:pl-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(product, id) in products" :key="id">
-            <div
+            <NuxtLink
+              :to="
+                localePath({ path: '/product', query: { slug: product.slug } })
+              "
               class="flex flex-col w-full h-full bg-white justify-center p-2"
             >
               <img
@@ -85,7 +88,7 @@
               <p class="text-sm lg:text-base font-extralight">
                 {{ product.price }} €
               </p>
-            </div>
+            </NuxtLink>
           </div>
         </div>
       </main>
@@ -95,6 +98,7 @@
 
 <script setup lang="ts">
 import type { Product } from "~/types/types";
+const localePath = useLocalePath();
 
 const route = useRoute();
 const showDropdown = ref(false);
