@@ -126,5 +126,17 @@
     "anniversaries": "anniversaries",
     "weddings": "weddings",
     "birthdays": "birthdays"
+  },
+  "productPage": {
+    "product": "Product",
+    "addYourComplement": "Add a complement to your order",
+    "subTotal": "Subtotal",
+    "addToCart": "Add to cart",
+    "colors": "Colors",
+    "sizes": "Approximate sizes",
+    "description": "Description",
+    "bottle": "Bottle",
+    "box": "Chocolates",
+    "card": "Card"
   }
 }

@@ -130,5 +130,17 @@
     "jahrestage": "jahrestage",
     "hochzeiten": "hochzeiten",
     "geburtstage": "geburtstage"
+  },
+  "productPage": {
+    "product": "Produkt",
+    "addYourComplement": "Fügen Sie Ihrer Bestellung eine Ergänzung hinzu",
+    "subTotal": "Zwischensumme",
+    "addToCart": "In den Warenkorb",
+    "colors": "Farben",
+    "sizes": "Ungefähre Maße",
+    "description": "Beschreibung",
+    "bottle": "Flasche",
+    "box": "Pralinen",
+    "card": "Karte"
   }
 }

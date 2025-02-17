@@ -1,6 +1,8 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-8">Producto / {{ product.title }}</h1>
+    <h1 class="text-2xl font-bold mb-8">
+      {{ $t("productPage.product") }} / {{ product.title }}
+    </h1>
 
     <div class="flex flex-col md:flex-row justify-around">
       <div
@@ -41,7 +43,9 @@
         <p class="text-gray-600 mb-6">{{ product.shortDescription }}</p>
 
         <div>
-          <h3 class="text-lg font-medium">Añade un complemento a tu pedido:</h3>
+          <h3 class="text-lg font-medium">
+            {{ $t("productPage.addYourComplement") }}:
+          </h3>
           <div class="grid grid-cols-3 gap-4">
             <div class="rounded-lg p-4 text-center">
               <img
@@ -49,7 +53,7 @@
                 alt="complement"
                 class="w-full h-32 object-cover mb-2 border p-2"
               />
-              <p class="text-xs flex flex-1">1x Caja</p>
+              <p class="text-xs flex flex-1">1x {{ $t("productPage.box") }}</p>
               <div class="flex flex-row items-center flex-initial gap-1">
                 <p class="text-xs">€</p>
                 <p class="text-xs">45.00</p>
@@ -61,7 +65,9 @@
                 alt="complement"
                 class="w-full h-32 object-cover mb-2 border p-2"
               />
-              <p class="text-xs flex flex-1">1x Botella</p>
+              <p class="text-xs flex flex-1">
+                1x {{ $t("productPage.bottle") }}
+              </p>
               <div class="flex flex-row items-center flex-initial gap-1">
                 <p class="text-xs">€</p>
                 <p class="text-xs">45.00</p>
@@ -73,7 +79,7 @@
                 alt="complement"
                 class="w-full h-32 object-cover mb-2 border p-2"
               />
-              <p class="text-xs flex flex-1">1x Tarjeta</p>
+              <p class="text-xs flex flex-1">1x {{ $t("productPage.card") }}</p>
               <div class="flex flex-row items-center flex-initial gap-1">
                 <p class="text-xs">€</p>
                 <p class="text-xs">45.00</p>
@@ -90,7 +96,7 @@
             <span>€{{ product.price }}</span>
           </div>
           <div class="flex justify-between items-center">
-            <span>1x Caja de bombones</span>
+            <span>1x {{ $t("productPage.box") }}</span>
             <span>€10,00</span>
           </div>
         </div>
@@ -98,20 +104,20 @@
         <div
           class="flex gap-2 items-center text-xl font-normal md:w-1/3 self-end mt-2 mb-5"
         >
-          <span>Subtotal</span>
+          <span>{{ $t("productPage.subTotal") }}</span>
           <span>€26,00</span>
         </div>
 
         <button
           class="w-1/3s flex self-end bg-[#db9526] hover:bg-[#db9526] text-black p-3 rounded-md transition-colors"
         >
-          Añadir a la cesta
+          {{ $t("productPage.addToCart") }}
         </button>
       </div>
     </div>
 
     <div class="mt-12">
-      <h3 class="text-xl font-semibold mb-4">Colores</h3>
+      <h3 class="text-xl font-semibold mb-4">{{ $t("productPage.colors") }}</h3>
       <div class="flex items-center gap-2">
         <div
           v-for="color in mappedColors"
@@ -128,12 +134,14 @@
       </div>
     </div>
     <div class="mt-8">
-      <h3 class="text-xl font-semibold mb-2">Medidas apróximadas</h3>
+      <h3 class="text-xl font-semibold mb-2">{{ $t("productPage.sizes") }}</h3>
       <p class="text-gray-600">{{ product.sizes }}</p>
     </div>
 
     <div class="mt-8">
-      <h3 class="text-xl font-semibold mb-2">Descripción</h3>
+      <h3 class="text-xl font-semibold mb-2">
+        {{ $t("productPage.description") }}
+      </h3>
       <p class="text-gray-600">
         {{ product.description }}
       </p>
@@ -147,14 +155,15 @@ import { ref, computed } from "vue";
 const config = useRuntimeConfig();
 const route = useRoute();
 const slug = route.query.slug;
+const { locale, t } = useI18n();
 
 const { data: product, error } = await useFetch(
-  `${config.public.apiBaseUrl}/products/${slug}`
+  `${config.public.apiBaseUrl}/products/${slug}?lang=${locale.value}`
 );
 
 const { mappedColors } = useColorMapping(product.value.colors);
 
-console.log("mappedColors", mappedColors.value);
+console.log("product.value", product.value);
 
 const isZoomActive = ref(false);
 const scale = ref(1);

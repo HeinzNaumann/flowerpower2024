@@ -126,5 +126,17 @@
     "aniversarios": "aniversarios",
     "bodas": "bodas",
     "cumpleanios": "cumpleaños"
+  },
+  "productPage": {
+    "product": "Producto",
+    "addYourComplement": "Añade un complemento a tu pedido",
+    "subTotal": "Subtotal",
+    "addToCart": "Añadir al carrito",
+    "colors": "Colores",
+    "sizes": "Medidas apróximadas",
+    "description": "Descripción",
+    "bottle": "botella",
+    "box": "Bombones",
+    "card": "tarjeta"
   }
 }
