@@ -1,4 +1,4 @@
-import { ref, computed, watch, watchEffect } from "vue";
+import { ref, computed, watchEffect } from "vue";
 
 import type { Product } from "~/types/types";
 

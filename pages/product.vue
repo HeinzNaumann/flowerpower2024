@@ -1,18 +1,30 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-8">Producto / Emilio</h1>
+    <h1 class="text-2xl font-bold mb-8">Producto / {{ product.title }}</h1>
 
     <div class="flex flex-col md:flex-row justify-around">
-      <!-- Product Image -->
-      <div class="relative flex items-center justify-center">
+      <div
+        :class="[
+          'relative flex items-center justify-center zoom-container',
+          cursorClass,
+        ]"
+        @mousemove="handleMouseMove"
+        @mouseleave="stopZoom"
+        @wheel.prevent="handleWheel"
+      >
         <img
-          src="public/images/Ramo_con_flores_variadas.jpg"
+          :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
           width="500"
           height="500"
+          :style="zoomStyle"
           class="w-[400px] h-[400px] md:w-[500px] md:h-[500px] object-cover"
           alt="Flower Power Emilio Bouquet"
+          @click="toggleZoom"
         />
-        <button class="hidden md:block absolute top-1 right-1 p-2">
+        <button
+          @click="toggleZoom"
+          class="hidden md:block absolute top-1 right-1 p-2"
+        >
           <img
             src="/assets/icons/magnifier.svg"
             :alt="$t('header.alt.cart')"
@@ -21,17 +33,13 @@
         </button>
       </div>
 
-      <!-- Product Details -->
       <div class="flex flex-col justify-between p-6 md:w-1/3">
         <div class="flex md:flex-row flex-col justify-between">
-          <h2 class="text-2xl">Flower Power Emilio</h2>
-          <div class="text-2xl">€ 26,00</div>
+          <h2 class="text-2xl">{{ product.title }}</h2>
+          <div class="text-2xl">€ {{ product.price }}</div>
         </div>
-        <p class="text-gray-600 mb-6">
-          Ramo variado de colores fucsias y blancos
-        </p>
+        <p class="text-gray-600 mb-6">{{ product.shortDescription }}</p>
 
-        <!-- Add-ons -->
         <div>
           <h3 class="text-lg font-medium">Añade un complemento a tu pedido:</h3>
           <div class="grid grid-cols-3 gap-4">
@@ -74,13 +82,12 @@
           </div>
         </div>
 
-        <!-- Order Summary -->
         <div
           class="flex flex-col border-t border-b w-3/4 self-end text-xs py-2 space-y-1"
         >
           <div class="flex justify-between items-center">
-            <span>1x Emilio</span>
-            <span>€26,00</span>
+            <span>1x {{ product.title }}</span>
+            <span>€{{ product.price }}</span>
           </div>
           <div class="flex justify-between items-center">
             <span>1x Caja de bombones</span>
@@ -105,51 +112,125 @@
 
     <div class="mt-12">
       <h3 class="text-xl font-semibold mb-4">Colores</h3>
-      <div class="flex space-x-3">
-        <button class="w-8 h-8 rounded-full bg-fuchsia-500"></button>
-        <button
-          class="w-8 h-8 rounded-full bg-white border-2 border-gray-300"
-        ></button>
-        <button class="w-8 h-8 rounded-full bg-purple-800"></button>
+      <div class="flex items-center gap-2">
+        <div
+          v-for="color in mappedColors"
+          :class="[
+            color.class,
+            'w-6',
+            'h-6',
+            'rounded-full',
+            'inline-block',
+            'gap-2',
+          ]"
+          :key="color.name"
+        ></div>
       </div>
     </div>
-
     <div class="mt-8">
       <h3 class="text-xl font-semibold mb-2">Medidas apróximadas</h3>
-      <p class="text-gray-600">45 cm x 32 cm x 5cm</p>
+      <p class="text-gray-600">{{ product.sizes }}</p>
     </div>
 
     <div class="mt-8">
       <h3 class="text-xl font-semibold mb-2">Descripción</h3>
       <p class="text-gray-600">
-        Contrary to popular belief, Lorem Ipsum is not simply random text. It
-        has roots in a piece of classical Latin literature from 45 BC, making it
-        over 2000 years old. Richard McClintock, a Latin professor at
-        Hampden-Sydney College in Virginia, looked up one of the more obscure
-        Latin words, consectetur.
+        {{ product.description }}
       </p>
     </div>
   </div>
 </template>
 
 <script setup>
-// const complements = ref([
-//   {
-//     image: "/placeholder.jpg",
-//     quantity: "1 x caja de bombones",
-//     price: 10.0,
-//   },
-//   {
-//     image: "/placeholder.jpg",
-//     quantity: "1 x caja de bombones",
-//     price: 10.0,
-//   },
-//   {
-//     image: "/placeholder.jpg",
-//     quantity: "1 x caja de bombones",
-//     price: 10.0,
-//   },
-// ]);
+import { ref, computed } from "vue";
+
+const config = useRuntimeConfig();
+const route = useRoute();
+const slug = route.query.slug;
+
+const { data: product, error } = await useFetch(
+  `${config.public.apiBaseUrl}/products/${slug}`
+);
+
+const { mappedColors } = useColorMapping(product.value.colors);
+
+console.log("mappedColors", mappedColors.value);
+
+const isZoomActive = ref(false);
+const scale = ref(1);
+const transformOrigin = ref("center");
+
+const maxScale = 3;
+const minScale = 1;
+
+const zoomStyle = computed(() => ({
+  transform: `scale(${scale.value})`,
+  transformOrigin: transformOrigin.value,
+  transition: "transform 0.3s ease",
+}));
+
+const zoomIcon = computed(() => {
+  if (isZoomActive.value && scale.value >= maxScale) {
+    return "/assets/icons/magnifier-minus.svg";
+  }
+  return "/assets/icons/magnifier-plus.svg";
+});
+
+const cursorClass = computed(() => {
+  return isZoomActive.value && scale.value > minScale
+    ? "cursor-zoom-out"
+    : "cursor-zoom-in";
+});
+
+function toggleZoom() {
+  if (!isZoomActive.value) {
+    isZoomActive.value = true;
+    scale.value = 1.5;
+  } else {
+    isZoomActive.value = false;
+    scale.value = 1;
+  }
+  transformOrigin.value = "center";
+}
+
+function handleMouseMove(e) {
+  if (!isZoomActive.value) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
+  transformOrigin.value = `${x}% ${y}%`;
+}
+
+function stopZoom() {
+  isZoomActive.value = false;
+  scale.value = 1;
+  transformOrigin.value = "center";
+}
+
+function handleWheel(e) {
+  if (!isZoomActive.value) return;
+  let newScale = scale.value;
+  if (e.deltaY < 0) {
+    newScale += 0.1;
+  } else if (e.deltaY > 0) {
+    newScale -= 0.1;
+  }
+  newScale = Math.max(minScale, Math.min(newScale, maxScale));
+  scale.value = newScale;
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.zoom-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.cursor-zoom-in {
+  cursor: zoom-in;
+}
+
+.cursor-zoom-out {
+  cursor: zoom-out;
+}
+</style>
