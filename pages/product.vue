@@ -35,7 +35,7 @@
         </button>
       </div>
 
-      <div class="flex flex-col justify-between p-6 md:w-1/3">
+      <div class="flex flex-col justify-between p-6">
         <div class="flex md:flex-row flex-col justify-between">
           <h2 class="text-2xl">{{ product.title }}</h2>
           <div class="text-2xl">€ {{ product.price }}</div>
@@ -102,7 +102,7 @@
         </div>
 
         <div
-          class="flex gap-2 items-center text-xl font-normal md:w-1/3 self-end mt-2 mb-5"
+          class="flex gap-2 items-center text-xl font-normal self-end mt-2 mb-5"
         >
           <span>{{ $t("productPage.subTotal") }}</span>
           <span>€26,00</span>

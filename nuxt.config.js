@@ -7,7 +7,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/i18n", "nuxt-swiper"],
+  modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui"],
   css: [
     "~/assets/styles/main.css",
     "swiper/css",

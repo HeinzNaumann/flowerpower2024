@@ -1,46 +1,59 @@
-body{
-    background-color: white;
-    font-family: 'rubik', sans-serif;
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {
+  --color-flowerPowerLila: #a00080;
+  --color-secondary: #ff4500;
+  --font-GelatoScript: "GelatoScript", sans-serif;
+  --font-rubik: "Rubik", sans-serif;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1025px;
 }
 
+@font-face {
+  font-family: "GelatoScript";
+  src: url("/assets/fonts/GelatoScript.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
-    font-family: 'GelatoScript';
-    src: url('/assets/fonts/GelatoScript.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
+/* Otras variantes de la fuente "Rubik" */
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @font-face {
-    font-family: 'Rubik';
-    src: url('/assets/fonts/Rubik-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: 'Rubik';
-    src: url('/assets/fonts/Rubik-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: 'Rubik';
-    src: url('/assets/fonts/Rubik-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-  
-  @font-face {
-    font-family: 'Rubik';
-    src: url('/assets/fonts/Rubik-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-  }
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Rubik";
+  src: url("/assets/fonts/Rubik-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  background-color: white;
+  font-family: var(--font-rubik);
+  color: #111111;
+}

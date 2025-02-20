@@ -5,13 +5,13 @@
       <div class="relative">
         <button
           @click="showDropdown = !showDropdown"
-          class="bg-gray-200 text-gray-700 px-4 py-2 rounded shadow-md"
+          class="bg-gray-200 text-gray-700 px-4 py-2 rounded-sm shadow-md"
         >
           Sort by
         </button>
         <div
           v-if="showDropdown"
-          class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10"
+          class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-sm shadow-md z-10"
         >
           <button
             @click="sortProducts('price', 'asc')"
@@ -65,7 +65,9 @@
 
       <!-- Grid de productos -->
       <main class="w-full md:w-3/4 md:pl-6">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
+        >
           <div v-for="(product, id) in products" :key="id">
             <NuxtLink
               :to="
@@ -76,7 +78,7 @@
               <img
                 :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
                 :alt="product.slug"
-                class="h-100 w-100 object-cover border-grey-500 border-1 border-solid border mb-3"
+                class="size-72 object-cover border-gray-200 border-solid border mb-3"
               />
               <p :alt="product.title" class="text-sm lg:text-base font-medium">
                 {{ product.title }}

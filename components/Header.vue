@@ -13,13 +13,13 @@
         <transition name="expand">
           <form
             v-if="isOpenMagnifier"
-            class="items-center relative right-0 top-0 z-30 bl overflow-hidden p-1 rounded"
+            class="items-center relative right-0 top-0 z-30 bl overflow-hidden p-1 rounded-sm"
             ref="formRef"
           >
             <input
               type="text"
               :placeholder="$t('header.input.placeholder')"
-              class="w-full border p-1 focus:outline-none focus:shadow-lg transition-all duration-300 ease-in-out delay-150"
+              class="w-full border p-1 focus:outline-hidden focus:shadow-lg transition-all duration-300 ease-in-out delay-150"
             />
           </form>
         </transition>
@@ -65,7 +65,7 @@
         <div class="relative inline-block text-left" ref="dropdownRef">
           <button
             @click="toggleDropdown"
-            class="inline-flex justify-center w-full bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:opacity-70 transition-opacity duration-200"
+            class="inline-flex justify-center w-full bg-white border border-gray-300 rounded-md shadow-xs hover:bg-gray-50 hover:opacity-70 transition-opacity duration-200"
           >
             <img
               :src="currentFlag"
@@ -116,7 +116,7 @@
     <transition name="fade">
       <div
         v-if="isMenuOpen"
-        class="fixed inset-0 bg-black bg-opacity-50 z-20"
+        class="fixed inset-0 bg-black/50 z-20"
         @click="toggleMenu"
       ></div>
     </transition>
@@ -298,7 +298,7 @@
           <input
             type="text"
             :placeholder="$t('header.input.placeholder')"
-            class="border border-gray-600 p-1 pl-10 focus:border-gray-800 focus:outline-none focus:shadow-lg transition-all duration-300 w-full"
+            class="border border-gray-600 p-1 pl-10 focus:border-gray-800 focus:outline-hidden focus:shadow-lg transition-all duration-300 w-full"
           />
           <img
             src="/assets/icons/magnifier.svg"
