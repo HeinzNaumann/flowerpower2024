@@ -1,12 +1,6 @@
 // nuxt.config.js
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  devtools: {
-    enabled: true,
-    timeline: {
-      enabled: true,
-    },
-  },
   modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui"],
   css: [
     "~/assets/styles/main.css",
@@ -14,6 +8,12 @@ export default defineNuxtConfig({
     "swiper/css/effect-fade",
     "swiper/css/scrollbar",
   ],
+  devtools: {
+    enabled: true,
+    timeline: {
+      enabled: true,
+    },
+  },
   i18n: {
     locales: [
       { code: "es", file: "es.json", name: "Español" },
