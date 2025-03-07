@@ -2,15 +2,82 @@
 @import "@nuxt/ui";
 
 @theme {
-  --color-flowerPowerLila: #a00080;
-  --color-secondary: #ff4500;
+  --color-flowerpower-lila: #382c3e;
+
+  /* Colores primarios */
+  --color-primary-50: #f9fafb;
+  --color-primary-100: #f3f4f6;
+  --color-primary-200: #e5e7eb;
+  --color-primary-300: #d1d5db;
+  --color-primary-400: #9ca3af;
+  --color-primary-500: #6b7280; /* Gris medio para formularios */
+  --color-primary-600: #4b5563;
+  --color-primary-700: #374151;
+  --color-primary-800: #1f2937;
+  --color-primary-900: #111111; /* Negro para textos */
+
+  /* Colores neutrales */
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f4f4f5;
+  --color-neutral-200: #e4e4e7;
+  --color-neutral-300: #d4d4d8;
+  --color-neutral-400: #a1a1aa;
+  --color-neutral-500: #71717a;
+  --color-neutral-600: #52525b;
+  --color-neutral-700: #3f3f46;
+  --color-neutral-800: #27272a;
+  --color-neutral-900: #18181b;
+
   --font-GelatoScript: "GelatoScript", sans-serif;
   --font-rubik: "Rubik", sans-serif;
+
   --breakpoint-sm: 640px;
   --breakpoint-md: 1024px;
   --breakpoint-lg: 1025px;
 }
 
+h2 {
+  color: var(--color-primary-700);
+}
+
+p {
+  color: var(--color-primary-700);
+}
+
+label {
+  @apply text-base font-medium text-primary-900;
+}
+
+/* Botón al estilo Nike */
+button.btn-nike {
+  background-color: var(--color-flowerpower-lila); /* Negro Nike */
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease-in-out;
+}
+
+button.btn-nike.full-size {
+  width: 100%;
+}
+
+/* Efecto hover en botón */
+.btn-nike:hover {
+  background-color: var(
+    --color-primary-700
+  ); /* Un gris más claro al hacer hover */
+}
+
+/* Efecto focus en botón */
+.btn-nike:focus {
+  outline: 2px solid var(--color-primary-500);
+}
+
+/* Mantener fuentes personalizadas */
 @font-face {
   font-family: "GelatoScript";
   src: url("/assets/fonts/GelatoScript.woff2") format("woff2");
@@ -52,8 +119,9 @@
   font-display: swap;
 }
 
+/* Estilos base */
 body {
   background-color: white;
   font-family: var(--font-rubik);
-  color: #111111;
+  color: var(--color-primary-900);
 }

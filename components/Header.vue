@@ -49,12 +49,9 @@
       </div>
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
-        <NuxtLink
-          class="hover:text-gray-600"
-          :to="localePath({ path: '/login-register' })"
-        >
+        <button class="hover:text-gray-600 cursor-pointer" @click="openModal">
           {{ $t("header.register") }}
-        </NuxtLink>
+        </button>
         <NuxtLink :to="localePath({ path: '/cart' })">
           <img
             src="/assets/icons/cart.svg"
@@ -317,7 +314,11 @@ const { locale } = useI18n();
 const localePath = useLocalePath();
 const switchLocalePath = useSwitchLocalePath();
 const route = useRoute();
+import LoginRegister from "~/components/LoginRegister.vue";
 
+const modal = useModal();
+
+console.log("modal", modal);
 const isOpen = ref(false);
 const isMenuOpen = ref(false);
 const isOpenMagnifier = ref(false);
@@ -396,6 +397,18 @@ const handleClickOutside = (event) => {
   ) {
     isOpen.value = false;
   }
+};
+
+const openModal = () => {
+  modal.open(LoginRegister, {});
+};
+
+const closeModal = async () => {
+  await modal.close();
+};
+
+const updateModalTitle = () => {
+  modal.patch({ title: "Updated Welcome" });
 };
 
 onMounted(() => {
