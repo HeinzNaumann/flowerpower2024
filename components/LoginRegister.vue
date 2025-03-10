@@ -16,7 +16,7 @@
           :schema="v.safeParser(schemaLogin)"
           :state="loginForm"
           class="space-y-4"
-          @submit="handleSubmit"
+          @submit="handleLogin"
         >
           <UFormField label="Email" name="email">
             <UInput v-model="loginForm.email" />
@@ -32,8 +32,12 @@
             color="primary"
             variant="solid"
             class="btn-nike"
+            :disabled="isSubmitting"
           >
-            Continuar
+            <template v-if="isSubmitting">
+              <span class="loading loading-spinner loading-xs"></span>
+            </template>
+            <template v-else> Continuar </template>
           </UButton>
         </UForm>
       </template>
@@ -43,7 +47,7 @@
         <UForm
           :schema="v.safeParser(schemaRegister)"
           :state="registerForm"
-          @submit="handleSubmit"
+          @submit="handleRegister"
           class="space-y-6"
         >
           <div class="flex space-x-2">
@@ -203,11 +207,31 @@
             color="primary"
             variant="solid"
             class="btn-nike"
+            :disabled="isSubmitting"
           >
-            Registrarme
+            <template v-if="isSubmitting">
+              <span class="loading loading-spinner loading-xs"></span>
+            </template>
+            <template v-else> Registrarme </template>
           </UButton>
         </UForm>
       </template>
+      <div
+        v-if="apiError"
+        class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+        role="alert"
+      >
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline">{{ apiError }}</span>
+      </div>
+      <div
+        v-if="apiSuccess"
+        class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+        role="alert"
+      >
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline">{{ apiSuccess }}</span>
+      </div>
     </template>
 
     <template #footer>
@@ -233,11 +257,17 @@
 <style scoped></style>
 
 <script setup lang="ts">
-import { ref, defineEmits } from "vue";
+import { ref, defineEmits, reactive, computed } from "vue";
 import * as v from "valibot";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
 const isLogin = ref(true);
+const isSubmitting = ref(false);
+const apiError = ref<string | null>(null);
+const apiSuccess = ref<string | null>(null);
+
+const config = useRuntimeConfig();
+const apiUrl = config.public.apiBaseUrl;
 
 const schemaLogin = v.object({
   email: v.pipe(
@@ -280,36 +310,90 @@ const registerForm = reactive({
   subscribeNewsletter: false,
 });
 
-console.log("loginForm", loginForm);
-
-console.log("registerForm", registerForm);
-
 function toggleMode() {
-  console.log("🔄 Cambiando a", isLogin.value);
   isLogin.value = !isLogin.value;
+  //reset messages
+  apiError.value = null;
+  apiSuccess.value = "";
 }
 
-async function handleSubmit(event: FormSubmitEvent<any>) {
-  console.log("event", event);
-  if (isLogin.value) {
-    const result = v.safeParse(schemaLogin, loginForm);
-    if (!result.success) {
-      console.log("❌ Login datos inválidos:", result.issues);
-      return;
-    }
+async function handleLogin() {
+  isSubmitting.value = true;
+  apiError.value = null;
+  apiSuccess.value = null;
 
-    console.log("✅ Iniciando sesión con", loginForm.email);
-  } else {
-    console.log("registerForm", registerForm);
-    const result = v.safeParse(schemaRegister, registerForm);
-    if (!result.success) {
-      console.log("❌ Registro inválido:", result.issues);
-      return;
-    }
-
-    console.log("✅ Registrando usuario con", registerForm.email);
+  const result = v.safeParse(schemaLogin, loginForm);
+  if (!result.success) {
+    console.log("❌ Login datos inválidos:", result.issues);
+    isSubmitting.value = false;
+    return;
   }
-  emit("close");
+
+  try {
+    const response: { token: string } = await $fetch(`${apiUrl}/auth/login`, {
+      method: "POST",
+      body: loginForm,
+    });
+
+    const token = response.token;
+
+    if (token) {
+      localStorage.setItem("token", token);
+
+      console.log("✅ Iniciando sesión con", loginForm.email);
+      apiSuccess.value = "Login success";
+    } else {
+      apiError.value = "Token no t received on login";
+    }
+
+    setTimeout(() => {
+      emit("close");
+    }, 2000);
+  } catch (error: any) {
+    console.error("❌ Error en el Login:", error);
+    if (error.data.message) {
+      apiError.value = error.data.message;
+    } else {
+      apiError.value = "An error occurred during the login.";
+    }
+  } finally {
+    isSubmitting.value = false;
+  }
+}
+
+async function handleRegister() {
+  isSubmitting.value = true;
+  apiError.value = null;
+  apiSuccess.value = null;
+
+  const result = v.safeParse(schemaRegister, registerForm);
+  if (!result.success) {
+    console.log("❌ Registro inválido:", result.issues);
+    isSubmitting.value = false;
+    return;
+  }
+
+  try {
+    const response = await $fetch(`${apiUrl}/api/register`, {
+      method: "POST",
+      body: registerForm,
+    });
+    console.log("✅ Registrando usuario con", registerForm.email);
+
+    apiSuccess.value = "Register success";
+    setTimeout(() => {
+      emit("close");
+    }, 2000);
+  } catch (error: any) {
+    console.error("❌ Error en el Registro:", error);
+    if (error.data.message) {
+      apiError.value = error.data.message;
+    } else {
+      apiError.value = "An error occurred during the register.";
+    }
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 
 const show = ref(false);
