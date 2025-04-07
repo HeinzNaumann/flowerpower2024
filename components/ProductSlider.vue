@@ -27,7 +27,7 @@
         <img
           :src="`${config.public.apiBaseUrl}/files/product/${slide.images}`"
           :alt="slide.slug"
-          class="h-100 w-100 object-cover border-grey-500 border-1 border-solid border mb-3"
+          class="w-full object-cover border-gray-200 border-solid border mb-3"
         />
         <p :alt="$t(slide.title)" class="text-sm lg:text-base font-medium">
           {{ $t(slide.title) }}
