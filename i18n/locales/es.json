@@ -138,5 +138,28 @@
     "bottle": "botella",
     "box": "Bombones",
     "card": "tarjeta"
+  },
+  "userPanel": {
+    "myAccount": "Mi cuenta",
+    "logout": "Cerrar sesión",
+    "profile": "Perfil",
+    "orders": "Pedidos",
+    "addresses": "Direcciones",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "saveChanges": "Guardar cambios",
+    "noOrders": "No tienes pedidos todavía"
+  },
+  "orderStatus": {
+    "pending": "Pendiente",
+    "processing": "En proceso",
+    "shipped": "Enviado",
+    "delivered": "Entregado",
+    "cancelled": "Cancelado"
+  },
+  "common": {
+    "edit": "Editar",
+    "delete": "Eliminar"
   }
 }

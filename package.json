@@ -11,8 +11,8 @@
     "clean": "rm -rf node_modules pnpm-lock.yaml"
   },
   "dependencies": {
-    "@nuxt/ui": "3.0.0-alpha.13",
-    "@nuxtjs/i18n": "^8.5.1",
+    "@nuxt/ui": "3.0.1",
+    "@nuxtjs/i18n": "^9.4.0",
     "nuxt": "^3.13.0",
     "nuxt-swiper": "^1.2.2",
     "tailwindcss": "^4.0.0",

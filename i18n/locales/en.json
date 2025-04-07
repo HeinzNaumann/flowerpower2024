@@ -138,5 +138,28 @@
     "bottle": "Bottle",
     "box": "Chocolates",
     "card": "Card"
+  },
+  "userPanel": {
+    "myAccount": "My Account",
+    "logout": "Logout",
+    "profile": "Profile",
+    "orders": "Orders",
+    "addresses": "Addresses",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "saveChanges": "Save Changes",
+    "noOrders": "You don't have any orders yet"
+  },
+  "orderStatus": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "shipped": "Shipped",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled"
+  },
+  "common": {
+    "edit": "Edit",
+    "delete": "Delete"
   }
 }

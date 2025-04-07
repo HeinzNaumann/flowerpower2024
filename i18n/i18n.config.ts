@@ -1,4 +1,4 @@
-// i18n.config.js
+// i18n.config.ts
 import es from "./locales/es.json";
 import en from "./locales/en.json";
 import de from "./locales/de.json";

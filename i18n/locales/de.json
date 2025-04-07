@@ -142,5 +142,28 @@
     "bottle": "Flasche",
     "box": "Pralinen",
     "card": "Karte"
+  },
+  "userPanel": {
+    "myAccount": "Mein Konto",
+    "logout": "Abmelden",
+    "profile": "Profil",
+    "orders": "Bestellungen",
+    "addresses": "Adressen",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "saveChanges": "Änderungen speichern",
+    "noOrders": "Keine Bestellungen gefunden"
+  },
+  "orderStatus": {
+    "pending": "Ausstehend",
+    "processing": "In Bearbeitung",
+    "shipped": "Versendet",
+    "delivered": "Geliefert",
+    "cancelled": "Storniert"
+  },
+  "common": {
+    "edit": "Bearbeiten",
+    "delete": "Löschen"
   }
 }
