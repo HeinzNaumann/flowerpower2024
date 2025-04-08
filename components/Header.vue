@@ -310,15 +310,14 @@
 </template>
 
 <script setup>
+import LoginRegister from "~/components/LoginRegister.vue";
 const { locale } = useI18n();
 const localePath = useLocalePath();
 const switchLocalePath = useSwitchLocalePath();
 const route = useRoute();
-import LoginRegister from "~/components/LoginRegister.vue";
 
-const modal = useModal();
+const overlay = useOverlay();
 
-console.log("modal", modal);
 const isOpen = ref(false);
 const isMenuOpen = ref(false);
 const isOpenMagnifier = ref(false);
@@ -399,16 +398,10 @@ const handleClickOutside = (event) => {
   }
 };
 
+const modal = overlay.create(LoginRegister);
+
 const openModal = () => {
   modal.open(LoginRegister, {});
-};
-
-const closeModal = async () => {
-  await modal.close();
-};
-
-const updateModalTitle = () => {
-  modal.patch({ title: "Updated Welcome" });
 };
 
 onMounted(() => {
