@@ -1,12 +1,13 @@
 <template>
-  <!-- UModal con diseño Nike -->
+  <!-- Modal con tu diseño -->
   <UModal
     :title="
       isLogin
         ? 'Introduce tu dirección de correo electrónico para unirte o iniciar sesión.'
         : 'Vamos a hacerte Flower Power Member'
     "
-    description=""
+    v-model:open="modalOpen"
+    id="loginRegisterModal"
     overlay
   >
     <template #body>
@@ -19,14 +20,21 @@
           @submit="handleLogin"
         >
           <UFormField label="Email" name="email">
-            <UInput v-model="loginForm.email" />
+            <UInput
+              v-model="loginForm.email"
+              autocomplete="email"
+              type="email"
+            />
           </UFormField>
 
           <UFormField label="Password" name="password">
-            <UInput v-model="loginForm.password" type="password" />
+            <UInput
+              v-model="loginForm.password"
+              type="password"
+              autocomplete="current-password"
+            />
           </UFormField>
 
-          <!-- Botón principal dentro del formulario de login -->
           <UButton
             type="submit"
             color="primary"
@@ -37,7 +45,7 @@
             <template v-if="isSubmitting">
               <span class="loading loading-spinner loading-xs"></span>
             </template>
-            <template v-else> Continuar </template>
+            <template v-else>Continuar</template>
           </UButton>
         </UForm>
       </template>
@@ -50,29 +58,30 @@
           @submit="handleRegister"
           class="space-y-6"
         >
+          <!-- Ejemplo de campos -->
           <div class="flex space-x-2">
             <UFormField
-              name="firstName"
+              name="name"
               label="Nombre"
               class="mb-3 text-primary-900"
               required
             >
               <UInput
-                v-model="registerForm.firstName"
+                v-model="registerForm.name"
                 placeholder="Tu nombre"
+                autocomplete="given-name"
               />
             </UFormField>
-
             <UFormField
-              name="lastName"
+              name="surname"
               label="Apellidos"
               class="mb-3 text-primary-900"
               required
             >
               <UInput
-                v-model="registerForm.lastName"
+                v-model="registerForm.surname"
                 placeholder="Tus apellidos"
-                class="input-nike"
+                autocomplete="family-name"
               />
             </UFormField>
           </div>
@@ -89,19 +98,21 @@
                 type="email"
                 placeholder="tucorreo@mail.com"
                 class="input-nike"
+                autocomplete="email"
               />
             </UFormField>
 
             <UFormField
-              name="phone"
+              name="tlf"
               label="Teléfono (opcional)"
               class="mb-3 text-primary-900"
             >
               <UInput
-                v-model="registerForm.phone"
+                v-model="registerForm.tlf"
                 type="tel"
                 placeholder="+34..."
                 class="input-nike"
+                autocomplete="tel"
               />
             </UFormField>
           </div>
@@ -116,6 +127,7 @@
               :aria-invalid="score < 4"
               aria-describedby="password-strength"
               class="w-full"
+              autocomplete="new-password"
             >
               <template #trailing>
                 <UButton
@@ -200,8 +212,6 @@
               Members.</label
             >
           </div>
-
-          <!-- Botón principal dentro del formulario de registro -->
           <UButton
             type="submit"
             color="primary"
@@ -212,10 +222,12 @@
             <template v-if="isSubmitting">
               <span class="loading loading-spinner loading-xs"></span>
             </template>
-            <template v-else> Registrarme </template>
+            <template v-else>Registrarme</template>
           </UButton>
         </UForm>
       </template>
+
+      <!-- Mensajes de error y éxito -->
       <div
         v-if="apiError"
         class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
@@ -254,113 +266,131 @@
   </UModal>
 </template>
 
-<style scoped></style>
-
 <script setup lang="ts">
 import { ref, defineEmits, reactive, computed } from "vue";
 import * as v from "valibot";
 import type { FormSubmitEvent } from "@nuxt/ui";
 
-const isLogin = ref(true);
-const isSubmitting = ref(false);
+// Composable de autenticación (asegúrate de crearlo en ~/composables/useAuth.ts, por ejemplo)
+import { useAuth } from "~/composables/useAuth";
+
+const isLogin = ref(true); // ¿Estamos en modo Login o Registro?
+const isSubmitting = ref(false); // Para mostrar el spinner en los botones
 const apiError = ref<string | null>(null);
 const apiSuccess = ref<string | null>(null);
 
+const modalOpen = ref(true); // controla la apertura/cierre del modal
+
+// Config y base URL
 const config = useRuntimeConfig();
 const apiUrl = config.public.apiBaseUrl;
 
+/**
+ * Schemas de validación con valibot
+ */
 const schemaLogin = v.object({
   email: v.pipe(
     v.string(),
-    v.email("The email is badly formatted."),
-    v.nonEmpty("Email is required")
+    v.email("El email es inválido."),
+    v.nonEmpty("El email es requerido.")
   ),
-  password: v.pipe(v.string(), v.nonEmpty("Password is required")),
-});
-
-const emit = defineEmits(["close"]);
-
-// Formularios diferenciados
-const loginForm = reactive({
-  email: "",
-  password: "",
+  password: v.pipe(v.string(), v.nonEmpty("La contraseña es requerida.")),
 });
 
 const schemaRegister = v.object({
-  firstName: v.pipe(v.string(), v.nonEmpty("Name is required")),
-  lastName: v.pipe(v.string(), v.nonEmpty("Last name is required")),
+  name: v.pipe(v.string(), v.nonEmpty("El nombre es requerido.")),
+  surname: v.pipe(v.string(), v.nonEmpty("Los apellidos son requeridos.")),
   email: v.pipe(
     v.string(),
-    v.email("The email is badly formatted."),
-    v.nonEmpty("Email is required")
+    v.email("El email es inválido."),
+    v.nonEmpty("El email es requerido.")
   ),
-  phone: v.optional(v.string()),
-  password: v.pipe(v.string(), v.nonEmpty("Password is required")),
-  acceptTOS: v.literal(true, "You must accept the terms of service."),
+  tlf: v.optional(v.string()),
+  password: v.pipe(v.string(), v.nonEmpty("La contraseña es requerida.")),
+  acceptTOS: v.literal(true, "Debes aceptar los términos y condiciones."),
   subscribeNewsletter: v.optional(v.boolean()),
 });
 
-const registerForm = reactive({
-  firstName: "",
-  lastName: "",
+interface RegisterForm {
+  name: string;
+  surname: string;
+  email: string;
+  tlf?: string;
+  password: string;
+  acceptTOS: boolean;
+  subscribeNewsletter?: boolean;
+}
+
+// Estados para formularios
+const loginForm = reactive({ email: "", password: "" });
+const registerForm = reactive<RegisterForm>({
+  name: "",
+  surname: "",
   email: "",
-  phone: "",
+  tlf: "",
   password: "",
   acceptTOS: false,
   subscribeNewsletter: false,
 });
 
-function toggleMode() {
-  isLogin.value = !isLogin.value;
-  //reset messages
-  apiError.value = null;
-  apiSuccess.value = "";
-}
-
+// ---------- LÓGICA DE LOGIN ----------
 async function handleLogin() {
   isSubmitting.value = true;
   apiError.value = null;
   apiSuccess.value = null;
 
+  // Validamos con Valibot
   const result = v.safeParse(schemaLogin, loginForm);
+
+  function closeModal() {
+    modalOpen.value = false;
+    console.log("🚪 Cerrando modal...", modalOpen.value);
+  }
   if (!result.success) {
-    console.log("❌ Login datos inválidos:", result.issues);
+    console.warn("❌ Datos inválidos al hacer login:", result.issues);
     isSubmitting.value = false;
     return;
   }
 
+  // Obtenemos funciones del composable
+  const { setAuth } = useAuth();
+
   try {
-    const response: { token: string } = await $fetch(`${apiUrl}/auth/login`, {
-      method: "POST",
-      body: loginForm,
-    });
+    // Llamada a la API de login
+    const response = await $fetch<{ token: string; email: string }>(
+      `${apiUrl}/auth/login`,
+      {
+        method: "POST",
+        body: loginForm,
+      }
+    );
 
-    const token = response.token;
-
-    if (token) {
-      localStorage.setItem("token", token);
-
-      console.log("✅ Iniciando sesión con", loginForm.email);
-      apiSuccess.value = "Login success";
-    } else {
-      apiError.value = "Token no t received on login";
+    // Validamos la respuesta
+    if (!response?.token) {
+      apiError.value = "No se ha recibido un token al hacer login.";
+      return;
     }
 
-    setTimeout(() => {
-      emit("close");
-    }, 2000);
+    // Guardamos token y email con setAuth
+    setAuth(response.token, response.email);
+
+    // Mostramos éxito
+    apiSuccess.value = "Login exitoso!";
+
+    closeModal();
   } catch (error: any) {
     console.error("❌ Error en el Login:", error);
-    if (error.data.message) {
+    if (error?.data?.message) {
       apiError.value = error.data.message;
     } else {
-      apiError.value = "An error occurred during the login.";
+      apiError.value = "Ha ocurrido un error durante el login.";
     }
   } finally {
     isSubmitting.value = false;
   }
 }
 
+// ---------- LÓGICA DE REGISTRO ----------
 async function handleRegister() {
   isSubmitting.value = true;
   apiError.value = null;
@@ -368,43 +398,62 @@ async function handleRegister() {
 
   const result = v.safeParse(schemaRegister, registerForm);
   if (!result.success) {
-    console.log("❌ Registro inválido:", result.issues);
+    console.warn("❌ Registro inválido:", result.issues);
     isSubmitting.value = false;
     return;
   }
 
   try {
-    const response = await $fetch(`${apiUrl}/api/register`, {
+    // Eliminar tlf si está vacío
+    if (!registerForm.tlf) {
+      delete registerForm.tlf;
+    }
+
+    // Llamada a la API de registro
+    await $fetch(`${apiUrl}/auth/register`, {
       method: "POST",
       body: registerForm,
     });
-    console.log("✅ Registrando usuario con", registerForm.email);
 
-    apiSuccess.value = "Register success";
+    console.log("✅ Usuario registrado:", registerForm.email);
+    apiSuccess.value = "Registro exitoso!";
+
+    // (Opcional) Autologin si el backend devuelve el token tras registro:
+    // const response = await $fetch<{ token: string; email: string }>(...)
+    // setAuth(response.token, response.email)
+
+    // Cerramos el modal tras un breve retardo
     setTimeout(() => {
       emit("close");
-    }, 2000);
+    }, 1500);
   } catch (error: any) {
     console.error("❌ Error en el Registro:", error);
-    if (error.data.message) {
+    if (error?.data?.message) {
       apiError.value = error.data.message;
     } else {
-      apiError.value = "An error occurred during the register.";
+      apiError.value = "Ha ocurrido un error durante el registro.";
     }
   } finally {
     isSubmitting.value = false;
   }
 }
 
+// ---------- CAMBIAR MODO ENTRE LOGIN / REGISTRO ----------
+function toggleMode() {
+  isLogin.value = !isLogin.value;
+  apiError.value = null;
+  apiSuccess.value = null;
+}
+
+// ---------- EJEMPLO DE FORTALEZA DE CONTRASEÑA (registro) ----------
 const show = ref(false);
 function checkStrength(str: string) {
   const requirements = [
-    { regex: /.{8,}/, text: "At least 8 characters" },
-    { regex: /\d/, text: "At least 1 number" },
-    { regex: /[a-z]/, text: "At least 1 lowercase letter" },
-    { regex: /[A-Z]/, text: "At least 1 uppercase letter" },
+    { regex: /.{8,}/, text: "Al menos 8 caracteres" },
+    { regex: /\d/, text: "Al menos 1 número" },
+    { regex: /[a-z]/, text: "Al menos 1 letra minúscula" },
+    { regex: /[A-Z]/, text: "Al menos 1 letra mayúscula" },
   ];
-
   return requirements.map((req) => ({
     met: req.regex.test(str),
     text: req.text,
@@ -413,7 +462,6 @@ function checkStrength(str: string) {
 
 const strength = computed(() => checkStrength(registerForm.password));
 const score = computed(() => strength.value.filter((req) => req.met).length);
-
 const color = computed(() => {
   if (score.value === 0) return "neutral";
   if (score.value <= 1) return "error";
@@ -421,11 +469,14 @@ const color = computed(() => {
   if (score.value === 3) return "warning";
   return "success";
 });
-
 const text = computed(() => {
-  if (score.value === 0) return "Enter a password";
-  if (score.value <= 2) return "Weak password";
-  if (score.value === 3) return "Medium password";
-  return "Strong password";
+  if (score.value === 0) return "Introduce una contraseña";
+  if (score.value <= 2) return "Contraseña débil";
+  if (score.value === 3) return "Contraseña media";
+  return "Contraseña fuerte";
 });
 </script>
+
+<style scoped>
+/* Estilos específicos de tu modal o campos, opcional */
+</style>
