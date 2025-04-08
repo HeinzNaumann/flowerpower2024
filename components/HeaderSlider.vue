@@ -24,7 +24,7 @@
   >
     <SwiperSlide v-for="(slide, idx) in slides" :key="idx">
       <div
-        class="flex flex-col w-full h-full bg-gray-100 justify-center items-center text-center p-2"
+        class="flex flex-col w-full h-full bg-neutral-100 justify-center items-center text-center p-2"
       >
         <p :alt="$t(slide.titleKey)" class="text-sm lg:text-base font-medium">
           {{ $t(slide.titleKey) }}

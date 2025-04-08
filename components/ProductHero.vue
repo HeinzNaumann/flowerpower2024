@@ -17,7 +17,7 @@
           Flower Power Yulenka
         </h2>
         <button
-          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-gray-200 text-sm md:text-lg"
+          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-neutral-200 text-sm md:text-lg"
         >
           {{ $t("button.buy") }}
         </button>
@@ -37,7 +37,7 @@
           Flower Power Yulenka
         </h2>
         <button
-          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-gray-200 text-sm md:text-lg"
+          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-neutral-200 text-sm md:text-lg"
         >
           {{ $t("button.buy") }}
         </button>

@@ -43,13 +43,16 @@
           <img
             src="/assets/icons/hamburger-menu.svg"
             :alt="$t('header.alt.cart')"
-            class="h-6 w-6 text-gray-80 hover:opacity-70 transition-opacity duration-200"
+            class="h-6 w-6 text-neutral-80 hover:opacity-70 transition-opacity duration-200"
           />
         </button>
       </div>
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
-        <button class="hover:text-gray-600 cursor-pointer" @click="openModal">
+        <button
+          class="hover:text-neutral-600 cursor-pointer"
+          @click="openModal"
+        >
           {{ $t("header.register") }}
         </button>
         <NuxtLink :to="localePath({ path: '/cart' })">
@@ -62,7 +65,7 @@
         <div class="relative inline-block text-left" ref="dropdownRef">
           <button
             @click="toggleDropdown"
-            class="inline-flex justify-center w-full bg-white border border-gray-300 rounded-md shadow-xs hover:bg-gray-50 hover:opacity-70 transition-opacity duration-200"
+            class="inline-flex justify-center w-full bg-white border border-neutral-300 rounded-md shadow-xs hover:bg-neutral-50 hover:opacity-70 transition-opacity duration-200"
           >
             <img
               :src="currentFlag"
@@ -76,7 +79,7 @@
           >
             <NuxtLink
               :to="getLocalePathWithQuery('es')"
-              class="flex items-center p-2 hover:bg-gray-100"
+              class="flex items-center p-2 hover:bg-neutral-100"
             >
               <img
                 src="/images/flags/es.png"
@@ -86,7 +89,7 @@
             </NuxtLink>
             <NuxtLink
               :to="getLocalePathWithQuery('en')"
-              class="flex items-center p-2 hover:bg-gray-100"
+              class="flex items-center p-2 hover:bg-neutral-100"
             >
               <img
                 src="/images/flags/en.png"
@@ -96,7 +99,7 @@
             </NuxtLink>
             <NuxtLink
               :to="getLocalePathWithQuery('de')"
-              class="flex items-center p-2 hover:bg-gray-100"
+              class="flex items-center p-2 hover:bg-neutral-100"
             >
               <img
                 src="/images/flags/de.png"
@@ -132,7 +135,7 @@
           <!-- Close Icon -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-gray-800"
+            class="h-6 w-6 text-neutral-800"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -146,7 +149,7 @@
           </svg>
         </button>
         <NuxtLink
-          class="hover:text-gray-600"
+          class="hover:text-neutral-600"
           :to="localePath({ path: '/login-register' })"
         >
           {{ $t("header.register") }}
@@ -162,37 +165,37 @@
         <div class="flex flex-col gap-2 mt-4">
           <NuxtLink
             :to="localePath({ path: '/flowers' })"
-            class="hover:text-gray-600"
+            class="hover:text-neutral-600"
           >
             {{ $t("header.links.flores") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ path: '/roses' })"
-            class="hover:text-gray-600"
+            class="hover:text-neutral-600"
           >
             {{ $t("header.links.rosas") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ path: '/plants' })"
-            class="hover:text-gray-600"
+            class="hover:text-neutral-600"
           >
             {{ $t("header.links.plantas") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ path: '/moments' })"
-            class="hover:text-gray-600"
+            class="hover:text-neutral-600"
           >
             {{ $t("header.links.momentos") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ path: '/shop' })"
-            class="hover:text-gray-600"
+            class="hover:text-neutral-600"
           >
             {{ $t("header.links.tienda") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ path: '/subscriptions' })"
-            class="hover:text-gray-600"
+            class="hover:text-neutral-600"
           >
             {{ $t("header.links.suscripciones") }}
           </NuxtLink>
@@ -235,7 +238,7 @@
               query: { tags: $t('header.links.flores') },
             })
           "
-          class="hover:text-gray-600"
+          class="hover:text-neutral-600"
         >
           {{ $t("header.links.flores") }}
         </NuxtLink>
@@ -246,7 +249,7 @@
               query: { tags: $t('header.links.rosas') },
             })
           "
-          class="hover:text-gray-600"
+          class="hover:text-neutral-600"
         >
           {{ $t("header.links.rosas") }}
         </NuxtLink>
@@ -257,7 +260,7 @@
               query: { tags: $t('header.links.plantas') },
             })
           "
-          class="hover:text-gray-600"
+          class="hover:text-neutral-600"
         >
           {{ $t("header.links.plantas") }}
         </NuxtLink>
@@ -268,19 +271,19 @@
               query: { tags: $t('header.links.momentos') },
             })
           "
-          class="hover:text-gray-600"
+          class="hover:text-neutral-600"
         >
           {{ $t("header.links.momentos") }}
         </NuxtLink>
         <NuxtLink
           :to="localePath({ path: '/shop' })"
-          class="hover:text-gray-600"
+          class="hover:text-neutral-600"
         >
           {{ $t("header.links.tienda") }}
         </NuxtLink>
         <NuxtLink
           :to="localePath({ path: '/subscriptions' })"
-          class="hover:text-gray-600"
+          class="hover:text-neutral-600"
         >
           {{ $t("header.links.suscripciones") }}
         </NuxtLink>
@@ -295,12 +298,12 @@
           <input
             type="text"
             :placeholder="$t('header.input.placeholder')"
-            class="border border-gray-600 p-1 pl-10 focus:border-gray-800 focus:outline-hidden focus:shadow-lg transition-all duration-300 w-full"
+            class="border border-neutral-600 p-1 pl-10 focus:border-neutral-800 focus:outline-hidden focus:shadow-lg transition-all duration-300 w-full"
           />
           <img
             src="/assets/icons/magnifier.svg"
             :alt="$t('header.alt.magnifier')"
-            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400 pointer-events-none"
           />
         </div>
       </form>

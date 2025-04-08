@@ -10,7 +10,7 @@
       <p class="text-lg text-left">{{ $t("home.hero.subtitle") }}</p>
       <a
         href="#"
-        class="inline-block bg-white text-gray-900 font-bold py-2 px-5 rounded-full hover:bg-gray-200 transition duration-200"
+        class="inline-block bg-white text-neutral-900 font-bold py-2 px-5 rounded-full hover:bg-neutral-200 transition duration-200"
       >
         {{ $t("button.buy") }}
       </a>
@@ -33,7 +33,7 @@
         <p class="text-lg text-left">{{ $t("home.hero.subtitle") }}</p>
         <a
           href="#"
-          class="inline-block bg-white text-gray-900 font-bold py-2 px-4 rounded-full hover:bg-red-400 hover:text-white transition duration-200"
+          class="inline-block bg-white text-neutral-900 font-bold py-2 px-4 rounded-full hover:bg-red-400 hover:text-white transition duration-200"
         >
           {{ $t("button.buy") }}
         </a>

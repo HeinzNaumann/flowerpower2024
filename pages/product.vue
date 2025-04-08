@@ -40,7 +40,7 @@
           <h2 class="text-2xl">{{ product.title }}</h2>
           <div class="text-2xl">€ {{ product.price }}</div>
         </div>
-        <p class="text-gray-600 mb-6">{{ product.shortDescription }}</p>
+        <p class="text-neutral-600 mb-6">{{ product.shortDescription }}</p>
 
         <div>
           <h3 class="text-lg font-medium">
@@ -135,14 +135,14 @@
     </div>
     <div class="mt-8">
       <h3 class="text-xl font-semibold mb-2">{{ $t("productPage.sizes") }}</h3>
-      <p class="text-gray-600">{{ product.sizes }}</p>
+      <p class="text-neutral-600">{{ product.sizes }}</p>
     </div>
 
     <div class="mt-8">
       <h3 class="text-xl font-semibold mb-2">
         {{ $t("productPage.description") }}
       </h3>
-      <p class="text-gray-600">
+      <p class="text-neutral-600">
         {{ product.description }}
       </p>
     </div>

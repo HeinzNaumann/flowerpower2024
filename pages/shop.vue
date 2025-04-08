@@ -5,35 +5,35 @@
       <div class="relative">
         <button
           @click="showDropdown = !showDropdown"
-          class="bg-gray-200 text-gray-700 px-4 py-2 rounded-sm shadow-md"
+          class="bg-neutral-200 text-neutral-700 px-4 py-2 rounded-sm shadow-md"
         >
           Sort by
         </button>
         <div
           v-if="showDropdown"
-          class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-sm shadow-md z-10"
+          class="absolute right-0 mt-2 w-48 bg-white border border-neutral-200 rounded-sm shadow-md z-10"
         >
           <button
             @click="sortProducts('price', 'asc')"
-            class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
             Price: Low to High
           </button>
           <button
             @click="sortProducts('price', 'desc')"
-            class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
             Price: High to Low
           </button>
           <button
             @click="sortProducts('name', 'asc')"
-            class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
             Name: A to Z
           </button>
           <button
             @click="sortProducts('name', 'desc')"
-            class="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+            class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
             Name: Z to A
           </button>
@@ -78,7 +78,7 @@
               <img
                 :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
                 :alt="product.slug"
-                class="size-72 object-cover border-gray-200 border-solid border mb-3"
+                class="size-72 object-cover border-neutral-200 border-solid border mb-3"
               />
               <p :alt="product.title" class="text-sm lg:text-base font-medium">
                 {{ product.title }}

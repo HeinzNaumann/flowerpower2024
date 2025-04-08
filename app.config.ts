@@ -1,7 +1,6 @@
 // app.config.ts
 export default defineAppConfig({
   ui: {
-    primary: "primary",
     colors: {
       primary: "primary", // Escala basada en Nike
       neutral: "neutral", // Zinc para fondo y bordes
@@ -10,15 +9,15 @@ export default defineAppConfig({
     modal: {
       slots: {
         content:
-          "fixed bg-white divide-y divide-gray-200 flex flex-col focus:outline-none",
+          "fixed bg-white divide-y divide-neutral-200 flex flex-col focus:outline-none",
         header: "flex gap-1.5 p-4 sm:px-6 min-h-16 ",
         wrapper: "",
         body: "flex-1 overflow-y-auto p-4 sm:p-6",
         footer: "flex items-center gap-1.5 p-4 sm:px-6",
-        title: "text-2xl font-medium text-gray-800 ",
-        description: "mt-1 text-gray-600 text-sm text-center",
+        title: "text-2xl font-medium text-neutral-800 ",
+        description: "mt-1 text-neutral-600 text-sm text-center",
         close:
-          "absolute top-4 end-4 text-gray-900 hover:text-primary-200 transition-colors cursor-pointer ", // Color oscuro + hover
+          "absolute top-4 end-4 text-neutral-900 hover:text-primary-200 transition-colors cursor-pointer ", // Color oscuro + hover
       },
     },
     input: {
@@ -34,11 +33,11 @@ export default defineAppConfig({
         variant: {
           outline:
             "text-primary-700 bg-white border-[0.5px] border-primary-500 rounded-md h-[50px] focus:border-primary-400 focus:ring-2 focus:ring-primary-400 shadow-sm",
-          soft: "text-primary-700 bg-gray-100 border-gray-300 rounded-md h-[50px] focus:border-primary-400 focus:ring-2 focus:ring-primary-400 shadow-sm",
+          soft: "text-primary-700 bg-neutral-100 border-neutral-300 rounded-md h-[50px] focus:border-primary-400 focus:ring-2 focus:ring-primary-400 shadow-sm",
           subtle:
-            "text-primary-700 bg-gray-200 border-gray-400 rounded-md h-[50px] focus:border-primary-400 focus:ring-2 focus:ring-primary-400 shadow-sm",
+            "text-primary-700 bg-neutral-200 border-neutral-400 rounded-md h-[50px] focus:border-primary-400 focus:ring-2 focus:ring-primary-400 shadow-sm",
           ghost:
-            "text-primary-700 bg-transparent hover:bg-gray-100 focus:bg-gray-200 border-none",
+            "text-primary-700 bg-transparent hover:bg-neutral-100 focus:bg-neutral-200 border-none",
           none: "text-primary-700 bg-transparent",
         },
         color: {
@@ -54,7 +53,7 @@ export default defineAppConfig({
           error:
             "border-red-500 text-red-700 focus:border-red-400 focus:ring-red-400",
           neutral:
-            "border-gray-500 text-gray-700 focus:border-gray-400 focus:ring-gray-400",
+            "border-neutral-500 text-neutral-700 focus:border-neutral-400 focus:ring-neutral-400",
         },
       },
       defaultVariants: {
