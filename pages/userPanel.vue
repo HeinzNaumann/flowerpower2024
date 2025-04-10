@@ -37,15 +37,15 @@
             {{ $t("userPanel.profile") }}
           </h2>
           <form @submit.prevent="updateProfile" class="space-y-4">
-            <UFormGroup :label="$t('userPanel.name')">
+            <UFormField :label="$t('userPanel.name')">
               <UInput v-model="user.name" />
-            </UFormGroup>
-            <UFormGroup :label="$t('userPanel.email')">
+            </UFormField>
+            <UFormField :label="$t('userPanel.email')">
               <UInput v-model="user.email" type="email" />
-            </UFormGroup>
-            <UFormGroup :label="$t('userPanel.phone')">
+            </UFormField>
+            <UFormField :label="$t('userPanel.phone')">
               <UInput v-model="user.phone" />
-            </UFormGroup>
+            </UFormField>
             <UButton type="submit" color="primary">
               {{ $t("userPanel.saveChanges") }}
             </UButton>

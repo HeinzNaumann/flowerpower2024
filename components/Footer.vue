@@ -3,7 +3,7 @@
     <div class="container mx-auto px-6 py-8">
       <!-- Mobile/Tablet Accordion -->
       <div class="lg:hidden space-y-4">
-        <div class="border-b border-gray-700">
+        <div class="border-b border-neutral-700">
           <button
             @click="toggleSection('help')"
             class="w-full py-4 flex justify-between items-center"
@@ -28,22 +28,22 @@
           >
             <ul v-if="openSection === 'help'" class="py-4 space-y-4">
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.faq")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.shippingAndDelivery")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.privacyPolicy")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.bouquetCare")
                 }}</a>
               </li>
@@ -51,7 +51,7 @@
           </transition>
         </div>
 
-        <div class="border-b border-gray-700">
+        <div class="border-b border-neutral-700">
           <button
             @click="toggleSection('about')"
             class="w-full py-4 flex justify-between items-center"
@@ -76,22 +76,22 @@
           >
             <ul v-if="openSection === 'about'" class="py-4 space-y-4">
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.ourHistory")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.team")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.physicalStore")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-gray-300">{{
+                <a href="#" class="block hover:text-neutral-300">{{
                   $t("footer.links.contact")
                 }}</a>
               </li>
@@ -108,22 +108,22 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.faq")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.shippingAndDelivery")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.privacyPolicy")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.bouquetCare")
               }}</a>
             </li>
@@ -136,22 +136,22 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.ourHistory")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.team")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.physicalStore")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-gray-300">{{
+              <a href="#" class="hover:text-neutral-300">{{
                 $t("footer.links.contact")
               }}</a>
             </li>
@@ -234,19 +234,19 @@
       <div
         class="flex flex-col lg:flex-row justify-start lg:justify-end text-sm space-y-2 lg:space-y-0 lg:space-x-4"
       >
-        <a href="#" class="hover:text-gray-300">{{
+        <a href="#" class="hover:text-neutral-300">{{
           $t("footer.links.termsOfUse")
         }}</a>
-        <a href="#" class="hover:text-gray-300">{{
+        <a href="#" class="hover:text-neutral-300">{{
           $t("footer.links.privacyPolicy")
         }}</a>
-        <a href="#" class="hover:text-gray-300">{{
+        <a href="#" class="hover:text-neutral-300">{{
           $t("footer.links.termsOfSale")
         }}</a>
-        <a href="#" class="hover:text-gray-300">{{
+        <a href="#" class="hover:text-neutral-300">{{
           $t("footer.links.legalNotice")
         }}</a>
-        <a href="#" class="hover:text-gray-300">{{
+        <a href="#" class="hover:text-neutral-300">{{
           $t("footer.links.cookieSettings")
         }}</a>
       </div>
