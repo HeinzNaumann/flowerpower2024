@@ -5,7 +5,7 @@
         ? 'Introduce tu dirección de correo electrónico para unirte o iniciar sesión.'
         : 'Vamos a hacerte Flower Power Member'
     "
-    v-model:open="modalOpen"
+    v-model:open="internalOpen"
     id="loginRegisterModal"
     overlay
   >
@@ -195,23 +195,37 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 import { z } from "zod";
-import { useAuth } from "~/composables/useAuth";
+import type { RegisterForm } from "~/types/types";
 
-const emit = defineEmits(["change", "update", "close"]);
+const props = defineProps<{ open: boolean }>();
+const emit = defineEmits(["update:open"]);
+
+const internalOpen = ref(props.open);
+
+// sincroniza la prop con el ref local
+watch(
+  () => props.open,
+  (newVal) => {
+    internalOpen.value = newVal;
+  }
+);
+
+// emite el cambio cuando se cierra desde dentro
+watch(internalOpen, (val) => {
+  emit("update:open", val);
+});
 
 const isLogin = ref(true);
 const isSubmitting = ref(false);
 const apiError = ref<string | null>(null);
 const apiSuccess = ref<string | null>(null);
-const modalOpen = ref(true);
 const show = ref(false);
 
 const config = useRuntimeConfig();
 const apiUrl = config.public.apiBaseUrl;
 
-// Schemas con Zod
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(1, "Contraseña requerida"),
@@ -229,13 +243,7 @@ const registerSchema = z.object({
   subscribeNewsletter: z.boolean().optional(),
 });
 
-// Formularios reactivos
-const loginForm = reactive({
-  email: "",
-  password: "",
-});
-
-const registerForm = reactive({
+const registerForm: RegisterForm = reactive({
   name: "",
   surname: "",
   email: "",
@@ -245,7 +253,11 @@ const registerForm = reactive({
   subscribeNewsletter: false,
 });
 
-// Login handler
+const loginForm = reactive({
+  email: "",
+  password: "",
+});
+
 async function handleLogin() {
   isSubmitting.value = true;
   apiError.value = null;
@@ -269,7 +281,10 @@ async function handleLogin() {
 
     setAuth(response.token, response.email);
     apiSuccess.value = "Login exitoso!";
-    modalOpen.value = false;
+
+    setTimeout(() => {
+      internalOpen.value = false; // ahora sí cierra el modal correctamente
+    }, 1500);
   } catch (error: any) {
     apiError.value =
       error?.data?.message || "Ha ocurrido un error durante el login.";
@@ -278,7 +293,6 @@ async function handleLogin() {
   }
 }
 
-// Registro handler
 async function handleRegister() {
   isSubmitting.value = true;
   apiError.value = null;
@@ -293,7 +307,10 @@ async function handleRegister() {
     });
 
     apiSuccess.value = "Registro exitoso!";
-    setTimeout(() => emit("close"), 1500);
+
+    setTimeout(() => {
+      internalOpen.value = false;
+    }, 1500);
   } catch (error: any) {
     apiError.value =
       error?.data?.message || "Ha ocurrido un error durante el registro.";

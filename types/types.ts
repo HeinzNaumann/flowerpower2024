@@ -15,3 +15,13 @@ export interface Product {
   flowers: string[];
   occasions: string[];
 }
+
+export interface RegisterForm {
+  name: string;
+  surname: string;
+  email: string;
+  tlf?: string;
+  password: string;
+  acceptTOS: boolean;
+  subscribeNewsletter: boolean;
+}

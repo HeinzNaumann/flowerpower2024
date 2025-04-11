@@ -1,9 +1,7 @@
-// composables/useAuth.ts
-import { ref } from "vue";
 import { useCookie } from "#imports";
 
 const token = useCookie("auth_token"); // Puedes usar una cookie para guardar el JWT si quieres más seguridad
-const userEmail = ref("");
+const userEmail = useCookie("email");
 
 // Esto lo usas para actualizar el estado de autenticación.
 const setAuth = (authToken: string, email: string) => {
@@ -23,6 +21,11 @@ const fetchUserInfo = async () => {
   }
 };
 
+const logout = () => {
+  token.value = null;
+  userEmail.value = null;
+};
+
 export function useAuth() {
   return {
     token,
@@ -30,5 +33,6 @@ export function useAuth() {
     setAuth,
     isAuthenticated,
     fetchUserInfo,
+    logout,
   };
 }

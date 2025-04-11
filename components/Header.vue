@@ -50,11 +50,20 @@
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
         <button
+          v-if="isAuthenticated()"
+          class="hover:text-neutral-600 cursor-pointer"
+          @click.prevent="logoutAndRedirect()"
+        >
+          Logout
+        </button>
+        <button
+          v-else
           class="hover:text-neutral-600 cursor-pointer"
           @click="openModal"
         >
           {{ $t("header.register") }}
         </button>
+
         <NuxtLink :to="localePath({ path: '/cart' })">
           <img
             src="/assets/icons/cart.svg"
@@ -149,11 +158,22 @@
           </svg>
         </button>
         <NuxtLink
+          v-if="isAuthenticated()"
+          class="hover:text-neutral-600"
+          :to="localePath({ path: '/profile' })"
+          @click.prevent="logoutAndRedirect()"
+        >
+          logout
+        </NuxtLink>
+
+        <NuxtLink
+          v-else
           class="hover:text-neutral-600"
           :to="localePath({ path: '/login-register' })"
         >
           {{ $t("header.register") }}
         </NuxtLink>
+
         <NuxtLink :to="localePath({ path: '/cart' })">
           <img
             src="/assets/icons/cart.svg"
@@ -399,6 +419,16 @@ const handleClickOutside = (event) => {
   ) {
     isOpen.value = false;
   }
+};
+
+const { isAuthenticated, logout } = useAuth();
+
+const logoutAndRedirect = async () => {
+  logout();
+  console.log("Logging out...");
+  await nextTick();
+  console.log("Logout successful");
+  await navigateTo(localePath({ path: "/" }), { replace: true });
 };
 
 const modal = overlay.create(LoginRegister);
