@@ -278,8 +278,11 @@ async function handleLogin() {
       apiError.value = "No se ha recibido un token al hacer login.";
       return;
     }
+    const getUsernameFromEmail = (email: string): string => {
+      return email.split("@")[0];
+    };
 
-    setAuth(response.token, response.email);
+    setAuth(response.token, getUsernameFromEmail(response.email));
     apiSuccess.value = "Login exitoso!";
 
     setTimeout(() => {

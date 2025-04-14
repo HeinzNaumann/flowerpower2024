@@ -1,7 +1,8 @@
 export default defineNuxtRouteMiddleware(() => {
-  const token = useCookie("auth_token"); // leerá del SSR o del cliente automáticamente
+  const token = useCookie("auth_token");
+  const user = useCookie("user_name");
 
-  if (!token.value) {
+  if (!token.value && !user.value) {
     return navigateTo("/", { replace: true });
   }
 });

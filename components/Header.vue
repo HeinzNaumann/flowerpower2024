@@ -49,13 +49,8 @@
       </div>
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
-        <button
-          v-if="isAuthenticated()"
-          class="hover:text-neutral-600 cursor-pointer"
-          @click.prevent="logoutAndRedirect()"
-        >
-          Logout
-        </button>
+        <Avatar v-if="isAuthenticated()" />
+
         <button
           v-else
           class="hover:text-neutral-600 cursor-pointer"
@@ -157,14 +152,7 @@
             />
           </svg>
         </button>
-        <NuxtLink
-          v-if="isAuthenticated()"
-          class="hover:text-neutral-600"
-          :to="localePath({ path: '/profile' })"
-          @click.prevent="logoutAndRedirect()"
-        >
-          logout
-        </NuxtLink>
+        <Avatar v-if="isAuthenticated()" />
 
         <NuxtLink
           v-else
@@ -421,15 +409,7 @@ const handleClickOutside = (event) => {
   }
 };
 
-const { isAuthenticated, logout } = useAuth();
-
-const logoutAndRedirect = async () => {
-  logout();
-  console.log("Logging out...");
-  await nextTick();
-  console.log("Logout successful");
-  await navigateTo(localePath({ path: "/" }), { replace: true });
-};
+const { isAuthenticated, userName } = useAuth();
 
 const modal = overlay.create(LoginRegister);
 

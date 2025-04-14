@@ -3,7 +3,11 @@
     <!-- Encabezado con navegación -->
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl font-bold">{{ $t("userPanel.myAccount") }}</h1>
-      <UButton color="warning" variant="soft" @click="handleLogout">
+      <UButton
+        color="warning"
+        variant="soft"
+        @click.prevent="logoutAndRedirect"
+      >
         {{ $t("userPanel.logout") }}
       </UButton>
     </div>
@@ -34,7 +38,7 @@
         <!-- Perfil -->
         <div v-if="activeTab === 'profile'">
           <h2 class="text-xl font-semibold mb-4">
-            {{ $t("userPanel.profile") }}
+            {{ $t("userPanel.profile") + " " + $route.params.userName }}
           </h2>
           <form @submit.prevent="updateProfile" class="space-y-4">
             <UFormField :label="$t('userPanel.name')">
@@ -126,6 +130,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+const localePath = useLocalePath();
 
 definePageMeta({
   layout: "default",
@@ -151,9 +156,14 @@ const user = ref({
 const orders = ref([]);
 const addresses = ref([]);
 
-// Métodos
-const handleLogout = async () => {
-  // Implementar lógica de logout
+const { logout, userName } = useAuth();
+
+const logoutAndRedirect = async () => {
+  logout();
+  console.log("Logging out...");
+  await nextTick();
+  console.log("Logout successful");
+  await navigateTo(localePath({ path: "/" }), { replace: true });
 };
 
 const updateProfile = async () => {

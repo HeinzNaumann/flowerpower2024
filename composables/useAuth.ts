@@ -1,12 +1,12 @@
 import { useCookie } from "#imports";
 
 const token = useCookie("auth_token"); // Puedes usar una cookie para guardar el JWT si quieres más seguridad
-const userEmail = useCookie("email");
+const user = useCookie("user_name"); // Puedes usar una cookie para guardar el nombre de usuario
 
 // Esto lo usas para actualizar el estado de autenticación.
-const setAuth = (authToken: string, email: string) => {
+const setAuth = (authToken: string, userName: string) => {
   token.value = authToken;
-  userEmail.value = email;
+  user.value = userName;
 };
 
 // Esto verifica si el usuario está autenticado basándose en la existencia del token.
@@ -23,13 +23,13 @@ const fetchUserInfo = async () => {
 
 const logout = () => {
   token.value = null;
-  userEmail.value = null;
+  user.value = null;
 };
 
 export function useAuth() {
   return {
     token,
-    userEmail,
+    userName: user,
     setAuth,
     isAuthenticated,
     fetchUserInfo,
