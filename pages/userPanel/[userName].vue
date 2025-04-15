@@ -38,7 +38,7 @@
         <!-- Perfil -->
         <div v-if="activeTab === 'profile'">
           <h2 class="text-xl font-semibold mb-4">
-            {{ $t("userPanel.profile") + " " + $route.params.userName }}
+            {{ $t("userPanel.profile") + " " + userName }}
           </h2>
           <form @submit.prevent="updateProfile" class="space-y-4">
             <UFormField :label="$t('userPanel.name')">
@@ -130,6 +130,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+
 const localePath = useLocalePath();
 
 definePageMeta({

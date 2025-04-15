@@ -49,10 +49,10 @@
       </div>
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
-        <Avatar v-if="isAuthenticated()" />
+        <Avatar v-if="isAuthenticated() && isReady" />
 
         <button
-          v-else
+          v-else-if="isReady"
           class="hover:text-neutral-600 cursor-pointer"
           @click="openModal"
         >
@@ -152,10 +152,10 @@
             />
           </svg>
         </button>
-        <Avatar v-if="isAuthenticated()" />
+        <Avatar v-if="isAuthenticated() && isReady" />
 
         <NuxtLink
-          v-else
+          v-else-if="!isReady"
           class="hover:text-neutral-600"
           :to="localePath({ path: '/login-register' })"
         >
@@ -416,8 +416,10 @@ const modal = overlay.create(LoginRegister);
 const openModal = () => {
   modal.open(LoginRegister, {});
 };
+const isReady = ref(false);
 
 onMounted(() => {
+  isReady.value = true;
   watchEffect((onCleanup) => {
     currentLocale.value = locale.value;
     currentFlag.value = `/images/flags/${currentLocale.value}.png`;
