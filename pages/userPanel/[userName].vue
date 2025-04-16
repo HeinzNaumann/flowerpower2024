@@ -3,34 +3,34 @@
     <!-- Encabezado con navegación -->
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl font-bold">{{ $t("userPanel.myAccount") }}</h1>
-      <UButton
-        color="warning"
-        variant="soft"
-        @click.prevent="logoutAndRedirect"
-      >
-        {{ $t("userPanel.logout") }}
-      </UButton>
     </div>
 
     <!-- Panel principal -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <!-- Menú lateral -->
       <div class="md:col-span-1">
-        <nav class="space-y-2">
-          <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            @click="activeTab = tab.id"
-            :class="[
-              'w-full text-left px-4 py-2 rounded-lg',
-              activeTab === tab.id
-                ? 'bg-primary-500 text-white'
-                : 'hover:bg-neutral-100',
-            ]"
-          >
-            {{ $t(tab.label) }}
-          </button>
-        </nav>
+        <hr class="space-y-2" />
+        <button
+          v-for="tab in tabs"
+          :key="tab.id"
+          @click="activeTab = tab.id"
+          :class="[
+            'w-full text-left px-4 py-2 rounded-lg cursor-pointer',
+            activeTab === tab.id
+              ? 'bg-primary-500 text-white'
+              : 'hover:bg-neutral-100',
+          ]"
+        >
+          {{ $t(tab.label) }}
+        </button>
+        <hr class="mt-10" />
+        <button
+          variant="soft"
+          @click.prevent="logoutAndRedirect"
+          class="w-full text-left px-4 py-2 rounded-lg hover:bg-neutral-100 cursor-pointer mt-2"
+        >
+          {{ $t("userPanel.logout") }}
+        </button>
       </div>
 
       <!-- Contenido principal -->
@@ -157,7 +157,9 @@ const user = ref({
 const orders = ref([]);
 const addresses = ref([]);
 
-const { logout, userName } = useAuth();
+const { logout, userName, userInfo, fetchUserInfo } = useAuth();
+
+console.log("fetchUserInfo", await fetchUserInfo());
 
 const logoutAndRedirect = async () => {
   logout();
@@ -195,8 +197,11 @@ const formatAddress = (address: any) => {
   return `${address.street}, ${address.city}, ${address.postalCode}`;
 };
 
-// Cargar datos iniciales
 onMounted(async () => {
-  // Implementar carga de datos del usuario
+  await fetchUserInfo();
+
+  if (userInfo.value) {
+    user.value = { ...userInfo.value };
+  }
 });
 </script>
