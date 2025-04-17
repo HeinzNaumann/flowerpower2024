@@ -74,6 +74,7 @@
             </UFormField>
           </div>
 
+          <!-- EMAIL Y CONFIRMACIÓN -->
           <div class="flex space-x-2">
             <UFormField name="email" label="Email">
               <UInput
@@ -85,16 +86,31 @@
               />
             </UFormField>
 
-            <UFormField name="tlf" label="Teléfono (opcional)">
+            <UFormField name="confirmEmail" label="Confirma Email">
               <UInput
-                v-model="registerForm.tlf"
-                type="tel"
-                placeholder="+34..."
+                v-model="registerForm.confirmEmail"
+                type="email"
+                placeholder="Repite tu correo"
+                autocomplete="email"
                 class="input-nike"
-                autocomplete="tel"
               />
             </UFormField>
           </div>
+
+          <!-- TELÉFONO -->
+          <UFormField
+            name="tlf"
+            label="Teléfono"
+            description="Solo se utilizará para la entrega"
+          >
+            <UInput
+              v-model="registerForm.tlf"
+              type="tel"
+              placeholder="+34..."
+              class="input-nike"
+              autocomplete="tel"
+            />
+          </UFormField>
 
           <UFormField name="password" label="Password">
             <UInput
@@ -231,22 +247,34 @@ const loginSchema = z.object({
   password: z.string().min(1, "Contraseña requerida"),
 });
 
-const registerSchema = z.object({
-  name: z.string().min(1, "Nombre requerido"),
-  surname: z.string().min(1, "Apellidos requeridos"),
-  email: z.string().email("Email inválido"),
-  tlf: z.string().optional(),
-  password: z.string().min(1, "Contraseña requerida"),
-  acceptTOS: z.literal(true, {
-    errorMap: () => ({ message: "Debes aceptar los términos y condiciones." }),
-  }),
-  subscribeNewsletter: z.boolean().optional(),
-});
+const registerSchema = z
+  .object({
+    name: z.string().min(1, "Nombre requerido"),
+    surname: z.string().min(1, "Apellidos requeridos"),
+    email: z.string().email("Email inválido"),
+    confirmEmail: z.string().email("Email inválido"),
+    tlf: z
+      .string()
+      .min(1, "Teléfono requerido")
+      .regex(/^[+\d][\d\s-]{6,14}\d$/, "Teléfono inválido"),
+    password: z.string().min(1, "Contraseña requerida"),
+    acceptTOS: z.literal(true, {
+      errorMap: () => ({
+        message: "Debes aceptar los términos y condiciones.",
+      }),
+    }),
+    subscribeNewsletter: z.boolean().optional(),
+  })
+  .refine((data) => data.email === data.confirmEmail, {
+    message: "Los correos electrónicos no coinciden",
+    path: ["confirmEmail"],
+  });
 
 const registerForm: RegisterForm = reactive({
   name: "",
   surname: "",
   email: "",
+  confirmEmail: "",
   tlf: "",
   password: "",
   acceptTOS: false,
@@ -302,11 +330,11 @@ async function handleRegister() {
   apiSuccess.value = null;
 
   try {
-    if (!registerForm.tlf) delete registerForm.tlf;
+    const { confirmEmail, ...body } = registerForm;
 
     await $fetch(`${apiUrl}/auth/register`, {
       method: "POST",
-      body: registerForm,
+      body,
     });
 
     apiSuccess.value = "Registro exitoso!";

@@ -20,8 +20,9 @@ export interface RegisterForm {
   name: string;
   surname: string;
   email: string;
-  tlf?: string;
+  confirmEmail: string;
+  tlf: string;
   password: string;
   acceptTOS: boolean;
-  subscribeNewsletter: boolean;
+  subscribeNewsletter?: boolean;
 }
