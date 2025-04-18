@@ -97,20 +97,7 @@
             </UFormField>
           </div>
 
-          <!-- TELÉFONO -->
-          <UFormField
-            name="tlf"
-            label="Teléfono"
-            description="Solo se utilizará para la entrega"
-          >
-            <UInput
-              v-model="registerForm.tlf"
-              type="tel"
-              placeholder="+34..."
-              class="input-nike"
-              autocomplete="tel"
-            />
-          </UFormField>
+          <PhoneField />
 
           <UFormField name="password" label="Password">
             <UInput
