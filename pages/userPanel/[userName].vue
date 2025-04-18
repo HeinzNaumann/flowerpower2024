@@ -44,6 +44,9 @@
             <UFormField :label="$t('userPanel.name')">
               <UInput v-model="user.name" />
             </UFormField>
+            <UFormField :label="$t('userPanel.surname')">
+              <UInput v-model="user.surname" />
+            </UFormField>
             <UFormField :label="$t('userPanel.email')">
               <UInput v-model="user.email" type="email" />
             </UFormField>
@@ -150,6 +153,7 @@ const tabs = [
 // Estado inicial
 const user = ref({
   name: "",
+  surname: "",
   email: "",
   phone: "",
 });
@@ -202,6 +206,7 @@ onMounted(async () => {
 
   if (userInfo.value) {
     user.value = { ...userInfo.value };
+    console.log("User info fetched:", user.value);
   }
 });
 </script>

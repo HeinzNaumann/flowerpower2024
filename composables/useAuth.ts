@@ -26,6 +26,7 @@ export function useAuth() {
     try {
       const response = await $fetch<{
         name: string;
+        surname: string;
         email: string;
         phone: string;
       }>(`${apiUrl}/auth/profile`, {
