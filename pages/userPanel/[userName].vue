@@ -161,7 +161,8 @@ const user = ref({
 const orders = ref([]);
 const addresses = ref([]);
 
-const { logout, userName, userInfo, fetchUserInfo } = useAuth();
+const { logout, userName, userInfo, fetchUserInfo, updateUserProfile } =
+  useAuth();
 
 console.log("fetchUserInfo", await fetchUserInfo());
 
@@ -174,7 +175,9 @@ const logoutAndRedirect = async () => {
 };
 
 const updateProfile = async () => {
-  // Implementar actualización de perfil
+  console.log("Updating profile...", user.value);
+  // Aquí implementas la lógica para enviar los datos al servidor
+  await updateUserProfile(user.value); // ejemplo de llamada a una función API
 };
 
 const getOrderStatusColor = (status: string) => {

@@ -6,6 +6,7 @@ export function useAuth() {
 
   const userInfo = ref<{
     name: string;
+    surname: string;
     email: string;
     phone: string;
   } | null>(null);
@@ -44,6 +45,39 @@ export function useAuth() {
     }
   };
 
+  const updateUserProfile = async (updatedData: {
+    name?: string;
+    surname?: string;
+    email?: string;
+    phone?: string;
+  }) => {
+    if (!isAuthenticated()) return;
+
+    try {
+      const response = await $fetch<{
+        name?: string;
+        surname?: string;
+        email?: string;
+        phone?: string;
+      }>(`${apiUrl}/auth/update`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          "Content-Type": "application/json",
+        },
+        body: updatedData,
+      });
+      if (response?.name) user.value = response.name;
+      if (userInfo.value) {
+        userInfo.value = { ...userInfo.value, ...(response || {}) };
+      }
+
+      if (response.name) user.value = response.name;
+    } catch (err) {
+      console.error("Error updating user profile:", err);
+    }
+  };
+
   const logout = () => {
     token.value = null;
     user.value = null;
@@ -57,6 +91,7 @@ export function useAuth() {
     setAuth,
     isAuthenticated,
     fetchUserInfo,
+    updateUserProfile,
     logout,
   };
 }
