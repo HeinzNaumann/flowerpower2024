@@ -26,7 +26,7 @@
         <hr class="mt-10" />
         <button
           variant="soft"
-          @click.prevent="logoutAndRedirect"
+          @click.prevent="showLogoutModal = true"
           class="w-full text-left px-4 py-2 rounded-lg hover:bg-neutral-100 cursor-pointer mt-2"
         >
           {{ $t("userPanel.logout") }}
@@ -41,17 +41,40 @@
             {{ $t("userPanel.profile") }}
           </h2>
           <form @submit.prevent="updateProfile" class="space-y-4">
-            <UFormField :label="$t('userPanel.name')">
+            <UFormField :label="$t('userPanel.name')" :error="formErrors.name">
               <UInput v-model="user.name" />
             </UFormField>
-            <UFormField :label="$t('userPanel.surname')">
+            <UFormField
+              :label="$t('userPanel.surname')"
+              :error="formErrors.surname"
+            >
               <UInput v-model="user.surname" />
             </UFormField>
-            <UFormField :label="$t('userPanel.email')">
+            <UFormField
+              :label="$t('userPanel.email')"
+              :error="formErrors.email"
+            >
               <UInput v-model="user.email" type="email" />
             </UFormField>
-            <UFormField :label="$t('userPanel.phone')">
-              <UInput v-model="user.phone" />
+            <UFormField
+              :label="$t('userPanel.phone')"
+              :error="formErrors.phone"
+            >
+              <div class="flex items-center space-x-2">
+                <select
+                  v-model="user.phonePrefix"
+                  class="px-2 py-1 bg-neutral-100 rounded text-neutral-700"
+                >
+                  <option
+                    v-for="prefix in phonePrefixes"
+                    :key="prefix.value"
+                    :value="prefix.value"
+                  >
+                    {{ prefix.label }}
+                  </option>
+                </select>
+                <UInput v-model="user.phone" placeholder="612345678" />
+              </div>
             </UFormField>
             <UButton type="submit" color="primary">
               {{ $t("userPanel.saveChanges") }}
@@ -128,11 +151,45 @@
       </div>
     </div>
   </div>
+
+  <!-- Sustituye el bloque UModal completo por este -->
+  <UModal v-model:open="showLogoutModal">
+    <!-- Si no usas un botón disparador interno puedes dejar el slot default vacío -->
+    <template #content>
+      <div
+        class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center"
+      >
+        <h3 class="text-lg font-semibold mb-4">
+          {{ $t("userPanel.logoutConfirmTitle") }}
+        </h3>
+
+        <p class="mb-6">
+          {{ $t("userPanel.logoutConfirmText") }}
+        </p>
+
+        <div class="flex justify-center gap-4">
+          <UButton color="primary" @click="confirmLogout">
+            {{ $t("common.yes") }}
+          </UButton>
+
+          <UButton
+            color="primary"
+            variant="soft"
+            @click="showLogoutModal = false"
+          >
+            {{ $t("common.cancel") }}
+          </UButton>
+        </div>
+      </div>
+    </template>
+  </UModal>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
+import { z } from "zod";
+import { isValidPhoneNumber } from "libphonenumber-js";
 
 const localePath = useLocalePath();
 
@@ -151,10 +208,18 @@ const tabs = [
 ];
 
 // Estado inicial
+const phonePrefixes = [
+  { value: "+34", label: "+34 (ES)" },
+  { value: "+49", label: "+49 (DE)" },
+  { value: "+33", label: "+33 (FR)" },
+  // Agrega más prefijos según tus necesidades
+];
+
 const user = ref({
   name: "",
   surname: "",
   email: "",
+  phonePrefix: "+34",
   phone: "",
 });
 
@@ -166,18 +231,49 @@ const { logout, userName, userInfo, fetchUserInfo, updateUserProfile } =
 
 console.log("fetchUserInfo", await fetchUserInfo());
 
+const showLogoutModal = ref(false);
+
+const confirmLogout = async () => {
+  showLogoutModal.value = false;
+  await logoutAndRedirect();
+};
+
 const logoutAndRedirect = async () => {
   logout();
-  console.log("Logging out...");
   await nextTick();
-  console.log("Logout successful");
   await navigateTo(localePath({ path: "/" }), { replace: true });
 };
 
+const validationSchema = z.object({
+  name: z.string().min(1, t("validation.required")),
+  surname: z.string().min(1, t("validation.required")),
+  email: z.string().email(t("validation.invalidEmail")),
+  phone: z.string().regex(/^[6-7]\d{8}$/, t("validation.invalidPhone")), // Solo el número nacional
+});
+
+const formErrors = ref<Record<string, string>>({});
+
 const updateProfile = async () => {
-  console.log("Updating profile...", user.value);
-  // Aquí implementas la lógica para enviar los datos al servidor
-  await updateUserProfile(user.value); // ejemplo de llamada a una función API
+  formErrors.value = {};
+  const result = validationSchema.safeParse({
+    ...user.value,
+    phone: user.value.phone,
+  });
+
+  if (!result.success) {
+    result.error.errors.forEach((err) => {
+      if (err.path[0]) formErrors.value[err.path[0]] = err.message;
+    });
+    return;
+  }
+
+  // Concatenar solo al enviar al backend
+  await updateUserProfile({
+    name: user.value.name,
+    surname: user.value.surname,
+    email: user.value.email,
+    phone: user.value.phonePrefix + user.value.phone,
+  });
 };
 
 const getOrderStatusColor = (status: string) => {
@@ -208,8 +304,11 @@ onMounted(async () => {
   await fetchUserInfo();
 
   if (userInfo.value) {
-    user.value = { ...userInfo.value };
-    console.log("User info fetched:", user.value);
+    user.value = {
+      ...userInfo.value,
+      phonePrefix: "+34", // valor por defecto
+    };
+    // No concatenar aquí, mantener separados los campos
   }
 });
 </script>

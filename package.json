@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxt/ui": "3.0.1",
     "@nuxtjs/i18n": "^9.4.0",
+    "libphonenumber-js": "^1.12.7",
     "nuxt": "^3.13.0",
     "nuxt-swiper": "^1.2.2",
     "tailwindcss": "^4.0.0",
