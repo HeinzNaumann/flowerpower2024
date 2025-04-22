@@ -1,7 +1,7 @@
 // nuxt.config.js
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui"],
+  modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui", "@pinia/nuxt"],
   css: [
     "~/assets/styles/main.css",
     "swiper/css",
