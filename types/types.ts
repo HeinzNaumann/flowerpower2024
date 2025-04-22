@@ -21,7 +21,7 @@ export interface RegisterForm {
   surname: string;
   email: string;
   confirmEmail: string;
-  tlf: string;
+  phone: string;
   password: string;
   acceptTOS: boolean;
   subscribeNewsletter?: boolean;

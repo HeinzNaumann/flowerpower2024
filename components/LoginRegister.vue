@@ -97,7 +97,7 @@
             </UFormField>
           </div>
 
-          <PhoneField />
+          <PhoneField v-model="registerForm.phone" />
 
           <UFormField name="password" label="Password">
             <UInput
@@ -240,10 +240,7 @@ const registerSchema = z
     surname: z.string().min(1, "Apellidos requeridos"),
     email: z.string().email("Email inválido"),
     confirmEmail: z.string().email("Email inválido"),
-    tlf: z
-      .string()
-      .min(1, "Teléfono requerido")
-      .regex(/^[+\d][\d\s-]{6,14}\d$/, "Teléfono inválido"),
+    phone: z.string(),
     password: z.string().min(1, "Contraseña requerida"),
     acceptTOS: z.literal(true, {
       errorMap: () => ({
@@ -262,7 +259,7 @@ const registerForm: RegisterForm = reactive({
   surname: "",
   email: "",
   confirmEmail: "",
-  tlf: "",
+  phone: "",
   password: "",
   acceptTOS: false,
   subscribeNewsletter: false,

@@ -109,7 +109,14 @@
         </div>
 
         <button
-          class="w-1/3s flex self-end bg-[#db9526] hover:bg-[#db9526] text-black p-3 rounded-md transition-colors"
+          class="w-1/3s flex self-end bg-[#db9526] hover:bg-[#db9526] text-black p-3 rounded-md transition-colors cursor-pointer"
+          @click="
+            cart.addItem({
+              id: product.id,
+              name: product.title,
+              price: product.price,
+            })
+          "
         >
           {{ $t("productPage.addToCart") }}
         </button>
@@ -151,11 +158,14 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useCartStore } from "~/stores/cart";
 
 const config = useRuntimeConfig();
 const route = useRoute();
 const slug = route.query.slug;
 const { locale, t } = useI18n();
+
+const cart = useCartStore();
 
 const { data: product, error } = await useFetch(
   `${config.public.apiBaseUrl}/products/${slug}?lang=${locale.value}`

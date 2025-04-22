@@ -31,13 +31,22 @@
             class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
         </button>
-        <button>
+        <NuxtLink
+          :to="localePath({ path: '/checkout/checkout' })"
+          class="relative"
+        >
           <img
             src="/assets/icons/cart.svg"
             :alt="$t('header.alt.cart')"
-            class="size-6 hover:opacity-70 transition-opacity duration-200"
+            class="size-6 hover:opacity-70 transition-opacity duration-200 top-1 relative"
           />
-        </button>
+          <span
+            v-if="cart.totalItems > 0"
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+          >
+            {{ cart.totalItems }}
+          </span>
+        </NuxtLink>
         <button class="" @click="toggleMenu" aria-label="Toggle menu">
           <!-- Hamburger Icon -->
           <img
@@ -59,12 +68,21 @@
           {{ $t("header.register") }}
         </button>
 
-        <NuxtLink :to="localePath({ path: '/cart' })">
+        <NuxtLink
+          :to="localePath({ path: '/checkout/checkout' })"
+          class="relative"
+        >
           <img
             src="/assets/icons/cart.svg"
             :alt="$t('header.alt.cart')"
             class="size-6 hover:opacity-70 transition-opacity duration-200 top-1 relative"
           />
+          <span
+            v-if="cart.totalItems > 0"
+            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+          >
+            {{ cart.totalItems }}
+          </span>
         </NuxtLink>
         <div class="relative inline-block text-left" ref="dropdownRef">
           <button
@@ -336,6 +354,9 @@ const currentLocale = ref(locale.value);
 const currentFlag = ref(`/images/flags/${currentLocale.value}.png`);
 const formRef = ref(null);
 const dropdownRef = ref(null);
+
+import { useCartStore } from "~/stores/cart";
+const cart = useCartStore();
 
 const tagTranslations = {
   es: {

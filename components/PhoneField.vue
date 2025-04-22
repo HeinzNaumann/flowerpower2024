@@ -1,14 +1,13 @@
 <template>
-  <!-- 1️⃣ UFormField con el mismo name que en tu Zod-schema -->
   <UFormField
-    name="tlf"
+    name="phone"
     label="Teléfono"
     description="Solo se utilizará para la entrega"
   >
     <div
       class="flex items-stretch border border-neutral-300 rounded-lg overflow-hidden"
     >
-      <!-- 2️⃣ Selector de país -->
+      <!-- Selector de país -->
       <USelectMenu
         v-model="country"
         :items="countryOptions"
@@ -27,7 +26,6 @@
         }"
         arrow
       >
-        <!-- trigger: solo bandera + prefijo -->
         <template #leading="{ modelValue }">
           <div class="flex items-center justify-center gap-1 px-2">
             <span class="text-lg">{{ modelValue?.flag }}</span>
@@ -37,7 +35,6 @@
           </div>
         </template>
 
-        <!-- cada opción: solo flag + prefix -->
         <template #item-label="{ item }">
           <div class="flex items-center gap-2">
             <span class="text-lg">{{ item.flag }}</span>
@@ -46,9 +43,9 @@
         </template>
       </USelectMenu>
 
-      <!-- 3️⃣ Input teléfono y v-model hacia el padre -->
+      <!-- Input teléfono -->
       <UInput
-        v-model="localValue"
+        v-model="localOnly"
         type="tel"
         placeholder="Teléfono*"
         autocomplete="tel"
@@ -77,22 +74,28 @@ const emit = defineEmits<{
   (e: "update:modelValue", v: string): void;
 }>();
 
-const localValue = ref(props.modelValue);
-watch(localValue, (v) => emit("update:modelValue", v));
+// Estado local sin el prefijo
+const localOnly = ref(props.modelValue?.replace(/^\+\d{2}/, "") || "");
+
+watch(localOnly, (v) => {
+  const fullNumber = `${country.value.prefix}${v.replace(/^0+/, "")}`;
+  emit("update:modelValue", fullNumber);
+});
+
 watch(
   () => props.modelValue,
   (v) => {
-    localValue.value = v;
+    localOnly.value = v?.replace(/^\+\d{2}/, "") || "";
   }
 );
 
-// País seleccionado (no va al parent, sólo visual)
+// Selector de país
 const countryOptions = ref<Country[]>([
   { label: "España", value: "es", flag: "🇪🇸", prefix: "+34" },
   { label: "Francia", value: "fr", flag: "🇫🇷", prefix: "+33" },
   { label: "Alemania", value: "de", flag: "🇩🇪", prefix: "+49" },
-  /* …otros si quieres… */
   { label: "Estados Unidos", value: "us", flag: "🇺🇸", prefix: "+1" },
 ]);
+
 const country = ref(countryOptions.value[0]);
 </script>
