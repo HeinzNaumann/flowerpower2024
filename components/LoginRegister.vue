@@ -295,7 +295,9 @@ async function handleLogin() {
     };
 
     setAuth(response.token, getUsernameFromEmail(response.email));
-    apiSuccess.value = "Login exitoso!";
+    apiSuccess.value = `Login exitoso. Bienvenido de nuevo ${getUsernameFromEmail(
+      response.email
+    )} 👋`;
 
     setTimeout(() => {
       internalOpen.value = false; // ahora sí cierra el modal correctamente
@@ -321,11 +323,12 @@ async function handleRegister() {
       body,
     });
 
-    apiSuccess.value = "Registro exitoso!";
+    apiSuccess.value =
+      "Registro exitoso ✨. Hemos enviado un email de confirmación a ${registerForm.email}. Por favor revisa tu bandeja de entrada 📩.";
 
     setTimeout(() => {
       internalOpen.value = false;
-    }, 1500);
+    }, 10000);
   } catch (error: any) {
     apiError.value =
       error?.data?.message || "Ha ocurrido un error durante el registro.";
