@@ -46,6 +46,14 @@
             </template>
             <template v-else>Continuar</template>
           </UButton>
+          <div class="text-sm text-right mt-2">
+            <NuxtLink
+              to="/forgot-password"
+              class="text-primary-600 hover:underline"
+            >
+              ¿Has olvidado tu contraseña?
+            </NuxtLink>
+          </div>
         </UForm>
       </template>
 
@@ -241,7 +249,13 @@ const registerSchema = z
     email: z.string().email("Email inválido"),
     confirmEmail: z.string().email("Email inválido"),
     phone: z.string(),
-    password: z.string().min(1, "Contraseña requerida"),
+    password: z
+      .string()
+      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+        "La contraseña debe contener una letra mayúscula, una minúscula y un número"
+      ),
     acceptTOS: z.literal(true, {
       errorMap: () => ({
         message: "Debes aceptar los términos y condiciones.",
