@@ -50,6 +50,7 @@
             <NuxtLink
               to="/forgot-password"
               class="text-primary-600 hover:underline"
+              @click.prevent="internalOpen = false"
             >
               ¿Has olvidado tu contraseña?
             </NuxtLink>
@@ -208,22 +209,20 @@
 <script setup lang="ts">
 import { ref, reactive, watch } from "vue";
 import { z } from "zod";
+import { usePhoneNumberValidation } from "~/composables/usePhoneNumberValidation";
 import type { RegisterForm } from "~/types/types";
+import type { CountryCode } from "libphonenumber-js";
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits(["update:open"]);
-
+const { isValidPhone } = usePhoneNumberValidation();
 const internalOpen = ref(props.open);
-
-// sincroniza la prop con el ref local
 watch(
   () => props.open,
   (newVal) => {
     internalOpen.value = newVal;
   }
 );
-
-// emite el cambio cuando se cierra desde dentro
 watch(internalOpen, (val) => {
   emit("update:open", val);
 });
@@ -248,6 +247,7 @@ const registerSchema = z
     surname: z.string().min(1, "Apellidos requeridos"),
     email: z.string().email("Email inválido"),
     confirmEmail: z.string().email("Email inválido"),
+    countryCode: z.string().min(2).max(2), // ej: "ES"
     phone: z.string(),
     password: z
       .string()
@@ -294,27 +294,22 @@ async function handleLogin() {
   try {
     const response = await $fetch<{ token: string; email: string }>(
       `${apiUrl}/auth/login`,
-      {
-        method: "POST",
-        body: loginForm,
-      }
+      { method: "POST", body: loginForm }
     );
 
     if (!response?.token) {
       apiError.value = "No se ha recibido un token al hacer login.";
       return;
     }
-    const getUsernameFromEmail = (email: string): string => {
-      return email.split("@")[0];
-    };
 
+    const getUsernameFromEmail = (email: string): string => email.split("@")[0];
     setAuth(response.token, getUsernameFromEmail(response.email));
     apiSuccess.value = `Login exitoso. Bienvenido de nuevo ${getUsernameFromEmail(
       response.email
     )} 👋`;
 
     setTimeout(() => {
-      internalOpen.value = false; // ahora sí cierra el modal correctamente
+      internalOpen.value = false;
     }, 1500);
   } catch (error: any) {
     apiError.value =
@@ -337,8 +332,7 @@ async function handleRegister() {
       body,
     });
 
-    apiSuccess.value =
-      "Registro exitoso ✨. Hemos enviado un email de confirmación a ${registerForm.email}. Por favor revisa tu bandeja de entrada 📩.";
+    apiSuccess.value = `Registro exitoso ✨. Hemos enviado un email de confirmación a ${registerForm.email}. Por favor revisa tu bandeja de entrada 📩.`;
 
     setTimeout(() => {
       internalOpen.value = false;

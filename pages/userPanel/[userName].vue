@@ -152,9 +152,7 @@
     </div>
   </div>
 
-  <!-- Sustituye el bloque UModal completo por este -->
   <UModal v-model:open="showLogoutModal">
-    <!-- Si no usas un botón disparador interno puedes dejar el slot default vacío -->
     <template #content>
       <div
         class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center"
@@ -162,16 +160,13 @@
         <h3 class="text-lg font-semibold mb-4">
           {{ $t("userPanel.logoutConfirmTitle") }}
         </h3>
-
         <p class="mb-6">
           {{ $t("userPanel.logoutConfirmText") }}
         </p>
-
         <div class="flex justify-center gap-4">
           <UButton color="primary" @click="confirmLogout">
             {{ $t("common.yes") }}
           </UButton>
-
           <UButton
             color="primary"
             variant="soft"
@@ -189,30 +184,25 @@
 import { ref, onMounted, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import { z } from "zod";
-import { isValidPhoneNumber } from "libphonenumber-js";
+const { isValidPhone } = usePhoneNumberValidation();
 
 const localePath = useLocalePath();
 
-definePageMeta({
-  layout: "default",
-  middleware: ["auth"],
-});
+definePageMeta({ layout: "default", middleware: ["auth"] });
+
 const { t } = useI18n();
 const activeTab = ref("profile");
 
-// Tabs disponibles
 const tabs = [
   { id: "profile", label: "userPanel.profile" },
   { id: "orders", label: "userPanel.orders" },
   { id: "addresses", label: "userPanel.addresses" },
 ];
 
-// Estado inicial
 const phonePrefixes = [
   { value: "+34", label: "+34 (ES)" },
   { value: "+49", label: "+49 (DE)" },
   { value: "+33", label: "+33 (FR)" },
-  // Agrega más prefijos según tus necesidades
 ];
 
 const user = ref({
@@ -226,10 +216,7 @@ const user = ref({
 const orders = ref([]);
 const addresses = ref([]);
 
-const { logout, userName, userInfo, fetchUserInfo, updateUserProfile } =
-  useAuth();
-
-console.log("fetchUserInfo", await fetchUserInfo());
+const { logout, userInfo, fetchUserInfo, updateUserProfile } = useAuth();
 
 const showLogoutModal = ref(false);
 
@@ -248,7 +235,11 @@ const validationSchema = z.object({
   name: z.string().min(1, t("validation.required")),
   surname: z.string().min(1, t("validation.required")),
   email: z.string().email(t("validation.invalidEmail")),
-  phone: z.string().regex(/^[6-7]\d{8}$/, t("validation.invalidPhone")), // Solo el número nacional
+  phone: z
+    .string()
+    .refine((val) => isValidPhone(user.value.phonePrefix + val, "ES"), {
+      message: t("validation.invalidPhone"),
+    }),
 });
 
 const formErrors = ref<Record<string, string>>({});
@@ -267,7 +258,6 @@ const updateProfile = async () => {
     return;
   }
 
-  // Concatenar solo al enviar al backend
   await updateUserProfile({
     name: user.value.name,
     surname: user.value.surname,
@@ -287,28 +277,16 @@ const getOrderStatusColor = (status: string) => {
   return colors[status] || "neutral";
 };
 
-const editAddress = (address: any) => {
-  // Implementar edición de dirección
-};
-
-const deleteAddress = async (id: string) => {
-  // Implementar borrado de dirección
-};
-
+const editAddress = (address: any) => {};
+const deleteAddress = async (id: string) => {};
 const formatAddress = (address: any) => {
-  // Implementar formato de dirección
   return `${address.street}, ${address.city}, ${address.postalCode}`;
 };
 
 onMounted(async () => {
   await fetchUserInfo();
-
   if (userInfo.value) {
-    user.value = {
-      ...userInfo.value,
-      phonePrefix: "+34", // valor por defecto
-    };
-    // No concatenar aquí, mantener separados los campos
+    user.value = { ...userInfo.value, phonePrefix: "+34" };
   }
 });
 </script>

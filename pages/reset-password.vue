@@ -40,6 +40,8 @@ const token = ref("");
 
 const overlay = useOverlay();
 const loginModal = overlay.create(LoginRegister);
+const { isAuthenticated } = useAuth();
+const router = useRouter();
 
 onMounted(() => {
   token.value = (route.query.token as string) || "";
@@ -49,8 +51,16 @@ onMounted(() => {
       loginModal.open(LoginRegister);
     }, 2000);
   }
+  if (isAuthenticated()) {
+    router.push("/");
+  }
 });
 
+onUpdated(() => {
+  if (isAuthenticated()) {
+    router.push("/");
+  }
+});
 async function submitPassword() {
   loading.value = true;
   message.value = "";
@@ -69,7 +79,7 @@ async function submitPassword() {
 
     message.value = res.message;
     setTimeout(() => {
-      loginModal.open(LoginRegister, {});
+      loginModal.open(LoginRegister);
     }, 2000);
   } catch (err: any) {
     error.value = err?.data?.message || "Error al actualizar la contraseña";
