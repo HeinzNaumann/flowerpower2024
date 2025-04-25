@@ -58,44 +58,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-
-interface Country {
-  label: string;
-  value: string;
-  flag: string;
-  prefix: string;
-}
+import { ref, watch, computed } from "vue";
+import { getPhoneCountries } from "~/utils/getPhoneCountries";
+import type { CountryCode } from "libphonenumber-js";
 
 const props = withDefaults(defineProps<{ modelValue?: string }>(), {
   modelValue: "",
 });
+
 const emit = defineEmits<{
   (e: "update:modelValue", v: string): void;
 }>();
 
-// Estado local sin el prefijo
-const localOnly = ref(props.modelValue?.replace(/^\+\d{2}/, "") || "");
-
-watch(localOnly, (v) => {
-  const fullNumber = `${country.value.prefix}${v.replace(/^0+/, "")}`;
-  emit("update:modelValue", fullNumber);
-});
+const countryOptions = ref(getPhoneCountries());
+const country = ref(
+  countryOptions.value.find((c) => c.value === "ES") ?? countryOptions.value[0]
+);
+const localOnly = ref(props.modelValue?.replace(/^(\+\d{1,3})/, "") || "");
 
 watch(
   () => props.modelValue,
-  (v) => {
-    localOnly.value = v?.replace(/^\+\d{2}/, "") || "";
+  (newVal) => {
+    localOnly.value = newVal?.replace(/^(\+\d{1,3})/, "") || "";
   }
 );
 
-// Selector de país
-const countryOptions = ref<Country[]>([
-  { label: "España", value: "es", flag: "🇪🇸", prefix: "+34" },
-  { label: "Francia", value: "fr", flag: "🇫🇷", prefix: "+33" },
-  { label: "Alemania", value: "de", flag: "🇩🇪", prefix: "+49" },
-  { label: "Estados Unidos", value: "us", flag: "🇺🇸", prefix: "+1" },
-]);
-
-const country = ref(countryOptions.value[0]);
+watch([localOnly, country], ([local, c]) => {
+  const full = `${c.prefix}${local.replace(/^0+/, "")}`;
+  emit("update:modelValue", full);
+});
 </script>
