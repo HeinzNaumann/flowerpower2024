@@ -263,6 +263,7 @@
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { z } from "zod";
+import { parsePhoneNumberWithError } from "libphonenumber-js";
 import { useAuth } from "~/composables/useAuth";
 import type { Address } from "~/types/types";
 
@@ -271,7 +272,7 @@ const { t, d } = useI18n();
 
 // Tabs
 const activeTab = ref<"profile" | "orders">("profile");
-const tabs = [
+const tabs: { id: "profile" | "orders"; label: string }[] = [
   { id: "profile", label: "userPanel.profile" },
   { id: "orders", label: "userPanel.orders" },
 ];
@@ -333,17 +334,40 @@ const {
   logout,
 } = useAuth();
 
-// Validation schema
-const schema = z.object({
-  name: z.string().min(1, t("validation.required")),
-  surname: z.string().min(1, t("validation.required")),
-  email: z.string().email(t("validation.invalidEmail")),
-  phone: z.string().min(1, t("validation.required")),
-  street: z.string().min(1, t("validation.required")),
-  city: z.string().min(1, t("validation.required")),
-  postalCode: z.string().min(1, t("validation.required")),
-  country: z.string().min(1, t("validation.required")),
-});
+const schema = z
+  .object({
+    name: z.string().min(1, t("validation.required")),
+    surname: z.string().min(1, t("validation.required")),
+    email: z.string().email(t("validation.invalidEmail")),
+    phonePrefix: z.string(),
+    phone: z.string().min(1, t("validation.required")),
+    street: z.string().min(1, t("validation.required")),
+    city: z.string().min(1, t("validation.required")),
+    postalCode: z.string().min(1, t("validation.required")),
+    country: z.string().min(1, t("validation.required")),
+    billingStreet: z.string().optional(),
+    billingCity: z.string().optional(),
+    billingPostalCode: z.string().optional(),
+    billingCountry: z.string().optional(),
+  })
+  .superRefine((obj, ctx) => {
+    try {
+      const num = parsePhoneNumberWithError(obj.phonePrefix + obj.phone);
+      if (!num.isValid()) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["phone"],
+          message: t("validation.invalidPhone"),
+        });
+      }
+    } catch {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["phone"],
+        message: t("validation.invalidPhone"),
+      });
+    }
+  });
 
 // IDs recuperados del backend para update vs create
 const shippingId = ref<string | null>(null);
