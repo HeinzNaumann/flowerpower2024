@@ -149,7 +149,23 @@
     "email": "Correo electrónico",
     "phone": "Teléfono",
     "saveChanges": "Guardar cambios",
-    "noOrders": "No tienes pedidos todavía"
+    "noOrders": "No tienes pedidos todavía",
+    "namePlaceholder": "Nombre",
+    "surnamePlaceholder": "Apellidos",
+    "emailPlaceholder": "Correo electrónico",
+    "phonePlaceholder": "612345678",
+    "streetPlaceholder": "Calle y número",
+    "cityPlaceholder": "Ciudad",
+    "postalCodePlaceholder": "Código postal",
+    "countryPlaceholder": "País",
+    "showBillingAddress": "Mostrar dirección de facturación",
+    "billingAddress": "Dirección de facturación",
+    "logoutConfirmTitle": "¿Seguro que quieres salir?",
+    "logoutConfirmText": "Si cierras sesión tendrás que volver a introducir tus credenciales.",
+    "street": "Calle y número",
+    "city": "Ciudad",
+    "postalCode": "Código postal",
+    "country": "País"
   },
   "orderStatus": {
     "pending": "Pendiente",
@@ -160,6 +176,8 @@
   },
   "common": {
     "edit": "Editar",
-    "delete": "Eliminar"
+    "delete": "Eliminar",
+    "yes": "Sí",
+    "cancel": "Cancelar"
   }
 }

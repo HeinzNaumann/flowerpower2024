@@ -1,15 +1,15 @@
+<!-- UserAccount.vue -->
 <template>
   <div class="container mx-auto px-4 py-8">
-    <!-- Encabezado con navegación -->
+    <!-- Encabezado -->
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl font-bold">{{ $t("userPanel.myAccount") }}</h1>
     </div>
 
-    <!-- Panel principal -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <!-- Menú lateral -->
-      <div class="md:col-span-1">
-        <hr class="space-y-2" />
+      <!-- Barra lateral -->
+      <aside class="md:col-span-1">
+        <hr />
         <button
           v-for="tab in tabs"
           :key="tab.id"
@@ -25,92 +25,95 @@
         </button>
         <hr class="mt-10" />
         <button
-          variant="soft"
-          @click.prevent="showLogoutModal = true"
           class="w-full text-left px-4 py-2 rounded-lg hover:bg-neutral-100 cursor-pointer mt-2"
+          @click.prevent="showLogoutModal = true"
         >
           {{ $t("userPanel.logout") }}
         </button>
-      </div>
+      </aside>
 
-      <!-- Contenido principal -->
-      <div class="md:col-span-3 bg-white p-6 rounded-lg shadow">
-        <!-- Perfil + Dirección unificada con opción de billing -->
+      <!-- Panel principal -->
+      <section class="md:col-span-3 bg-white p-6 rounded-lg shadow">
+        <!-- Formulario de perfil -->
         <div v-if="activeTab === 'profile'">
           <h2 class="text-xl font-semibold mb-4">
             {{ $t("userPanel.profile") }}
           </h2>
+
           <form
-            @submit.prevent="updateProfile"
+            @submit.prevent="handleSave"
             class="space-y-4 grid grid-cols-2 gap-6"
           >
-            <!-- Datos de usuario -->
+            <!-- Datos personales -->
             <UFormField :error="errors.name">
               <UInput
-                v-model="user.name"
-                size="xl"
+                v-model="form.name"
+                :placeholder="$t('userPanel.namePlaceholder')"
                 class="w-full"
-                :placeholder="$t('userPanel.name')"
               />
             </UFormField>
             <UFormField :error="errors.surname">
               <UInput
-                v-model="user.surname"
+                v-model="form.surname"
+                :placeholder="$t('userPanel.surnamePlaceholder')"
                 class="w-full"
-                :placeholder="$t('userPanel.surname')"
               />
             </UFormField>
 
             <UFormField :label="$t('userPanel.email')" :error="errors.email">
-              <UInput v-model="user.email" type="email" class="w-full" />
+              <UInput
+                v-model="form.email"
+                type="email"
+                :placeholder="$t('userPanel.emailPlaceholder')"
+                class="w-full"
+              />
             </UFormField>
+
             <UFormField :label="$t('userPanel.phone')" :error="errors.phone">
-              <div class="flex items-center space-x-2">
+              <div class="flex gap-2">
                 <select
-                  v-model="user.phonePrefix"
-                  class="px-2 py-1 bg-neutral-100 rounded text-neutral-700"
+                  v-model="form.phonePrefix"
+                  class="px-2 py-1 bg-neutral-100 rounded"
                 >
                   <option
-                    v-for="prefix in phonePrefixes"
-                    :key="prefix.value"
-                    :value="prefix.value"
+                    v-for="p in phonePrefixes"
+                    :key="p.value"
+                    :value="p.value"
                   >
-                    {{ prefix.label }}
+                    {{ p.label }}
                   </option>
                 </select>
                 <UInput
-                  v-model="user.phone"
-                  placeholder="612345678"
+                  v-model="form.phone"
+                  :placeholder="$t('userPanel.phonePlaceholder')"
                   class="w-full"
                 />
               </div>
             </UFormField>
 
-            <!-- Shipping Address -->
+            <!-- Dirección de envío -->
             <UFormField :label="$t('userPanel.street')" :error="errors.street">
               <UInput
-                v-model="user.street"
-                autocomplete="street-address"
-                placeholder="Calle y número"
+                v-model="form.street"
+                :placeholder="$t('userPanel.streetPlaceholder')"
                 class="w-full"
               />
             </UFormField>
             <UFormField :label="$t('userPanel.city')" :error="errors.city">
               <UInput
-                v-model="user.city"
-                autocomplete="address-level2"
-                placeholder="Ciudad"
+                v-model="form.city"
+                :placeholder="$t('userPanel.cityPlaceholder')"
                 class="w-full"
               />
             </UFormField>
             <UFormField
               :label="$t('userPanel.postalCode')"
               :error="errors.postalCode"
+              class="w-full"
             >
               <UInput
-                v-model="user.postalCode"
-                autocomplete="postal-code"
-                placeholder="00000"
+                v-model="form.postalCode"
+                :placeholder="$t('userPanel.postalCodePlaceholder')"
                 class="w-full"
               />
             </UFormField>
@@ -119,16 +122,15 @@
               :error="errors.country"
             >
               <UInput
-                v-model="user.country"
-                autocomplete="country"
-                placeholder="País"
+                v-model="form.country"
+                :placeholder="$t('userPanel.countryPlaceholder')"
                 class="w-full"
               />
             </UFormField>
 
-            <!-- Checkbox para Billing Address -->
-            <UFormField>
-              <label class="inline-flex items-center col-span-2">
+            <!-- Mostrar / ocultar facturación -->
+            <UFormField class="col-span-2">
+              <label class="inline-flex items-center">
                 <input
                   type="checkbox"
                   v-model="showBilling"
@@ -140,7 +142,7 @@
               </label>
             </UFormField>
 
-            <!-- Billing Address se muestra si showBilling es true -->
+            <!-- Dirección de facturación -->
             <transition name="fade">
               <div
                 v-if="showBilling"
@@ -154,37 +156,59 @@
                   :error="errors.billingStreet"
                 >
                   <UInput
-                    v-model="user.billingStreet"
-                    placeholder="Calle y número"
+                    v-model="form.billingStreet"
+                    :placeholder="$t('userPanel.streetPlaceholder')"
+                    class="w-full"
                   />
                 </UFormField>
                 <UFormField
                   :label="$t('userPanel.city')"
                   :error="errors.billingCity"
+                  class="w-full"
                 >
-                  <UInput v-model="user.billingCity" placeholder="Ciudad" />
+                  <UInput
+                    v-model="form.billingCity"
+                    :placeholder="$t('userPanel.cityPlaceholder')"
+                    class="w-full"
+                  />
                 </UFormField>
                 <UFormField
                   :label="$t('userPanel.postalCode')"
                   :error="errors.billingPostalCode"
                 >
                   <UInput
-                    v-model="user.billingPostalCode"
-                    placeholder="00000"
+                    v-model="form.billingPostalCode"
+                    :placeholder="$t('userPanel.postalCodePlaceholder')"
+                    class="w-full"
                   />
                 </UFormField>
                 <UFormField
                   :label="$t('userPanel.country')"
                   :error="errors.billingCountry"
                 >
-                  <UInput v-model="user.billingCountry" placeholder="País" />
+                  <UInput
+                    v-model="form.billingCountry"
+                    :placeholder="$t('userPanel.countryPlaceholder')"
+                    class="w-full"
+                  />
                 </UFormField>
               </div>
             </transition>
 
-            <UButton type="submit" color="primary" class="col-span-2">
-              {{ $t("userPanel.saveChanges") }}
-            </UButton>
+            <!-- Botón Guardar -->
+            <div class="col-span-2">
+              <UButton
+                :loading="saving"
+                type="submit"
+                color="primary"
+                class="w-full"
+              >
+                {{ $t("userPanel.saveChanges") }}
+              </UButton>
+              <p v-if="serverError" class="mt-2 text-sm text-red-600">
+                {{ serverError }}
+              </p>
+            </div>
           </form>
         </div>
 
@@ -194,54 +218,40 @@
             {{ $t("userPanel.orders") }}
           </h2>
           <div v-if="orders.length" class="space-y-4">
-            <div
-              v-for="order in orders"
-              :key="order.id"
-              class="border rounded-lg p-4"
-            >
+            <div v-for="o in orders" :key="o.id" class="border rounded-lg p-4">
               <div class="flex justify-between items-start">
                 <div>
-                  <p class="font-medium">#{{ order.id }}</p>
+                  <p class="font-medium">#{{ o.id }}</p>
                   <p class="text-sm text-neutral-600">
-                    {{ new Date(order.date).toLocaleDateString() }}
+                    {{ d(new Date(o.date), "short") }}
                   </p>
                 </div>
-                <UBadge :color="getOrderStatusColor(order.status)">
-                  {{ $t(`orderStatus.${order.status}`) }}
-                </UBadge>
+                <UBadge :color="orderColor(o.status)">{{
+                  $t(`orderStatus.${o.status}`)
+                }}</UBadge>
               </div>
             </div>
           </div>
-          <p v-else class="text-neutral-500">
-            {{ $t("userPanel.noOrders") }}
-          </p>
+          <p v-else class="text-neutral-500">{{ $t("userPanel.noOrders") }}</p>
         </div>
-      </div>
+      </section>
     </div>
 
-    <!-- Logout Modal -->
+    <!-- Modal Logout -->
     <UModal v-model:open="showLogoutModal">
       <template #content>
-        <div
-          class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center"
-        >
+        <div class="bg-white p-6 rounded-lg text-center">
           <h3 class="text-lg font-semibold mb-4">
             {{ $t("userPanel.logoutConfirmTitle") }}
           </h3>
-          <p class="mb-6">
-            {{ $t("userPanel.logoutConfirmText") }}
-          </p>
+          <p class="mb-6">{{ $t("userPanel.logoutConfirmText") }}</p>
           <div class="flex justify-center gap-4">
-            <UButton color="primary" @click="confirmLogout">
-              {{ $t("common.yes") }}
-            </UButton>
-            <UButton
-              color="primary"
-              variant="soft"
-              @click="showLogoutModal = false"
-            >
-              {{ $t("common.cancel") }}
-            </UButton>
+            <UButton color="primary" @click="confirmLogout">{{
+              $t("common.yes")
+            }}</UButton>
+            <UButton variant="soft" @click="showLogoutModal = false">{{
+              $t("common.cancel")
+            }}</UButton>
           </div>
         </div>
       </template>
@@ -250,28 +260,31 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { z } from "zod";
-import type { Address } from "~/types/types";
 import { useAuth } from "~/composables/useAuth";
+import type { Address } from "~/types/types";
 
-definePageMeta({ layout: "default", middleware: ["auth"] });
-const { t } = useI18n();
-const activeTab = ref("profile");
+// i18n
+const { t, d } = useI18n();
 
+// Tabs
+const activeTab = ref<"profile" | "orders">("profile");
 const tabs = [
   { id: "profile", label: "userPanel.profile" },
   { id: "orders", label: "userPanel.orders" },
 ];
 
+// Phone prefixes
 const phonePrefixes = [
   { value: "+34", label: "+34 (ES)" },
   { value: "+49", label: "+49 (DE)" },
   { value: "+33", label: "+33 (FR)" },
 ];
 
-interface UserForm {
+// Form model
+interface Form {
   name: string;
   surname: string;
   email: string;
@@ -286,8 +299,7 @@ interface UserForm {
   billingPostalCode: string;
   billingCountry: string;
 }
-
-const user = ref<UserForm>({
+const form = ref<Form>({
   name: "",
   surname: "",
   email: "",
@@ -302,132 +314,165 @@ const user = ref<UserForm>({
   billingPostalCode: "",
   billingCountry: "",
 });
-const orders = ref<any[]>([]);
-const errors = ref<Record<string, string>>({});
-const showBilling = ref(false);
 
-const validationSchema = z.object({
+// State
+const showBilling = ref(false);
+const errors = ref<Record<string, string>>({});
+const serverError = ref("");
+const saving = ref(false);
+const orders = ref<any[]>([]);
+
+// API composable
+const {
+  fetchUserInfo,
+  userInfo,
+  updateUserProfile,
+  getAddress,
+  createAddress,
+  updateAddress,
+  logout,
+} = useAuth();
+
+// Validation schema
+const schema = z.object({
   name: z.string().min(1, t("validation.required")),
   surname: z.string().min(1, t("validation.required")),
   email: z.string().email(t("validation.invalidEmail")),
-  phone: z
-    .string()
-    .refine((val) => true, { message: t("validation.invalidPhone") }),
+  phone: z.string().min(1, t("validation.required")),
   street: z.string().min(1, t("validation.required")),
   city: z.string().min(1, t("validation.required")),
   postalCode: z.string().min(1, t("validation.required")),
   country: z.string().min(1, t("validation.required")),
-  billingStreet: z.string().optional(),
-  billingCity: z.string().optional(),
-  billingPostalCode: z.string().optional(),
-  billingCountry: z.string().optional(),
 });
 
-const {
-  logout,
-  userInfo,
-  fetchUserInfo,
-  updateUserProfile,
-  getAddress,
-  updateAddress,
-} = useAuth();
-const showLogoutModal = ref(false);
+// IDs recuperados del backend para update vs create
+const shippingId = ref<string | null>(null);
+const billingId = ref<string | null>(null);
 
-const confirmLogout = async () => {
-  showLogoutModal.value = false;
-  await logoutAndRedirect();
-};
-const logoutAndRedirect = async () => {
-  logout();
-  await nextTick();
-  await navigateTo("/", { replace: true });
-};
+// Carga inicial
+onMounted(async () => {
+  await fetchUserInfo();
+  if (!userInfo.value) return;
 
-const updateProfile = async () => {
-  errors.value = {};
-  const result = validationSchema.safeParse({
-    ...user.value,
-    phone: user.value.phone,
+  // Perfil
+  Object.assign(form.value, {
+    name: userInfo.value.name,
+    surname: userInfo.value.surname,
+    email: userInfo.value.email,
+    phone: (userInfo.value.phone ?? "").replace(form.value.phonePrefix, ""),
   });
-  if (!result.success) {
-    result.error.errors.forEach((err) => {
-      if (err.path[0]) errors.value[err.path[0]] = err.message;
+  orders.value = userInfo.value.orders ?? [];
+
+  // Shipping
+  const ship = await getAddress("shipping");
+  if (ship) {
+    shippingId.value = ship.id;
+    Object.assign(form.value, {
+      street: ship.street,
+      city: ship.city,
+      postalCode: ship.postalCode,
+      country: ship.country,
+    });
+  }
+
+  // Billing
+  const bill = await getAddress("billing");
+  if (bill) {
+    billingId.value = bill.id;
+    showBilling.value = true;
+    Object.assign(form.value, {
+      billingStreet: bill.street,
+      billingCity: bill.city,
+      billingPostalCode: bill.postalCode,
+      billingCountry: bill.country,
+    });
+  }
+});
+
+// Guardar
+async function handleSave() {
+  errors.value = {};
+  serverError.value = "";
+
+  // Validación
+  const parsed = schema.safeParse({
+    ...form.value,
+    phone: form.value.phone, // incluir phone para Zod
+  });
+
+  if (!parsed.success) {
+    parsed.error.errors.forEach((err) => {
+      errors.value[err.path[0]] = err.message;
     });
     return;
   }
 
-  await updateUserProfile({
-    name: user.value.name,
-    surname: user.value.surname,
-    email: user.value.email,
-    phone: user.value.phonePrefix + user.value.phone,
-  });
+  saving.value = true;
+  try {
+    // Perfil
+    await updateUserProfile({
+      name: form.value.name,
+      surname: form.value.surname,
+      email: form.value.email,
+      phone: form.value.phonePrefix + form.value.phone,
+    });
 
-  const ship: Address = {
-    id: "shipping",
-    isDefault: true,
-    street: user.value.street,
-    city: user.value.city,
-    postalCode: user.value.postalCode,
-    country: user.value.country,
-    type: "shipping",
-  };
-  await updateAddress(ship);
-
-  // Billing address opcional
-  if (showBilling) {
-    const bill: Address = {
-      id: "billing",
-      isDefault: false,
-      street: user.value.billingStreet,
-      city: user.value.billingCity,
-      postalCode: user.value.billingPostalCode,
-      country: user.value.billingCountry,
-      type: "billing",
+    // Shipping (siempre obligatorio)
+    const shippingData: Omit<Address, "type"> & { type: "shipping" } = {
+      id: shippingId.value ?? "",
+      street: form.value.street,
+      city: form.value.city,
+      postalCode: form.value.postalCode,
+      country: form.value.country,
+      isDefault: true,
+      type: "shipping",
     };
-    await updateAddress(bill);
-  }
-};
+    if (shippingId.value) await updateAddress(shippingData);
+    else {
+      const created = await createAddress(shippingData);
+      shippingId.value = created?.id ?? null;
+    }
 
-const getOrderStatusColor = (status: string) => {
-  const colors: Record<string, string> = {
+    // Billing (opcional)
+    if (showBilling.value) {
+      const billingData: Omit<Address, "type"> & { type: "billing" } = {
+        id: billingId.value ?? "",
+        street: form.value.billingStreet,
+        city: form.value.billingCity,
+        postalCode: form.value.billingPostalCode,
+        country: form.value.billingCountry,
+        isDefault: false,
+        type: "billing",
+      };
+      if (billingId.value) await updateAddress(billingData);
+      else {
+        const created = await createAddress(billingData);
+        billingId.value = created?.id ?? null;
+      }
+    }
+  } catch (e) {
+    serverError.value = t("validation.unknownError");
+  } finally {
+    saving.value = false;
+  }
+}
+
+// Colores de pedidos
+function orderColor(s: string) {
+  const map: Record<string, string> = {
     pending: "yellow",
     processing: "blue",
     shipped: "green",
     delivered: "green",
     cancelled: "red",
   };
-  return colors[status] || "neutral";
-};
+  return map[s] || "neutral";
+}
 
-onMounted(async () => {
-  await fetchUserInfo();
-  if (userInfo.value) {
-    // Perfil
-    user.value.name = userInfo.value.name;
-    user.value.surname = userInfo.value.surname;
-    user.value.email = userInfo.value.email;
-    const rawPhone = userInfo.value.phone || "";
-    user.value.phone = rawPhone.replace(user.value.phonePrefix, "");
-    orders.value = userInfo.value.orders || [];
-
-    // Shipping
-    const shipping = await getAddress("shipping");
-    if (shipping) {
-      user.value.street = shipping.street;
-      user.value.city = shipping.city;
-      user.value.postalCode = shipping.postalCode;
-      user.value.country = shipping.country;
-    }
-    // Billing
-    const billing = await getAddress("billing");
-    if (billing) {
-      showBilling.value = true;
-      user.value.billingStreet = billing.street;
-      user.value.billingCity = billing.city;
-      user.value.billingPostalCode = billing.postalCode;
-      user.value.billingCountry = billing.country;
-    }
-  }
-});
+// Logout
+const showLogoutModal = ref(false);
+function confirmLogout() {
+  logout();
+  location.replace("/");
+}
 </script>

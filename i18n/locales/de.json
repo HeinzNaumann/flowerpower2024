@@ -153,7 +153,23 @@
     "email": "E-Mail",
     "phone": "Telefon",
     "saveChanges": "Änderungen speichern",
-    "noOrders": "Keine Bestellungen gefunden"
+    "noOrders": "Du hast noch keine Bestellungen",
+    "namePlaceholder": "Name",
+    "surnamePlaceholder": "Nachname",
+    "emailPlaceholder": "E-Mail",
+    "phonePlaceholder": "612345678",
+    "streetPlaceholder": "Straße und Hausnummer",
+    "cityPlaceholder": "Stadt",
+    "postalCodePlaceholder": "Postleitzahl",
+    "countryPlaceholder": "Land",
+    "showBillingAddress": "Rechnungsadresse anzeigen",
+    "billingAddress": "Rechnungsadresse",
+    "logoutConfirmTitle": "Möchtest du dich wirklich abmelden?",
+    "logoutConfirmText": "Wenn du dich abmeldest, musst du deine Anmeldedaten erneut eingeben.",
+    "street": "Straße und Hausnummer",
+    "city": "Stadt",
+    "postalCode": "Postleitzahl",
+    "country": "Land"
   },
   "orderStatus": {
     "pending": "Ausstehend",
@@ -164,6 +180,8 @@
   },
   "common": {
     "edit": "Bearbeiten",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "yes": "Ja",
+    "cancel": "Abbrechen"
   }
 }

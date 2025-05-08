@@ -140,16 +140,32 @@
     "card": "Card"
   },
   "userPanel": {
-    "myAccount": "My Account",
-    "logout": "Logout",
+    "myAccount": "My account",
+    "logout": "Log out",
     "profile": "Profile",
     "orders": "Orders",
     "addresses": "Addresses",
     "name": "Name",
     "email": "Email",
     "phone": "Phone",
-    "saveChanges": "Save Changes",
-    "noOrders": "You don't have any orders yet"
+    "saveChanges": "Save changes",
+    "noOrders": "You don’t have any orders yet",
+    "namePlaceholder": "Name",
+    "surnamePlaceholder": "Surname",
+    "emailPlaceholder": "Email",
+    "phonePlaceholder": "612345678",
+    "streetPlaceholder": "Street and number",
+    "cityPlaceholder": "City",
+    "postalCodePlaceholder": "Postal code",
+    "countryPlaceholder": "Country",
+    "showBillingAddress": "Show billing address",
+    "billingAddress": "Billing address",
+    "logoutConfirmTitle": "Are you sure you want to log out?",
+    "logoutConfirmText": "If you log out you'll need to re-enter your credentials.",
+    "street": "Street and number",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country"
   },
   "orderStatus": {
     "pending": "Pending",
@@ -160,6 +176,8 @@
   },
   "common": {
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "yes": "Yes",
+    "cancel": "Cancel"
   }
 }
