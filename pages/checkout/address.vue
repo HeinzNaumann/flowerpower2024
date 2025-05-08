@@ -69,12 +69,62 @@
           />
         </UFormField>
       </div>
+    </UForm>
 
+    <UForm
+      :schema="addressSchema"
+      :state="form"
+      @submit="submit"
+      class="space-y-4 max-w-xl mt-4 mb-4"
+    >
+      <!-- Campos de envío -->
+      <!-- ... (nombre, apellidos, email, teléfono, dirección, ciudad, zip como ya tenías) -->
+
+      <!-- Checkbox -->
+      <UFormGroup class="pt-2">
+        <label class="flex items-start gap-2 text-sm text-neutral-700">
+          <UCheckbox v-model="isBillingSameAsShipping" />
+          <span>
+            Esta dirección también será usada como <strong>facturación</strong>.
+            Puedes introducir otra si lo necesitas.
+          </span>
+        </label>
+      </UFormGroup>
+
+      <!-- Segundo formulario (condicional) -->
+      <div
+        v-if="!isBillingSameAsShipping"
+        class="pt-6 border-t border-neutral-200"
+      >
+        <h2 class="text-xl font-semibold mt-4 mb-2">
+          Dirección de facturación
+        </h2>
+
+        <UFormGroup label="Dirección">
+          <UInput v-model="billing.address" placeholder="Calle y número" />
+        </UFormGroup>
+
+        <div class="flex gap-4">
+          <UFormGroup label="Ciudad">
+            <UInput v-model="billing.city" />
+          </UFormGroup>
+          <UFormGroup label="Código postal">
+            <UInput v-model="billing.zip" />
+          </UFormGroup>
+        </div>
+
+        <UFormGroup label="País">
+          <UInput v-model="billing.country" placeholder="ES" />
+        </UFormGroup>
+      </div>
+
+      <!-- Botón de envío -->
       <UButton
         type="submit"
         color="primary"
         variant="solid"
         :disabled="isSubmitting"
+        class="mt-4"
       >
         <template v-if="isSubmitting">
           <span class="loading loading-spinner loading-xs"></span>
@@ -86,25 +136,19 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { z } from "zod";
+import { useAuth } from "~/composables/useAuth";
+import type { Address } from "~/types/types";
 
 const router = useRouter();
 const isSubmitting = ref(false);
+const addressExists = ref(false);
+const isBillingSameAsShipping = ref(true);
 
-const addressSchema = z.object({
-  name: z.string().min(1, "Nombre requerido"),
-  surname: z.string().min(1, "Apellidos requeridos"),
-  email: z.string().email("Email inválido"),
-  phone: z
-    .string()
-    .min(1, "Teléfono requerido")
-    .regex(/^[+\d][\d\s-]{6,14}\d$/, "Teléfono inválido"),
-  address: z.string().min(1, "Dirección requerida"),
-  city: z.string().min(1, "Ciudad requerida"),
-  zip: z.string().min(1, "Código postal requerido"),
-});
+const { getAddress, createAddress, updateAddress, userInfo, fetchUserInfo } =
+  useAuth();
 
 const form = reactive({
   name: "",
@@ -116,11 +160,84 @@ const form = reactive({
   zip: "",
 });
 
-function submit() {
+const billing = reactive({
+  address: "",
+  city: "",
+  zip: "",
+  country: "ES",
+});
+
+const addressSchema = z.object({
+  name: z.string().min(1, "Nombre requerido"),
+  surname: z.string().min(1, "Apellidos requeridos"),
+  email: z.string().email("Email inválido"),
+  phone: z.string().min(1, "Teléfono requerido"),
+  address: z.string().min(1, "Dirección requerida"),
+  city: z.string().min(1, "Ciudad requerida"),
+  zip: z.string().min(1, "Código postal requerido"),
+});
+
+onMounted(async () => {
+  await fetchUserInfo();
+  if (userInfo.value) {
+    form.name = userInfo.value.name;
+    form.surname = userInfo.value.surname;
+    form.email = userInfo.value.email;
+    form.phone = userInfo.value.phone;
+  }
+
+  const addressList = await getAddress("shipping");
+  const addressData = Array.isArray(addressList) ? addressList[0] : addressList;
+
+  console.log("Dirección de envío:", addressData);
+
+  if (addressData) {
+    addressExists.value = true;
+    form.address = addressData.street || "";
+    form.city = addressData.city || "";
+    form.zip = addressData.postalCode || "";
+  }
+});
+
+async function submit() {
   isSubmitting.value = true;
-  setTimeout(() => {
-    console.log("Datos enviados:", form);
+  try {
+    const shippingPayload: Address = {
+      street: form.address,
+      city: form.city,
+      postalCode: form.zip,
+      country: "ES",
+      type: "shipping",
+    };
+
+    const billingPayload: Address = isBillingSameAsShipping.value
+      ? { ...shippingPayload, type: "billing" }
+      : {
+          street: billing.address,
+          city: billing.city,
+          postalCode: billing.zip,
+          country: billing.country,
+          type: "billing",
+        };
+
+    // Guardar dirección de envío
+    const shippingResult = addressExists.value
+      ? await updateAddress(shippingPayload)
+      : await createAddress(shippingPayload);
+
+    if (!shippingResult) throw new Error("Error al guardar dirección de envío");
+
+    // Guardar dirección de facturación
+    const billingResult = await createAddress(billingPayload); // puedes ajustar a update si ya existe
+
+    if (!billingResult)
+      throw new Error("Error al guardar dirección de facturación");
+
     router.push("/checkout/payment");
-  }, 500);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 </script>

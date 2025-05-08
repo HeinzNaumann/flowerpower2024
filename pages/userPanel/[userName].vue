@@ -35,31 +35,36 @@
 
       <!-- Contenido principal -->
       <div class="md:col-span-3 bg-white p-6 rounded-lg shadow">
-        <!-- Perfil -->
+        <!-- Perfil + Dirección unificada con opción de billing -->
         <div v-if="activeTab === 'profile'">
           <h2 class="text-xl font-semibold mb-4">
             {{ $t("userPanel.profile") }}
           </h2>
-          <form @submit.prevent="updateProfile" class="space-y-4">
-            <UFormField :label="$t('userPanel.name')" :error="formErrors.name">
-              <UInput v-model="user.name" />
+          <form
+            @submit.prevent="updateProfile"
+            class="space-y-4 grid grid-cols-2 gap-6"
+          >
+            <!-- Datos de usuario -->
+            <UFormField :error="errors.name">
+              <UInput
+                v-model="user.name"
+                size="xl"
+                class="w-full"
+                :placeholder="$t('userPanel.name')"
+              />
             </UFormField>
-            <UFormField
-              :label="$t('userPanel.surname')"
-              :error="formErrors.surname"
-            >
-              <UInput v-model="user.surname" />
+            <UFormField :error="errors.surname">
+              <UInput
+                v-model="user.surname"
+                class="w-full"
+                :placeholder="$t('userPanel.surname')"
+              />
             </UFormField>
-            <UFormField
-              :label="$t('userPanel.email')"
-              :error="formErrors.email"
-            >
-              <UInput v-model="user.email" type="email" />
+
+            <UFormField :label="$t('userPanel.email')" :error="errors.email">
+              <UInput v-model="user.email" type="email" class="w-full" />
             </UFormField>
-            <UFormField
-              :label="$t('userPanel.phone')"
-              :error="formErrors.phone"
-            >
+            <UFormField :label="$t('userPanel.phone')" :error="errors.phone">
               <div class="flex items-center space-x-2">
                 <select
                   v-model="user.phonePrefix"
@@ -73,10 +78,111 @@
                     {{ prefix.label }}
                   </option>
                 </select>
-                <UInput v-model="user.phone" placeholder="612345678" />
+                <UInput
+                  v-model="user.phone"
+                  placeholder="612345678"
+                  class="w-full"
+                />
               </div>
             </UFormField>
-            <UButton type="submit" color="primary">
+
+            <!-- Shipping Address -->
+            <UFormField :label="$t('userPanel.street')" :error="errors.street">
+              <UInput
+                v-model="user.street"
+                autocomplete="street-address"
+                placeholder="Calle y número"
+                class="w-full"
+              />
+            </UFormField>
+            <UFormField :label="$t('userPanel.city')" :error="errors.city">
+              <UInput
+                v-model="user.city"
+                autocomplete="address-level2"
+                placeholder="Ciudad"
+                class="w-full"
+              />
+            </UFormField>
+            <UFormField
+              :label="$t('userPanel.postalCode')"
+              :error="errors.postalCode"
+            >
+              <UInput
+                v-model="user.postalCode"
+                autocomplete="postal-code"
+                placeholder="00000"
+                class="w-full"
+              />
+            </UFormField>
+            <UFormField
+              :label="$t('userPanel.country')"
+              :error="errors.country"
+            >
+              <UInput
+                v-model="user.country"
+                autocomplete="country"
+                placeholder="País"
+                class="w-full"
+              />
+            </UFormField>
+
+            <!-- Checkbox para Billing Address -->
+            <UFormField>
+              <label class="inline-flex items-center col-span-2">
+                <input
+                  type="checkbox"
+                  v-model="showBilling"
+                  class="form-checkbox h-5 w-5 text-primary-500"
+                />
+                <span class="ml-2">{{
+                  $t("userPanel.showBillingAddress")
+                }}</span>
+              </label>
+            </UFormField>
+
+            <!-- Billing Address se muestra si showBilling es true -->
+            <transition name="fade">
+              <div
+                v-if="showBilling"
+                class="col-span-2 grid grid-cols-2 gap-6 bg-neutral-50 p-4 rounded"
+              >
+                <h3 class="text-lg font-medium col-span-2">
+                  {{ $t("userPanel.billingAddress") }}
+                </h3>
+                <UFormField
+                  :label="$t('userPanel.street')"
+                  :error="errors.billingStreet"
+                >
+                  <UInput
+                    v-model="user.billingStreet"
+                    placeholder="Calle y número"
+                  />
+                </UFormField>
+                <UFormField
+                  :label="$t('userPanel.city')"
+                  :error="errors.billingCity"
+                >
+                  <UInput v-model="user.billingCity" placeholder="Ciudad" />
+                </UFormField>
+                <UFormField
+                  :label="$t('userPanel.postalCode')"
+                  :error="errors.billingPostalCode"
+                >
+                  <UInput
+                    v-model="user.billingPostalCode"
+                    placeholder="00000"
+                  />
+                </UFormField>
+                <UFormField
+                  :label="$t('userPanel.country')"
+                  :error="errors.billingCountry"
+                >
+                  <UInput v-model="user.billingCountry" placeholder="País" />
+                </UFormField>
+              </div>
+            </transition>
+
+            <UButton type="submit" color="primary" class="col-span-2">
               {{ $t("userPanel.saveChanges") }}
             </UButton>
           </form>
@@ -110,93 +216,53 @@
             {{ $t("userPanel.noOrders") }}
           </p>
         </div>
-
-        <!-- Direcciones -->
-        <div v-if="activeTab === 'addresses'">
-          <h2 class="text-xl font-semibold mb-4">
-            {{ $t("userPanel.addresses") }}
-          </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div
-              v-for="address in addresses"
-              :key="address.id"
-              class="border rounded-lg p-4"
-            >
-              <div class="flex justify-between">
-                <h3 class="font-medium">{{ address.name }}</h3>
-                <div class="space-x-2">
-                  <UButton
-                    size="sm"
-                    variant="ghost"
-                    @click="editAddress(address)"
-                  >
-                    {{ $t("common.edit") }}
-                  </UButton>
-                  <UButton
-                    size="sm"
-                    color="warning"
-                    variant="ghost"
-                    @click="deleteAddress(address.id)"
-                  >
-                    {{ $t("common.delete") }}
-                  </UButton>
-                </div>
-              </div>
-              <p class="text-sm text-neutral-600 mt-2">
-                {{ formatAddress(address) }}
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
-  </div>
 
-  <UModal v-model:open="showLogoutModal">
-    <template #content>
-      <div
-        class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center"
-      >
-        <h3 class="text-lg font-semibold mb-4">
-          {{ $t("userPanel.logoutConfirmTitle") }}
-        </h3>
-        <p class="mb-6">
-          {{ $t("userPanel.logoutConfirmText") }}
-        </p>
-        <div class="flex justify-center gap-4">
-          <UButton color="primary" @click="confirmLogout">
-            {{ $t("common.yes") }}
-          </UButton>
-          <UButton
-            color="primary"
-            variant="soft"
-            @click="showLogoutModal = false"
-          >
-            {{ $t("common.cancel") }}
-          </UButton>
+    <!-- Logout Modal -->
+    <UModal v-model:open="showLogoutModal">
+      <template #content>
+        <div
+          class="bg-white rounded-lg shadow-lg p-6 w-full max-w-sm text-center"
+        >
+          <h3 class="text-lg font-semibold mb-4">
+            {{ $t("userPanel.logoutConfirmTitle") }}
+          </h3>
+          <p class="mb-6">
+            {{ $t("userPanel.logoutConfirmText") }}
+          </p>
+          <div class="flex justify-center gap-4">
+            <UButton color="primary" @click="confirmLogout">
+              {{ $t("common.yes") }}
+            </UButton>
+            <UButton
+              color="primary"
+              variant="soft"
+              @click="showLogoutModal = false"
+            >
+              {{ $t("common.cancel") }}
+            </UButton>
+          </div>
         </div>
-      </div>
-    </template>
-  </UModal>
+      </template>
+    </UModal>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import { z } from "zod";
-const { isValidPhone } = usePhoneNumberValidation();
-
-const localePath = useLocalePath();
+import type { Address } from "~/types/types";
+import { useAuth } from "~/composables/useAuth";
 
 definePageMeta({ layout: "default", middleware: ["auth"] });
-
 const { t } = useI18n();
 const activeTab = ref("profile");
 
 const tabs = [
   { id: "profile", label: "userPanel.profile" },
   { id: "orders", label: "userPanel.orders" },
-  { id: "addresses", label: "userPanel.addresses" },
 ];
 
 const phonePrefixes = [
@@ -205,31 +271,40 @@ const phonePrefixes = [
   { value: "+33", label: "+33 (FR)" },
 ];
 
-const user = ref({
+interface UserForm {
+  name: string;
+  surname: string;
+  email: string;
+  phonePrefix: string;
+  phone: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  billingStreet: string;
+  billingCity: string;
+  billingPostalCode: string;
+  billingCountry: string;
+}
+
+const user = ref<UserForm>({
   name: "",
   surname: "",
   email: "",
   phonePrefix: "+34",
   phone: "",
+  street: "",
+  city: "",
+  postalCode: "",
+  country: "",
+  billingStreet: "",
+  billingCity: "",
+  billingPostalCode: "",
+  billingCountry: "",
 });
-
-const orders = ref([]);
-const addresses = ref([]);
-
-const { logout, userInfo, fetchUserInfo, updateUserProfile } = useAuth();
-
-const showLogoutModal = ref(false);
-
-const confirmLogout = async () => {
-  showLogoutModal.value = false;
-  await logoutAndRedirect();
-};
-
-const logoutAndRedirect = async () => {
-  logout();
-  await nextTick();
-  await navigateTo(localePath({ path: "/" }), { replace: true });
-};
+const orders = ref<any[]>([]);
+const errors = ref<Record<string, string>>({});
+const showBilling = ref(false);
 
 const validationSchema = z.object({
   name: z.string().min(1, t("validation.required")),
@@ -237,23 +312,46 @@ const validationSchema = z.object({
   email: z.string().email(t("validation.invalidEmail")),
   phone: z
     .string()
-    .refine((val) => isValidPhone(user.value.phonePrefix + val, "ES"), {
-      message: t("validation.invalidPhone"),
-    }),
+    .refine((val) => true, { message: t("validation.invalidPhone") }),
+  street: z.string().min(1, t("validation.required")),
+  city: z.string().min(1, t("validation.required")),
+  postalCode: z.string().min(1, t("validation.required")),
+  country: z.string().min(1, t("validation.required")),
+  billingStreet: z.string().optional(),
+  billingCity: z.string().optional(),
+  billingPostalCode: z.string().optional(),
+  billingCountry: z.string().optional(),
 });
 
-const formErrors = ref<Record<string, string>>({});
+const {
+  logout,
+  userInfo,
+  fetchUserInfo,
+  updateUserProfile,
+  getAddress,
+  updateAddress,
+} = useAuth();
+const showLogoutModal = ref(false);
+
+const confirmLogout = async () => {
+  showLogoutModal.value = false;
+  await logoutAndRedirect();
+};
+const logoutAndRedirect = async () => {
+  logout();
+  await nextTick();
+  await navigateTo("/", { replace: true });
+};
 
 const updateProfile = async () => {
-  formErrors.value = {};
+  errors.value = {};
   const result = validationSchema.safeParse({
     ...user.value,
     phone: user.value.phone,
   });
-
   if (!result.success) {
     result.error.errors.forEach((err) => {
-      if (err.path[0]) formErrors.value[err.path[0]] = err.message;
+      if (err.path[0]) errors.value[err.path[0]] = err.message;
     });
     return;
   }
@@ -264,10 +362,35 @@ const updateProfile = async () => {
     email: user.value.email,
     phone: user.value.phonePrefix + user.value.phone,
   });
+
+  const ship: Address = {
+    id: "shipping",
+    isDefault: true,
+    street: user.value.street,
+    city: user.value.city,
+    postalCode: user.value.postalCode,
+    country: user.value.country,
+    type: "shipping",
+  };
+  await updateAddress(ship);
+
+  // Billing address opcional
+  if (showBilling) {
+    const bill: Address = {
+      id: "billing",
+      isDefault: false,
+      street: user.value.billingStreet,
+      city: user.value.billingCity,
+      postalCode: user.value.billingPostalCode,
+      country: user.value.billingCountry,
+      type: "billing",
+    };
+    await updateAddress(bill);
+  }
 };
 
 const getOrderStatusColor = (status: string) => {
-  const colors = {
+  const colors: Record<string, string> = {
     pending: "yellow",
     processing: "blue",
     shipped: "green",
@@ -277,16 +400,34 @@ const getOrderStatusColor = (status: string) => {
   return colors[status] || "neutral";
 };
 
-const editAddress = (address: any) => {};
-const deleteAddress = async (id: string) => {};
-const formatAddress = (address: any) => {
-  return `${address.street}, ${address.city}, ${address.postalCode}`;
-};
-
 onMounted(async () => {
   await fetchUserInfo();
   if (userInfo.value) {
-    user.value = { ...userInfo.value, phonePrefix: "+34" };
+    // Perfil
+    user.value.name = userInfo.value.name;
+    user.value.surname = userInfo.value.surname;
+    user.value.email = userInfo.value.email;
+    const rawPhone = userInfo.value.phone || "";
+    user.value.phone = rawPhone.replace(user.value.phonePrefix, "");
+    orders.value = userInfo.value.orders || [];
+
+    // Shipping
+    const shipping = await getAddress("shipping");
+    if (shipping) {
+      user.value.street = shipping.street;
+      user.value.city = shipping.city;
+      user.value.postalCode = shipping.postalCode;
+      user.value.country = shipping.country;
+    }
+    // Billing
+    const billing = await getAddress("billing");
+    if (billing) {
+      showBilling.value = true;
+      user.value.billingStreet = billing.street;
+      user.value.billingCity = billing.city;
+      user.value.billingPostalCode = billing.postalCode;
+      user.value.billingCountry = billing.country;
+    }
   }
 });
 </script>

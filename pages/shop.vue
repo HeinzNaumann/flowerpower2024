@@ -80,7 +80,7 @@
                 :alt="product.slug"
                 class="size-72 object-cover border-neutral-200 border-solid border mb-3"
               />
-              <p :alt="product.title" class="text-sm lg:text-base font-medium">
+              <p :alt="product.title" class="text-sm lg:text-base font-medium text-pri">
                 {{ product.title }}
               </p>
 

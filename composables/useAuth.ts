@@ -1,14 +1,17 @@
 import { ref } from "vue";
+import type { Address } from "~/types/types";
 
 export function useAuth() {
   const token = useCookie("auth_token");
   const user = useCookie("user_name");
 
+  // Incluimos orders en la info de usuario si tu /auth/profile las devuelve
   const userInfo = ref<{
     name: string;
     surname: string;
     email: string;
     phone: string;
+    orders?: any[];
   } | null>(null);
 
   const config = useRuntimeConfig();
@@ -25,56 +28,99 @@ export function useAuth() {
     if (!isAuthenticated()) return;
 
     try {
-      const response = await $fetch<{
+      const resp = await $fetch<{
         name: string;
         surname: string;
         email: string;
         phone: string;
+        orders?: any[];
       }>(`${apiUrl}/auth/profile`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token.value}`,
-        },
+        headers: { Authorization: `Bearer ${token.value}` },
       });
-
-      userInfo.value = response;
-      user.value = response.name; // actualizamos la cookie también
+      userInfo.value = resp;
+      user.value = resp.name;
     } catch (err) {
       console.error("Error fetching user info:", err);
-      logout(); // limpias si falla
+      logout();
     }
   };
 
-  const updateUserProfile = async (updatedData: {
+  const updateUserProfile = async (data: {
     name?: string;
     surname?: string;
     email?: string;
     phone?: string;
   }) => {
     if (!isAuthenticated()) return;
-
     try {
-      const response = await $fetch<{
-        name?: string;
-        surname?: string;
-        email?: string;
-        phone?: string;
-      }>(`${apiUrl}/auth/update`, {
+      const resp = await $fetch<Partial<typeof data>>(`${apiUrl}/auth/update`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token.value}`,
           "Content-Type": "application/json",
         },
-        body: updatedData,
+        body: data,
       });
-      if (response?.name) user.value = response.name;
-      if (userInfo.value) {
-        userInfo.value = { ...userInfo.value, ...(response || {}) };
-      }
-
-      if (response.name) user.value = response.name;
+      if (resp.name) user.value = resp.name;
+      if (userInfo.value) userInfo.value = { ...userInfo.value, ...resp };
     } catch (err) {
-      console.error("Error updating user profile:", err);
+      console.error("Error updating profile:", err);
+    }
+  };
+
+  // lee todas y filtra por type
+  const getAddress = async (
+    type: "billing" | "shipping"
+  ): Promise<Address | null> => {
+    if (!isAuthenticated()) return null;
+    try {
+      const list = await $fetch<Address[]>(`${apiUrl}/addresses`, {
+        headers: { Authorization: `Bearer ${token.value}` },
+      });
+      return list.find((a) => a.type === type) || null;
+    } catch (err) {
+      console.error("Error fetching addresses:", err);
+      return null;
+    }
+  };
+
+  const createAddress = async (addr: Omit<Address, "id">) => {
+    if (!isAuthenticated()) return null;
+    try {
+      return await $fetch<Address>(`${apiUrl}/addresses`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          "Content-Type": "application/json",
+        },
+        body: addr,
+      });
+    } catch (err) {
+      console.error("Error creating address:", err);
+      return null;
+    }
+  };
+
+  const updateAddress = async (addr: Address) => {
+    if (!isAuthenticated()) return null;
+    try {
+      return await $fetch<Address>(`${apiUrl}/addresses/${addr.id}`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          "Content-Type": "application/json",
+        },
+        body: {
+          street: addr.street,
+          city: addr.city,
+          postalCode: addr.postalCode,
+          country: addr.country,
+          type: addr.type,
+        },
+      });
+    } catch (err) {
+      console.error("Error updating address:", err);
+      return null;
     }
   };
 
@@ -92,6 +138,9 @@ export function useAuth() {
     isAuthenticated,
     fetchUserInfo,
     updateUserProfile,
+    getAddress,
+    createAddress,
+    updateAddress,
     logout,
   };
 }

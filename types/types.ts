@@ -26,3 +26,13 @@ export interface RegisterForm {
   acceptTOS: boolean;
   subscribeNewsletter?: boolean;
 }
+
+export type Address = {
+  id: string;
+  isDefault: boolean;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  type: "billing" | "shipping";
+};
