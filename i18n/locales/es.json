@@ -179,5 +179,28 @@
     "delete": "Eliminar",
     "yes": "Sí",
     "cancel": "Cancelar"
+  },
+  "checkout": {
+    "shippingTitle": "Dirección de envío",
+    "name": "Nombre",
+    "surname": "Apellidos",
+    "namePlaceholder": "Nombre completo",
+    "surnamePlaceholder": "Apellidos",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "Correo electrónico",
+    "phone": "Teléfono",
+    "phonePlaceholder": "Ej. +34 600 123 456",
+    "street": "Dirección",
+    "streetPlaceholder": "Calle y número",
+    "city": "Ciudad",
+    "cityPlaceholder": "Ciudad",
+    "zip": "Código postal",
+    "zipPlaceholder": "00000",
+    "country": "País",
+    "countryPlaceholder": "ES",
+    "billingCheckbox": "Esta dirección también se usará como facturacion . Puedes introducir otra si lo necesitas.",
+    "billingTitle": "Dirección de facturación",
+    "confirm": "Confirmar dirección",
+    "saveAsDefault": "Guardar dirección como predeterminada"
   }
 }

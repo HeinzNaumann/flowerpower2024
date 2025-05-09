@@ -1,13 +1,13 @@
 <!-- UserAccount.vue -->
 <template>
   <div class="container mx-auto px-4 py-8">
-    <!-- Encabezado -->
+    <!-- encabezado -->
     <div class="flex justify-between items-center mb-8">
       <h1 class="text-2xl font-bold">{{ $t("userPanel.myAccount") }}</h1>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <!-- Barra lateral -->
+      <!-- sidebar -->
       <aside class="md:col-span-1">
         <hr />
         <button
@@ -23,7 +23,9 @@
         >
           {{ $t(tab.label) }}
         </button>
+
         <hr class="mt-10" />
+
         <button
           class="w-full text-left px-4 py-2 rounded-lg hover:bg-neutral-100 cursor-pointer mt-2"
           @click.prevent="showLogoutModal = true"
@@ -32,19 +34,19 @@
         </button>
       </aside>
 
-      <!-- Panel principal -->
+      <!-- main panel -->
       <section class="md:col-span-3 bg-white p-6 rounded-lg shadow">
-        <!-- Formulario de perfil -->
+        <!-- PROFILE FORM ---------------------------------------------------- -->
         <div v-if="activeTab === 'profile'">
           <h2 class="text-xl font-semibold mb-4">
             {{ $t("userPanel.profile") }}
           </h2>
 
           <form
-            @submit.prevent="handleSave"
             class="space-y-4 grid grid-cols-2 gap-6"
+            @submit.prevent="handleSave"
           >
-            <!-- Datos personales -->
+            <!-- datos personales -->
             <UFormField :error="errors.name">
               <UInput
                 v-model="form.name"
@@ -70,10 +72,10 @@
             </UFormField>
 
             <UFormField :label="$t('userPanel.phone')" :error="errors.phone">
-              <div class="flex gap-2">
+              <div class="flex gap-2 w-full">
                 <select
                   v-model="form.phonePrefix"
-                  class="px-2 py-1 bg-neutral-100 rounded"
+                  class="w-full px-2 py-1 bg-neutral-100 rounded"
                 >
                   <option
                     v-for="p in phonePrefixes"
@@ -91,7 +93,7 @@
               </div>
             </UFormField>
 
-            <!-- Dirección de envío -->
+            <!-- shipping -->
             <UFormField :label="$t('userPanel.street')" :error="errors.street">
               <UInput
                 v-model="form.street"
@@ -109,7 +111,6 @@
             <UFormField
               :label="$t('userPanel.postalCode')"
               :error="errors.postalCode"
-              class="w-full"
             >
               <UInput
                 v-model="form.postalCode"
@@ -128,12 +129,12 @@
               />
             </UFormField>
 
-            <!-- Mostrar / ocultar facturación -->
+            <!-- toggle billing -->
             <UFormField class="col-span-2">
               <label class="inline-flex items-center">
                 <input
-                  type="checkbox"
                   v-model="showBilling"
+                  type="checkbox"
                   class="form-checkbox h-5 w-5 text-primary-500"
                 />
                 <span class="ml-2">{{
@@ -142,7 +143,7 @@
               </label>
             </UFormField>
 
-            <!-- Dirección de facturación -->
+            <!-- billing -->
             <transition name="fade">
               <div
                 v-if="showBilling"
@@ -151,6 +152,7 @@
                 <h3 class="text-lg font-medium col-span-2">
                   {{ $t("userPanel.billingAddress") }}
                 </h3>
+
                 <UFormField
                   :label="$t('userPanel.street')"
                   :error="errors.billingStreet"
@@ -164,7 +166,6 @@
                 <UFormField
                   :label="$t('userPanel.city')"
                   :error="errors.billingCity"
-                  class="w-full"
                 >
                   <UInput
                     v-model="form.billingCity"
@@ -195,13 +196,13 @@
               </div>
             </transition>
 
-            <!-- Botón Guardar -->
+            <!-- save button -->
             <div class="col-span-2">
               <UButton
-                :loading="saving"
                 type="submit"
                 color="primary"
                 class="w-full"
+                :loading="saving"
               >
                 {{ $t("userPanel.saveChanges") }}
               </UButton>
@@ -212,32 +213,36 @@
           </form>
         </div>
 
-        <!-- Pedidos -->
+        <!-- ORDERS LIST ---------------------------------------------------- -->
         <div v-if="activeTab === 'orders'">
           <h2 class="text-xl font-semibold mb-4">
             {{ $t("userPanel.orders") }}
           </h2>
+
           <div v-if="orders.length" class="space-y-4">
             <div v-for="o in orders" :key="o.id" class="border rounded-lg p-4">
-              <div class="flex justify-between items-start">
+              <div class="flex justify-between">
                 <div>
                   <p class="font-medium">#{{ o.id }}</p>
                   <p class="text-sm text-neutral-600">
                     {{ d(new Date(o.date), "short") }}
                   </p>
                 </div>
-                <UBadge :color="orderColor(o.status)">{{
-                  $t(`orderStatus.${o.status}`)
-                }}</UBadge>
+                <UBadge :color="orderColor(o.status)">
+                  {{ $t(`orderStatus.${o.status}`) }}
+                </UBadge>
               </div>
             </div>
           </div>
-          <p v-else class="text-neutral-500">{{ $t("userPanel.noOrders") }}</p>
+
+          <p v-else class="text-neutral-500">
+            {{ $t("userPanel.noOrders") }}
+          </p>
         </div>
       </section>
     </div>
 
-    <!-- Modal Logout -->
+    <!-- LOGOUT MODAL ------------------------------------------------------- -->
     <UModal v-model:open="showLogoutModal">
       <template #content>
         <div class="bg-white p-6 rounded-lg text-center">
@@ -245,13 +250,14 @@
             {{ $t("userPanel.logoutConfirmTitle") }}
           </h3>
           <p class="mb-6">{{ $t("userPanel.logoutConfirmText") }}</p>
+
           <div class="flex justify-center gap-4">
-            <UButton color="primary" @click="confirmLogout">{{
-              $t("common.yes")
-            }}</UButton>
-            <UButton variant="soft" @click="showLogoutModal = false">{{
-              $t("common.cancel")
-            }}</UButton>
+            <UButton color="primary" @click="confirmLogout">
+              {{ $t("common.yes") }}
+            </UButton>
+            <UButton variant="soft" @click="showLogoutModal = false">
+              {{ $t("common.cancel") }}
+            </UButton>
           </div>
         </div>
       </template>
@@ -260,6 +266,8 @@
 </template>
 
 <script setup lang="ts">
+/* ---------------------------------------------------------------------- */
+/* imports ---------------------------------------------------------------- */
 import { ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import { z } from "zod";
@@ -267,24 +275,28 @@ import { parsePhoneNumberWithError } from "libphonenumber-js";
 import { useAuth } from "~/composables/useAuth";
 import type { Address } from "~/types/types";
 
-// i18n
+/* ---------------------------------------------------------------------- */
+/* i18n ------------------------------------------------------------------ */
 const { t, d } = useI18n();
 
-// Tabs
+/* ---------------------------------------------------------------------- */
+/* tabs ------------------------------------------------------------------ */
 const activeTab = ref<"profile" | "orders">("profile");
-const tabs: { id: "profile" | "orders"; label: string }[] = [
+const tabs = [
   { id: "profile", label: "userPanel.profile" },
   { id: "orders", label: "userPanel.orders" },
-];
+] as const;
 
-// Phone prefixes
+/* ---------------------------------------------------------------------- */
+/* phone prefixes -------------------------------------------------------- */
 const phonePrefixes = [
   { value: "+34", label: "+34 (ES)" },
   { value: "+49", label: "+49 (DE)" },
   { value: "+33", label: "+33 (FR)" },
 ];
 
-// Form model
+/* ---------------------------------------------------------------------- */
+/* form model ------------------------------------------------------------ */
 interface Form {
   name: string;
   surname: string;
@@ -316,14 +328,20 @@ const form = ref<Form>({
   billingCountry: "",
 });
 
-// State
+/* ---------------------------------------------------------------------- */
+/* reactive state -------------------------------------------------------- */
 const showBilling = ref(false);
 const errors = ref<Record<string, string>>({});
 const serverError = ref("");
 const saving = ref(false);
 const orders = ref<any[]>([]);
 
-// API composable
+/* IDs restituídos por la API para decidir entre create y update */
+const shippingId = ref<string | null>(null);
+const billingId = ref<string | null>(null);
+
+/* ---------------------------------------------------------------------- */
+/* auth composable ------------------------------------------------------- */
 const {
   fetchUserInfo,
   userInfo,
@@ -334,6 +352,8 @@ const {
   logout,
 } = useAuth();
 
+/* ---------------------------------------------------------------------- */
+/* validation schema ----------------------------------------------------- */
 const schema = z
   .object({
     name: z.string().min(1, t("validation.required")),
@@ -351,15 +371,10 @@ const schema = z
     billingCountry: z.string().optional(),
   })
   .superRefine((obj, ctx) => {
+    /* phone validation */
     try {
       const num = parsePhoneNumberWithError(obj.phonePrefix + obj.phone);
-      if (!num.isValid()) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ["phone"],
-          message: t("validation.invalidPhone"),
-        });
-      }
+      if (!num.isValid()) throw new Error();
     } catch {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -367,18 +382,32 @@ const schema = z
         message: t("validation.invalidPhone"),
       });
     }
+    /* billing required only when checkbox ON */
+    if (showBilling.value) {
+      const requiredBilling = [
+        { key: "billingStreet", label: t("validation.required") },
+        { key: "billingCity", label: t("validation.required") },
+        { key: "billingPostalCode", label: t("validation.required") },
+        { key: "billingCountry", label: t("validation.required") },
+      ] as const;
+      requiredBilling.forEach((f) => {
+        if (!(obj as any)[f.key]) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: [f.key],
+            message: f.label,
+          });
+        }
+      });
+    }
   });
 
-// IDs recuperados del backend para update vs create
-const shippingId = ref<string | null>(null);
-const billingId = ref<string | null>(null);
-
-// Carga inicial
+/* ---------------------------------------------------------------------- */
+/* initial load ---------------------------------------------------------- */
 onMounted(async () => {
   await fetchUserInfo();
   if (!userInfo.value) return;
 
-  // Perfil
   Object.assign(form.value, {
     name: userInfo.value.name,
     surname: userInfo.value.surname,
@@ -387,7 +416,7 @@ onMounted(async () => {
   });
   orders.value = userInfo.value.orders ?? [];
 
-  // Shipping
+  /* shipping */
   const ship = await getAddress("shipping");
   if (ship) {
     shippingId.value = ship.id;
@@ -399,7 +428,7 @@ onMounted(async () => {
     });
   }
 
-  // Billing
+  /* billing */
   const bill = await getAddress("billing");
   if (bill) {
     billingId.value = bill.id;
@@ -413,27 +442,25 @@ onMounted(async () => {
   }
 });
 
-// Guardar
+/* ---------------------------------------------------------------------- */
+/* save handler ---------------------------------------------------------- */
 async function handleSave() {
   errors.value = {};
   serverError.value = "";
 
-  // Validación
-  const parsed = schema.safeParse({
-    ...form.value,
-    phone: form.value.phone, // incluir phone para Zod
-  });
-
+  const parsed = schema.safeParse({ ...form.value });
   if (!parsed.success) {
     parsed.error.errors.forEach((err) => {
-      errors.value[err.path[0]] = err.message;
+      if (err.path.length) {
+        errors.value[err.path[0] as string] = err.message;
+      }
     });
     return;
   }
 
   saving.value = true;
   try {
-    // Perfil
+    /* update profile ---------------------------------------- */
     await updateUserProfile({
       name: form.value.name,
       surname: form.value.surname,
@@ -441,8 +468,8 @@ async function handleSave() {
       phone: form.value.phonePrefix + form.value.phone,
     });
 
-    // Shipping (siempre obligatorio)
-    const shippingData: Omit<Address, "type"> & { type: "shipping" } = {
+    /* shipping ---------------------------------------------- */
+    const shippingData: Address = {
       id: shippingId.value ?? "",
       street: form.value.street,
       city: form.value.city,
@@ -451,15 +478,17 @@ async function handleSave() {
       isDefault: true,
       type: "shipping",
     };
-    if (shippingId.value) await updateAddress(shippingData);
-    else {
+    if (shippingId.value) {
+      await updateAddress(shippingData);
+    } else {
       const created = await createAddress(shippingData);
-      shippingId.value = created?.id ?? null;
+      /* refrescamos el id real si el backend lo devuelve */
+      shippingId.value = created?.id ?? shippingId.value;
     }
 
-    // Billing (opcional)
+    /* billing (optional) ------------------------------------ */
     if (showBilling.value) {
-      const billingData: Omit<Address, "type"> & { type: "billing" } = {
+      const billingData: Address = {
         id: billingId.value ?? "",
         street: form.value.billingStreet,
         city: form.value.billingCity,
@@ -468,21 +497,23 @@ async function handleSave() {
         isDefault: false,
         type: "billing",
       };
-      if (billingId.value) await updateAddress(billingData);
-      else {
+      if (billingId.value) {
+        await updateAddress(billingData);
+      } else {
         const created = await createAddress(billingData);
-        billingId.value = created?.id ?? null;
+        billingId.value = created?.id ?? billingId.value;
       }
     }
-  } catch (e) {
+  } catch {
     serverError.value = t("validation.unknownError");
   } finally {
     saving.value = false;
   }
 }
 
-// Colores de pedidos
-function orderColor(s: string) {
+/* ---------------------------------------------------------------------- */
+/* helpers --------------------------------------------------------------- */
+function orderColor(status: string) {
   const map: Record<string, string> = {
     pending: "yellow",
     processing: "blue",
@@ -490,10 +521,11 @@ function orderColor(s: string) {
     delivered: "green",
     cancelled: "red",
   };
-  return map[s] || "neutral";
+  return map[status] || "neutral";
 }
 
-// Logout
+/* ---------------------------------------------------------------------- */
+/* logout ---------------------------------------------------------------- */
 const showLogoutModal = ref(false);
 function confirmLogout() {
   logout();
