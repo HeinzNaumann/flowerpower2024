@@ -42,12 +42,8 @@ export const useCartStore = defineStore("cart", {
 });
 
 // Tipos
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-}
+import type { Product as ProductFull } from '~/types/types';
 
-interface CartItem extends Product {
+interface CartItem extends ProductFull {
   quantity: number;
-}
+} // CartItem now includes images through ProductBase

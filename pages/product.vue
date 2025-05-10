@@ -110,13 +110,7 @@
 
         <button
           class="w-1/3s flex self-end bg-[#db9526] hover:bg-[#db9526] text-black p-3 rounded-md transition-colors cursor-pointer"
-          @click="
-            cart.addItem({
-              id: product.id,
-              name: product.title,
-              price: product.price,
-            })
-          "
+          @click="cart.addItem({ ...product, quantity: 1 })"
         >
           {{ $t("productPage.addToCart") }}
         </button>

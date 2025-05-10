@@ -11,10 +11,16 @@
         <div
           v-for="item in cart.items"
           :key="item.id"
-          class="flex justify-between items-center border-b pb-3"
+          class="flex justify-between items-center border-b pb-3 gap-3"
         >
-          <div>
-            <p class="font-medium text-lg">{{ item.name }}</p>
+          <img
+            v-if="item.images && item.images.length > 0"
+            :src="getImgUrl(item.images[0])"
+            :alt="item.title"
+            class="w-14 h-14 object-cover rounded border"
+          />
+          <div class="flex-1 min-w-0">
+            <p class="font-medium text-lg truncate">{{ item.title }}</p>
             <p class="text-sm text-gray-500">Cantidad: {{ item.quantity }}</p>
           </div>
           <div class="text-right">
@@ -66,5 +72,15 @@ function goToAddress() {
   } else {
     router.push(localePath("/checkout/address"));
   }
+}
+// Helper para la url de la imagen (igual que en CartSummary)
+const config = useRuntimeConfig?.() || {};
+function getImgUrl(img) {
+  if (!img) return '';
+  if (img.startsWith('http')) return img;
+  if (config.public && config.public.apiBaseUrl) {
+    return `${config.public.apiBaseUrl}/files/product/${img}`;
+  }
+  return `/images/${img}`;
 }
 </script>

@@ -1,14 +1,16 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">{{ $t("checkout.shippingTitle") }}</h1>
-
-    <!-- ¡Un único UForm para TODO! -->
-    <UForm
-      :schema="addressSchema"
-      :state="form"
-      @submit="submit"
-      class="space-y-4 max-w-xl"
-    >
+    <div class="flex flex-col md:flex-row md:items-start md:gap-8">
+      <!-- Formulario dirección (columna izquierda en desktop)-->
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold mb-6">{{ $t("checkout.shippingTitle") }}</h1>
+        <!-- ¡Un único UForm para TODO! -->
+        <UForm
+          :schema="addressSchema"
+          :state="form"
+          @submit="submit"
+          class="space-y-4 max-w-xl"
+        >
       <!-- SHIPPING campos… -->
       <div class="grid grid-cols-2 gap-4">
         <UFormField
@@ -129,11 +131,23 @@
       >
         {{ $t("checkout.confirm") }}
       </UButton>
-    </UForm>
+      </UForm>
+      <!-- Carrito en mobile -->
+      <div class="block md:hidden mt-8">
+        <CartSummary />
+      </div>
+    </div>
+    <!-- Carrito en desktop -->
+    <div class="hidden md:block w-full max-w-md">
+      <CartSummary />
+    </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import CartSummary from '~/components/CartSummary.vue';
+
 import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { z } from "zod";
@@ -309,4 +323,5 @@ async function submit() {
     isSubmitting.value = false;
   }
 }
+
 </script>
