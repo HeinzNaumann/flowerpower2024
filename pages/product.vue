@@ -42,11 +42,11 @@
         </div>
         <p class="text-neutral-600 mb-6">{{ product.shortDescription }}</p>
 
-        <div>
-          <h3 class="text-lg font-medium">
+        <div class="mt-8 md:mt-12">
+          <h3 class="text-lg font-medium mb-4">
             {{ $t("productPage.addYourComplement") }}:
           </h3>
-          <div class="grid grid-cols-3 gap-4">
+          <div class="grid grid-cols-3 gap-4 md:ml-8">
             <div
               class="rounded-lg p-4 text-center cursor-pointer border-2 transition-all"
               :class="selectedComplements.box ? 'border-[#db9526] ring-2 ring-[#db9526]' : 'border-transparent'"
@@ -57,10 +57,10 @@
               <img
                 src="public/images/complements/bombones.webp"
                 alt="complement"
-                class="w-full h-32 object-cover mb-2 border p-2"
+                class="w-24 h-24 object-contain mb-2 border p-2 mx-auto"
               />
-              <div class="flex items-center justify-center gap-2 mt-2 font-medium">
-                1x {{ $t("productPage.box") }} (€45.00)
+              <div class="flex items-center justify-center mt-2 text-xs font-medium">
+                {{ $t("productPage.box") }} - €45.00
               </div>
             </div>
             <div
@@ -73,10 +73,10 @@
               <img
                 src="public/images/complements/moet-chandon.webp"
                 alt="complement"
-                class="w-full h-32 object-cover mb-2 border p-2"
+                class="w-24 h-24 object-contain mb-2 border p-2 mx-auto"
               />
-              <div class="flex items-center justify-center gap-2 mt-2 font-medium">
-                1x {{ $t("productPage.bottle") }} (€45.00)
+              <div class="flex items-center justify-center mt-2 text-xs font-medium">
+                {{ $t("productPage.bottle") }} - €45.00
               </div>
             </div>
             <div
@@ -89,17 +89,17 @@
               <img
                 src="public/images/complements/tarjeta-felicitacion.webp"
                 alt="complement"
-                class="w-full h-32 object-cover mb-2 border p-2"
+                class="w-24 h-24 object-contain mb-2 border p-2 mx-auto"
               />
-              <div class="flex items-center justify-center gap-2 mt-2 font-medium">
-                1x {{ $t("productPage.card") }} (€45.00)
+              <div class="flex items-center justify-center mt-2 text-xs font-medium">
+                {{ $t("productPage.card") }} - €45.00
               </div>
             </div>
           </div>
         </div>
 
         <div
-          class="flex flex-col border-t border-b w-3/4 self-end text-xs py-2 space-y-1"
+          class="flex flex-col border-t border-b w-3/4 self-end text-xs py-4 space-y-2 mt-8 md:mt-10 md:mr-4"
         >
           <div class="flex justify-between items-center">
             <span>1x {{ product.title }}</span>
@@ -127,7 +127,7 @@
         </div>
 
         <button
-          class="w-1/3s flex self-end bg-[#db9526] hover:bg-[#db9526] text-black p-3 rounded-md transition-colors cursor-pointer"
+          class="w-1/3 flex justify-center self-end bg-[#db9526] hover:bg-opacity-90 text-black p-3 rounded-md transition-all duration-200 cursor-pointer mt-6 md:mr-4 font-medium"
           @click="addToCart"
         >
           {{ $t("productPage.addToCart") }}

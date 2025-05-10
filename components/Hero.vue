@@ -10,7 +10,7 @@
       <p class="text-lg text-left !text-white">{{ $t("home.hero.subtitle") }}</p>
       <NuxtLink
         :to="$localePath('/shop')"
-        class="inline-block bg-white text-neutral-900 font-bold py-2 px-5 rounded-full hover:bg-neutral-200 transition duration-200"
+        class="inline-block bg-white text-neutral-900 font-bold py-2 px-5 rounded-full hover:bg-neutral-200 transition duration-200 transform hover:scale-105"
       >
         {{ $t("button.buy") }}
       </NuxtLink>
@@ -21,6 +21,7 @@
         src="/images/floristeriaFlowerPower-Hero.webp"
         alt="{{ $t('header.alt.logo') }}"
         class="h-[800px] object-cover w-full"
+        loading="eager"
       />
 
       <div
@@ -33,7 +34,7 @@
         <p class="text-lg text-left !text-white">{{ $t("home.hero.subtitle") }}</p>
         <NuxtLink
           :to="$localePath('/shop')"
-          class="inline-block bg-white text-neutral-900 font-bold py-2 px-4 rounded-full hover:bg-red-400 hover:text-white transition duration-200"
+          class="inline-block bg-white text-neutral-900 font-bold py-2 px-4 rounded-full hover:bg-red-400 hover:text-white transition-all duration-300 transform hover:scale-105"
         >
           {{ $t("button.buy") }}
         </NuxtLink>

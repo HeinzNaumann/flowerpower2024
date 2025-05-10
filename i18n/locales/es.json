@@ -155,5 +155,17 @@
     "ok": "Aceptar",
     "yes": "Sí",
     "cancel": "Cancelar"
+  },
+  "productPage": {
+    "product": "Producto",
+    "addYourComplement": "Añadir complementos",
+    "box": "Bombones",
+    "bottle": "Champán",
+    "card": "Tarjeta",
+    "addToCart": "Añadir al carrito",
+    "colors": "Colores",
+    "description": "Descripción",
+    "sizes": "Tamaños aproximados",
+    "subTotal": "Subtotal"
   }
 }
