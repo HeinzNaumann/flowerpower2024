@@ -156,6 +156,19 @@
     "yes": "Sí",
     "cancel": "Cancelar"
   },
+  "cart": {
+    "title": "Tu carrito",
+    "empty": "El carrito está vacío",
+    "total": "Total:",
+    "checkout": "Finalizar compra",
+    "remove": "Eliminar",
+    "continueShopping": "Seguir comprando",
+    "subproducts": {
+      "box": "Bombones",
+      "bottle": "Champán",
+      "card": "Tarjeta"
+    }
+  },
   "productPage": {
     "product": "Producto",
     "addYourComplement": "Añadir complementos",

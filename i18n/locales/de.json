@@ -184,6 +184,19 @@
     "yes": "Ja",
     "cancel": "Abbrechen"
   },
+  "cart": {
+    "title": "Dein Warenkorb",
+    "empty": "Dein Warenkorb ist leer",
+    "total": "Gesamtsumme:",
+    "checkout": "Zur Kasse",
+    "remove": "Entfernen",
+    "continueShopping": "Weiter einkaufen",
+    "subproducts": {
+      "box": "Pralinen",
+      "bottle": "Champagner",
+      "card": "Karte"
+    }
+  },
   "faqPage": {
     "title": "Häufig gestellte Fragen",
     "faqs": {

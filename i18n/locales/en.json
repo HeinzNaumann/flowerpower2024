@@ -180,6 +180,19 @@
     "yes": "Yes",
     "cancel": "Cancel"
   },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "total": "Total:",
+    "checkout": "Checkout",
+    "remove": "Remove",
+    "continueShopping": "Continue Shopping",
+    "subproducts": {
+      "box": "Chocolates",
+      "bottle": "Champagne",
+      "card": "Card"
+    }
+  },
   "faqPage": {
     "title": "Frequently Asked Questions",
     "faqs": {

@@ -7,7 +7,7 @@
       <aside v-if="open" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col" @click.stop>
         <div class="flex items-center justify-between p-4 border-b">
           <h2 class="text-xl font-semibold">{{ $t('cart.title') || 'Tu carrito' }}</h2>
-          <button @click="$emit('update:open', false)" class="text-2xl hover:text-red-500">&times;</button>
+          <button @click="$emit('update:open', false)" class="text-2xl hover:text-red-500 cursor-pointer transition-colors duration-200">&times;</button>
         </div>
         <div class="flex-1 overflow-y-auto p-4 space-y-4">
         <div v-if="cart.items.length === 0" class="text-center text-gray-400 py-16">
@@ -27,11 +27,14 @@
                     <span class="flex items-center gap-1 bg-[#ffeecb] border border-[#db9526] text-[#a67c1a] text-xs rounded px-2 py-1">
                       <img v-if="sub.images && sub.images.length" :src="getImgUrl(sub.images[0])" :alt="sub.title" class="w-5 h-5 object-cover rounded-full border bg-white" />
                       <span class="truncate">{{ sub.title }} ({{ sub.quantity }})</span>
+                      <button @click="cart.removeItem(sub.id)" class="ml-1 text-[#a67c1a] hover:text-red-500 transition-colors duration-200 cursor-pointer">
+                        <span class="text-xs">&times;</span>
+                      </button>
                     </span>
                   </template>
                 </div>
               </div>
-              <button @click="cart.removeItem(item.id)" class="text-red-500 hover:underline text-sm ml-2">Eliminar</button>
+              <button @click="cart.removeItem(item.id)" class="text-red-500 hover:underline text-sm ml-2 cursor-pointer transition-colors duration-200">{{ $t('cart.remove') || 'Eliminar' }}</button>
             </div>
             <div class="flex justify-between mt-2">
               <span class="font-semibold">€ {{ (item.price * item.quantity + cart.items.filter(sub => sub.isComplement && sub.parentProductId === item.id).reduce((sum, sub) => sum + sub.price * sub.quantity, 0)).toFixed(2) }}</span>
@@ -44,7 +47,7 @@
             <span class="font-semibold">{{ $t('cart.total') || 'Total:' }}</span>
             <span class="text-xl font-bold">€ {{ groupedTotal.toFixed(2) }}</span>
           </div>
-          <UButton color="primary" block @click="$emit('checkout')">
+          <UButton color="primary" block @click="$emit('checkout')" class="cursor-pointer transition-all duration-200 hover:opacity-90">
             {{ $t('cart.checkout') || 'Finalizar compra' }}
           </UButton>
         </div>
