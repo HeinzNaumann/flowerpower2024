@@ -310,7 +310,14 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
 
   isSubmitting.value = true;
   try {
+    // Verificar si el usuario está autenticado
+    const isAuthenticated = userInfo.value !== null;
+    
     // build payloads
+    console.log('Información del formulario:', form);
+    console.log('Usuario autenticado:', isAuthenticated);
+    
+    // Siempre incluir la información del usuario en el payload, independientemente de si está autenticado o no
     const shippingPayload: Address = {
       id: shippingId || "",
       type: "shipping" as const,
@@ -318,8 +325,15 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       street: form.address,
       city: form.city,
       postalCode: form.zip,
-      country: "ES",
+      country: form.country || "ES",
+      // Incluir información del usuario siempre
+      name: form.name,
+      surname: form.surname,
+      email: form.email,
+      phone: form.phone
     };
+    
+    console.log('Dirección de envío con información del usuario:', shippingPayload);
     const billingPayload = isBillingSameAsShipping.value
       ? null
       : {
@@ -329,7 +343,14 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
           street: billing.address,
           city: billing.city,
           postalCode: billing.zip,
-          country: billing.country,
+          country: billing.country || "ES",
+          // Incluir información del usuario solo para usuarios invitados
+          ...(!isAuthenticated ? {
+            name: form.name,
+            surname: form.surname,
+            email: form.email,
+            phone: form.phone
+          } : {}),
         };
 
     // persist default addresses if requested
@@ -344,22 +365,44 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       }
     }
 
+    console.log('Antes de crear la orden');
     // create order in store (this will call your /api/orders)
-    await orderStore.createOrder(shippingPayload, billingPayload, {
-      deliveryDate: form.deliveryDate,
-      deliveryTime: form.deliveryTime,
-      cardNote: form.cardNote,
-    });
-    // clear cart
-    cartStore.clearCart();
-    
-    // Llamar al callback de éxito si se proporcionó
-    if (callbacks?.onSuccess) {
-      callbacks.onSuccess();
+    try {
+      await orderStore.createOrder(shippingPayload, billingPayload, {
+        deliveryDate: form.deliveryDate,
+        deliveryTime: form.deliveryTime,
+        cardNote: form.cardNote,
+      });
+      console.log('Orden creada correctamente');
+      console.log('ClientSecret:', orderStore.clientSecret);
+      
+      // Verificar que tenemos un clientSecret válido
+      if (!orderStore.clientSecret) {
+        throw new Error('No se ha generado un clientSecret válido');
+      }
+      
+      // clear cart
+      cartStore.clearCart();
+      console.log('Carrito limpiado');
+      
+      // Llamar al callback de éxito si se proporcionó
+      if (callbacks?.onSuccess) {
+        callbacks.onSuccess();
+        console.log('Callback de éxito ejecutado');
+      }
+      
+      // Esperar un momento para asegurar que el estado se ha actualizado
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // go to payment
+      console.log('Intentando redirigir a /checkout/payment');
+      await router.push("/checkout/payment");
+      console.log('Redirección exitosa');
+    } catch (error) {
+      console.error('Error al crear la orden o redirigir:', error);
+      // Mostrar un mensaje de error al usuario
+      errors['submit'] = 'Ha ocurrido un error al procesar tu orden. Por favor, inténtalo de nuevo.';
     }
-    
-    // go to payment
-    router.push("/checkout/payment");
   } finally {
     isSubmitting.value = false;
   }

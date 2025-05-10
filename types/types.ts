@@ -35,4 +35,9 @@ export type Address = {
   postalCode: string;
   country: string;
   type: "billing" | "shipping";
+  // Campos adicionales para usuarios invitados
+  name?: string;
+  surname?: string;
+  email?: string;
+  phone?: string;
 };

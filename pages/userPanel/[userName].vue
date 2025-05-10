@@ -225,7 +225,7 @@
                 <div>
                   <p class="font-medium">#{{ o.id }}</p>
                   <p class="text-sm text-neutral-600">
-                    {{ d(new Date(o.date), "short") }}
+                    {{ o.date ? d(new Date(o.date), "short") : $t("userPanel.noDate") }}
                   </p>
                 </div>
                 <UBadge :color="orderColor(o.status)">
@@ -513,13 +513,13 @@ async function handleSave() {
 
 /* ---------------------------------------------------------------------- */
 /* helpers --------------------------------------------------------------- */
-function orderColor(status: string) {
-  const map: Record<string, string> = {
-    pending: "yellow",
-    processing: "blue",
-    shipped: "green",
-    delivered: "green",
-    cancelled: "red",
+function orderColor(status: string): 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'error' | 'neutral' {
+  const map: Record<string, 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'error' | 'neutral'> = {
+    pending: "warning",
+    processing: "info",
+    shipped: "success",
+    delivered: "success",
+    cancelled: "error",
   };
   return map[status] || "neutral";
 }
