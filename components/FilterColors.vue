@@ -10,9 +10,7 @@
             name: 'shop',
             query: {
               ...route.query,
-              colors: $t(
-                `filters.${color.name.toLowerCase().replace(/\s+/g, '')}`
-              ),
+              colors: color.name.toLowerCase().replace(/\s+/g, '')
             },
           })
         "

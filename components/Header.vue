@@ -391,6 +391,76 @@ const tagTranslations = {
   },
 };
 
+const filterTranslations = {
+  // Ocasiones/Occasions
+  es: {
+    cumpleaños: "cumpleaños",
+    bodas: "bodas",
+    nacimiento: "nacimiento",
+    felicitaciones: "felicitaciones",
+    // Momentos/Moments
+    romantico: "romantico",
+    gracias: "gracias",
+    buenosdias: "buenosdias",
+    buenasnoches: "buenasnoches",
+    // Colores/Colors
+    rojo: "rojo",
+    rosa: "rosa",
+    blanco: "blanco",
+    amarillo: "amarillo",
+    naranja: "naranja",
+    azul: "azul",
+    negro: "negro",
+    violeta: "violeta",
+    verde: "verde",
+    gris: "gris",
+  },
+  en: {
+    cumpleaños: "birthday",
+    bodas: "wedding",
+    nacimiento: "birth",
+    felicitaciones: "congratulations",
+    // Momentos/Moments
+    romantico: "romantic",
+    gracias: "thankyou",
+    buenosdias: "goodmorning",
+    buenasnoches: "goodnight",
+    // Colores/Colors
+    rojo: "red",
+    rosa: "pink",
+    blanco: "white",
+    amarillo: "yellow",
+    naranja: "orange",
+    azul: "blue",
+    negro: "black",
+    violeta: "purple",
+    verde: "green",
+    gris: "neutral",
+  },
+  de: {
+    cumpleaños: "geburtstag",
+    bodas: "hochzeit",
+    nacimiento: "geburt",
+    felicitaciones: "glückwünsche",
+    // Momentos/Moments
+    romantico: "romantisch",
+    gracias: "danke",
+    buenosdias: "gutenmorgen",
+    buenasnoches: "gutenacht",
+    // Colores/Colors
+    rojo: "rot",
+    rosa: "rosa",
+    blanco: "weiß",
+    amarillo: "gelb",
+    naranja: "orange",
+    azul: "blau",
+    negro: "schwarz",
+    violeta: "violett",
+    verde: "grün",
+    gris: "grau",
+  },
+};
+
 const translateTag = (tag, fromLang, toLang) => {
   const fromTags = tagTranslations[fromLang];
   const toTags = tagTranslations[toLang];
@@ -399,12 +469,39 @@ const translateTag = (tag, fromLang, toLang) => {
   return entry ? toTags[entry[0]] : tag;
 };
 
+const translateFilter = (value, fromLang, toLang) => {
+  if (!value) return value;
+  
+  // Buscar traducción directa
+  if (filterTranslations[fromLang] && filterTranslations[toLang]) {
+    // Buscar el valor en el idioma de origen
+    for (const [key, val] of Object.entries(filterTranslations[fromLang])) {
+      if (val === value) {
+        // Devolver el valor correspondiente en el idioma de destino
+        return filterTranslations[toLang][key];
+      }
+    }
+  }
+  
+  // Si no se encuentra traducción, devolver el valor original
+  return value;
+};
+
 const getLocalePathWithQuery = (lang) => {
   const newQuery = { ...route.query };
 
   if (newQuery.tags) {
     newQuery.tags = translateTag(newQuery.tags, currentLocale.value, lang);
   }
+  
+  // Traducir los parámetros de filtrado
+  const filterParams = ['occasions', 'moments', 'flowers', 'colors'];
+  
+  filterParams.forEach(param => {
+    if (newQuery[param]) {
+      newQuery[param] = translateFilter(newQuery[param], currentLocale.value, lang);
+    }
+  });
 
   return {
     path: switchLocalePath(lang),

@@ -10,9 +10,7 @@
               name: 'shop',
               query: {
                 tags: route.query.tags,
-                [currentCategory]: $t(
-                  `filters.${category.name.toLowerCase().replace(/\s+/g, '')}`
-                ),
+                [currentCategory]: category.name.toLowerCase().replace(/\s+/g, '')
               },
             })
           "
