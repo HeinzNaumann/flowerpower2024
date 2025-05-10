@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex flex-col min-h-screen">
     <Header>
       <div class="absolute top-4 left-4">
         <img
@@ -9,7 +9,7 @@
         />
       </div>
     </Header>
-    <main class="">
+    <main class="flex-grow">
       <slot />
     </main>
     <Footer />
