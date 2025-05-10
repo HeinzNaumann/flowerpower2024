@@ -32,6 +32,7 @@
           />
         </button>
         <NuxtLink
+          v-if="isMounted"
           :to="localePath({ path: '/checkout/checkout' })"
           class="relative"
         >
@@ -69,6 +70,7 @@
         </button>
 
         <NuxtLink
+          v-if="isMounted"
           :to="localePath({ path: '/checkout/checkout' })"
           class="relative"
         >
@@ -150,7 +152,7 @@
         class="fixed top-0 right-0 w-64 h-full bg-white shadow-lg z-20 p-4 flex flex-col gap-4"
       >
         <button
-          class="self-end p-2"
+          class="self-end p-2 cursor-pointer"
           @click="toggleMenu"
           aria-label="Close menu"
         >
@@ -189,6 +191,13 @@
         </NuxtLink>
         <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
         <div class="flex flex-col gap-2 mt-4">
+          <button
+            v-if="!isAuthenticated() && isReady"
+            class="uppercase tracking-wide font-semibold text-xs py-1 pl-0 pr-2 mb-2 text-left hover:underline transition-all duration-150 cursor-pointer"
+            @click="openModal"
+          >
+            {{ $t('header.register') }}
+          </button>
           <NuxtLink
             :to="localePath({ path: '/flowers' })"
             class="hover:text-neutral-600"
@@ -339,6 +348,9 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+const isMounted = ref(false)
+onMounted(() => { isMounted.value = true })
 import LoginRegister from "~/components/LoginRegister.vue";
 const { locale } = useI18n();
 const localePath = useLocalePath();

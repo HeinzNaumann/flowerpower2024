@@ -7,13 +7,13 @@
         {{ $t("home.hero.titleFirstHalf") }} <br />
         {{ $t("home.hero.titleSecondHalf") }}
       </h1>
-      <p class="text-lg text-left">{{ $t("home.hero.subtitle") }}</p>
-      <a
-        href="#"
+      <p class="text-lg text-left !text-white">{{ $t("home.hero.subtitle") }}</p>
+      <NuxtLink
+        :to="$localePath('/shop')"
         class="inline-block bg-white text-neutral-900 font-bold py-2 px-5 rounded-full hover:bg-neutral-200 transition duration-200"
       >
         {{ $t("button.buy") }}
-      </a>
+      </NuxtLink>
     </div>
 
     <div class="w-full md:w-1/2 lg:w-2/3 relative">
@@ -30,14 +30,19 @@
           {{ $t("home.hero.titleFirstHalf") }}
           {{ $t("home.hero.titleSecondHalf") }}
         </h1>
-        <p class="text-lg text-left">{{ $t("home.hero.subtitle") }}</p>
-        <a
-          href="#"
+        <p class="text-lg text-left !text-white">{{ $t("home.hero.subtitle") }}</p>
+        <NuxtLink
+          :to="$localePath('/shop')"
           class="inline-block bg-white text-neutral-900 font-bold py-2 px-4 rounded-full hover:bg-red-400 hover:text-white transition duration-200"
         >
           {{ $t("button.buy") }}
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useLocalePath } from '#imports'
+const $localePath = useLocalePath()
+</script>

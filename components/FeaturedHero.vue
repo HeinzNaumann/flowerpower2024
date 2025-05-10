@@ -13,19 +13,23 @@
       <div
         class="cta-image-container absolute bottom-5 left-5 md:bottom-10 md:left-10"
       >
-        <h2 class="text-sm md:text-lg text-white mb-2 font-medium">
+        <h2 class="text-sm md:text-lg !text-white mb-2 font-medium">
           Flower Power Yulenka
         </h2>
-        <button
+        <NuxtLink
+          :to="$localePath('/shop')"
           class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-neutral-200 text-sm md:text-lg"
         >
           {{ $t("button.buy") }}
-        </button>
+        </NuxtLink>
       </div>
     </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useLocalePath } from '#imports'
+const $localePath = useLocalePath()
+</script>
 
 <style scoped></style>

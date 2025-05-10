@@ -23,21 +23,24 @@
     }"
   >
     <SwiperSlide v-for="(slide, id) in products" :key="id">
-      <div class="flex flex-col w-full h-full bg-white justify-center p-2">
+      <NuxtLink
+        :to="$localePath({ path: '/product', query: { slug: slide.slug } })"
+        class="flex flex-col w-full h-full bg-white justify-center p-2 hover:shadow-lg transition-shadow duration-200"
+      >
         <img
           :src="`${config.public.apiBaseUrl}/files/product/${slide.images}`"
           :alt="slide.slug"
           class="w-full object-cover border-neutral-200 border-solid border mb-3"
         />
-        <p :alt="$t(slide.title)" class="text-sm lg:text-base font-medium">
-          {{ $t(slide.title) }}
+        <p :alt="slide.title" class="text-sm lg:text-base font-medium">
+          {{ slide.title }}
         </p>
 
         <p v-if="isDesktop" class="text-sm lg:text-base font-extralight">
           {{ $t(slide.shortDescription) }}
         </p>
         <p class="text-sm lg:text-base font-extralight">{{ slide.price }} €</p>
-      </div>
+      </NuxtLink>
     </SwiperSlide>
   </Swiper>
 </template>
