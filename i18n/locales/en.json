@@ -150,6 +150,7 @@
     "phone": "Phone",
     "saveChanges": "Save changes",
     "noOrders": "You don’t have any orders yet",
+    "noDate": "No date",
     "namePlaceholder": "Name",
     "surnamePlaceholder": "Surname",
     "emailPlaceholder": "Email",

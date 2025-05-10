@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cart';
-import { computed, watch, onMounted, onUnmounted } from 'vue';
+import { computed, watch, onMounted, onUnmounted, watchEffect } from 'vue';
 import { UButton } from '#components';
 
 const props = defineProps<{ open: boolean }>();
@@ -131,6 +131,13 @@ function handleKeydown(e: KeyboardEvent) {
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
 });
+// Cerrar el drawer automáticamente cuando el carrito esté vacío
+watchEffect(() => {
+  if (props.open && cart.items.length === 0) {
+    emit('update:open', false);
+  }
+});
+
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
 });
