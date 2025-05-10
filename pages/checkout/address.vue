@@ -368,6 +368,22 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
     console.log('Antes de crear la orden');
     // create order in store (this will call your /api/orders)
     try {
+      // Guardar los datos de la orden en localStorage para que estén disponibles en la página de pago
+      const orderData = {
+        shipping: shippingPayload,
+        billing: billingPayload,
+        deliveryDate: form.deliveryDate,
+        deliveryTime: form.deliveryTime,
+        cardNote: form.cardNote,
+        items: cartStore.items,
+        total: cartStore.totalPrice
+      };
+      
+      // Guardar en localStorage
+      localStorage.setItem('lastOrderData', JSON.stringify(orderData));
+      console.log('Datos de la orden guardados en localStorage:', orderData);
+      
+      // Crear la orden en el backend
       await orderStore.createOrder(shippingPayload, billingPayload, {
         deliveryDate: form.deliveryDate,
         deliveryTime: form.deliveryTime,

@@ -7,16 +7,8 @@
         <p class="text-neutral-600">{{ $t('checkout.paymentSubtitle') || 'Completa tu pedido de forma segura' }}</p>
       </div>
 
-      <!-- Indicador de progreso -->
-      <div class="flex justify-center mb-10">
-        <div class="flex items-center">
-          <div class="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center">1</div>
-          <div class="h-1 w-12 bg-primary-500"></div>
-          <div class="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center">2</div>
-          <div class="h-1 w-12 bg-primary-500"></div>
-          <div class="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold">3</div>
-        </div>
-      </div>
+      <!-- Espacio adicional para mejor separación -->
+      <div class="mb-8"></div>
 
       <div class="flex flex-col md:flex-row gap-8">
         <!-- Columna izquierda: Resumen del pedido -->
@@ -38,8 +30,15 @@
                   <div class="text-sm text-neutral-500">x{{ item.quantity }}</div>
                   <!-- Acceso seguro a los complementos -->
                   <div v-if="(item as any).complements && (item as any).complements.length > 0" class="mt-1">
-                    <div v-for="complement in (item as any).complements" :key="complement.id" class="text-xs text-neutral-500 flex items-center gap-1">
-                      <span>+ {{ complement.title }}</span>
+                    <div v-for="complement in (item as any).complements" :key="complement.id" class="text-xs text-neutral-500 flex items-center gap-2 mt-2">
+                      <!-- Imagen del complemento -->
+                      <img 
+                        v-if="complement.images && complement.images.length > 0" 
+                        :src="getImgUrl(complement.images[0])" 
+                        :alt="complement.title" 
+                        class="w-8 h-8 object-cover rounded"
+                      />
+                      <span>+ {{ complement.title }} (€{{ complement.price.toFixed(2) }})</span>
                     </div>
                   </div>
                 </div>
@@ -206,30 +205,90 @@ const cardholderName = ref('');
 const loading = ref(false);
 const error = ref('');
 
+// Datos de la orden
+const orderItems = ref<CartItem[]>([]);
+const orderTotal = ref(0);
+
 // Datos computados
 const cartItems = computed(() => {
-  // Adaptamos los items para incluir complements si no existen
-  return cart.items.map(item => {
-    // Creamos una versión extendida del item con la propiedad complements
-    const extendedItem: CartItem = {
-      ...item,
-      complements: []
-    };
-    return extendedItem;
-  });
+  return orderItems.value;
 });
-const totalPrice = computed(() => cart.totalPrice);
 
-// Dirección de envío (simulada para la demo)
+const totalPrice = computed(() => {
+  return orderTotal.value;
+});
+
+// Obtener los datos reales de la orden
 const shippingAddress = ref({
-  name: 'Juan',
-  surname: 'Pérez',
-  address: 'Calle Principal 123',
-  city: 'Madrid',
-  zip: '28001',
-  country: 'España',
-  deliveryDate: '2025-05-15',
-  deliveryTime: '14:00',
+  name: '',
+  surname: '',
+  address: '',
+  city: '',
+  zip: '',
+  country: '',
+  deliveryDate: '',
+  deliveryTime: '',
+});
+
+// Cargar los datos reales de la orden cuando se monta el componente
+onMounted(async () => {
+  // Protegerse si alguien entra directo
+  if (!order.id || !order.clientSecret) {
+    router.push("/checkout/address");
+    return;
+  }
+  
+  try {
+    // Obtener los datos del carrito para el resumen
+    // Los datos de envío deberían venir del backend, pero como no tenemos esa funcionalidad,
+    // usaremos los datos que se guardaron en localStorage
+    const savedOrderData = localStorage.getItem('lastOrderData');
+    if (savedOrderData) {
+      const orderData = JSON.parse(savedOrderData);
+      console.log('Datos de la orden cargados:', orderData);
+      
+      // Actualizar la dirección de envío
+      if (orderData.shipping) {
+        shippingAddress.value = {
+          name: orderData.shipping.name || '',
+          surname: orderData.shipping.surname || '',
+          address: orderData.shipping.street || '',
+          city: orderData.shipping.city || '',
+          zip: orderData.shipping.postalCode || '',
+          country: orderData.shipping.country || '',
+          deliveryDate: orderData.deliveryDate || '',
+          deliveryTime: orderData.deliveryTime || '',
+        };
+      }
+      
+      // Actualizar los items del carrito
+      if (orderData.items && Array.isArray(orderData.items)) {
+        // Adaptamos los items para incluir complements si no existen
+        orderItems.value = orderData.items.map(item => {
+          // Creamos una versión extendida del item con la propiedad complements si no existe
+          const extendedItem: CartItem = {
+            ...item,
+            complements: (item as any).complements || []
+          };
+          return extendedItem;
+        });
+      }
+      
+      // Actualizar el precio total
+      if (typeof orderData.total === 'number') {
+        orderTotal.value = orderData.total;
+      } else {
+        // Calcular el total manualmente si no está disponible
+        orderTotal.value = orderItems.value.reduce((sum, item) => {
+          return sum + (item.price * item.quantity);
+        }, 0);
+      }
+    } else {
+      console.warn('No se encontraron datos de la última orden');
+    }
+  } catch (error) {
+    console.error('Error al cargar los datos de la orden:', error);
+  }
 });
 
 // Formatear número de tarjeta con espacios cada 4 dígitos
@@ -279,7 +338,16 @@ const config = useRuntimeConfig?.() || {};
 function getImgUrl(img: string | string[]) {
   if (!img) return "";
   const imgStr = Array.isArray(img) ? img[0] : img;
+  
+  // Si la URL ya es absoluta (comienza con http), devolverla tal cual
   if (imgStr.startsWith("http")) return imgStr;
+  
+  // Si la ruta ya comienza con 'images/', eliminar el prefijo para evitar duplicación
+  if (imgStr.startsWith("images/")) {
+    return `/${imgStr}`;
+  }
+  
+  // Para otras rutas, añadir el prefijo /images/
   return `/images/${imgStr}`;
 }
 
