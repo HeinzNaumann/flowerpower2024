@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row md:items-start md:gap-8">
       <!-- Formulario dirección (columna izquierda en desktop)-->
       <div class="flex-1">
-        <h1 class="text-2xl font-bold mb-6">{{ $t("checkout.shippingTitle") }}</h1>
+        <h1 v-if="showTitle" class="text-2xl font-bold mb-6">{{ $t("checkout.shippingTitle") }}</h1>
         <!-- ¡Un único UForm para TODO! -->
         <UForm
           :schema="addressSchema"
@@ -142,7 +142,7 @@
 <script setup lang="ts">
 import CartSummary from '~/components/CartSummary.vue';
 
-import { reactive, ref, onMounted } from "vue";
+import { computed, reactive, ref, onMounted } from 'vue';
 import { useRouter } from "vue-router";
 import { z } from "zod";
 import { useI18n } from "vue-i18n";
@@ -190,7 +190,29 @@ function clearError(field: string) {
   if (errors[field]) {
     delete errors[field];
   }
+  // Verificar si todos los campos están completos después de cada cambio
+  checkAllFieldsCompleted();
 }
+
+// Variable reactiva para controlar la visibilidad del título
+const showTitle = ref(true);
+
+// Función para verificar si todos los campos obligatorios están completos
+function checkAllFieldsCompleted() {
+  const requiredFields = ['name', 'surname', 'phone', 'address', 'city', 'zip', 'country', 'deliveryDate', 'deliveryTime'];
+  const allCompleted = requiredFields.every(field => {
+    // Usar acceso tipado para evitar errores de TypeScript
+    return form[field as keyof typeof form] && (form[field as keyof typeof form] as string).trim() !== '';
+  });
+  
+  // Si todos los campos están completos, ocultar el título
+  showTitle.value = !allCompleted;
+}
+
+// Verificar el estado inicial de los campos cuando se monta el componente
+onMounted(() => {
+  checkAllFieldsCompleted();
+});
 
 // Zod schemas
 const addressSchema = z.object({

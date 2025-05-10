@@ -55,7 +55,7 @@
       </div>
       
       <!-- Mensaje de error de validación -->
-      <div v-if="validationError" class="bg-red-50 border border-red-200 text-red-700 p-3 rounded mt-4 mb-2 text-sm">
+      <div v-if="validationError && Object.keys(formErrors).length > 0" class="bg-red-50 border border-red-200 text-red-700 p-3 rounded mt-4 mb-2 text-sm">
         <div class="font-semibold mb-1">{{ $t('checkout.formError') || 'Por favor, completa todos los campos requeridos:' }}</div>
         <ul class="list-disc pl-5">
           <li v-for="(error, field) in formErrors" :key="field">{{ getFieldLabel(field) }}: {{ error }}</li>
@@ -78,7 +78,8 @@
 
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cart';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { UButton } from '#components';
 const cartStore = useCartStore();
 const items = computed(() => cartStore.items);
@@ -89,6 +90,8 @@ const loading = ref(false);
 const validationError = ref(false);
 const formErrors = ref<Record<string, string>>({});
 const emit = defineEmits(['submit']);
+
+
 
 // Función para enviar el formulario desde el componente padre
 function submitForm() {
@@ -103,11 +106,28 @@ function submitForm() {
       if (Object.keys(errors).length > 0) {
         formErrors.value = errors;
         validationError.value = true;
+      } else {
+        // Si no hay errores, ocultar el mensaje
+        formErrors.value = {};
+        validationError.value = false;
       }
       loading.value = false;
     },
     onSuccess: () => {
+      // Limpiar errores en caso de éxito
+      formErrors.value = {};
+      validationError.value = false;
       loading.value = false;
+    },
+    // Función para limpiar un error específico cuando el usuario corrige un campo
+    clearFieldError: (field: string) => {
+      if (formErrors.value[field]) {
+        delete formErrors.value[field];
+        // Si no quedan errores, ocultar el mensaje completamente
+        if (Object.keys(formErrors.value).length === 0) {
+          validationError.value = false;
+        }
+      }
     }
   });
   
@@ -117,27 +137,37 @@ function submitForm() {
   }, 5000);
 }
 
-// Función para obtener etiquetas legibles de los campos
+// Inicializar i18n
+const { t } = useI18n();
+
+// Función para obtener la etiqueta del campo para mostrar en los errores
 function getFieldLabel(field: string): string {
   const labels: Record<string, string> = {
-    name: 'Nombre',
-    surname: 'Apellidos',
-    phone: 'Teléfono',
-    address: 'Dirección',
-    city: 'Ciudad',
-    zip: 'Código postal',
-    country: 'País',
-    deliveryDate: 'Fecha de entrega',
-    deliveryTime: 'Hora de entrega',
-    cardNote: 'Nota para tarjeta',
-    billingAddress: 'Dirección de facturación',
-    billingCity: 'Ciudad de facturación',
-    billingZip: 'Código postal de facturación',
-    billingCountry: 'País de facturación'
+    name: t('checkout.name') || 'Nombre',
+    surname: t('checkout.surname') || 'Apellidos',
+    phone: t('checkout.phone') || 'Teléfono',
+    address: t('checkout.street') || 'Dirección',
+    city: t('checkout.city') || 'Ciudad',
+    zip: t('checkout.zip') || 'Código postal',
+    country: t('checkout.country') || 'País',
+    deliveryDate: t('checkout.deliveryDate') || 'Fecha de entrega',
+    deliveryTime: t('checkout.deliveryTime') || 'Hora de entrega',
+    cardNote: t('checkout.cardNote') || 'Nota para tarjeta',
+    // Campos de facturación
+    billingAddress: t('checkout.billingAddress') || 'Dirección de facturación',
+    billingCity: t('checkout.billingCity') || 'Ciudad de facturación',
+    billingZip: t('checkout.billingZip') || 'Código postal de facturación',
   };
   
   return labels[field] || field;
 }
+
+// Observador para limpiar el mensaje de error cuando no hay errores
+watch(() => Object.keys(formErrors.value).length, (count) => {
+  if (count === 0) {
+    validationError.value = false;
+  }
+});
 
 // Construye la url de la imagen
 const config = useRuntimeConfig?.() || {};
