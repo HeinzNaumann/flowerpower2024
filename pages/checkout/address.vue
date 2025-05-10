@@ -16,45 +16,45 @@
         <UFormField
           name="name"
           :label="$t('checkout.name')"
-          :error="errors.name"
+          :class="{ 'text-red-500': errors.name }"
         >
-          <UInput v-model="form.name" class="w-full" />
+          <UInput v-model="form.name" class="w-full" @input="clearError('name')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.name ? 'ring-red-500' : 'ring-gray-300') }" />
         </UFormField>
         <UFormField
           name="surname"
           :label="$t('checkout.surname')"
-          :error="errors.surname"
+          :class="{ 'text-red-500': errors.surname }"
         >
-          <UInput v-model="form.surname" class="w-full" />
+          <UInput v-model="form.surname" class="w-full" @input="clearError('surname')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.surname ? 'ring-red-500' : 'ring-gray-300') }" />
         </UFormField>
       </div>
 
       <UFormField
         name="phone"
         :label="$t('checkout.phone')"
-        :error="errors.phone"
+        :class="{ 'text-red-500': errors.phone }"
       >
-        <UInput v-model="form.phone" type="tel" class="w-full" />
+        <UInput v-model="form.phone" type="tel" class="w-full" @input="clearError('phone')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.phone ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
-      <UFormField name="zip" :label="$t('checkout.zip')" :error="errors.zip">
-        <UInput v-model="form.zip" class="w-full" />
+      <UFormField name="zip" :label="$t('checkout.zip')" :class="{ 'text-red-500': errors.zip }">
+        <UInput v-model="form.zip" class="w-full" @input="clearError('zip')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.zip ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
       <UFormField
         name="country"
         :label="$t('checkout.country')"
-        :error="errors.country"
+        :class="{ 'text-red-500': errors.country }"
       >
-        <UInput v-model="form.country" class="w-full" />
+        <UInput v-model="form.country" class="w-full" @input="clearError('country')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.country ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
-      <UFormField name="city" :label="$t('checkout.city')" :error="errors.city">
-        <UInput v-model="form.city" class="w-full" />
+      <UFormField name="city" :label="$t('checkout.city')" :class="{ 'text-red-500': errors.city }">
+        <UInput v-model="form.city" class="w-full" @input="clearError('city')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.city ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
       <UFormField
         name="address"
         :label="$t('checkout.street')"
-        :error="errors.address"
+        :class="{ 'text-red-500': errors.address }"
       >
-        <UInput v-model="form.address" class="w-full" />
+        <UInput v-model="form.address" class="w-full" @input="clearError('address')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.address ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
 
       <!-- NUEVOS campos -->
@@ -62,16 +62,16 @@
         <UFormField
           name="deliveryDate"
           :label="$t('checkout.deliveryDate')"
-          :error="errors.deliveryDate"
+          :class="{ 'text-red-500': errors.deliveryDate }"
         >
-          <UInput v-model="form.deliveryDate" type="date" class="w-full" />
+          <UInput v-model="form.deliveryDate" type="date" class="w-full" @input="clearError('deliveryDate')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryDate ? 'ring-red-500' : 'ring-gray-300') }" />
         </UFormField>
         <UFormField
           name="deliveryTime"
           :label="$t('checkout.deliveryTime')"
-          :error="errors.deliveryTime"
+          :class="{ 'text-red-500': errors.deliveryTime }"
         >
-          <UInput v-model="form.deliveryTime" type="time" class="w-full" />
+          <UInput v-model="form.deliveryTime" type="time" class="w-full" @input="clearError('deliveryTime')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryTime ? 'ring-red-500' : 'ring-gray-300') }" />
         </UFormField>
       </div>
       <p class="text-xs text-neutral-600">
@@ -80,11 +80,13 @@
       <UFormField
         name="cardNote"
         :label="$t('checkout.cardNoteLabel')"
-        :error="errors.cardNote"
+        :class="{ 'text-red-500': errors.cardNote }"
       >
         <textarea
           v-model="form.cardNote"
-          class="w-full rounded border p-2"
+          class="w-full rounded p-2 shadow-sm ring-1 ring-inset"
+          :class="errors.cardNote ? 'ring-red-500' : 'ring-gray-300'"
+          @input="clearError('cardNote')"
           rows="4"
         />
       </UFormField>
@@ -100,46 +102,38 @@
         <UFormField
           name="billingAddress"
           :label="$t('checkout.street')"
-          :error="errors.billingAddress"
+          :class="{ 'text-red-500': errors.billingAddress }"
         >
-          <UInput v-model="billing.address" class="w-full" />
+          <UInput v-model="billing.address" class="w-full" @input="clearError('billingAddress')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.billingAddress ? 'ring-red-500' : 'ring-gray-300') }" />
         </UFormField>
         <div class="flex gap-4">
           <UFormField
             name="billingCity"
             :label="$t('checkout.city')"
-            :error="errors.billingCity"
+            :class="{ 'text-red-500': errors.billingCity }"
           >
-            <UInput v-model="billing.city" class="w-full" />
+            <UInput v-model="billing.city" class="w-full" @input="clearError('billingCity')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.billingCity ? 'ring-red-500' : 'ring-gray-300') }" />
           </UFormField>
           <UFormField
             name="billingZip"
             :label="$t('checkout.zip')"
-            :error="errors.billingZip"
+            :class="{ 'text-red-500': errors.billingZip }"
           >
-            <UInput v-model="billing.zip" class="w-full" />
+            <UInput v-model="billing.zip" class="w-full" @input="clearError('billingZip')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.billingZip ? 'ring-red-500' : 'ring-gray-300') }" />
           </UFormField>
         </div>
       </div>
 
-      <!-- botón único de submit -->
-      <UButton
-        type="submit"
-        color="primary"
-        class="w-full"
-        :loading="isSubmitting"
-      >
-        {{ $t("checkout.confirm") }}
-      </UButton>
+      <!-- Quitamos el botón de aquí y lo pondremos en el CartSummary -->
       </UForm>
       <!-- Carrito en mobile -->
       <div class="block md:hidden mt-8">
-        <CartSummary />
+        <CartSummary @submit="submit" />
       </div>
     </div>
     <!-- Carrito en desktop -->
     <div class="hidden md:block w-full max-w-md">
-      <CartSummary />
+      <CartSummary @submit="submit" />
     </div>
     </div>
   </div>
@@ -191,6 +185,13 @@ const billing = reactive({ address: "", city: "", zip: "", country: "ES" });
 // Reactive errors object
 const errors = reactive<Record<string, string>>({});
 
+// Funciones para limpiar errores al escribir
+function clearError(field: string) {
+  if (errors[field]) {
+    delete errors[field];
+  }
+}
+
 // Zod schemas
 const addressSchema = z.object({
   name: z.string().min(1, t("validation.required")),
@@ -199,6 +200,7 @@ const addressSchema = z.object({
   address: z.string().min(1, t("validation.required")),
   city: z.string().min(1, t("validation.required")),
   zip: z.string().min(1, t("validation.required")),
+  country: z.string().min(1, t("validation.required")),
   deliveryDate: z.string().min(1, t("validation.required")),
   deliveryTime: z.string().min(1, t("validation.required")),
   cardNote: z.string().optional(),
@@ -249,7 +251,7 @@ onMounted(async () => {
   }
 });
 
-async function submit() {
+async function submit(callbacks?: { onError?: (errors: Record<string, string>) => void, onSuccess?: () => void }) {
   // clear previous errors
   Object.keys(errors).forEach((k) => delete errors[k]);
 
@@ -260,6 +262,11 @@ async function submit() {
       const key = issue.path[0] as string;
       errors[key] = issue.message;
     }
+    
+    // Si hay errores y se proporcionó un callback de error, llámalo con los errores
+    if (callbacks?.onError) {
+      callbacks.onError(errors);
+    }
     return;
   }
   // validate billing if shown
@@ -267,8 +274,13 @@ async function submit() {
     const b = billingSchema.safeParse(billing);
     if (!b.success) {
       for (const issue of b.error.issues) {
-        const key = issue.path[0] as string;
+        const key = `billing${issue.path[0].toString().charAt(0).toUpperCase() + issue.path[0].toString().slice(1)}` as string;
         errors[key] = issue.message;
+      }
+      
+      // Si hay errores y se proporcionó un callback de error, llámalo con los errores
+      if (callbacks?.onError) {
+        callbacks.onError(errors);
       }
       return;
     }
@@ -318,6 +330,12 @@ async function submit() {
     });
     // clear cart
     cartStore.clearCart();
+    
+    // Llamar al callback de éxito si se proporcionó
+    if (callbacks?.onSuccess) {
+      callbacks.onSuccess();
+    }
+    
     // go to payment
     router.push("/checkout/payment");
   } finally {
