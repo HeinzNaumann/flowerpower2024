@@ -28,7 +28,7 @@
           >
             <ul v-if="openSection === 'help'" class="py-4 space-y-4">
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a href="/faq" class="block hover:text-neutral-300">{{
                   $t("footer.links.faq")
                 }}</a>
               </li>

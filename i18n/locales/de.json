@@ -184,6 +184,19 @@
     "yes": "Ja",
     "cancel": "Abbrechen"
   },
+  "faqPage": {
+    "title": "Häufig gestellte Fragen",
+    "faqs": {
+      "0": { "q": "Bieten Sie eine Lieferung am selben Tag an?", "a": "Ja, wir bieten eine Lieferung am selben Tag für Bestellungen an, die vor 16:00 Uhr in unserem Liefergebiet eingehen." },
+      "1": { "q": "Kann ich eine Lieferung für ein bestimmtes Datum und eine bestimmte Uhrzeit planen?", "a": "Natürlich, Sie können das Lieferdatum und das Zeitfenster während des Bestellvorgangs auswählen." },
+      "2": { "q": "Was passiert, wenn der Empfänger nicht zu Hause ist?", "a": "Wir kontaktieren den Empfänger, um eine neue Lieferung zu vereinbaren oder die Bestellung an einem sicheren Ort zu hinterlassen, je nach Ihren Anweisungen." },
+      "3": { "q": "Kann ich meinem Auftrag eine Notiz oder Widmung hinzufügen?", "a": "Ja, Sie können eine persönliche Widmung schreiben, die wir zusammen mit Ihren Blumen liefern." },
+      "4": { "q": "Welche Zahlungsmethoden akzeptieren Sie?", "a": "Wir akzeptieren Kreditkarten, Debitkarten und andere sichere Online-Zahlungsmethoden." },
+      "5": { "q": "Wie halte ich meine Blumen länger frisch?", "a": "Wir empfehlen, die Stiele schräg zu schneiden, das Wasser alle zwei Tage zu wechseln und direktes Sonnenlicht zu vermeiden." },
+      "6": { "q": "Kann ich meine Bestellung ändern oder stornieren?", "a": "Wenn Sie Ihre Bestellung ändern oder stornieren müssen, kontaktieren Sie uns bitte so schnell wie möglich. Wir helfen Ihnen gerne weiter." },
+      "7": { "q": "Bieten Sie individuelle Arrangements an?", "a": "Ja, Sie können uns kontaktieren, um ein vollständig individuelles Blumenarrangement zu bestellen." }
+    }
+  },
   "checkout": {
     "shippingTitle": "Lieferadresse",
     "name": "Name",

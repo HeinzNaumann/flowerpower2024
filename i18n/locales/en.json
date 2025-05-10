@@ -180,6 +180,19 @@
     "yes": "Yes",
     "cancel": "Cancel"
   },
+  "faqPage": {
+    "title": "Frequently Asked Questions",
+    "faqs": {
+      "0": { "q": "Do you offer same-day delivery?", "a": "Yes, we offer same-day delivery for orders placed before 4:00 PM within our delivery area." },
+      "1": { "q": "Can I schedule a delivery for a specific date and time?", "a": "Absolutely, you can select the delivery date and time slot during checkout." },
+      "2": { "q": "What happens if the recipient is not at home?", "a": "We will contact the recipient to arrange a new delivery or leave the order in a safe place, according to your instructions." },
+      "3": { "q": "Can I add a note or dedication to my order?", "a": "Yes, you can write a personalized dedication that we will deliver with your flowers." },
+      "4": { "q": "What payment methods do you accept?", "a": "We accept credit cards, debit cards, and other secure online payment methods." },
+      "5": { "q": "How can I keep my flowers fresh for longer?", "a": "We recommend cutting the stems diagonally, changing the water every two days, and avoiding direct sunlight." },
+      "6": { "q": "Can I modify or cancel my order?", "a": "If you need to modify or cancel your order, please contact us as soon as possible. We will do our best to help you." },
+      "7": { "q": "Do you offer custom arrangements?", "a": "Yes, you can contact us to request a fully customized floral arrangement." }
+    }
+  },
   "checkout": {
     "shippingTitle": "Shipping Address",
     "name": "Name",
