@@ -65,10 +65,25 @@
 
       <!-- Grid de productos -->
       <main class="w-full md:w-3/4 md:pl-6">
-        <div
+        <!-- Skeleton loader mientras carga -->
+        <div v-if="isLoading" 
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
         >
-          <div v-for="(product, id) in products" :key="id">
+          <div v-for="n in 9" :key="`skeleton-${n}`" class="animate-pulse">
+            <div class="flex flex-col w-full h-full bg-white justify-center p-2">
+              <div class="size-72 bg-neutral-200 mb-3"></div>
+              <div class="h-4 bg-neutral-200 rounded w-3/4 mb-2"></div>
+              <div class="h-3 bg-neutral-200 rounded w-1/2 mb-2"></div>
+              <div class="h-3 bg-neutral-200 rounded w-1/4"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Productos reales -->
+        <div v-else
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
+        >
+          <div v-for="(product, id) in products" :key="id" class="transform transition duration-300 hover:scale-[1.02]">
             <NuxtLink
               :to="
                 localePath({ path: '/product', query: { slug: product.slug } })
@@ -78,7 +93,8 @@
               <img
                 :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
                 :alt="product.slug"
-                class="size-72 object-cover border-neutral-200 border-solid border mb-3"
+                class="size-72 object-cover border-neutral-200 border-solid border mb-3 w-full h-72"
+                loading="lazy"
               />
               <p :alt="product.title" class="text-sm lg:text-base font-medium text-pri">
                 {{ product.title }}
@@ -104,7 +120,8 @@ const localePath = useLocalePath();
 
 const route = useRoute();
 const showDropdown = ref(false);
-const { data, error } = useFetchApi("products");
+const { data, error, pending } = useFetchApi("products");
+const isLoading = ref(true);
 const config = useRuntimeConfig();
 
 const categories = ["flowers", "moments", "occasions"] as const;
@@ -119,6 +136,25 @@ const typeData = ref<Record<Category, CategoryItem[]>>({
 });
 
 const products = computed<Product[]>(() => data.value || []);
+
+// Simular un tiempo de carga mínimo para evitar parpadeos
+onMounted(() => {
+  setTimeout(() => {
+    isLoading.value = false;
+  }, 500);
+});
+
+// Actualizar estado de carga cuando cambian los datos
+watch(() => pending.value, (isPending) => {
+  if (!isPending && data.value) {
+    // Pequeño retraso para asegurar transición suave
+    setTimeout(() => {
+      isLoading.value = false;
+    }, 300);
+  } else {
+    isLoading.value = true;
+  }
+}, { immediate: true });
 
 const availableColors = ref<string[]>([]);
 
@@ -179,4 +215,19 @@ const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-move {
+  transition: transform 0.3s ease;
+}
+</style>

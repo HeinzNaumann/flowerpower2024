@@ -5,6 +5,7 @@ import type { Product } from "~/types/types";
 export const useFetchApi = (typeRequest: string) => {
   const data = ref<Product[] | null>(null);
   const error = ref<Error | null>(null);
+  const pending = ref<boolean>(true);
 
   const config = useRuntimeConfig();
   const apiUrl = config.public.apiBaseUrl;
@@ -39,6 +40,7 @@ export const useFetchApi = (typeRequest: string) => {
 
   // Hacer la llamada al API
   watchEffect(async () => {
+    pending.value = true;
     try {
       const response = await $fetch<Product[]>(url.value, {
         method: "GET",
@@ -48,12 +50,17 @@ export const useFetchApi = (typeRequest: string) => {
         },
       });
       data.value = response;
+      // Pequeño retraso para evitar parpadeos en la interfaz
+      setTimeout(() => {
+        pending.value = false;
+      }, 300);
     } catch (err) {
       error.value = err as Error;
+      pending.value = false;
     }
   });
 
-  return { data, error };
+  return { data, error, pending };
 };
 export const useFetchSlider = async (typeRequest: string) => {
   const data = ref<Product[] | null>(null);
