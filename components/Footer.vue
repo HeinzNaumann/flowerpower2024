@@ -108,7 +108,7 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a href="/faq" class="hover:text-neutral-300">{{
                 $t("footer.links.faq")
               }}</a>
             </li>
