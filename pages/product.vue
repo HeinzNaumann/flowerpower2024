@@ -246,16 +246,21 @@ const totalPrice = computed(() => {
 function addToCart() {
   // Add main product
   cart.addItem({ ...product.value, quantity: 1 });
-  // Add selected complements
+  // Limpia complementos antiguos de este producto
+  COMPLEMENTS.forEach((c) => {
+    cart.removeItem(`complement-${c.id}-${product.value.id}`);
+  });
+  // Añade solo los complementos seleccionados
   COMPLEMENTS.forEach((c) => {
     if (selectedComplements.value[c.id]) {
       cart.addItem({
-        id: `complement-${c.id}`,
+        id: `complement-${c.id}-${product.value.id}`,
         title: t(c.name),
         price: c.price,
-        images: c.image,
+        images: c.image ? [c.image.replace(/^public\//, "")] : [],
         quantity: 1,
         isComplement: true,
+        parentProductId: product.value.id
       });
     }
   });

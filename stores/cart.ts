@@ -23,7 +23,16 @@ export const useCartStore = defineStore("cart", {
     },
 
     removeItem(productId: string) {
-      this.items = this.items.filter((item) => item.id !== productId);
+      // Find the item to remove
+      const removed = this.items.find(item => item.id === productId);
+      if (!removed) return;
+      if (!removed.isComplement) {
+        // Remove the product and all its complements
+        this.items = this.items.filter(item => item.id !== productId && item.parentProductId !== productId);
+      } else {
+        // Remove only the complement
+        this.items = this.items.filter(item => item.id !== productId);
+      }
     },
 
     updateQuantity(productId: string, quantity: number) {
