@@ -165,10 +165,12 @@
         {{ product.description }}
       </p>
     </div>
+    <CartDrawer v-model:open="showCartDrawer" @checkout="goToCheckout" />
   </div>
 </template>
 
 <script setup>
+import CartDrawer from '~/components/CartDrawer.vue';
 import { ref, computed } from "vue";
 import { useCartStore } from "~/stores/cart";
 
@@ -243,9 +245,24 @@ const totalPrice = computed(() => {
   return total.toFixed(2);
 });
 
+const showCartDrawer = ref(false);
+
+function goToCheckout() {
+  showCartDrawer.value = false;
+  window.location.href = '/checkout/checkout';
+}
+
 function addToCart() {
+  showCartDrawer.value = true;
   // Add main product
-  cart.addItem({ ...product.value, quantity: 1 });
+  // Asegura que la imagen tenga la URL completa del API
+const productWithFullImageUrl = {
+    ...product.value,
+    quantity: 1,
+    // Usa la URL completa del API para la imagen
+    images: [`${config.public.apiBaseUrl}/files/product/${product.value.images}`]
+  };
+  cart.addItem(productWithFullImageUrl);
   // Limpia complementos antiguos de este producto
   COMPLEMENTS.forEach((c) => {
     cart.removeItem(`complement-${c.id}-${product.value.id}`);
