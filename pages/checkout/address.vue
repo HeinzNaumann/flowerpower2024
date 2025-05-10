@@ -181,6 +181,7 @@ const form = reactive({
   address: "",
   city: "",
   zip: "",
+  country: "", // Added country property
   deliveryDate: "",
   deliveryTime: "",
   cardNote: "",

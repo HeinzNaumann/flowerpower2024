@@ -47,42 +47,52 @@
             {{ $t("productPage.addYourComplement") }}:
           </h3>
           <div class="grid grid-cols-3 gap-4">
-            <div class="rounded-lg p-4 text-center">
+            <div
+              class="rounded-lg p-4 text-center cursor-pointer border-2 transition-all"
+              :class="selectedComplements.box ? 'border-[#db9526] ring-2 ring-[#db9526]' : 'border-transparent'"
+              @click="toggleComplement('box')"
+              tabindex="0"
+              @keydown.enter="toggleComplement('box')"
+            >
               <img
                 src="public/images/complements/bombones.webp"
                 alt="complement"
                 class="w-full h-32 object-cover mb-2 border p-2"
               />
-              <p class="text-xs flex flex-1">1x {{ $t("productPage.box") }}</p>
-              <div class="flex flex-row items-center flex-initial gap-1">
-                <p class="text-xs">€</p>
-                <p class="text-xs">45.00</p>
+              <div class="flex items-center justify-center gap-2 mt-2 font-medium">
+                1x {{ $t("productPage.box") }} (€45.00)
               </div>
             </div>
-            <div class="rounded-lg p-4 text-center">
+            <div
+              class="rounded-lg p-4 text-center cursor-pointer border-2 transition-all"
+              :class="selectedComplements.bottle ? 'border-[#db9526] ring-2 ring-[#db9526]' : 'border-transparent'"
+              @click="toggleComplement('bottle')"
+              tabindex="0"
+              @keydown.enter="toggleComplement('bottle')"
+            >
               <img
                 src="public/images/complements/moet-chandon.webp"
                 alt="complement"
                 class="w-full h-32 object-cover mb-2 border p-2"
               />
-              <p class="text-xs flex flex-1">
-                1x {{ $t("productPage.bottle") }}
-              </p>
-              <div class="flex flex-row items-center flex-initial gap-1">
-                <p class="text-xs">€</p>
-                <p class="text-xs">45.00</p>
+              <div class="flex items-center justify-center gap-2 mt-2 font-medium">
+                1x {{ $t("productPage.bottle") }} (€45.00)
               </div>
             </div>
-            <div class="rounded-lg p-4 text-center">
+            <div
+              class="rounded-lg p-4 text-center cursor-pointer border-2 transition-all"
+              :class="selectedComplements.card ? 'border-[#db9526] ring-2 ring-[#db9526]' : 'border-transparent'"
+              @click="toggleComplement('card')"
+              tabindex="0"
+              @keydown.enter="toggleComplement('card')"
+            >
               <img
                 src="public/images/complements/tarjeta-felicitacion.webp"
                 alt="complement"
                 class="w-full h-32 object-cover mb-2 border p-2"
               />
-              <p class="text-xs flex flex-1">1x {{ $t("productPage.card") }}</p>
-              <div class="flex flex-row items-center flex-initial gap-1">
-                <p class="text-xs">€</p>
-                <p class="text-xs">45.00</p>
+              <div class="flex items-center justify-center gap-2 mt-2 font-medium">
+                1x {{ $t("productPage.card") }} (€45.00)
               </div>
             </div>
           </div>
@@ -95,9 +105,17 @@
             <span>1x {{ product.title }}</span>
             <span>€{{ product.price }}</span>
           </div>
-          <div class="flex justify-between items-center">
+          <div v-if="selectedComplements.box" class="flex justify-between items-center">
             <span>1x {{ $t("productPage.box") }}</span>
-            <span>€10,00</span>
+            <span>€45.00</span>
+          </div>
+          <div v-if="selectedComplements.bottle" class="flex justify-between items-center">
+            <span>1x {{ $t("productPage.bottle") }}</span>
+            <span>€45.00</span>
+          </div>
+          <div v-if="selectedComplements.card" class="flex justify-between items-center">
+            <span>1x {{ $t("productPage.card") }}</span>
+            <span>€45.00</span>
           </div>
         </div>
 
@@ -105,12 +123,12 @@
           class="flex gap-2 items-center text-xl font-normal self-end mt-2 mb-5"
         >
           <span>{{ $t("productPage.subTotal") }}</span>
-          <span>€26,00</span>
+          <span>€{{ totalPrice }}</span>
         </div>
 
         <button
           class="w-1/3s flex self-end bg-[#db9526] hover:bg-[#db9526] text-black p-3 rounded-md transition-colors cursor-pointer"
-          @click="cart.addItem({ ...product, quantity: 1 })"
+          @click="addToCart"
         >
           {{ $t("productPage.addToCart") }}
         </button>
@@ -167,7 +185,81 @@ const { data: product, error } = await useFetch(
 
 const { mappedColors } = useColorMapping(product.value.colors);
 
-console.log("product.value", product.value);
+// Complements selection state
+const selectedComplements = ref({
+  box: false,
+  bottle: false,
+  card: false,
+});
+
+function toggleComplement(id) {
+  selectedComplements.value[id] = !selectedComplements.value[id];
+  const complement = COMPLEMENTS.find(c => c.id === id);
+  if (!product.value) return;
+  const parentId = product.value.id;
+  if (selectedComplements.value[id]) {
+    // Add to cart
+    cart.addItem({
+      id: `complement-${id}-${parentId}`,
+      title: t(complement.name),
+      price: complement.price,
+      images: complement.image ? [complement.image.replace(/^public\//, "")] : [],
+      quantity: 1,
+      isComplement: true,
+      parentProductId: parentId
+    });
+  } else {
+    // Remove from cart
+    cart.removeItem(`complement-${id}-${parentId}`);
+  }
+}
+
+const COMPLEMENTS = [
+  {
+    id: 'box',
+    name: 'productPage.box',
+    price: 45,
+    image: 'public/images/complements/bombones.webp',
+  },
+  {
+    id: 'bottle',
+    name: 'productPage.bottle',
+    price: 45,
+    image: 'public/images/complements/moet-chandon.webp',
+  },
+  {
+    id: 'card',
+    name: 'productPage.card',
+    price: 45,
+    image: 'public/images/complements/tarjeta-felicitacion.webp',
+  },
+];
+
+const totalPrice = computed(() => {
+  let total = Number(product.value?.price || 0);
+  if (selectedComplements.value.box) total += 45;
+  if (selectedComplements.value.bottle) total += 45;
+  if (selectedComplements.value.card) total += 45;
+  return total.toFixed(2);
+});
+
+function addToCart() {
+  // Add main product
+  cart.addItem({ ...product.value, quantity: 1 });
+  // Add selected complements
+  COMPLEMENTS.forEach((c) => {
+    if (selectedComplements.value[c.id]) {
+      cart.addItem({
+        id: `complement-${c.id}`,
+        title: t(c.name),
+        price: c.price,
+        images: c.image,
+        quantity: 1,
+        isComplement: true,
+      });
+    }
+  });
+}
 
 const isZoomActive = ref(false);
 const scale = ref(1);

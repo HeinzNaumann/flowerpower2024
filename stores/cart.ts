@@ -7,13 +7,13 @@ export const useCartStore = defineStore("cart", {
 
   getters: {
     totalItems: (state) =>
-      state.items.reduce((sum, item) => sum + item.quantity, 0),
+      state.items.filter(item => !item.isComplement).reduce((sum, item) => sum + item.quantity, 0),
     totalPrice: (state) =>
       state.items.reduce((sum, item) => sum + item.price * item.quantity, 0),
   },
 
   actions: {
-    addItem(product: Product) {
+    addItem(product: ProductFull) {
       const existing = this.items.find((item) => item.id === product.id);
       if (existing) {
         existing.quantity++;
@@ -46,4 +46,6 @@ import type { Product as ProductFull } from '~/types/types';
 
 interface CartItem extends ProductFull {
   quantity: number;
+  isComplement?: boolean;
+  parentProductId?: string;
 } // CartItem now includes images through ProductBase
