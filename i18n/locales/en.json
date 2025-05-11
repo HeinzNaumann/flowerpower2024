@@ -54,7 +54,19 @@
       "moments": "Moments",
       "occasions": "Occasions",
       "colors": "Colors"
-    }
+    },
+    "searchResults": "Results for",
+    "activeFilters": "Active Filters",
+    "clearAllFilters": "Clear All",
+    "search": "Search",
+    "filters": "Filters",
+    "flowers": "Flowers",
+    "moments": "Moments",
+    "occasions": "Occasions",
+    "colors": "Colors",
+    "tags": "Tags",
+    "noResults": "No products found with the selected filters",
+    "clearFilters": "Clear filters"
   },
   "footer": {
     "sections": {

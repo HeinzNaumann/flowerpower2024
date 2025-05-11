@@ -2,18 +2,10 @@
   <div>
     <h3 class="font-bold text-lg">{{ title }}</h3>
     <div class="flex flex-wrap mt-2 gap-2">
-      <NuxtLink
+      <button
         v-for="color in mappedColors"
         :key="color.class"
-        :to="
-          localePath({
-            name: 'shop',
-            query: {
-              ...route.query,
-              colors: color.name.toLowerCase().replace(/\s+/g, '')
-            },
-          })
-        "
+        @click="applyFilter('colors', color.name.toLowerCase().replace(/\s+/g, ''))"
         :title="capitalize(color.name)"
         :class="[
           color.class,
@@ -22,10 +14,17 @@
           'h-6',
           'rounded-full',
           'cursor-pointer',
+          'transition-all duration-200',
+          'relative',
+          isActiveFilter('colors', color.name.toLowerCase().replace(/\s+/g, '')) ? 'ring-2 ring-offset-2 ring-black' : ''
         ]"
+        aria-label="Filtrar por color"
       >
-        <!-- Esto puede estar vacío, pero al menos necesitamos abrir y cerrar la etiqueta -->
-      </NuxtLink>
+        <!-- Indicador visual para filtro activo -->
+        <span v-if="isActiveFilter('colors', color.name.toLowerCase().replace(/\s+/g, ''))" 
+          class="absolute -top-1 -right-1 w-3 h-3 bg-white border border-black rounded-full">            
+        </span>
+      </button>
     </div>
   </div>
 </template>
@@ -36,9 +35,13 @@ import { useI18n } from "vue-i18n";
 // -- IMPORTANTE: si antes usabas defineEmits(["selectColor"]),
 // puede que ya no sea necesario si todo el manejo se hace por ruta.
 
-// Obtenemos route y localePath
-const route = useRoute();
-const localePath = useLocalePath();
+// Importar el composable de filtros
+const { activeFilters, applyFilter } = useProductFilters();
+
+// Función para verificar si un filtro está activo
+function isActiveFilter(filterType: string, value: string): boolean {
+  return activeFilters.value[filterType as keyof typeof activeFilters.value] === value;
+}
 
 // Define las propiedades que recibe el componente
 const props = defineProps({

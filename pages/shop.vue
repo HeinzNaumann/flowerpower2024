@@ -65,19 +65,32 @@
 
       <!-- Grid de productos -->
       <main class="w-full md:w-3/4 md:pl-6">
-        <!-- Mostrar el término de búsqueda si existe -->        
-        <div v-if="searchTerm" class="mb-4 p-3 bg-neutral-100 rounded-md flex items-center justify-between">
-          <div>
-            <span class="font-medium">{{ $t('shop.searchResults') || 'Resultados para' }}: </span>
-            <span class="italic">"{{ searchTerm }}"</span>
+        <!-- Panel de filtros activos -->        
+        <div v-if="hasActiveFilters" class="mb-4 p-3 bg-neutral-100 rounded-md">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="font-medium">{{ $t('shop.activeFilters') || 'Filtros activos' }}</h2>
+            <button 
+              @click="clearAllFilters" 
+              class="text-neutral-600 hover:text-neutral-900 transition-colors text-sm"
+              aria-label="Clear all filters"
+            >
+              {{ $t('shop.clearAllFilters') || 'Borrar todos' }}              
+            </button>
           </div>
-          <button 
-            @click="clearSearch" 
-            class="text-neutral-600 hover:text-neutral-900 transition-colors"
-            aria-label="Clear search"
-          >
-            <span class="text-xl">&times;</span>
-          </button>
+          
+          <!-- Filtro de búsqueda -->  
+          <div v-if="activeFilters.search" class="inline-flex items-center bg-white px-3 py-1 rounded-full text-sm mr-2 mb-2">
+            <span class="mr-2">{{ $t('shop.search') || 'Búsqueda' }}: "{{ activeFilters.search }}"</span>
+            <button @click="clearFilter('search')" class="text-neutral-400 hover:text-neutral-900">&times;</button>
+          </div>
+          
+          <!-- Filtros de categorías -->  
+          <template v-for="filterType in filterTypes" :key="filterType">
+            <div v-if="activeFilters[filterType]" class="inline-flex items-center bg-white px-3 py-1 rounded-full text-sm mr-2 mb-2">
+              <span class="mr-2">{{ $t(`shop.${filterType}`) || filterType }}: {{ activeFilters[filterType] }}</span>
+              <button @click="clearFilter(filterType)" class="text-neutral-400 hover:text-neutral-900">&times;</button>
+            </div>
+          </template>
         </div>
 
         
@@ -103,6 +116,19 @@
           {{ $t('shop.errorLoading') || 'Error cargando productos' }}
         </div>
         
+        <!-- Mostrar mensaje cuando no hay resultados -->
+        <div v-else-if="products.length === 0 && hasActiveFilters" class="w-full py-10 px-5 text-center bg-neutral-50 rounded-md">
+          <div class="text-3xl mb-3">⚠️</div>
+          <h3 class="text-lg font-medium mb-2">{{ $t('shop.noResults') }}</h3>
+          <p class="text-neutral-600 mb-4">{{ $t('shop.clearFilters') }}</p>
+          <button 
+            @click="clearAllFilters" 
+            class="px-4 py-2 bg-neutral-800 text-white rounded-md hover:bg-neutral-700 transition-colors"
+          >
+            {{ $t('shop.clearAllFilters') }}
+          </button>
+        </div>
+
         <!-- Mostrar productos cuando están disponibles -->
         <div
           v-else
@@ -174,34 +200,20 @@ const typeData = ref<Record<Category, CategoryItem[]>>({
   occasions: [],
 });
 
+// Usar el composable de filtros centralizado
+const { activeFilters, hasActiveFilters, applyFilters, clearFilter, clearAllFilters } = useProductFilters();
+
+// Definir los tipos de filtros disponibles
+const filterTypes = ['search', 'flowers', 'moments', 'occasions', 'colors', 'tags'] as const;
+type FilterType = typeof filterTypes[number];
+
+
 // Productos sin filtrar
 const allProducts = computed<Product[]>(() => data.value || []);
 
-// Extraer término de búsqueda de la URL
-const searchTerm = computed(() => route.query.search as string || "");
-
-// Productos filtrados por búsqueda y otros criterios
+// Productos filtrados aplicando todos los filtros activos
 const products = computed<Product[]>(() => {
-  let filteredProducts = allProducts.value || [];
-  
-  // Filtrar por término de búsqueda si existe
-  if (searchTerm.value) {
-    const searchLower = searchTerm.value.toLowerCase();
-    filteredProducts = filteredProducts.filter(product => {
-      // Buscar en título, descripción y categorías
-      return (
-        product.title?.toLowerCase().includes(searchLower) ||
-        product.shortDescription?.toLowerCase().includes(searchLower) ||
-        product.description?.toLowerCase().includes(searchLower) ||
-        // Buscar en arrays de categorías
-        (product.flowers || []).some(item => item.toLowerCase().includes(searchLower)) ||
-        (product.moments || []).some(item => item.toLowerCase().includes(searchLower)) ||
-        (product.occasions || []).some(item => item.toLowerCase().includes(searchLower))
-      );
-    });
-  }
-  
-  return filteredProducts;
+  return applyFilters(allProducts.value || []);
 });
 
 const availableColors = ref<string[]>([]);
@@ -249,18 +261,7 @@ watch(
   },
   { immediate: true }
 );
-// Función para limpiar la búsqueda
-const clearSearch = () => {
-  // Mantener otros parámetros pero eliminar 'search'
-  const query = { ...route.query };
-  delete query.search;
-  
-  const router = useRouter();
-  router.push({
-    name: 'shop',
-    query
-  });
-};
+
 
 const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
   products.value.sort((a: any, b: any) => {
