@@ -1,17 +1,18 @@
 import { ref, computed, watchEffect } from "vue";
-
 import type { Product } from "~/types/types";
 
 export const useFetchApi = (typeRequest: string) => {
-  const data = ref<Product[] | null>(null);
-  const error = ref<Error | null>(null);
-  const pending = ref<boolean>(true);
-
   const config = useRuntimeConfig();
   const apiUrl = config.public.apiBaseUrl;
   const { locale } = useI18n();
   const route = useRoute();
-
+  const productsStore = useProductsStore();
+  
+  // Datos reactivos
+  const data = ref<Product[] | null>(null);
+  const error = ref<Error | null>(null);
+  const pending = ref<boolean>(true);
+  
   // Construye dinámicamente la query basada en los filtros disponibles
   const queryParams = computed(() => {
     const {
@@ -35,54 +36,89 @@ export const useFetchApi = (typeRequest: string) => {
     };
   });
 
-  // Construir URL base
+  // Construir URL base y clave de caché
   const url = computed(() => `${apiUrl}/${typeRequest}`);
-
-  // Hacer la llamada al API
+  const cacheKey = computed(() => `${typeRequest}-${locale.value}-${JSON.stringify(queryParams.value)}`);
+  
+  // Cargar datos con caché
   watchEffect(async () => {
     pending.value = true;
+    
     try {
-      const response = await $fetch<Product[]>(url.value, {
-        method: "GET",
-        query: queryParams.value, // Pasa los parámetros dinámicos aquí
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      data.value = response;
-      // Pequeño retraso para evitar parpadeos en la interfaz
-      setTimeout(() => {
+      // Intentar obtener datos de la caché
+      const cachedData = productsStore.getCachedProducts(cacheKey.value);
+      
+      if (cachedData) {
+        // Usar datos de la caché
+        data.value = cachedData;
         pending.value = false;
-      }, 300);
+      } else {
+        // Obtener datos frescos de la API
+        const response = await $fetch<Product[]>(url.value, {
+          method: "GET",
+          query: queryParams.value,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        
+        // Guardar en caché
+        productsStore.cacheProducts(cacheKey.value, response);
+        data.value = response;
+        
+        // Pequeño retraso para evitar parpadeos en la interfaz
+        setTimeout(() => {
+          pending.value = false;
+        }, 300);
+      }
     } catch (err) {
       error.value = err as Error;
       pending.value = false;
     }
   });
 
-  return { data, error, pending };
+  return { data, error, pending }
 };
 export const useFetchSlider = async (typeRequest: string) => {
-  const data = ref<Product[] | null>(null);
-  const error = ref<Error | null>(null);
-
   const config = useRuntimeConfig();
   const apiUrl = config.public.apiBaseUrl;
   const { locale } = useI18n();
   const route = useRoute();
-
+  const productsStore = useProductsStore();
+  
+  // Datos reactivos
+  const data = ref<Product[] | null>(null);
+  const error = ref<Error | null>(null);
+  
+  // Construir la URL y clave única para el caché
+  const url = `${apiUrl}/${typeRequest}`;
+  const cacheKey = `slider-${typeRequest}-${locale.value}-${route.query.tags || 'all'}`;
+  
   try {
-    data.value = await $fetch<Product[]>(`${apiUrl}/${typeRequest}`, {
-      method: "GET",
-      query: {
-        tags: route.query.tags,
-        lang: locale.value,
-        limit: 60,
-      },
-    });
+    // Intentar obtener datos de la caché
+    const cachedData = productsStore.getCachedProducts(cacheKey);
+    
+    if (cachedData) {
+      // Usar datos de la caché
+      data.value = cachedData;
+    } else {
+      // Obtener datos frescos de la API
+      const response = await $fetch<Product[]>(url, {
+        method: "GET",
+        query: {
+          tags: route.query.tags,
+          lang: locale.value,
+          limit: 60,
+        },
+      });
+      
+      // Guardar en caché
+      productsStore.cacheProducts(cacheKey, response);
+      data.value = response;
+    }
   } catch (err) {
     error.value = err as Error;
   }
-
-  return { data, error };
+  
+  return { data, error }
 };
