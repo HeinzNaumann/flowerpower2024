@@ -28,22 +28,22 @@
           >
             <ul v-if="openSection === 'help'" class="py-4 space-y-4">
               <li>
-                <a href="/faq" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/faq')" class="block hover:text-neutral-300">{{
                   $t("footer.links.faq")
                 }}</a>
               </li>
               <li>
-                <a href="/shipping-delivery" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/shipping-delivery')" class="block hover:text-neutral-300">{{
                   $t("footer.links.shippingAndDelivery")
                 }}</a>
               </li>
               <li>
-                <a href="/privacy-policy" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/privacy-policy')" class="block hover:text-neutral-300">{{
                   $t("footer.links.privacyPolicy")
                 }}</a>
               </li>
               <li>
-                <a href="/bouquet-care" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/bouquet-care')" class="block hover:text-neutral-300">{{
                   $t("footer.links.bouquetCare")
                 }}</a>
               </li>
@@ -76,22 +76,22 @@
           >
             <ul v-if="openSection === 'about'" class="py-4 space-y-4">
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/our-history')" class="block hover:text-neutral-300">{{
                   $t("footer.links.ourHistory")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/team')" class="block hover:text-neutral-300">{{
                   $t("footer.links.team")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/physical-store')" class="block hover:text-neutral-300">{{
                   $t("footer.links.physicalStore")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a :href="localePath('/contact')" class="block hover:text-neutral-300">{{
                   $t("footer.links.contact")
                 }}</a>
               </li>
@@ -108,22 +108,22 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <a href="/faq" class="hover:text-neutral-300">{{
+              <a :href="localePath('/faq')" class="hover:text-neutral-300">{{
                 $t("footer.links.faq")
               }}</a>
             </li>
             <li>
-              <a href="/shipping-delivery" class="hover:text-neutral-300">{{
+              <a :href="localePath('/shipping-delivery')" class="hover:text-neutral-300">{{
                 $t("footer.links.shippingAndDelivery")
               }}</a>
             </li>
             <li>
-              <a href="/privacy-policy" class="hover:text-neutral-300">{{
+              <a :href="localePath('/privacy-policy')" class="hover:text-neutral-300">{{
                 $t("footer.links.privacyPolicy")
               }}</a>
             </li>
             <li>
-              <a href="/bouquet-care" class="hover:text-neutral-300">{{
+              <a :href="localePath('/bouquet-care')" class="hover:text-neutral-300">{{
                 $t("footer.links.bouquetCare")
               }}</a>
             </li>
@@ -136,22 +136,22 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a :href="localePath('/our-history')" class="hover:text-neutral-300">{{
                 $t("footer.links.ourHistory")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a :href="localePath('/team')" class="hover:text-neutral-300">{{
                 $t("footer.links.team")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a :href="localePath('/physical-store')" class="hover:text-neutral-300">{{
                 $t("footer.links.physicalStore")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a :href="localePath('/contact')" class="hover:text-neutral-300">{{
                 $t("footer.links.contact")
               }}</a>
             </li>
@@ -159,21 +159,21 @@
         </div>
 
         <div class="flex justify-end space-x-4">
-          <a href="#" class="hover:opacity-75">
+          <a :href="localePath('/facebook')" class="hover:opacity-75">
             <img
               src="/assets/icons/facebook.svg"
               :alt="$t('footer.socialMedia.facebook')"
               class="w-6 h-6 text-white"
             />
           </a>
-          <a href="#" class="hover:opacity-75">
+          <a :href="localePath('/youtube')" class="hover:opacity-75">
             <img
               src="/assets/icons/youtube.svg"
               :alt="$t('footer.socialMedia.youtube')"
               class="w-6 h-6"
             />
           </a>
-          <a href="#" class="hover:opacity-75">
+          <a :href="localePath('/instagram')" class="hover:opacity-75">
             <img
               src="/assets/icons/instagram.svg"
               :alt="$t('footer.socialMedia.instagram')"
@@ -185,21 +185,21 @@
 
       <!-- Social Media Icons (Mobile/Tablet) -->
       <div class="mt-8 flex justify-center space-x-6 lg:hidden">
-        <a href="#" class="hover:opacity-75">
+        <a :href="localePath('/facebook')" class="hover:opacity-75">
           <img
             src="/assets/icons/facebook.svg"
             :alt="$t('footer.socialMedia.facebook')"
             class="w-8 h-8"
           />
         </a>
-        <a href="#" class="hover:opacity-75">
+        <a :href="localePath('/youtube')" class="hover:opacity-75">
           <img
             src="/assets/icons/youtube.svg"
             :alt="$t('footer.socialMedia.youtube')"
             class="w-8 h-8"
           />
         </a>
-        <a href="#" class="hover:opacity-75">
+        <a :href="localePath('/instagram')" class="hover:opacity-75">
           <img
             src="/assets/icons/instagram.svg"
             :alt="$t('footer.socialMedia.instagram')"
@@ -234,19 +234,19 @@
       <div
         class="flex flex-col lg:flex-row justify-start lg:justify-end text-sm space-y-2 lg:space-y-0 lg:space-x-4"
       >
-        <a href="#" class="hover:text-neutral-300">{{
+        <a :href="localePath('/terms-of-use')" class="hover:text-neutral-300">{{
           $t("footer.links.termsOfUse")
         }}</a>
-        <a href="/privacy-policy" class="hover:text-neutral-300">{{
+        <a :href="localePath('/privacy-policy')" class="hover:text-neutral-300">{{
           $t("footer.links.privacyPolicy")
         }}</a>
-        <a href="#" class="hover:text-neutral-300">{{
+        <a :href="localePath('/terms-of-sale')" class="hover:text-neutral-300">{{
           $t("footer.links.termsOfSale")
         }}</a>
-        <a href="#" class="hover:text-neutral-300">{{
+        <a :href="localePath('/legal-notice')" class="hover:text-neutral-300">{{
           $t("footer.links.legalNotice")
         }}</a>
-        <a href="#" class="hover:text-neutral-300">{{
+        <a :href="localePath('/cookie-settings')" class="hover:text-neutral-300">{{
           $t("footer.links.cookieSettings")
         }}</a>
       </div>
@@ -255,6 +255,9 @@
 </template>
 
 <script setup>
+import { useLocalePath } from '#imports';
+
+const localePath = useLocalePath();
 const openSection = ref(null);
 
 const toggleSection = (section) => {

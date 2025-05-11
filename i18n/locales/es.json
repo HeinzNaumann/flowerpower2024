@@ -460,5 +460,42 @@
         }
       }
     }
+  },
+  "ourHistoryPage": {
+    "title": "Sobre Nosotros",
+    "teamSection": {
+      "title": "Un equipo de floristas dispuestos a trabajar para ti",
+      "paragraph1": "Amamos las flores, las plantas y el diseño, es por ello que decidimos crear floristería flower power para poder transmitir nuestra pasión y poder ofrecer a nuestros clientes calidad.",
+      "paragraph2": "Somos una floristería ubicada en mallorca, primamos por encima de todo el diseño y la calidad de nuestro producto es por ello que trabajamos con una red de colaboradores a nivel nacional para que las flores te lleguen en menos de 24 horas al destino que nos indiques. Elegimos personalmente las mejores floristerías de cada municipio, ciudad y/o provincia. También enviamos al extranjero donde estamos avanzando para ofrecer nuestro sello de calidad al mayor número de países posibles, de momento ya es posible en Alemania, Reino Unido y Rusia.",
+      "imageAlt": "Florista trabajando con flores"
+    },
+    "historySection": {
+      "title": "Historia",
+      "paragraph1": "Nuestra primera floristería se llamaba el Arrayán y nació en el año 1996 en la ciudad de córdoba, España. Tras 5 años de servicio por motivos familiares nos trasladamos a la isla de mallorca y decidimos cambiar el nombre por uno más internacional y más acorde a la isla de mallorca donde hay mucho turismo extranjero. Desde el año 2000 hasta ahora hemos tenido la oportunidad de crecer y de tener la experiencia necesaria para empezar a centrarnos en el negocio online y llegar a más clientes."
+    },
+    "founderSection": {
+      "title": "¿Quién soy?",
+      "paragraph1": "Mi nombre es Antonia Maqueda y soy la fundadora de flower power. Soy la persona encargada de dirigir esta empresa, me hace sumamente feliz que estés en nuestra página web. Mi pasión son las flores y mi objetivo es que mis clientes reciban la mejor calidad posible. Hacemos cada ramo artesanalmente y único para que la persona que regala o se regala así mismo, sienta lo que nosotros sentimos cuando creamos algo único y especial que es una buena composición floral.",
+      "paragraph2": "Te invito a que te suscribas a nuestro boletín de noticias más abajo para que nos conozcas mejor, recibas descuentos, ofertas y las últimas noticas de flower power.",
+      "signature": "Gracias por visitarnos,\nAntonia Maqueda",
+      "imageAlt": "Antonia Maqueda, fundadora de Flower Power"
+    },
+    "valuesSection": {
+      "title": "Nuestros Valores",
+      "values": {
+        "0": {
+          "title": "Calidad",
+          "description": "Seleccionamos cuidadosamente cada flor y planta para garantizar la máxima frescura y belleza en todos nuestros arreglos."
+        },
+        "1": {
+          "title": "Creatividad",
+          "description": "Cada composición floral es única, diseñada con pasión y creatividad para transmitir emociones y sentimientos."
+        },
+        "2": {
+          "title": "Compromiso",
+          "description": "Nos comprometemos a ofrecer un servicio excepcional, entregando puntualmente y cuidando cada detalle para superar tus expectativas."
+        }
+      }
+    }
   }
 }

@@ -503,5 +503,42 @@
         }
       }
     }
+  },
+  "ourHistoryPage": {
+    "title": "Über Uns",
+    "teamSection": {
+      "title": "Ein Team von Floristen, bereit für Sie zu arbeiten",
+      "paragraph1": "Wir lieben Blumen, Pflanzen und Design, weshalb wir uns entschieden haben, die Floristik Flower Power zu gründen, um unsere Leidenschaft zu vermitteln und unseren Kunden Qualität zu bieten.",
+      "paragraph2": "Wir sind ein Floristikgeschäft auf Mallorca und legen vor allem Wert auf Design und Qualität. Deshalb arbeiten wir mit einem Netzwerk von Mitarbeitern auf nationaler Ebene zusammen, damit die Blumen in weniger als 24 Stunden an dem von Ihnen angegebenen Ziel ankommen. Wir wählen persönlich die besten Floristen in jeder Gemeinde, Stadt und/oder Provinz aus. Wir versenden auch ins Ausland, wo wir daran arbeiten, unser Qualitätssiegel in möglichst vielen Ländern anzubieten. Derzeit ist dies bereits in Deutschland, Großbritannien und Russland möglich.",
+      "imageAlt": "Florist bei der Arbeit mit Blumen"
+    },
+    "historySection": {
+      "title": "Geschichte",
+      "paragraph1": "Unser erstes Blumengeschäft hieß El Arrayán und wurde 1996 in der Stadt Córdoba, Spanien, gegründet. Nach 5 Jahren Dienst zogen wir aus familiären Gründen auf die Insel Mallorca und beschlossen, den Namen in etwas Internationaleres zu ändern, das besser zur Insel Mallorca passt, wo es viel ausländischen Tourismus gibt. Seit dem Jahr 2000 bis heute hatten wir die Möglichkeit zu wachsen und die notwendige Erfahrung zu sammeln, um uns auf das Online-Geschäft zu konzentrieren und mehr Kunden zu erreichen."
+    },
+    "founderSection": {
+      "title": "Wer bin ich?",
+      "paragraph1": "Mein Name ist Antonia Maqueda und ich bin die Gründerin von Flower Power. Ich bin die Person, die für die Leitung dieses Unternehmens verantwortlich ist, und es macht mich überaus glücklich, dass Sie auf unserer Website sind. Meine Leidenschaft sind Blumen, und mein Ziel ist es, dass meine Kunden die bestmögliche Qualität erhalten. Wir fertigen jeden Strauß handwerklich und einzigartig an, damit die Person, die schenkt oder sich selbst beschenkt, das fühlt, was wir fühlen, wenn wir etwas Einzigartiges und Besonderes schaffen, nämlich eine gute Blumenkomposition.",
+      "paragraph2": "Ich lade Sie ein, unseren Newsletter unten zu abonnieren, um uns besser kennenzulernen, Rabatte, Angebote und die neuesten Nachrichten von Flower Power zu erhalten.",
+      "signature": "Vielen Dank für Ihren Besuch,\nAntonia Maqueda",
+      "imageAlt": "Antonia Maqueda, Gründerin von Flower Power"
+    },
+    "valuesSection": {
+      "title": "Unsere Werte",
+      "values": {
+        "0": {
+          "title": "Qualität",
+          "description": "Wir wählen jede Blume und Pflanze sorgfältig aus, um maximale Frische und Schönheit in allen unseren Arrangements zu gewährleisten."
+        },
+        "1": {
+          "title": "Kreativität",
+          "description": "Jede Blumenkomposition ist einzigartig, mit Leidenschaft und Kreativität gestaltet, um Emotionen und Gefühle zu vermitteln."
+        },
+        "2": {
+          "title": "Engagement",
+          "description": "Wir verpflichten uns, einen außergewöhnlichen Service zu bieten, pünktlich zu liefern und auf jedes Detail zu achten, um Ihre Erwartungen zu übertreffen."
+        }
+      }
+    }
   }
 }

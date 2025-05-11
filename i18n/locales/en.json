@@ -499,5 +499,42 @@
         }
       }
     }
+  },
+  "ourHistoryPage": {
+    "title": "About Us",
+    "teamSection": {
+      "title": "A team of florists ready to work for you",
+      "paragraph1": "We love flowers, plants, and design, which is why we decided to create Flower Power florist to transmit our passion and offer quality to our customers.",
+      "paragraph2": "We are a florist located in Mallorca, prioritizing design and quality above all else. That's why we work with a network of collaborators at the national level to ensure flowers reach you in less than 24 hours at the destination you specify. We personally select the best florists in each municipality, city, and/or province. We also ship internationally, where we are advancing to offer our quality seal to the largest number of countries possible. Currently, it's already possible in Germany, the United Kingdom, and Russia.",
+      "imageAlt": "Florist working with flowers"
+    },
+    "historySection": {
+      "title": "History",
+      "paragraph1": "Our first flower shop was called El Arrayán and was born in 1996 in the city of Córdoba, Spain. After 5 years of service, for family reasons, we moved to the island of Mallorca and decided to change the name to something more international and more in line with the island of Mallorca, where there is a lot of foreign tourism. Since 2000 until now, we have had the opportunity to grow and gain the necessary experience to start focusing on the online business and reach more customers."
+    },
+    "founderSection": {
+      "title": "Who am I?",
+      "paragraph1": "My name is Antonia Maqueda and I am the founder of Flower Power. I am the person in charge of directing this company, and it makes me extremely happy that you are on our website. My passion is flowers, and my goal is for my clients to receive the best possible quality. We make each bouquet artisanally and unique so that the person who gives or treats themselves feels what we feel when we create something unique and special, which is a good floral composition.",
+      "paragraph2": "I invite you to subscribe to our newsletter below to get to know us better, receive discounts, offers, and the latest news from Flower Power.",
+      "signature": "Thank you for visiting,\nAntonia Maqueda",
+      "imageAlt": "Antonia Maqueda, founder of Flower Power"
+    },
+    "valuesSection": {
+      "title": "Our Values",
+      "values": {
+        "0": {
+          "title": "Quality",
+          "description": "We carefully select each flower and plant to ensure maximum freshness and beauty in all our arrangements."
+        },
+        "1": {
+          "title": "Creativity",
+          "description": "Each floral composition is unique, designed with passion and creativity to convey emotions and feelings."
+        },
+        "2": {
+          "title": "Commitment",
+          "description": "We are committed to providing exceptional service, delivering on time, and taking care of every detail to exceed your expectations."
+        }
+      }
+    }
   }
 }
