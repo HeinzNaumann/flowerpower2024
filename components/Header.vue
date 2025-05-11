@@ -62,7 +62,7 @@
         <Avatar v-if="isAuthenticated() && isReady" />
 
         <button
-          v-else-if="isReady"
+          v-if="!isAuthenticated()"
           class="hover:text-neutral-600 cursor-pointer"
           @click="openModal"
         >
@@ -361,12 +361,8 @@
 import { inject, ref, onMounted } from 'vue';
 import { useCartDrawer } from '~/composables/useCartDrawer';
 const { showCartDrawer } = useCartDrawer();
-const isMounted = ref(false);
+const isMounted = ref(true);
 const searchQuery = ref('');
-
-onMounted(() => {
-  isMounted.value = true;
-});
 
 // Función para manejar la búsqueda
 function handleSearch() {
@@ -581,10 +577,10 @@ const modal = overlay.create(LoginRegister);
 const openModal = () => {
   modal.open(LoginRegister, {});
 };
-const isReady = ref(false);
+// Inicializar como true para evitar parpadeos en la UI
+const isReady = ref(true);
 
 onMounted(() => {
-  isReady.value = true;
   watchEffect((onCleanup) => {
     currentLocale.value = locale.value;
     currentFlag.value = `/images/flags/${currentLocale.value}.png`;
