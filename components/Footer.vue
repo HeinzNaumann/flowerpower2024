@@ -33,7 +33,7 @@
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a href="/shipping-delivery" class="block hover:text-neutral-300">{{
                   $t("footer.links.shippingAndDelivery")
                 }}</a>
               </li>
@@ -113,7 +113,7 @@
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a href="/shipping-delivery" class="hover:text-neutral-300">{{
                 $t("footer.links.shippingAndDelivery")
               }}</a>
             </li>

@@ -92,7 +92,7 @@
       "mapPin": "Karte"
     },
     "location": "Spanien",
-    "copyright": "© 2020 Floristería Flower Power. Alle Rechte vorbehalten."
+    "copyright": " 2020 Floristería Flower Power. Alle Rechte vorbehalten."
   },
   "categories": {
     "sections": {
@@ -257,5 +257,79 @@
     "delivery": "Lieferung",
     "subtotal": "Zwischensumme",
     "shipping": "Versand"
+  },
+  "shippingPage": {
+    "title": "Versand & Lieferung",
+    "deliveryAreas": {
+      "title": "Liefergebiete",
+      "description": "Bei Flower Power bieten wir frische Blumenlieferungen in den folgenden Gebieten an. Wenn Ihr Standort nicht aufgeführt ist, kontaktieren Sie uns bitte, um die Verfügbarkeit zu prüfen.",
+      "areas": {
+        "0": "Madrid Stadt und Metropolregion - Lieferung am selben Tag möglich",
+        "1": "Restliche Halbinsel - Lieferung innerhalb von 24-48 Stunden",
+        "2": "Balearen und Kanarische Inseln - Lieferung innerhalb von 48-72 Stunden"
+      }
+    },
+    "deliveryTimes": {
+      "title": "Lieferzeiten",
+      "description": "Unsere Lieferzeiten variieren je nach Bestelltyp und Standort. Alle Bestellungen werden mit größter Sorgfalt bearbeitet und vorbereitet, um sicherzustellen, dass Ihre Blumen frisch und schön ankommen.",
+      "table": {
+        "orderType": "Bestelltyp",
+        "processingTime": "Bearbeitungszeit",
+        "deliveryTime": "Lieferzeit",
+        "rows": {
+          "0": {
+            "type": "Standardbestellung",
+            "processing": "Bis zu 24 Stunden",
+            "delivery": "1-2 Werktage"
+          },
+          "1": {
+            "type": "Expressbestellung",
+            "processing": "2-3 Stunden",
+            "delivery": "Am selben Tag (Bestellungen vor 14:00 Uhr)"
+          },
+          "2": {
+            "type": "Individuelle Bestellung",
+            "processing": "24-48 Stunden",
+            "delivery": "2-3 Werktage"
+          }
+        }
+      }
+    },
+    "shippingCosts": {
+      "title": "Versandkosten",
+      "description": "Unsere Versandkosten hängen vom Lieferort und der gewählten Versandart ab. Für Bestellungen über 60€ bieten wir kostenlosen Standardversand innerhalb der Stadt Madrid an.",
+      "table": {
+        "location": "Standort",
+        "standardDelivery": "Standardlieferung",
+        "expressDelivery": "Expresslieferung",
+        "rows": {
+          "0": {
+            "location": "Madrid Stadt",
+            "standard": "4,95€",
+            "express": "9,95€"
+          },
+          "1": {
+            "location": "Halbinsel",
+            "standard": "7,95€",
+            "express": "12,95€"
+          },
+          "2": {
+            "location": "Inseln",
+            "standard": "12,95€",
+            "express": "Nicht verfügbar"
+          }
+        }
+      }
+    },
+    "specialInstructions": {
+      "title": "Besondere Hinweise",
+      "description": "Um eine erfolgreiche Lieferung Ihrer Blumen zu gewährleisten, beachten Sie bitte Folgendes:",
+      "instructions": {
+        "0": "Geben Sie eine gültige Kontakttelefonnummer für den Empfänger an, falls unser Zusteller Kontakt aufnehmen muss.",
+        "1": "Bei Lieferung an ein Büro geben Sie bitte den Firmennamen und die Abteilung an.",
+        "2": "Bei Krankenhauslieferungen prüfen Sie bitte vorab, ob Blumen erlaubt sind, und geben Sie die Zimmernummer an.",
+        "3": "Wenn niemand zur Annahme der Bestellung verfügbar ist, versuchen wir, sie an einem sicheren Ort oder bei einem Nachbarn zu hinterlassen, gemäß Ihren Anweisungen."
+      }
+    }
   }
 }

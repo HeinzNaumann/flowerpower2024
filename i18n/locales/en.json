@@ -88,7 +88,7 @@
       "mapPin": "Map"
     },
     "location": "Spain",
-    "copyright": "© 2020 Flower Power Florist. All rights reserved."
+    "copyright": " 2020 Flower Power Florist. All rights reserved."
   },
   "categories": {
     "sections": {
@@ -253,5 +253,79 @@
     "delivery": "Delivery",
     "subtotal": "Subtotal",
     "shipping": "Shipping"
+  },
+  "shippingPage": {
+    "title": "Shipping & Delivery",
+    "deliveryAreas": {
+      "title": "Delivery Areas",
+      "description": "At Flower Power, we offer fresh flower delivery services in the following areas. If your location is not listed, please contact us to check availability.",
+      "areas": {
+        "0": "Madrid city and metropolitan area - Same day delivery available",
+        "1": "Rest of the Peninsula - Delivery within 24-48 hours",
+        "2": "Balearic and Canary Islands - Delivery within 48-72 hours"
+      }
+    },
+    "deliveryTimes": {
+      "title": "Delivery Times",
+      "description": "Our delivery times vary depending on the type of order and location. All orders are processed and prepared with the utmost care to ensure your flowers arrive fresh and beautiful.",
+      "table": {
+        "orderType": "Order Type",
+        "processingTime": "Processing Time",
+        "deliveryTime": "Delivery Time",
+        "rows": {
+          "0": {
+            "type": "Standard Order",
+            "processing": "Up to 24 hours",
+            "delivery": "1-2 business days"
+          },
+          "1": {
+            "type": "Express Order",
+            "processing": "2-3 hours",
+            "delivery": "Same day (orders before 2:00 PM)"
+          },
+          "2": {
+            "type": "Custom Order",
+            "processing": "24-48 hours",
+            "delivery": "2-3 business days"
+          }
+        }
+      }
+    },
+    "shippingCosts": {
+      "title": "Shipping Costs",
+      "description": "Our shipping costs depend on the delivery location and the type of service selected. For orders over €60, we offer free shipping on standard deliveries within Madrid city.",
+      "table": {
+        "location": "Location",
+        "standardDelivery": "Standard Delivery",
+        "expressDelivery": "Express Delivery",
+        "rows": {
+          "0": {
+            "location": "Madrid City",
+            "standard": "€4.95",
+            "express": "€9.95"
+          },
+          "1": {
+            "location": "Peninsula",
+            "standard": "€7.95",
+            "express": "€12.95"
+          },
+          "2": {
+            "location": "Islands",
+            "standard": "€12.95",
+            "express": "Not available"
+          }
+        }
+      }
+    },
+    "specialInstructions": {
+      "title": "Special Instructions",
+      "description": "To ensure successful delivery of your flowers, please consider the following:",
+      "instructions": {
+        "0": "Provide a valid contact phone number for the recipient in case our delivery person needs to get in touch.",
+        "1": "If delivery is to an office, please indicate the company name and department.",
+        "2": "For hospital deliveries, please check in advance if they allow flowers and provide the room number.",
+        "3": "If no one is available to receive the order, we will try to leave it in a safe place or with a neighbor, according to your instructions."
+      }
+    }
   }
 }
