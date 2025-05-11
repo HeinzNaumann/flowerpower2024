@@ -57,7 +57,18 @@
       "moments": "Momente",
       "occasions": "Anlässe",
       "colors": "Farben"
-    }
+    },
+    "sort": "Sortieren nach",
+    "priceLowToHigh": "Preis: Niedrig zu Hoch",
+    "priceHighToLow": "Preis: Hoch zu Niedrig",
+    "nameAToZ": "Name: A-Z",
+    "nameZToA": "Name: Z-A",
+    "activeFilters": "Aktive Filter",
+    "clearAllFilters": "Alle Filter löschen",
+    "search": "Suche",
+    "errorLoading": "Fehler beim Laden der Produkte",
+    "noProductsFound": "Keine Produkte entsprechen Ihren Filterkriterien",
+    "tryAgain": "Versuchen Sie, Ihre Filter zu ändern oder"
   },
 
   "footer": {
@@ -183,7 +194,8 @@
     "edit": "Bearbeiten",
     "delete": "Löschen",
     "yes": "Ja",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "shop": "Geschäft"
   },
   "cart": {
     "title": "Dein Warenkorb",

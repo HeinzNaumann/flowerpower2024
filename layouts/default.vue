@@ -15,7 +15,7 @@ import { useCartDrawer } from '~/composables/useCartDrawer';
 
 const { showCartDrawer } = useCartDrawer();
 import { watch } from 'vue';
-watch(showCartDrawer, (val) => {
-  console.log('[LAYOUT] showCartDrawer changed:', val);
-});
+// watch(showCartDrawer, (val) => {
+  // Removed console.log
+// });
 </script>

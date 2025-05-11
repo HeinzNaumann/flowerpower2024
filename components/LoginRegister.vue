@@ -5,6 +5,11 @@
         ? 'Introduce tu dirección de correo electrónico para unirte o iniciar sesión.'
         : 'Vamos a hacerte Flower Power Member'
     "
+    :description="
+      isLogin
+        ? 'Accede a tu cuenta o únete a nosotros'
+        : 'Completa el formulario para crear tu cuenta'
+    "
     v-model:open="internalOpen"
     id="loginRegisterModal"
     overlay

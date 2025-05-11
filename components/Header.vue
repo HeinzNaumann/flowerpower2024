@@ -366,7 +366,6 @@ const searchQuery = ref('');
 
 onMounted(() => {
   isMounted.value = true;
-  console.log('[HEADER] mounted, showCartDrawer:', showCartDrawer.value);
 });
 
 // Función para manejar la búsqueda
@@ -383,7 +382,6 @@ function handleSearch() {
 }
 
 function openCartDrawer() {
-  console.log('CLICK CARRITO HEADER');
   showCartDrawer.value = true;
 }
 
