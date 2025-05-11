@@ -64,14 +64,51 @@
           :label="$t('checkout.deliveryDate')"
           :class="{ 'text-red-500': errors.deliveryDate }"
         >
-          <UInput v-model="form.deliveryDate" type="date" class="w-full" @input="clearError('deliveryDate')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryDate ? 'ring-red-500' : 'ring-gray-300') }" />
+          <UPopover>
+            <UInput
+              v-model="formattedDeliveryDate"
+              readonly
+              class="w-full cursor-pointer"
+              :class="{ 'ring-red-500': errors.deliveryDate }"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryDate ? 'ring-red-500' : 'ring-gray-300') }"
+              icon="i-lucide-calendar"
+            />
+            <template #content>
+              <div class="p-4 bg-white rounded-lg shadow-lg border border-gray-200">
+                <MondayFirstCalendar
+                  v-model="deliveryDateObject"
+                  :min-value="minCalendarDate"
+                  :is-date-disabled="isDateDisabled"
+                  @update:model-value="handleDateChange"
+                  class="bg-white text-gray-900 font-medium"
+                />
+                <div class="mt-2 text-xs text-gray-500 text-center">
+                  {{ $t('checkout.selectDeliveryDate') }}
+                </div>
+                <div class="mt-1 text-xs text-red-500 text-center">
+                  {{ $t('checkout.noSundayDelivery') }}
+                </div>
+              </div>
+            </template>
+          </UPopover>
         </UFormField>
         <UFormField
           name="deliveryTime"
           :label="$t('checkout.deliveryTime')"
           :class="{ 'text-red-500': errors.deliveryTime }"
         >
-          <UInput v-model="form.deliveryTime" type="time" class="w-full" @input="clearError('deliveryTime')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryTime ? 'ring-red-500' : 'ring-gray-300') }" />
+          <UInput 
+            v-model="form.deliveryTime" 
+            type="time" 
+            min="09:00" 
+            max="19:00" 
+            class="w-full" 
+            @input="handleTimeChange" 
+            :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryTime ? 'ring-red-500' : 'ring-gray-300') }" 
+          />
+          <div class="text-xs text-gray-500 mt-1">
+            {{ $t('checkout.deliveryTimeRange') }}
+          </div>
         </UFormField>
       </div>
       <p class="text-xs text-neutral-600">
@@ -143,6 +180,7 @@
 import CartSummary from '~/components/CartSummary.vue';
 
 import { computed, reactive, ref, onMounted } from 'vue';
+import { CalendarDate, DateFormatter, getLocalTimeZone, type DateValue } from '@internationalized/date';
 import { useRouter } from "vue-router";
 import { z } from "zod";
 import { useI18n } from "vue-i18n";
@@ -175,12 +213,27 @@ const form = reactive({
   address: "",
   city: "",
   zip: "",
-  country: "", // Added country property
+  country: "ES",
   deliveryDate: "",
-  deliveryTime: "",
+  deliveryTime: "12:00",
   cardNote: "",
 });
 const billing = reactive({ address: "", city: "", zip: "", country: "ES" });
+
+// Propiedad reactiva para el objeto CalendarDate del calendario
+const deliveryDateObject = ref<CalendarDate>();
+
+// Formateador de fecha para mostrar en el input
+const { locale } = useI18n();
+const dateFormatter = new DateFormatter(locale.value || 'es-ES', {
+  dateStyle: 'medium'
+});
+
+// Fecha formateada para mostrar en el input
+const formattedDeliveryDate = computed(() => {
+  if (!deliveryDateObject.value) return '';
+  return dateFormatter.format(deliveryDateObject.value.toDate(getLocalTimeZone()));
+});
 
 // Reactive errors object
 const errors = reactive<Record<string, string>>({});
@@ -196,6 +249,65 @@ function clearError(field: string) {
 
 // Variable reactiva para controlar la visibilidad del título
 const showTitle = ref(true);
+
+// Calcular la fecha mínima de entrega (un día después del actual)
+const minDeliveryDate = computed(() => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return tomorrow.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+});
+
+// Fecha mínima para el calendario (un día después del actual)
+const minCalendarDate = computed(() => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return new CalendarDate(tomorrow.getFullYear(), tomorrow.getMonth() + 1, tomorrow.getDate());
+});
+
+// Función para verificar si una fecha debe estar deshabilitada (domingos)
+const isDateDisabled = (date: DateValue) => {
+  // Convertir a Date de JavaScript para verificar el día de la semana
+  const jsDate = date.toDate(getLocalTimeZone());
+  // 0 = domingo en JavaScript
+  return jsDate.getDay() === 0;
+};
+
+// Función para validar la hora de entrega (entre 9:00 y 19:00)
+function handleTimeChange(event: Event) {
+  const timeInput = event.target as HTMLInputElement;
+  const selectedTime = timeInput.value;
+  
+  // Limpiar el error si existe
+  clearError('deliveryTime');
+  
+  // Validar que la hora esté dentro del rango permitido
+  if (selectedTime) {
+    const [hours, minutes] = selectedTime.split(':').map(Number);
+    const timeInMinutes = hours * 60 + minutes;
+    
+    // Convertir 9:00 y 19:00 a minutos para comparar
+    const minTimeInMinutes = 9 * 60; // 9:00
+    const maxTimeInMinutes = 19 * 60; // 19:00
+    
+    if (timeInMinutes < minTimeInMinutes || timeInMinutes > maxTimeInMinutes) {
+      // Si está fuera del rango, establecer el valor más cercano dentro del rango
+      if (timeInMinutes < minTimeInMinutes) {
+        form.deliveryTime = '09:00';
+      } else {
+        form.deliveryTime = '19:00';
+      }
+    }
+  }
+};
+
+// Función para manejar el cambio de fecha en el calendario
+function handleDateChange(date: CalendarDate) {
+  // Convertir el objeto CalendarDate a string en formato YYYY-MM-DD
+  const jsDate = date.toDate(getLocalTimeZone());
+  form.deliveryDate = jsDate.toISOString().split('T')[0];
+  // Limpiar error si existe
+  clearError('deliveryDate');
+};
 
 // Función para verificar si todos los campos obligatorios están completos
 function checkAllFieldsCompleted() {
@@ -249,6 +361,39 @@ onMounted(async () => {
       phone: userInfo.value.phone,
     });
   }
+  
+  // Establecer la fecha mínima como valor por defecto si no hay fecha establecida
+  if (!form.deliveryDate) {
+    // Obtener la fecha de mañana
+    let tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    // Si mañana es domingo, avanzar al lunes
+    if (tomorrow.getDay() === 0) {
+      tomorrow.setDate(tomorrow.getDate() + 1);
+    }
+    
+    // Formatear la fecha y asignarla al formulario
+    form.deliveryDate = tomorrow.toISOString().split('T')[0];
+    deliveryDateObject.value = new CalendarDate(
+      tomorrow.getFullYear(), 
+      tomorrow.getMonth() + 1, 
+      tomorrow.getDate()
+    );
+  } else {
+    // Si ya hay una fecha, convertirla a objeto CalendarDate para el calendario
+    const parts = form.deliveryDate.split('-');
+    deliveryDateObject.value = new CalendarDate(
+      parseInt(parts[0]), 
+      parseInt(parts[1]), 
+      parseInt(parts[2])
+    );
+  }
+  
+  // Asegurarse de que la hora predefinida sea 12:00 si no hay una hora establecida
+  if (!form.deliveryTime) {
+    form.deliveryTime = "12:00";
+  }
   const ship = await getAddress("shipping");
   if (ship) {
     shippingExists.value = true;
@@ -257,6 +402,7 @@ onMounted(async () => {
       address: ship.street,
       city: ship.city,
       zip: ship.postalCode,
+      country: ship.country || 'ES', // Añadimos el país y usamos 'ES' como valor por defecto
     });
   }
   const bill = await getAddress("billing");

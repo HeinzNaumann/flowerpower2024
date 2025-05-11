@@ -11,6 +11,7 @@
     "clean": "rm -rf node_modules pnpm-lock.yaml"
   },
   "dependencies": {
+    "@internationalized/date": "^3.8.0",
     "@nuxt/ui": "3.0.1",
     "@nuxtjs/i18n": "^9.4.0",
     "@pinia/nuxt": "0.11.0",
