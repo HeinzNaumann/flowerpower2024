@@ -234,7 +234,7 @@ const shippingAddress = ref({
 onMounted(async () => {
   // Protegerse si alguien entra directo
   if (!order.id || !order.clientSecret) {
-    router.push("/checkout/address");
+    router.push("/checkout/checkout");
     return;
   }
   
@@ -419,7 +419,7 @@ function validateForm() {
 onMounted(() => {
   // Protégete si alguien entra directo
   if (!order.clientSecret) {
-    router.push("/checkout/address");
+    router.push("/checkout/checkout");
     return;
   }
   

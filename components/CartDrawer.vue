@@ -76,7 +76,7 @@ function goToAddress() {
   if (!isAuthenticated()) {
     router.push(localePath('/checkout/guest-or-login'));
   } else {
-    router.push(localePath('/checkout/address'));
+    router.push(localePath('/checkout/checkout'));
   }
 }
 

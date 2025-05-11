@@ -30,6 +30,6 @@ function goToLogin() {
 }
 
 function checkoutAsGuest() {
-  router.push({ path: "/checkout/address", query: { guest: "1" } });
+  router.push({ path: "/checkout/checkout", query: { guest: "1" } });
 }
 </script>
