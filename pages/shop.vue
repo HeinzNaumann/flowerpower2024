@@ -67,11 +67,20 @@
       <main class="w-full md:w-3/4 md:pl-6">
 
         
-        <!-- Mostrar mensaje de carga cuando los productos están pendientes -->
-        <div v-if="pending" class="flex justify-center items-center py-12">
-          <div class="animate-pulse flex flex-col items-center">
-            <div class="h-8 w-24 bg-gray-200 rounded mb-4"></div>
-            <div class="h-64 w-full max-w-md bg-gray-200 rounded"></div>
+        <!-- Mostrar shimmer effect para productos durante la carga -->
+        <div v-if="pending" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div v-for="i in 9" :key="i" class="animate-pulse bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Shimmer para imagen -->
+            <div class="bg-gray-200 h-64 w-full"></div>
+            
+            <!-- Shimmer para título y precio -->
+            <div class="p-4 space-y-3">
+              <div class="h-5 bg-gray-200 rounded w-3/4"></div>
+              <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+              
+              <!-- Shimmer para botón -->
+              <div class="h-10 bg-gray-200 rounded w-full mt-4"></div>
+            </div>
           </div>
         </div>
         
