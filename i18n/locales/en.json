@@ -286,6 +286,11 @@
     "creditCard": "Credit Card",
     "cartTitle": "Your Shopping Cart",
     "formError": "Please complete all required fields",
+    "guestOrLogin": {
+      "title": "How do you want to continue?",
+      "login": "Log in",
+      "guest": "Checkout as guest"
+    },
     "securePayment": "100% secure payment. Your data is protected.",
     "delivery": "Delivery",
     "subtotal": "Subtotal",

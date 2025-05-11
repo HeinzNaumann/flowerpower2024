@@ -3,6 +3,68 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui", "@pinia/nuxt", "@nuxt/image"],
   
+  // Configuración de Vite para manejar eventos pasivos y mejorar el rendimiento
+  vite: {
+    optimizeDeps: {
+      include: ['vue', 'vue-router']
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vue-libs': ['vue', 'vue-router']
+          }
+        }
+      }
+    },
+    plugins: [
+      {
+        name: 'passive-events-plugin',
+        enforce: 'pre',
+        transformIndexHtml(html) {
+          return {
+            html,
+            tags: [
+              {
+                tag: 'script',
+                injectTo: 'head',
+                children: `
+                  // Fix para eventos no pasivos
+                  try {
+                    window.addEventListener('test', null, {
+                      get passive() {
+                        const options = Object.defineProperty({}, 'passive', {
+                          get() { return true; }
+                        });
+                        
+                        // Sobrescribe el método addEventListener para hacer pasivos
+                        // todos los eventos de wheel y touch
+                        const originalAddEventListener = EventTarget.prototype.addEventListener;
+                        EventTarget.prototype.addEventListener = function(type, listener, options) {
+                          const passiveEvents = ['touchstart', 'touchmove', 'wheel', 'mousewheel'];
+                          let newOptions = options;
+                          
+                          if (passiveEvents.includes(type)) {
+                            newOptions = typeof options === 'object' ? 
+                              {...options, passive: options.passive === false ? false : true} : 
+                              {passive: true};
+                          }
+                          
+                          return originalAddEventListener.call(this, type, listener, newOptions);
+                        };
+                        return true;
+                      }
+                    });
+                  } catch (e) {}
+                `
+              }
+            ]
+          };
+        },
+      }
+    ]
+  },
+  
   // Configuraciones experimentales y avanzadas
   experimental: {
     viewTransition: true,

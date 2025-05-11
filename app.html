@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html {{ HTML_ATTRS }}>
+  <head {{ HEAD_ATTRS }}>
+    <!-- Script para eventos pasivos -->
+    <script>
+      // Parche para convertir eventos de desplazamiento a pasivos automáticamente
+      (function() {
+        // Detectar soporte para eventos pasivos
+        let passiveSupported = false;
+        try {
+          const options = {
+            get passive() {
+              passiveSupported = true;
+              return true;
+            }
+          };
+          window.addEventListener('test', null, options);
+          window.removeEventListener('test', null, options);
+        } catch (err) {}
+        
+        if (passiveSupported) {
+          // Guardar el método original
+          const originalAddEventListener = EventTarget.prototype.addEventListener;
+          
+          // Reemplazar con la versión que hace pasivos los eventos de scroll
+          EventTarget.prototype.addEventListener = function(type, listener, options) {
+            const eventTypes = ['wheel', 'mousewheel', 'touchstart', 'touchmove'];
+            let newOptions = options;
+            
+            if (eventTypes.includes(type)) {
+              if (typeof options === 'object') {
+                if (options.passive === undefined) {
+                  // Solo hacer pasivo si no especificó explícitamente
+                  newOptions = Object.assign({}, options, { passive: true });
+                }
+              } else {
+                // Si no hay opciones o es un booleano, crear objeto con passive:true
+                newOptions = { 
+                  passive: true,
+                  capture: Boolean(options)
+                };
+              }
+            }
+            
+            // Llamar al método original con las nuevas opciones
+            return originalAddEventListener.call(this, type, listener, newOptions);
+          };
+          
+          console.debug('✓ Eventos pasivos habilitados para mejor rendimiento de desplazamiento');
+        }
+      })();
+    </script>
+    
+    {{ HEAD }}
+  </head>
+  <body {{ BODY_ATTRS }}>
+    {{ APP }}
+  </body>
+</html>

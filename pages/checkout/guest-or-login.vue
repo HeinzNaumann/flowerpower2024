@@ -1,20 +1,20 @@
 <template>
   <div class="container mx-auto px-4 py-8 text-center">
-    <h1 class="text-2xl font-bold mb-6">¿Cómo quieres continuar?</h1>
+    <h1 class="text-2xl font-bold mb-6">{{$t('checkout.guestOrLogin.title')}}</h1>
 
     <div class="flex flex-col items-center gap-4">
       <button
         class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-md transition-colors w-full max-w-xs"
         @click="goToLogin"
       >
-        Iniciar sesión
+        {{$t('checkout.guestOrLogin.login')}}
       </button>
 
       <button
         class="bg-gray-200 hover:bg-gray-300 text-black font-semibold py-3 px-6 rounded-md transition-colors w-full max-w-xs"
         @click="checkoutAsGuest"
       >
-        Comprar como invitado
+        {{$t('checkout.guestOrLogin.guest') }}
       </button>
     </div>
   </div>

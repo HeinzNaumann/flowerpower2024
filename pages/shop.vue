@@ -52,22 +52,24 @@
           
           <!-- Categorías de filtros con espacio mínimo fijo -->
           <div class="space-y-8 pb-4">
-            <LazyFilters
-              :typeData="typeData"
-              :title="$t('shop.filtersTitle.flowers')"
-            />
-            <LazyFilterColors
-              :colors="availableColors"
-              :title="$t('shop.filtersTitle.colors')"
-            />
-            <LazyFilters
-              :typeData="typeData"
-              :title="$t('shop.filtersTitle.moments')"
-            />
-            <LazyFilters
-              :typeData="typeData"
-              :title="$t('shop.filtersTitle.occasions')"
-            />
+            <client-only>
+              <LazyFilters
+                :typeData="typeData"
+                :title="$t('shop.filtersTitle.flowers')"
+              />
+              <LazyFilterColors
+                :colors="availableColors"
+                :title="$t('shop.filtersTitle.colors')"
+              />
+              <LazyFilters
+                :typeData="typeData"
+                :title="$t('shop.filtersTitle.moments')"
+              />
+              <LazyFilters
+                :typeData="typeData"
+                :title="$t('shop.filtersTitle.occasions')"
+              />
+            </client-only>
           </div>
         </div>
       </aside>
@@ -131,78 +133,80 @@
         </div>
 
         <!-- Mostrar shimmer effect para productos durante la carga -->
-        <div v-if="pending" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="i in 9" :key="i" class="animate-pulse bg-white rounded-lg shadow-md overflow-hidden">
-            <!-- Shimmer para imagen -->
-            <div class="bg-gray-200 h-64 w-full"></div>
-            
-            <!-- Shimmer para título y precio -->
-            <div class="p-4 space-y-3">
-              <div class="h-5 bg-gray-200 rounded w-3/4"></div>
-              <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+        <client-only>
+          <div v-if="pending" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div v-for="i in 9" :key="i" class="animate-pulse bg-white rounded-lg shadow-md overflow-hidden">
+              <!-- Shimmer para imagen -->
+              <div class="bg-gray-200 h-64 w-full"></div>
               
-              <!-- Shimmer para botón -->
-              <div class="h-4 bg-gray-200 rounded w-1/2 mt-4"></div>
+              <!-- Shimmer para título y precio -->
+              <div class="p-4 space-y-3">
+                <div class="h-5 bg-gray-200 rounded w-3/4"></div>
+                <div class="h-4 bg-gray-200 rounded w-1/4"></div>
+                
+                <!-- Shimmer para botón -->
+                <div class="h-4 bg-gray-200 rounded w-1/2 mt-4"></div>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <!-- Mostrar mensaje de error si hay un problema -->
-        <div v-else-if="error" class="text-red-500 text-center py-12">
-          {{ $t('shop.errorLoading') || 'Error cargando productos' }}
-        </div>
-        
-        <!-- Mostrar mensaje cuando no hay resultados -->
-        <div v-else-if="products.length === 0 && hasActiveFilters" class="w-full py-10 px-5 text-center bg-neutral-50 rounded-md">
-          <div class="text-3xl mb-3">⚠️</div>
-          <h3 class="text-lg font-medium mb-2">{{ $t('shop.noResults') }}</h3>
-          <p class="text-neutral-600 mb-4">{{ $t('shop.clearFilters') }}</p>
-          <button 
-            @click="clearAllFilters" 
-            class="px-4 py-2 bg-neutral-800 text-white rounded-md hover:bg-neutral-700 transition-colors"
-          >
-            {{ $t('shop.clearAllFilters') }}
-          </button>
-        </div>
-
-        <!-- Mostrar productos cuando están disponibles -->
-        <div
-          v-else
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
-        >
-          <div v-for="(product, id) in products" :key="id">
-            <NuxtLink
-              :to="
-                localePath({ path: '/product', query: { slug: product.slug } })
-              "
-              class="flex flex-col w-full h-full bg-white justify-center p-2 hover:shadow-lg transition-shadow duration-200"
-            >
-              <NuxtImg
-                :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
-                :alt="product.slug"
-                class="w-full object-cover border-neutral-200 border-solid border mb-3"
-                width="400"
-                height="400"
-                format="webp"
-                loading="lazy"
-                placeholder
-              />
-              <p 
-                :alt="product.title" 
-                class="text-sm lg:text-base font-medium text-pri"
-              >
-                {{ product.title }}
-              </p>
-
-              <p class="text-sm lg:text-base font-extralight">
-                {{ product.shortDescription }}
-              </p>
-              <p class="text-sm lg:text-base font-extralight">
-                {{ product.price }} €
-              </p>
-            </NuxtLink>
+          
+          <!-- Mostrar mensaje de error si hay un problema -->
+          <div v-else-if="error" class="text-red-500 text-center py-12">
+            {{ $t('shop.errorLoading') || 'Error cargando productos' }}
           </div>
-        </div>
+          
+          <!-- Mostrar mensaje cuando no hay resultados -->
+          <div v-else-if="products.length === 0 && hasActiveFilters" class="w-full py-10 px-5 text-center bg-neutral-50 rounded-md">
+            <div class="text-3xl mb-3">⚠️</div>
+            <h3 class="text-lg font-medium mb-2">{{ $t('shop.noResults') }}</h3>
+            <p class="text-neutral-600 mb-4">{{ $t('shop.clearFilters') }}</p>
+            <button 
+              @click="clearAllFilters" 
+              class="px-4 py-2 bg-neutral-800 text-white rounded-md hover:bg-neutral-700 transition-colors"
+            >
+              {{ $t('shop.clearAllFilters') }}
+            </button>
+          </div>
+
+          <!-- Mostrar productos cuando están disponibles -->
+          <div
+            v-else
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
+          >
+            <div v-for="(product, id) in products" :key="id">
+              <NuxtLink
+                :to="
+                  localePath({ path: '/product', query: { slug: product.slug } })
+                "
+                class="flex flex-col w-full h-full bg-white justify-center p-2 hover:shadow-lg transition-shadow duration-200"
+              >
+                <NuxtImg
+                  :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
+                  :alt="product.slug"
+                  class="w-full object-cover border-neutral-200 border-solid border mb-3"
+                  width="400"
+                  height="400"
+                  format="webp"
+                  loading="lazy"
+                  placeholder
+                />
+                <p 
+                  :alt="product.title" 
+                  class="text-sm lg:text-base font-medium text-pri"
+                >
+                  {{ product.title }}
+                </p>
+
+                <p class="text-sm lg:text-base font-extralight">
+                  {{ product.shortDescription }}
+                </p>
+                <p class="text-sm lg:text-base font-extralight">
+                  {{ product.price }} €
+                </p>
+              </NuxtLink>
+            </div>
+          </div>
+        </client-only>
       </main>
     </div>
   </div>

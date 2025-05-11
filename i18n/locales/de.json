@@ -68,7 +68,10 @@
     "search": "Suche",
     "errorLoading": "Fehler beim Laden der Produkte",
     "noProductsFound": "Keine Produkte entsprechen Ihren Filterkriterien",
-    "tryAgain": "Versuchen Sie, Ihre Filter zu ändern oder"
+    "tryAgain": "Versuchen Sie, Ihre Filter zu ändern oder",
+    "tags": "Tags",
+    "noResults": "Keine Ergebnisse gefunden",
+    "clearFilters": "Versuchen Sie es mit anderen Filtern oder löschen Sie alle Filter"
   },
 
   "footer": {
@@ -260,6 +263,11 @@
     "payNow": "Jetzt bezahlen",
     "total": "Gesamtsumme",
     "shippingInfo": "Versandinformationen",
+    "guestOrLogin": {
+      "title": "Wie möchten Sie fortfahren?",
+      "login": "Anmelden",
+      "guest": "Als Gast fortfahren"
+    },
     "billingInfo": "Rechnungsinformationen",
     "deliveryDate": "Lieferdatum",
     "deliveryTime": "Lieferzeit",

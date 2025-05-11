@@ -204,7 +204,12 @@
     "deliveryInfoImportant": "Es importante que selecciones una fecha y hora de entrega para que podamos planificar tu pedido correctamente.",
     "cardNoteLabel": "Mensaje para la tarjeta",
     "cartTitle": "Tu carrito de compra",
-    "formError": "Por favor, completa todos los campos obligatorios"
+    "formError": "Por favor, completa todos los campos obligatorios",
+    "guestOrLogin": {
+      "title": "¿Cómo quieres continuar?",
+      "login": "Iniciar sesión",
+      "guest": "Comprar como invitado"
+    }
   },
   "dialog": {
     "ok": "Aceptar",
