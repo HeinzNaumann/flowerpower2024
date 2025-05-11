@@ -600,6 +600,262 @@
     }
   },
 
+  "termsOfUse": {
+    "title": "Nutzungsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "introduction": {
+      "p1": "Willkommen bei Flower Power. Durch den Zugriff auf und die Nutzung dieser Website stimmen Sie zu, diese Nutzungsbedingungen, alle geltenden Gesetze und Vorschriften einzuhalten, und erkennen an, dass Sie für die Einhaltung aller geltenden lokalen Gesetze verantwortlich sind.",
+      "p2": "Wenn Sie mit einer dieser Bedingungen nicht einverstanden sind, ist es Ihnen untersagt, diese Website zu nutzen oder auf sie zuzugreifen. Die auf dieser Website enthaltenen Materialien sind durch geltendes Urheberrecht und Markenrecht geschützt."
+    },
+    "acceptance": {
+      "title": "Annahme der Bedingungen",
+      "p1": "Diese Nutzungsbedingungen stellen eine rechtsverbindliche Vereinbarung zwischen Ihnen und Flower Power in Bezug auf Ihre Nutzung unserer Website dar. Durch die Nutzung unserer Website bestätigen Sie, dass Sie diese Bedingungen gelesen, verstanden und akzeptiert haben.",
+      "p2": "Wenn Sie unsere Website im Namen eines Unternehmens oder einer anderen juristischen Person nutzen, erklären Sie, dass Sie die Befugnis haben, diese juristische Person an diese Nutzungsbedingungen zu binden."
+    },
+    "modifications": {
+      "title": "Änderungen",
+      "p1": "Flower Power behält sich das Recht vor, diese Nutzungsbedingungen jederzeit ohne vorherige Ankündigung zu überarbeiten. Durch die Nutzung dieser Website erklären Sie sich damit einverstanden, an die jeweils aktuelle Version dieser Nutzungsbedingungen gebunden zu sein. Wir empfehlen Ihnen, diese Bedingungen regelmäßig zu überprüfen, um über Änderungen informiert zu bleiben."
+    },
+    "siteUsage": {
+      "title": "Nutzung der Website",
+      "p1": "Die Erlaubnis zur Nutzung dieser Website wird unter den folgenden Bedingungen erteilt:",
+      "list": {
+        "item1": "Die Informationen auf dieser Website dürfen ohne ausdrückliche Genehmigung von Flower Power nicht für kommerzielle Zwecke verwendet werden.",
+        "item2": "Sie dürfen die Materialien auf dieser Website nicht verändern oder kopieren, außer für den persönlichen, nicht-kommerziellen Gebrauch.",
+        "item3": "Sie dürfen nicht versuchen, Software, die auf der Flower Power-Website enthalten ist, zu dekompilieren oder rückzuentwickeln.",
+        "item4": "Sie dürfen keine Urheberrechtsvermerke oder andere Eigentumshinweise aus den Materialien entfernen.",
+        "item5": "Sie dürfen die Materialien nicht an eine andere Person übertragen oder die Materialien auf einem anderen Server 'spiegeln'."
+      },
+      "p2": "Diese Lizenz endet automatisch, wenn Sie gegen eine dieser Einschränkungen verstoßen, und kann von Flower Power jederzeit beendet werden. Nach Beendigung Ihrer Betrachtung dieser Materialien oder nach Beendigung dieser Lizenz müssen Sie alle heruntergeladenen Materialien in Ihrem Besitz, sei es in elektronischer oder gedruckter Form, vernichten."
+    },
+    "userAccounts": {
+      "title": "Benutzerkonten",
+      "p1": "Wenn Sie ein Konto auf unserer Website erstellen, müssen Sie jederzeit genaue, vollständige und aktuelle Informationen angeben. Die Nichteinhaltung stellt einen Verstoß gegen die Bedingungen dar, was zur sofortigen Kündigung Ihres Kontos führen kann.",
+      "p2": "Sie sind verantwortlich für die Wahrung der Vertraulichkeit Ihres Passworts und für die Beschränkung des Zugriffs auf Ihren Computer oder Ihr Gerät. Sie erklären sich damit einverstanden, die Verantwortung für alle Aktivitäten zu übernehmen, die unter Ihrem Konto oder Passwort stattfinden. Flower Power behält sich das Recht vor, nach eigenem Ermessen den Service zu verweigern, Konten zu kündigen, Inhalte zu entfernen oder zu bearbeiten oder Bestellungen zu stornieren."
+    },
+    "intellectualProperty": {
+      "title": "Geistiges Eigentum",
+      "p1": "Diese Website und all ihre Inhalte, Funktionen und Funktionalitäten (einschließlich, aber nicht beschränkt auf alle Informationen, Software, Texte, Bilder, Logos, Audio und Video sowie das Design, die Auswahl und Anordnung davon) sind Eigentum von Flower Power, seinen Lizenzgebern oder anderen Anbietern solcher Materialien und sind durch spanische und internationale Urheberrechts-, Marken-, Patent-, Betriebsgeheimnis- und andere Gesetze zum geistigen Eigentum oder Eigentumsrechte geschützt.",
+      "p2": "Diese Nutzungsbedingungen erlauben Ihnen die Nutzung der Website nur für Ihren persönlichen, nicht-kommerziellen Gebrauch. Sie dürfen keine Materialien auf unserer Website reproduzieren, verteilen, modifizieren, abgeleitete Werke erstellen, öffentlich anzeigen, öffentlich aufführen, erneut veröffentlichen, herunterladen, speichern oder übertragen, außer wie in diesen Nutzungsbedingungen erlaubt."
+    },
+    "thirdPartyLinks": {
+      "title": "Links zu Drittanbietern",
+      "p1": "Unsere Website kann Links zu Websites oder Diensten von Drittanbietern enthalten, die nicht im Besitz oder unter der Kontrolle von Flower Power sind. Flower Power hat keine Kontrolle über und übernimmt keine Verantwortung für den Inhalt, die Datenschutzrichtlinien oder Praktiken von Websites oder Diensten Dritter. Wir garantieren oder unterstützen keine Angebote dieser Dritten. Sie erkennen an und stimmen zu, dass Flower Power nicht direkt oder indirekt verantwortlich oder haftbar sein wird für Schäden oder Verluste, die verursacht wurden oder angeblich verursacht wurden durch oder in Verbindung mit der Nutzung oder dem Vertrauen auf solche Inhalte, Güter oder Dienstleistungen, die auf oder über solche Websites oder Dienste verfügbar sind."
+    },
+    "liability": {
+      "title": "Haftungsbeschränkung",
+      "p1": "Die Materialien auf der Website von Flower Power werden 'wie sie sind' und 'wie verfügbar' bereitgestellt. Flower Power gibt keine Garantien, weder ausdrücklich noch stillschweigend, und lehnt hiermit alle anderen Garantien ab, einschließlich, ohne Einschränkung, stillschweigende Garantien oder Bedingungen der Marktgängigkeit, Eignung für einen bestimmten Zweck oder Nichtverletzung von geistigem Eigentum oder anderer Rechtsverletzungen.",
+      "p2": "Darüber hinaus garantiert Flower Power nicht und macht keine Zusicherungen bezüglich der Genauigkeit, wahrscheinlichen Ergebnisse oder Zuverlässigkeit der Nutzung der Materialien auf seiner Website oder anderweitig in Bezug auf solche Materialien oder auf Websites, die mit dieser Website verlinkt sind."
+    },
+    "governingLaw": {
+      "title": "Geltendes Recht",
+      "p1": "Diese Bedingungen unterliegen den Gesetzen Spaniens und werden in Übereinstimmung mit diesen ausgelegt, und Sie unterwerfen sich unwiderruflich der ausschließlichen Zuständigkeit der Gerichte an diesem Ort."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "p1": "Wenn Sie Fragen zu diesen Nutzungsbedingungen haben, kontaktieren Sie uns bitte über unsere",
+      "link": "Kontaktseite"
+    }
+  },
+
+  "termsOfSale": {
+    "title": "Verkaufsbedingungen",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "introduction": {
+      "p1": "Diese Verkaufsbedingungen regeln den Kauf von Produkten über die Flower Power-Website. Durch die Aufgabe einer Bestellung über unsere Website erklären Sie sich mit diesen Bedingungen einverstanden.",
+      "p2": "Wir empfehlen Ihnen, diese Bedingungen sorgfältig zu lesen, bevor Sie eine Bestellung aufgeben. Wenn Sie mit diesen Bedingungen nicht einverstanden sind, sollten Sie unsere Website nicht für Käufe nutzen."
+    },
+    "products": {
+      "title": "Produkte",
+      "p1": "Alle auf unserer Website angezeigten Produkte unterliegen der Verfügbarkeit. Wir behalten uns das Recht vor, jedes Produkt jederzeit einzustellen.",
+      "p2": "Wir bemühen uns, die Farben und Bilder unserer Produkte genau darzustellen. Wir können jedoch nicht garantieren, dass die Anzeige der Farben auf Ihrem Gerät genau ist."
+    },
+    "prices": {
+      "title": "Preise",
+      "p1": "Alle auf unserer Website angezeigten Preise beinhalten die Mehrwertsteuer (MwSt.) zum aktuellen Satz. Preise können ohne vorherige Ankündigung geändert werden.",
+      "p2": "Versandkosten werden separat angezeigt und während des Bezahlvorgangs zum Gesamtpreis hinzugefügt."
+    },
+    "orders": {
+      "title": "Bestellungen",
+      "p1": "Wenn Sie eine Bestellung über unsere Website aufgeben, machen Sie ein Angebot zum Kauf der ausgewählten Produkte gemäß diesen Verkaufsbedingungen.",
+      "p2": "Wir behalten uns das Recht vor, jede über unsere Website aufgegebene Bestellung abzulehnen. Falls wir Ihre Bestellung ablehnen, werden wir versuchen, Sie so schnell wie möglich zu benachrichtigen."
+    },
+    "payment": {
+      "title": "Zahlung",
+      "p1": "Wir akzeptieren die folgenden Zahlungsmethoden:",
+      "list": {
+        "item1": "Kredit-/Debitkarten: Visa, MasterCard, American Express",
+        "item2": "PayPal",
+        "item3": "Überweisung (für große Bestellungen)"
+      },
+      "p2": "Die Zahlung wird verarbeitet, sobald Sie Ihre Bestellung abgeschlossen haben. Ihnen wird nichts berechnet, bis wir bestätigen, dass wir Ihre Bestellung erfüllen können."
+    },
+    "shipping": {
+      "title": "Versand und Lieferung",
+      "p1": "Wir bieten Versand nach Festland-Spanien, auf die Balearen, die Kanarischen Inseln, nach Ceuta und Melilla sowie in mehrere europäische Länder an. Die Lieferzeiten variieren je nach Standort.",
+      "p2": "Für Bestellungen innerhalb des spanischen Festlandes beträgt die geschätzte Lieferzeit 24-48 Geschäftsstunden ab Auftragsbestätigung. Für andere Ziele können die Lieferzeiten variieren.",
+      "p3": "Bitte beachten Sie, dass Lieferzeiten Schätzungen sind und nicht garantiert werden. Wir sind nicht verantwortlich für Verzögerungen, die durch Umstände außerhalb unserer Kontrolle verursacht werden."
+    },
+    "cancellations": {
+      "title": "Stornierungen",
+      "p1": "Sie können Ihre Bestellung stornieren, bevor sie für den Versand bearbeitet wurde. Sobald die Bestellung bearbeitet wurde, kann sie nicht mehr storniert werden.",
+      "p2": "Um eine Bestellung zu stornieren, kontaktieren Sie uns bitte so schnell wie möglich über unsere Kontaktseite oder telefonisch."
+    },
+    "returns": {
+      "title": "Rücksendungen",
+      "p1": "Sie haben das Recht, gekaufte Produkte innerhalb von 14 Kalendertagen nach Erhalt ohne Angabe von Gründen zurückzugeben, gemäß den Fernabsatzbestimmungen.",
+      "p2": "Um Ihr Rückgaberecht auszuüben, müssen Sie uns über Ihre Entscheidung mittels einer eindeutigen Erklärung (z.B. ein per Post, Fax oder E-Mail gesendeter Brief) informieren.",
+      "p3": "Produkte müssen in ihrem ursprünglichen Zustand, unbenutzt und mit allen Originalverpackungen zurückgegeben werden. Die Rücksendungskosten gehen zu Ihren Lasten. Wir erstatten alle erhaltenen Zahlungen, einschließlich der Versandkosten (mit Ausnahme der zusätzlichen Kosten, die sich aus Ihrer Wahl einer anderen Lieferart als der von uns angebotenen günstigsten Standardlieferung ergeben)."
+    },
+    "warranty": {
+      "title": "Garantie",
+      "p1": "Alle unsere Produkte sind durch die in der spanischen Gesetzgebung festgelegte gesetzliche Garantie abgedeckt. Diese Garantie deckt Konformitätsmängel ab, die innerhalb von zwei Jahren nach Lieferung des Produkts auftreten."
+    },
+    "complaints": {
+      "title": "Beschwerden",
+      "p1": "Wenn Sie eine Beschwerde oder Reklamation zu einem Produkt oder einer Dienstleistung haben, kontaktieren Sie uns bitte über unsere Kontaktseite. Wir werden unser Bestes tun, um alle Probleme schnell und zufriedenstellend zu lösen."
+    },
+    "governingLaw": {
+      "title": "Geltendes Recht",
+      "p1": "Diese Verkaufsbedingungen unterliegen den Gesetzen Spaniens und werden in Übereinstimmung mit diesen ausgelegt. Alle Streitigkeiten, die im Zusammenhang mit diesen Bedingungen entstehen, unterliegen der ausschließlichen Zuständigkeit der spanischen Gerichte."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "p1": "Wenn Sie Fragen zu diesen Verkaufsbedingungen haben, kontaktieren Sie uns bitte über unsere",
+      "link": "Kontaktseite"
+    }
+  },
+
+  "legalNotice": {
+    "title": "Rechtliche Hinweise",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "introduction": "In Erfüllung der Informationspflicht gemäß Artikel 10 des Gesetzes 34/2002 vom 11. Juli über Dienste der Informationsgesellschaft und des elektronischen Handels werden die folgenden Daten wiedergegeben: Der Inhaber dieser Website ist Flower Power, S.L., mit Sitz für diese Zwecke in Carrer Fetjet, 3, 08009 Barcelona.",
+    "identificationData": {
+      "title": "Identifikationsdaten",
+      "companyName": {
+        "label": "Firmenname",
+        "value": "Flower Power, S.L."
+      },
+      "nif": {
+        "label": "Steuernummer",
+        "value": "B12345678"
+      },
+      "address": {
+        "label": "Geschäftssitz",
+        "value": "Carrer Fetjet, 3, 08009 Barcelona, Spanien"
+      },
+      "email": {
+        "label": "E-Mail",
+        "value": "info{at}flowerpower.com"
+      },
+      "phone": {
+        "label": "Telefon",
+        "value": "+34 93 123 45 67"
+      },
+      "registrationData": {
+        "label": "Registrierungsdaten",
+        "value": "Eingetragen im Handelsregister von Barcelona, Band 12345, Blatt 67, Eintrag B-123456, Registrierung 1"
+      }
+    },
+    "purpose": {
+      "title": "Zweck",
+      "p1": "Der Zweck der Website ist der Online-Verkauf von Blumen, Pflanzen und Blumenarrangements sowie die Bereitstellung von Informationen über unsere Produkte und Dienstleistungen."
+    },
+    "termsOfUse": {
+      "title": "Nutzungsbedingungen",
+      "p1": "Die Nutzung der Website gewährt den Status eines Benutzers und impliziert die vollständige Akzeptanz aller Klauseln und Nutzungsbedingungen, die auf den Seiten enthalten sind:",
+      "p2": "Wenn Sie mit allen und jedem dieser Klauseln und Bedingungen nicht einverstanden sind, sollten Sie diese Website nicht nutzen."
+    },
+    "intellectualProperty": {
+      "title": "Geistiges und gewerbliches Eigentum",
+      "p1": "Alle Inhalte der Website, einschließlich, aber nicht beschränkt auf Texte, Grafiken, Bilder, ihr grafisches Design und Quellcodes, sind geistiges Eigentum von Flower Power, S.L., ohne dass dem Benutzer irgendwelche Verwertungsrechte übertragen werden, die durch die geltenden Vorschriften zum geistigen Eigentum anerkannt sind.",
+      "p2": "Die Marken, Handelsnamen oder Unterscheidungszeichen sind Eigentum von Flower Power, S.L., ohne dass der Zugriff auf die Website irgendwelche Rechte an den genannten Marken, Handelsnamen und/oder Unterscheidungszeichen zuschreibt."
+    },
+    "disclaimer": {
+      "title": "Haftungsausschluss",
+      "p1": "Flower Power, S.L. ist in keinem Fall verantwortlich für Schäden jeglicher Art, die verursacht werden könnten, beispielsweise: Fehler oder Auslassungen in den Inhalten, mangelnde Verfügbarkeit des Portals oder die Übertragung von Viren oder bösartigen oder schädlichen Programmen in den Inhalten.",
+      "p2": "Flower Power, S.L. behält sich das Recht vor, ohne vorherige Ankündigung die Änderungen vorzunehmen, die es für angemessen hält, und kann sowohl die Inhalte und Dienste, die über das Portal angeboten werden, als auch die Art und Weise, wie diese präsentiert oder lokalisiert werden, ändern, löschen oder hinzufügen."
+    },
+    "externalLinks": {
+      "title": "Externe Links",
+      "p1": "Die Seiten dieser Website können Links zu anderen Websites und/oder Ressourcen von Dritten bereitstellen. Flower Power, S.L. kontrolliert oder genehmigt den Inhalt dieser Websites oder Ressourcen nicht und übernimmt keine Verantwortung für Inhalte, Werbung, Produkte oder andere Materialien, die von Dritten auf diesen Websites angeboten werden."
+    },
+    "modifications": {
+      "title": "Änderungen",
+      "p1": "Flower Power, S.L. behält sich das Recht vor, die Präsentation und Konfiguration dieser Website sowie diese Bedingungen jederzeit und ohne vorherige Ankündigung einseitig zu ändern."
+    },
+    "applicableLaw": {
+      "title": "Anwendbares Recht",
+      "p1": "Die Beziehung zwischen Flower Power, S.L. und dem Benutzer unterliegt den geltenden spanischen Vorschriften, und jede Kontroverse wird den Gerichten der Stadt Barcelona unterworfen."
+    }
+  },
+
+  "cookieSettings": {
+    "title": "Cookie-Einstellungen",
+    "lastUpdated": "Zuletzt aktualisiert",
+    "introduction": {
+      "p1": "Bei Flower Power verwenden wir Cookies, um Ihr Surferlebnis zu verbessern, personalisierte Inhalte anzuzeigen und den Verkehr auf unserer Website zu analysieren. Diese Seite ermöglicht es Ihnen, Ihre Cookie-Präferenzen zu verwalten.",
+      "p2": "Durch die weitere Nutzung unserer Website akzeptieren Sie die Verwendung von Cookies gemäß dieser Richtlinie."
+    },
+    "whatAreCookies": {
+      "title": "Was sind Cookies?",
+      "p1": "Cookies sind kleine Textdateien, die Websites auf Ihrem Gerät platzieren, um Informationen zu speichern. Diese Cookies können unsere eigenen (von Flower Power verwaltet) oder von Dritten (von anderen Unternehmen in unserem Namen verwaltet) sein."
+    },
+    "typesOfCookies": {
+      "title": "Arten von Cookies, die wir verwenden",
+      "p1": "Wir verwenden verschiedene Arten von Cookies auf unserer Website:",
+      "technical": {
+        "title": "Technische Cookies (notwendig)",
+        "description": "Diese Cookies sind für die grundlegende Funktionalität der Website unentbehrlich und ermöglichen es Ihnen, zu navigieren und ihre Funktionen zu nutzen, wie z.B. den Zugriff auf sichere Bereiche. Die Website kann ohne diese Cookies nicht richtig funktionieren."
+      },
+      "preferences": {
+        "title": "Präferenz-Cookies",
+        "description": "Diese Cookies ermöglichen es der Website, sich an Entscheidungen zu erinnern, die Sie getroffen haben (wie Ihren Benutzernamen, Ihre Sprache oder die Region, in der Sie sich befinden), und bieten erweiterte, persönlichere Funktionen."
+      },
+      "analytics": {
+        "title": "Analytische Cookies",
+        "description": "Diese Cookies helfen uns zu verstehen, wie Besucher mit unserer Website interagieren, indem sie Informationen anonym sammeln und melden. Sie ermöglichen es uns, die Funktionsweise der Website zu verbessern."
+      },
+      "marketing": {
+        "title": "Marketing-Cookies",
+        "description": "Diese Cookies werden verwendet, um Besucher über Websites hinweg zu verfolgen. Die Absicht ist, Anzeigen zu schalten, die für den einzelnen Benutzer relevant und ansprechend sind und damit für Verlage und Werbetreibende Dritter wertvoller sind."
+      }
+    },
+    "manageCookies": {
+      "title": "Cookie-Einstellungen",
+      "p1": "Sie können Ihre Cookie-Präferenzen unten anpassen. Bitte beachten Sie, dass das Deaktivieren bestimmter Cookies Ihr Erlebnis auf unserer Website beeinträchtigen kann.",
+      "panel": {
+        "title": "Cookie-Präferenzen",
+        "alwaysActive": "Immer aktiv",
+        "preferencesDescription": "Ermöglichen das Speichern Ihrer Präferenzen und die Personalisierung Ihres Erlebnisses.",
+        "analyticsDescription": "Helfen uns, unsere Website zu verbessern, indem sie analysieren, wie Sie sie nutzen.",
+        "marketingDescription": "Ermöglichen personalisierte Werbung auf unserer Website und anderen Websites.",
+        "acceptAll": "Alle akzeptieren",
+        "rejectAll": "Alle ablehnen",
+        "savePreferences": "Präferenzen speichern"
+      }
+    },
+    "deleteCookies": {
+      "title": "Wie man Cookies löscht",
+      "p1": "Sie können auf Ihrem Gerät gespeicherte Cookies jederzeit über Ihre Browsereinstellungen löschen. Hier erfahren Sie, wie Sie dies in den gängigsten Browsern tun können:",
+      "browsers": {
+        "chrome": "Google Chrome: Menü > Einstellungen > Datenschutz und Sicherheit > Cookies und andere Websitedaten > Alle Cookies und Websitedaten anzeigen",
+        "firefox": "Mozilla Firefox: Menü > Einstellungen > Datenschutz & Sicherheit > Cookies und Websitedaten > Daten verwalten",
+        "safari": "Safari: Einstellungen > Datenschutz > Websitedaten verwalten",
+        "edge": "Microsoft Edge: Menü > Einstellungen > Cookies und Websiteberechtigungen > Cookies und Websitedaten verwalten und löschen"
+      }
+    },
+    "updates": {
+      "title": "Aktualisierungen der Richtlinie",
+      "p1": "Wir können unsere Cookie-Richtlinie von Zeit zu Zeit aktualisieren. Wir empfehlen Ihnen, diese Seite regelmäßig zu überprüfen, um über Änderungen informiert zu bleiben. Das Datum der letzten Aktualisierung wird oben auf dieser Seite angezeigt."
+    },
+    "contact": {
+      "title": "Kontakt",
+      "p1": "Wenn Sie Fragen zu unserer Cookie-Richtlinie haben, kontaktieren Sie uns bitte über unsere",
+      "link": "Kontaktseite"
+    }
+  },
+
   "ourHistoryPage": {
     "title": "Über Uns",
     "teamSection": {

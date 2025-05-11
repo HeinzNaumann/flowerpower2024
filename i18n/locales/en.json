@@ -596,6 +596,262 @@
     }
   },
 
+  "termsOfUse": {
+    "title": "Terms of Use",
+    "lastUpdated": "Last updated",
+    "introduction": {
+      "p1": "Welcome to Flower Power. By accessing and using this website, you agree to comply with these Terms of Use, all applicable laws and regulations, and acknowledge that you are responsible for compliance with any applicable local laws.",
+      "p2": "If you do not agree with any of these terms, you are prohibited from using or accessing this site. The materials contained in this website are protected by applicable copyright and trademark law."
+    },
+    "acceptance": {
+      "title": "Acceptance of Terms",
+      "p1": "These Terms of Use constitute a legally binding agreement between you and Flower Power regarding your use of our website. By using our site, you confirm that you have read, understood, and accepted these terms.",
+      "p2": "If you are using our site on behalf of a company or other legal entity, you represent that you have the authority to bind such entity to these Terms of Use."
+    },
+    "modifications": {
+      "title": "Modifications",
+      "p1": "Flower Power reserves the right to revise these Terms of Use at any time without notice. By using this website, you agree to be bound by the current version of these Terms of Use. We recommend that you periodically review these terms to stay informed of any changes."
+    },
+    "siteUsage": {
+      "title": "Site Usage",
+      "p1": "Permission to use this website is granted under the following conditions:",
+      "list": {
+        "item1": "The information on this site may not be used for commercial purposes without the express permission of Flower Power.",
+        "item2": "You may not modify or copy the materials on this site except for personal, non-commercial use.",
+        "item3": "You may not attempt to decompile or reverse engineer any software contained on the Flower Power website.",
+        "item4": "You may not remove any copyright or other proprietary notations from the materials.",
+        "item5": "You may not transfer the materials to another person or 'mirror' the materials on any other server."
+      },
+      "p2": "This license shall automatically terminate if you violate any of these restrictions and may be terminated by Flower Power at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format."
+    },
+    "userAccounts": {
+      "title": "User Accounts",
+      "p1": "When you create an account on our site, you must provide accurate, complete, and up-to-date information at all times. Failure to do so constitutes a breach of the Terms, which may result in immediate termination of your account.",
+      "p2": "You are responsible for maintaining the confidentiality of your password and for restricting access to your computer or device. You agree to accept responsibility for all activities that occur under your account or password. Flower Power reserves the right to refuse service, terminate accounts, remove or edit content, or cancel orders in its sole discretion."
+    },
+    "intellectualProperty": {
+      "title": "Intellectual Property",
+      "p1": "This website and all its content, features, and functionality (including but not limited to all information, software, text, images, logos, audio and video, and the design, selection, and arrangement thereof), are owned by Flower Power, its licensors, or other providers of such material and are protected by Spanish and international copyright, trademark, patent, trade secret, and other intellectual property or proprietary rights laws.",
+      "p2": "These Terms of Use permit you to use the website for your personal, non-commercial use only. You may not reproduce, distribute, modify, create derivative works of, publicly display, publicly perform, republish, download, store, or transmit any of the material on our website, except as permitted in these Terms of Use."
+    },
+    "thirdPartyLinks": {
+      "title": "Third-Party Links",
+      "p1": "Our website may contain links to third-party websites or services that are not owned or controlled by Flower Power. Flower Power has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third-party websites or services. We do not warrant or endorse any offers from these third parties. You acknowledge and agree that Flower Power shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with the use of or reliance on any such content, goods, or services available on or through any such websites or services."
+    },
+    "liability": {
+      "title": "Limitation of Liability",
+      "p1": "The materials on Flower Power's website are provided on an 'as is' and 'as available' basis. Flower Power makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.",
+      "p2": "Further, Flower Power does not warrant or make any representations concerning the accuracy, likely results, or reliability of the use of the materials on its website or otherwise relating to such materials or on any sites linked to this site."
+    },
+    "governingLaw": {
+      "title": "Governing Law",
+      "p1": "These terms and conditions are governed by and construed in accordance with the laws of Spain, and you irrevocably submit to the exclusive jurisdiction of the courts in that location."
+    },
+    "contact": {
+      "title": "Contact",
+      "p1": "If you have any questions about these Terms of Use, please contact us through our",
+      "link": "contact page"
+    }
+  },
+
+  "termsOfSale": {
+    "title": "Terms of Sale",
+    "lastUpdated": "Last updated",
+    "introduction": {
+      "p1": "These Terms of Sale govern the purchase of products through the Flower Power website. By placing an order through our site, you agree to be bound by these terms.",
+      "p2": "We recommend that you read these terms carefully before placing any order. If you do not agree with these terms, you should not use our site to make purchases."
+    },
+    "products": {
+      "title": "Products",
+      "p1": "All products displayed on our website are subject to availability. We reserve the right to discontinue any product at any time.",
+      "p2": "We make every effort to accurately display the colors and images of our products. However, we cannot guarantee that the display of colors on your device will be accurate."
+    },
+    "prices": {
+      "title": "Prices",
+      "p1": "All prices displayed on our website include VAT (Value Added Tax) at the current rate. Prices are subject to change without notice.",
+      "p2": "Shipping costs are shown separately and added to the total price during the checkout process."
+    },
+    "orders": {
+      "title": "Orders",
+      "p1": "When you place an order through our website, you are making an offer to purchase the selected products in accordance with these Terms of Sale.",
+      "p2": "We reserve the right to refuse any order placed through our website. In the event that we refuse your order, we will attempt to notify you as soon as possible."
+    },
+    "payment": {
+      "title": "Payment",
+      "p1": "We accept the following payment methods:",
+      "list": {
+        "item1": "Credit/debit cards: Visa, MasterCard, American Express",
+        "item2": "PayPal",
+        "item3": "Bank transfer (for large orders)"
+      },
+      "p2": "Payment will be processed once you have completed your order. You will not be charged until we confirm that we can fulfill your order."
+    },
+    "shipping": {
+      "title": "Shipping and Delivery",
+      "p1": "We offer shipping to mainland Spain, the Balearic Islands, the Canary Islands, Ceuta and Melilla, as well as several European countries. Delivery times vary depending on location.",
+      "p2": "For orders within mainland Spain, the estimated delivery time is 24-48 business hours from order confirmation. For other destinations, delivery times may vary.",
+      "p3": "Please note that delivery times are estimates and are not guaranteed. We are not responsible for delays caused by circumstances beyond our control."
+    },
+    "cancellations": {
+      "title": "Cancellations",
+      "p1": "You may cancel your order before it has been processed for shipping. Once the order has been processed, it cannot be canceled.",
+      "p2": "To cancel an order, please contact us as soon as possible through our contact page or by phone."
+    },
+    "returns": {
+      "title": "Returns",
+      "p1": "You have the right to return products purchased within 14 calendar days of receipt without giving any reason, in accordance with distance selling regulations.",
+      "p2": "To exercise your right of return, you must inform us of your decision by means of an unequivocal statement (e.g., a letter sent by post, fax, or email).",
+      "p3": "Products must be returned in their original condition, unused, and with all original packaging. Return costs will be at your expense. We will refund all payments received, including shipping costs (except for any additional costs resulting from your choice of a type of delivery other than the least expensive type of standard delivery offered by us)."
+    },
+    "warranty": {
+      "title": "Warranty",
+      "p1": "All our products are covered by the legal warranty established in Spanish legislation. This warranty covers defects of conformity that manifest within two years from the delivery of the product."
+    },
+    "complaints": {
+      "title": "Complaints",
+      "p1": "If you have any complaint or claim about a product or service, please contact us through our contact page. We will do our best to resolve any issues quickly and satisfactorily."
+    },
+    "governingLaw": {
+      "title": "Governing Law",
+      "p1": "These Terms of Sale are governed by and construed in accordance with the laws of Spain. Any dispute arising in connection with these terms shall be subject to the exclusive jurisdiction of the Spanish courts."
+    },
+    "contact": {
+      "title": "Contact",
+      "p1": "If you have any questions about these Terms of Sale, please contact us through our",
+      "link": "contact page"
+    }
+  },
+
+  "legalNotice": {
+    "title": "Legal Notice",
+    "lastUpdated": "Last updated",
+    "introduction": "In compliance with the duty of information set out in Article 10 of Law 34/2002, of July 11, on Services of the Information Society and Electronic Commerce, the following data is reflected: the company owner of this website is Flower Power, S.L., with registered office for these purposes at Carrer Fetjet, 3, 08009 Barcelona.",
+    "identificationData": {
+      "title": "Identification Data",
+      "companyName": {
+        "label": "Company name",
+        "value": "Flower Power, S.L."
+      },
+      "nif": {
+        "label": "Tax ID",
+        "value": "B12345678"
+      },
+      "address": {
+        "label": "Registered office",
+        "value": "Carrer Fetjet, 3, 08009 Barcelona, Spain"
+      },
+      "email": {
+        "label": "Email",
+        "value": "info{at}flowerpower.com"
+      },
+      "phone": {
+        "label": "Phone",
+        "value": "+34 93 123 45 67"
+      },
+      "registrationData": {
+        "label": "Registration data",
+        "value": "Registered in the Commercial Registry of Barcelona, Volume 12345, Folio 67, Sheet B-123456, Registration 1"
+      }
+    },
+    "purpose": {
+      "title": "Purpose",
+      "p1": "The purpose of the website is the online sale of flowers, plants, and floral arrangements, as well as providing information about our products and services."
+    },
+    "termsOfUse": {
+      "title": "Terms of Use",
+      "p1": "The use of the website grants the status of user, and implies the complete acceptance of all clauses and conditions of use included in the pages:",
+      "p2": "If you do not agree with all and each of these clauses and conditions, you should refrain from using this website."
+    },
+    "intellectualProperty": {
+      "title": "Intellectual and Industrial Property",
+      "p1": "All contents of the website, including without limitation texts, graphics, images, its graphic design and source codes, are intellectual property of Flower Power, S.L., without any of the exploitation rights recognized by current regulations on intellectual property being understood as transferred to the user.",
+      "p2": "The trademarks, trade names or distinctive signs are the property of Flower Power, S.L., without it being understood that access to the website attributes any right over the aforementioned trademarks, trade names and/or distinctive signs."
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "p1": "Flower Power, S.L. is not responsible, in any case, for damages of any nature that may be caused, by way of example: errors or omissions in the contents, lack of availability of the portal or the transmission of viruses or malicious or harmful programs in the contents.",
+      "p2": "Flower Power, S.L. reserves the right to make without prior notice the modifications it deems appropriate to its portal, being able to change, delete or add both the contents and services provided through it and the way in which these appear presented or located on its portal."
+    },
+    "externalLinks": {
+      "title": "External Links",
+      "p1": "The pages of this website may provide links to other websites and/or third-party resources. Flower Power, S.L. does not control or approve the content of these sites or resources, and assumes no responsibility for any content, advertising, products or other materials offered by third parties on these websites."
+    },
+    "modifications": {
+      "title": "Modifications",
+      "p1": "Flower Power, S.L. reserves the right to unilaterally modify, at any time and without prior notice, the presentation and configuration of this website, as well as these terms and conditions."
+    },
+    "applicableLaw": {
+      "title": "Applicable Law",
+      "p1": "The relationship between Flower Power, S.L. and the user will be governed by current Spanish regulations and any controversy will be submitted to the Courts and tribunals of the city of Barcelona."
+    }
+  },
+
+  "cookieSettings": {
+    "title": "Cookie Settings",
+    "lastUpdated": "Last updated",
+    "introduction": {
+      "p1": "At Flower Power, we use cookies to improve your browsing experience, display personalized content, and analyze traffic to our website. This page allows you to manage your cookie preferences.",
+      "p2": "By continuing to browse our website, you accept the use of cookies in accordance with this policy."
+    },
+    "whatAreCookies": {
+      "title": "What Are Cookies?",
+      "p1": "Cookies are small text files that websites place on your device to store information. These cookies can be our own (managed by Flower Power) or third-party (managed by other companies on our behalf)."
+    },
+    "typesOfCookies": {
+      "title": "Types of Cookies We Use",
+      "p1": "We use different types of cookies on our website:",
+      "technical": {
+        "title": "Technical Cookies (necessary)",
+        "description": "These cookies are essential for the basic functioning of the website and allow you to navigate and use its features, such as accessing secure areas. The website cannot function properly without these cookies."
+      },
+      "preferences": {
+        "title": "Preference Cookies",
+        "description": "These cookies allow the website to remember choices you have made (such as your username, language, or the region you are in) and provide enhanced, more personal features."
+      },
+      "analytics": {
+        "title": "Analytical Cookies",
+        "description": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. They allow us to improve how the website works."
+      },
+      "marketing": {
+        "title": "Marketing Cookies",
+        "description": "These cookies are used to track visitors across websites. The intention is to display ads that are relevant and engaging for the individual user and thereby more valuable for publishers and third-party advertisers."
+      }
+    },
+    "manageCookies": {
+      "title": "Cookie Settings",
+      "p1": "You can adjust your cookie preferences below. Please note that disabling certain cookies may affect your experience on our website.",
+      "panel": {
+        "title": "Cookie Preferences",
+        "alwaysActive": "Always active",
+        "preferencesDescription": "Allow remembering your preferences and personalizing your experience.",
+        "analyticsDescription": "Help us improve our website by analyzing how you use it.",
+        "marketingDescription": "Allow personalized advertising on our site and other websites.",
+        "acceptAll": "Accept all",
+        "rejectAll": "Reject all",
+        "savePreferences": "Save preferences"
+      }
+    },
+    "deleteCookies": {
+      "title": "How to Delete Cookies",
+      "p1": "You can delete cookies stored on your device at any time through your browser settings. Here's how to do it in the most popular browsers:",
+      "browsers": {
+        "chrome": "Google Chrome: Menu > Settings > Privacy and security > Cookies and other site data > See all cookies and site data",
+        "firefox": "Mozilla Firefox: Menu > Options > Privacy & Security > Cookies and Site Data > Manage Data",
+        "safari": "Safari: Preferences > Privacy > Manage Website Data",
+        "edge": "Microsoft Edge: Menu > Settings > Cookies and site permissions > Manage and delete cookies and site data"
+      }
+    },
+    "updates": {
+      "title": "Policy Updates",
+      "p1": "We may update our Cookie Policy from time to time. We recommend that you review this page periodically to stay informed of any changes. The date of the last update is shown at the top of this page."
+    },
+    "contact": {
+      "title": "Contact",
+      "p1": "If you have any questions about our Cookie Policy, please contact us through our",
+      "link": "contact page"
+    }
+  },
+
   "ourHistoryPage": {
     "title": "About Us",
     "teamSection": {
