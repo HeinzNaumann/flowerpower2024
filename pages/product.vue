@@ -174,6 +174,14 @@ import CartDrawer from '~/components/CartDrawer.vue';
 import { ref, computed } from "vue";
 import { useCartStore } from "~/stores/cart";
 
+// Definir metadatos de la página, incluyendo la transición
+definePageMeta({
+  pageTransition: {
+    name: 'product-detail',
+    mode: 'out-in'
+  }
+});
+
 const config = useRuntimeConfig();
 const route = useRoute();
 const slug = route.query.slug;

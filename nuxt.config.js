@@ -2,6 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui", "@pinia/nuxt"],
+  
+  // Habilitar View Transitions API
+  experimental: {
+    viewTransition: true,
+  },
   css: [
     "~/assets/styles/main.css",
     "swiper/css",

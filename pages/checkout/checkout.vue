@@ -84,6 +84,14 @@ import { useAuth } from "~/composables/useAuth";
 import { useRouter } from "vue-router";
 import { useLocalePath } from "#i18n";
 
+// Definir metadatos de la página, incluyendo la transición
+definePageMeta({
+  pageTransition: {
+    name: 'slide-up',
+    mode: 'out-in'
+  }
+});
+
 const cart = useCartStore();
 const { isAuthenticated } = useAuth();
 const router = useRouter();

@@ -65,6 +65,9 @@
 
       <!-- Grid de productos -->
       <main class="w-full md:w-3/4 md:pl-6">
+        <h1 class="text-2xl font-bold mb-6">
+          {{ $t('shop.title') }}
+        </h1>
         <div
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
         >
@@ -73,7 +76,7 @@
               :to="
                 localePath({ path: '/product', query: { slug: product.slug } })
               "
-              class="flex flex-col w-full h-full bg-white justify-center p-2"
+              class="flex flex-col w-full h-full bg-white justify-center p-2 hover:shadow-lg transition-shadow duration-200"
             >
               <img
                 :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
@@ -81,7 +84,10 @@
                 class="w-full object-cover border-neutral-200 border-solid border mb-3"
                 loading="lazy"
               />
-              <p :alt="product.title" class="text-sm lg:text-base font-medium text-pri">
+              <p 
+                :alt="product.title" 
+                class="text-sm lg:text-base font-medium text-pri"
+              >
                 {{ product.title }}
               </p>
 
@@ -102,6 +108,14 @@
 <script setup lang="ts">
 import type { Product } from "~/types/types";
 const localePath = useLocalePath();
+
+// Definir metadatos de la página, incluyendo la transición
+definePageMeta({
+  pageTransition: {
+    name: 'fade-slide',
+    mode: 'out-in'
+  }
+});
 
 const route = useRoute();
 const showDropdown = ref(false);
