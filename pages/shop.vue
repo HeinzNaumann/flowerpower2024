@@ -65,6 +65,20 @@
 
       <!-- Grid de productos -->
       <main class="w-full md:w-3/4 md:pl-6">
+        <!-- Mostrar el término de búsqueda si existe -->        
+        <div v-if="searchTerm" class="mb-4 p-3 bg-neutral-100 rounded-md flex items-center justify-between">
+          <div>
+            <span class="font-medium">{{ $t('shop.searchResults') || 'Resultados para' }}: </span>
+            <span class="italic">"{{ searchTerm }}"</span>
+          </div>
+          <button 
+            @click="clearSearch" 
+            class="text-neutral-600 hover:text-neutral-900 transition-colors"
+            aria-label="Clear search"
+          >
+            <span class="text-xl">&times;</span>
+          </button>
+        </div>
 
         
         <!-- Mostrar shimmer effect para productos durante la carga -->
@@ -160,7 +174,35 @@ const typeData = ref<Record<Category, CategoryItem[]>>({
   occasions: [],
 });
 
-const products = computed<Product[]>(() => data.value || []);
+// Productos sin filtrar
+const allProducts = computed<Product[]>(() => data.value || []);
+
+// Extraer término de búsqueda de la URL
+const searchTerm = computed(() => route.query.search as string || "");
+
+// Productos filtrados por búsqueda y otros criterios
+const products = computed<Product[]>(() => {
+  let filteredProducts = allProducts.value || [];
+  
+  // Filtrar por término de búsqueda si existe
+  if (searchTerm.value) {
+    const searchLower = searchTerm.value.toLowerCase();
+    filteredProducts = filteredProducts.filter(product => {
+      // Buscar en título, descripción y categorías
+      return (
+        product.title?.toLowerCase().includes(searchLower) ||
+        product.shortDescription?.toLowerCase().includes(searchLower) ||
+        product.description?.toLowerCase().includes(searchLower) ||
+        // Buscar en arrays de categorías
+        (product.flowers || []).some(item => item.toLowerCase().includes(searchLower)) ||
+        (product.moments || []).some(item => item.toLowerCase().includes(searchLower)) ||
+        (product.occasions || []).some(item => item.toLowerCase().includes(searchLower))
+      );
+    });
+  }
+  
+  return filteredProducts;
+});
 
 const availableColors = ref<string[]>([]);
 
@@ -207,6 +249,19 @@ watch(
   },
   { immediate: true }
 );
+// Función para limpiar la búsqueda
+const clearSearch = () => {
+  // Mantener otros parámetros pero eliminar 'search'
+  const query = { ...route.query };
+  delete query.search;
+  
+  const router = useRouter();
+  router.push({
+    name: 'shop',
+    query
+  });
+};
+
 const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
   products.value.sort((a: any, b: any) => {
     if (type === "price") {

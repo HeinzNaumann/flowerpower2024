@@ -331,18 +331,25 @@
       <form
         ref="formRef"
         class="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center lg:w-40 xl:w-64"
+        @submit.prevent="handleSearch"
       >
         <div class="relative w-full">
           <input
+            v-model="searchQuery"
             type="text"
             :placeholder="$t('header.input.placeholder')"
             class="border border-neutral-600 p-1 pl-10 focus:border-neutral-800 focus:outline-hidden focus:shadow-lg transition-all duration-300 w-full"
           />
-          <img
-            src="/assets/icons/magnifier.svg"
-            :alt="$t('header.alt.magnifier')"
-            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400 pointer-events-none"
-          />
+          <button 
+            type="submit"
+            class="absolute left-2 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center cursor-pointer"
+          >
+            <img
+              src="/assets/icons/magnifier.svg"
+              :alt="$t('header.alt.magnifier')"
+              class="w-5 h-5 text-neutral-400"
+            />
+          </button>
         </div>
       </form>
     </nav>
@@ -355,10 +362,25 @@ import { inject, ref, onMounted } from 'vue';
 import { useCartDrawer } from '~/composables/useCartDrawer';
 const { showCartDrawer } = useCartDrawer();
 const isMounted = ref(false);
+const searchQuery = ref('');
+
 onMounted(() => {
   isMounted.value = true;
   console.log('[HEADER] mounted, showCartDrawer:', showCartDrawer.value);
 });
+
+// Función para manejar la búsqueda
+function handleSearch() {
+  if (searchQuery.value.trim()) {
+    // Redirigir a la página de tienda con el parámetro de búsqueda
+    const router = useRouter();
+    router.push(localePath({
+      name: 'shop',
+      query: { search: searchQuery.value.trim() }
+    }));
+    searchQuery.value = ''; // Limpiar el campo después de la búsqueda
+  }
+}
 
 function openCartDrawer() {
   console.log('CLICK CARRITO HEADER');
