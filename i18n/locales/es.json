@@ -1,5 +1,8 @@
 {
   "welcome": "Bienvenido",
+  "common": {
+    "shop": "Tienda"
+  },
   "underConstruction": {
     "heading": "Flower Power Website en construcción",
     "message": "Disculpe las molestias, pero nuestro sitio web está siendo actualizado y mejorado emocionantemente.",
@@ -66,7 +69,13 @@
     "colors": "Colores",
     "tags": "Etiquetas",
     "noResults": "No se encontraron productos con los filtros seleccionados",
-    "clearFilters": "Borrar filtros"
+    "clearFilters": "Borrar filtros",
+    "sort": "Ordenar por",
+    "priceLowToHigh": "Precio: De menor a mayor",
+    "priceHighToLow": "Precio: De mayor a menor",
+    "nameAToZ": "Nombre: A-Z",
+    "nameZToA": "Nombre: Z-A",
+    "errorLoading": "Error cargando productos"
   },
   "footer": {
     "sections": {

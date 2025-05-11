@@ -40,12 +40,25 @@ export function useProductFilters() {
   
   // Estado global para los filtros
   const activeFilters = computed(() => {
+    // Procesar colores como array cuando hay múltiples seleccionados
+    let colors = route.query.colors;
+    if (typeof colors === 'string') {
+      // Si es un solo valor, lo mantenemos como string
+      colors = colors;
+    } else if (Array.isArray(colors)) {
+      // Si es un array, lo dejamos como está
+      colors = colors;
+    } else {
+      // Si no hay valor, es un string vacío
+      colors = '';
+    }
+
     return {
       search: route.query.search as string || '',
       flowers: route.query.flowers as string || '',
       moments: route.query.moments as string || '',
       occasions: route.query.occasions as string || '',
-      colors: route.query.colors as string || '',
+      colors, // Puede ser string o string[]
       tags: route.query.tags as string || '',
     };
   });
@@ -108,9 +121,17 @@ export function useProductFilters() {
         matchesOccasions = applyMultilingualFilter(product.occasions, activeFilters.value.occasions);
       }
 
-      // Filtro de colores
+      // Filtro de colores (puede ser múltiple)
       if (activeFilters.value.colors) {
-        matchesColors = applyMultilingualFilter(product.colors, activeFilters.value.colors);
+        if (Array.isArray(activeFilters.value.colors)) {
+          // Si hay múltiples colores seleccionados, el producto debe tener al menos uno de ellos
+          matchesColors = activeFilters.value.colors.some(colorFilter => 
+            applyMultilingualFilter(product.colors, colorFilter as string)
+          );
+        } else {
+          // Un solo color seleccionado
+          matchesColors = applyMultilingualFilter(product.colors, activeFilters.value.colors as string);
+        }
       }
 
       // Filtro de tags (general)
@@ -163,15 +184,71 @@ export function useProductFilters() {
   const applyFilter = (filterType: string, value: string) => {
     const query = { ...route.query };
     
-    // Mapear el filterType y value si es necesario para soporte multilingüe
+    // Mapear el filterType y value si es necesario para soporte multilinguïe
     const { key, value: mappedValue } = mapExternalToInternal(filterType, value);
     
-    // Si el valor está vacío, eliminar el filtro
-    if (!mappedValue) {
-      delete query[key];
-    } else {
-      // Usar el valor original para mantener la legibilidad en la URL
-      query[key] = value;
+    // Caso especial para colores que pueden ser múltiples
+    if (key === 'colors') {
+      // Si el valor está vacío, eliminar el filtro
+      if (!mappedValue) {
+        delete query[key];
+      } else {
+        const currentColors = query[key];
+        
+        // Convertir el valor actual a un formato utilizable
+        let currentColorsArray: string[] = [];
+        
+        if (Array.isArray(currentColors)) {
+          // Si ya es un array, lo usamos directamente
+          currentColorsArray = currentColors as string[];
+        } else if (currentColors) {
+          // Si es un solo valor (string), lo convertimos a array
+          currentColorsArray = [currentColors as string];
+        }
+        
+        // Verificar si el color ya está seleccionado
+        const colorIndex = currentColorsArray.indexOf(value);
+        
+        if (colorIndex >= 0) {
+          // Si ya está seleccionado, lo quitamos (toggle)
+          currentColorsArray.splice(colorIndex, 1);
+          
+          // Si queda algún color, actualizamos la query
+          if (currentColorsArray.length > 0) {
+            // Si solo queda un color, lo guardamos como string simple
+            if (currentColorsArray.length === 1) {
+              query[key] = currentColorsArray[0];
+            } else {
+              // Si hay múltiples colores, guardamos el array
+              query[key] = currentColorsArray;
+            }
+          } else {
+            // Si no queda ninguno, eliminamos el filtro
+            delete query[key];
+          }
+        } else {
+          // Si no está seleccionado, lo añadimos
+          currentColorsArray.push(value);
+          
+          // Si solo hay un color, lo guardamos como string simple
+          if (currentColorsArray.length === 1) {
+            query[key] = value;
+          } else {
+            // Si hay múltiples colores, guardamos el array
+            query[key] = currentColorsArray;
+          }
+        }
+      }
+    } 
+    // Para el resto de filtros, comportamiento normal
+    else {
+      // Si el valor está vacío, eliminar el filtro
+      if (!mappedValue) {
+        delete query[key];
+      } else {
+        // Usar el valor original para mantener la legibilidad en la URL
+        query[key] = value;
+      }
     }
     
     router.push({

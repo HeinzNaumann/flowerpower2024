@@ -1,13 +1,15 @@
 <template>
-  <div class="container mx-auto p-4">
-    <!-- Sort Dropdown -->
-    <div class="flex justify-end mb-4">
+  <div class="container max-w-screen-xl mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold">{{ $t('common.shop') || 'Tienda' }}</h1>
+      
+      <!-- Sort Dropdown (a la derecha) -->
       <div class="relative">
         <button
           @click="showDropdown = !showDropdown"
           class="bg-neutral-200 text-neutral-700 px-4 py-2 rounded-sm shadow-md"
         >
-          Sort by
+          {{ $t('shop.sort') || 'Ordenar por' }}
         </button>
         <div
           v-if="showDropdown"
@@ -17,54 +19,61 @@
             @click="sortProducts('price', 'asc')"
             class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
-            Price: Low to High
+            {{ $t('shop.priceLowToHigh') || 'Precio: De menor a mayor' }}
           </button>
           <button
             @click="sortProducts('price', 'desc')"
             class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
-            Price: High to Low
+            {{ $t('shop.priceHighToLow') || 'Precio: De mayor a menor' }}
           </button>
           <button
             @click="sortProducts('name', 'asc')"
             class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
-            Name: A to Z
+            {{ $t('shop.nameAToZ') || 'Nombre: A-Z' }}
           </button>
           <button
             @click="sortProducts('name', 'desc')"
             class="block w-full text-left px-4 py-2 text-neutral-700 hover:bg-neutral-100"
           >
-            Name: Z to A
+            {{ $t('shop.nameZToA') || 'Nombre: Z-A' }}
           </button>
         </div>
       </div>
     </div>
-
-    <!-- Sidebar and Product Grid -->
+    
+    <!-- Contenedor del grid de filtros y productos con márgenes estables -->
     <div class="flex flex-col md:flex-row">
-      <!-- Sidebar con filtros (lazy loaded) -->
-      <aside class="w-full md:w-1/4 space-y-8">
-        <LazyFilters
-          :typeData="typeData"
-          :title="$t('shop.filtersTitle.flowers')"
-        />
-        <LazyFilterColors
-          :colors="availableColors"
-          :title="$t('shop.filtersTitle.colors')"
-        />
-        <LazyFilters
-          :typeData="typeData"
-          :title="$t('shop.filtersTitle.moments')"
-        />
-        <LazyFilters
-          :typeData="typeData"
-          :title="$t('shop.filtersTitle.occasions')"
-        />
+      
+      <!-- Columna de filtros con altura mínima fija para evitar saltos -->
+      <aside class="w-full md:w-1/4 md:pr-6 mb-6 md:mb-0">
+        <div class="sticky top-24 min-h-[600px] overflow-y-auto">
+          
+          <!-- Categorías de filtros con espacio mínimo fijo -->
+          <div class="space-y-8 pb-4">
+            <LazyFilters
+              :typeData="typeData"
+              :title="$t('shop.filtersTitle.flowers')"
+            />
+            <LazyFilterColors
+              :colors="availableColors"
+              :title="$t('shop.filtersTitle.colors')"
+            />
+            <LazyFilters
+              :typeData="typeData"
+              :title="$t('shop.filtersTitle.moments')"
+            />
+            <LazyFilters
+              :typeData="typeData"
+              :title="$t('shop.filtersTitle.occasions')"
+            />
+          </div>
+        </div>
       </aside>
 
-      <!-- Grid de productos -->
-      <main class="w-full md:w-3/4 md:pl-6">
+      <!-- Grid de productos con altura mínima para estabilidad -->
+      <main class="w-full md:w-3/4 md:pl-6 min-h-[800px]">
         <!-- Panel de filtros activos -->        
         <div v-if="hasActiveFilters" class="mb-4 p-3 bg-neutral-100 rounded-md">
           <div class="flex items-center justify-between mb-2">
@@ -84,16 +93,43 @@
             <button @click="clearFilter('search')" class="text-neutral-400 hover:text-neutral-900">&times;</button>
           </div>
           
-          <!-- Filtros de categorías -->  
-          <template v-for="filterType in filterTypes" :key="filterType">
+          <!-- Filtros de categorías (excepto colores) -->  
+          <template v-for="filterType in filterTypes.filter(type => type !== 'colors')" :key="filterType">
             <div v-if="activeFilters[filterType]" class="inline-flex items-center bg-white px-3 py-1 rounded-full text-sm mr-2 mb-2">
               <span class="mr-2">{{ $t(`shop.${filterType}`) || filterType }}: {{ activeFilters[filterType] }}</span>
               <button @click="clearFilter(filterType)" class="text-neutral-400 hover:text-neutral-900">&times;</button>
             </div>
           </template>
+          
+          <!-- Filtros de colores (chips individuales) -->
+          <template v-if="activeFilters.colors">
+            <!-- Si hay múltiples colores (array) -->
+            <template v-if="Array.isArray(activeFilters.colors)">
+              <div 
+                v-for="(color, index) in activeFilters.colors" 
+                :key="`color-${index}`"
+                class="inline-flex items-center bg-white px-3 py-1 rounded-full text-sm mr-2 mb-2"
+              >
+                <span class="mr-2">{{ $t('shop.colors') || 'Colores' }}: {{ color }}</span>
+                <button 
+                  @click="toggleColorFilter(color as string)" 
+                  class="text-neutral-400 hover:text-neutral-900"
+                  aria-label="Eliminar filtro de color"
+                >&times;</button>
+              </div>
+            </template>
+            <!-- Si hay un solo color (string) -->
+            <div v-else class="inline-flex items-center bg-white px-3 py-1 rounded-full text-sm mr-2 mb-2">
+              <span class="mr-2">{{ $t('shop.colors') || 'Colores' }}: {{ activeFilters.colors }}</span>
+              <button 
+                @click="toggleColorFilter(activeFilters.colors as string)" 
+                class="text-neutral-400 hover:text-neutral-900"
+                aria-label="Eliminar filtro de color"
+              >&times;</button>
+            </div>
+          </template>
         </div>
 
-        
         <!-- Mostrar shimmer effect para productos durante la carga -->
         <div v-if="pending" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="i in 9" :key="i" class="animate-pulse bg-white rounded-lg shadow-md overflow-hidden">
@@ -106,7 +142,7 @@
               <div class="h-4 bg-gray-200 rounded w-1/4"></div>
               
               <!-- Shimmer para botón -->
-              <div class="h-10 bg-gray-200 rounded w-full mt-4"></div>
+              <div class="h-4 bg-gray-200 rounded w-1/2 mt-4"></div>
             </div>
           </div>
         </div>
@@ -173,6 +209,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import type { Product } from "~/types/types";
 const localePath = useLocalePath();
 
@@ -185,6 +222,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const router = useRouter();
 const showDropdown = ref(false);
 const { data, error, pending } = useFetchApi("products");
 const config = useRuntimeConfig();
@@ -201,7 +239,7 @@ const typeData = ref<Record<Category, CategoryItem[]>>({
 });
 
 // Usar el composable de filtros centralizado
-const { activeFilters, hasActiveFilters, applyFilters, clearFilter, clearAllFilters } = useProductFilters();
+const { activeFilters, hasActiveFilters, applyFilters, clearFilter, clearAllFilters, applyFilter } = useProductFilters();
 
 // Definir los tipos de filtros disponibles
 const filterTypes = ['search', 'flowers', 'moments', 'occasions', 'colors', 'tags'] as const;
@@ -262,6 +300,15 @@ watch(
   { immediate: true }
 );
 
+
+// Función para manejar la eliminación de chips de colores
+const toggleColorFilter = (colorValue: string) => {
+  // Usar el método centralizado en lugar de manipular directamente
+  // Es más seguro y evita problemas de sincronización
+  nextTick(() => {
+    clearFilter('colors');
+  });
+};
 
 const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
   products.value.sort((a: any, b: any) => {

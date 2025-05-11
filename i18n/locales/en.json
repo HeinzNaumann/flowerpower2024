@@ -66,7 +66,13 @@
     "colors": "Colors",
     "tags": "Tags",
     "noResults": "No products found with the selected filters",
-    "clearFilters": "Clear filters"
+    "clearFilters": "Clear filters",
+    "sort": "Sort by",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
+    "nameAToZ": "Name: A to Z",
+    "nameZToA": "Name: Z to A",
+    "errorLoading": "Error loading products"
   },
   "footer": {
     "sections": {
@@ -188,7 +194,8 @@
     "cancelled": "Cancelled"
   },
   "common": {
-    "edit": "Edit"
+    "edit": "Edit",
+    "shop": "Shop"
   },
   "dialog": {
     "ok": "OK",

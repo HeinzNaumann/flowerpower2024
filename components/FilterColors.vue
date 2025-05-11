@@ -5,7 +5,7 @@
       <button
         v-for="color in mappedColors"
         :key="color.class"
-        @click="applyFilter('colors', color.name.toLowerCase().replace(/\s+/g, ''))"
+        @click="toggleColor(color.name.toLowerCase().replace(/\s+/g, ''))" 
         :title="capitalize(color.name)"
         :class="[
           color.class,
@@ -36,12 +36,62 @@ import { useI18n } from "vue-i18n";
 // puede que ya no sea necesario si todo el manejo se hace por ruta.
 
 // Importar el composable de filtros
-const { activeFilters, applyFilter } = useProductFilters();
+const { activeFilters, applyFilter, clearFilter } = useProductFilters();
+const router = useRouter();
+const route = useRoute();
 
-// Función para verificar si un filtro está activo
+// Función para verificar si un color está activo (puede ser múltiple)
 function isActiveFilter(filterType: string, value: string): boolean {
-  return activeFilters.value[filterType as keyof typeof activeFilters.value] === value;
+  const filterValue = activeFilters.value[filterType as keyof typeof activeFilters.value];
+  
+  // Si es un array, verificar si el valor está en el array
+  if (Array.isArray(filterValue)) {
+    return filterValue.includes(value);
+  }
+  
+  // Si es un string, comparar directamente
+  return filterValue === value;
 }
+
+// Función para alternar (toggle) los colores
+function toggleColor(colorValue: string): void {
+  // Crear una copia de la consulta actual
+  const query = { ...route.query };
+  
+  // Verificar si el color ya está seleccionado
+  if (isActiveFilter('colors', colorValue)) {
+    // Si está seleccionado, eliminarlo
+    if (Array.isArray(query.colors)) {
+      // Si hay múltiples colores
+      query.colors = query.colors.filter(c => c !== colorValue);
+      
+      // Si no quedan colores, eliminar la propiedad colors
+      if (query.colors.length === 0) {
+        delete query.colors;
+      }
+    } else {
+      // Si solo hay un color y es el mismo, eliminarlo
+      delete query.colors;
+    }
+  } else {
+    // Si no está seleccionado, añadirlo
+    if (!query.colors) {
+      // Si no hay colores, añadir como string
+      query.colors = colorValue;
+    } else if (Array.isArray(query.colors)) {
+      // Si ya hay un array de colores, añadir al array
+      query.colors.push(colorValue);
+    } else {
+      // Si hay un solo color como string, convertir a array
+      query.colors = [query.colors as string, colorValue];
+    }
+  }
+  
+  // Actualizar la ruta con la nueva consulta
+  router.push({ query });
+}
+
+
 
 // Define las propiedades que recibe el componente
 const props = defineProps({

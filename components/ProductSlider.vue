@@ -37,7 +37,7 @@
         </p>
 
         <p v-if="isDesktop" class="text-sm lg:text-base font-extralight">
-          {{ $t(slide.shortDescription) }}
+          {{ slide.shortDescription }}
         </p>
         <p class="text-sm lg:text-base font-extralight">{{ slide.price }} €</p>
       </NuxtLink>
