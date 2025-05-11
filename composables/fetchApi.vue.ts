@@ -1,6 +1,9 @@
 import { ref, computed, watchEffect } from "vue";
 import type { Product } from "~/types/types";
 
+// Tiempo de caché en milisegundos (1 hora)
+const CACHE_DURATION = 60 * 60 * 1000;
+
 export const useFetchApi = (typeRequest: string) => {
   const config = useRuntimeConfig();
   const apiUrl = config.public.apiBaseUrl;
@@ -8,8 +11,8 @@ export const useFetchApi = (typeRequest: string) => {
   const route = useRoute();
   const productsStore = useProductsStore();
   
-  // Datos reactivos
-  const data = ref<Product[] | null>(null);
+  // Datos reactivos para asegurar que siempre tengamos algo que mostrar
+  const data = ref<Product[]>([]);
   const error = ref<Error | null>(null);
   const pending = ref<boolean>(true);
   
@@ -74,6 +77,7 @@ export const useFetchApi = (typeRequest: string) => {
     } catch (err) {
       error.value = err as Error;
       pending.value = false;
+      console.error('Error fetching products:', err);
     }
   });
 
@@ -89,6 +93,7 @@ export const useFetchSlider = async (typeRequest: string) => {
   // Datos reactivos
   const data = ref<Product[] | null>(null);
   const error = ref<Error | null>(null);
+  const pending = ref<boolean>(true);
   
   // Construir la URL y clave única para el caché
   const url = `${apiUrl}/${typeRequest}`;
@@ -101,6 +106,7 @@ export const useFetchSlider = async (typeRequest: string) => {
     if (cachedData) {
       // Usar datos de la caché
       data.value = cachedData;
+      pending.value = false;
     } else {
       // Obtener datos frescos de la API
       const response = await $fetch<Product[]>(url, {
@@ -115,10 +121,13 @@ export const useFetchSlider = async (typeRequest: string) => {
       // Guardar en caché
       productsStore.cacheProducts(cacheKey, response);
       data.value = response;
+      pending.value = false;
     }
   } catch (err) {
     error.value = err as Error;
+    pending.value = false;
+    console.error('Error fetching slider products:', err);
   }
   
-  return { data, error }
+  return { data, error, pending }
 };

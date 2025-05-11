@@ -1,8 +1,32 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-8">
-      {{ $t("productPage.product") }} / {{ product.title }}
-    </h1>
+    <!-- Estado de carga -->
+    <div v-if="pending" class="flex justify-center items-center py-12">
+      <div class="animate-pulse space-y-8 w-full max-w-4xl">
+        <!-- Skeleton para título -->
+        <div class="h-8 bg-gray-200 rounded w-3/4"></div>
+        
+        <!-- Skeleton para imagen y detalles -->
+        <div class="flex flex-col md:flex-row justify-around">
+          <div class="w-[400px] h-[400px] md:w-[500px] md:h-[500px] bg-gray-200 rounded"></div>
+          <div class="w-full md:w-1/2 space-y-4 mt-8 md:mt-0">
+            <div class="h-7 bg-gray-200 rounded w-1/2"></div>
+            <div class="h-6 bg-gray-200 rounded w-1/4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Estado de error -->
+    <div v-else-if="error" class="text-red-500 text-center py-12">
+      {{ $t('productPage.errorLoading') || 'Error cargando el producto' }}
+    </div>
+    
+    <!-- Contenido del producto -->
+    <div v-else>
+      <h1 class="text-2xl font-bold mb-8">
+        {{ $t("productPage.product") }} / {{ product.title }}
+      </h1>
 
     <div class="flex flex-col md:flex-row justify-around">
       <div
@@ -14,7 +38,7 @@
         @mouseleave="stopZoom"
         @wheel.prevent="handleWheel"
       >
-        <img
+        <NuxtImg
           :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
           width="500"
           height="500"
@@ -22,16 +46,20 @@
           class="w-[400px] h-[400px] md:w-[500px] md:h-[500px] object-cover"
           alt="Flower Power Emilio Bouquet"
           @click="toggleZoom"
+          format="webp"
+          loading="lazy"
+          placeholder
         />
         <button
           @click="toggleZoom"
           class="hidden md:block absolute top-1 right-1 p-2"
         >
-          <img
-            src="/assets/icons/magnifier.svg"
-            :alt="$t('header.alt.cart')"
-            class="size-8 hover:opacity-70 transition-opacity duration-200"
-          />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-8 hover:opacity-70 transition-opacity duration-200">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="11" y1="8" x2="11" y2="14"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
         </button>
       </div>
 
@@ -166,6 +194,7 @@
       </p>
     </div>
     <CartDrawer v-model:open="showCartDrawer" @checkout="goToCheckout" />
+    </div>
   </div>
 </template>
 
@@ -189,8 +218,23 @@ const { locale, t } = useI18n();
 
 const cart = useCartStore();
 
-const { data: product, error } = await useFetch(
-  `${config.public.apiBaseUrl}/products/${slug}?lang=${locale.value}`
+// Usar useLazyFetch para mejorar el rendimiento
+const { data: product, error, pending } = useLazyFetch(
+  `${config.public.apiBaseUrl}/products/${slug}?lang=${locale.value}`,
+  {
+    key: `product-${slug}-${locale.value}`,
+    default: () => ({
+      title: '',
+      description: '',
+      shortDescription: '',
+      price: 0,
+      images: '',
+      colors: [],
+      sizes: '',
+      slug: '',
+      id: ''
+    })
+  }
 );
 
 const { mappedColors } = useColorMapping(product.value.colors);
@@ -257,7 +301,7 @@ const showCartDrawer = ref(false);
 
 function goToCheckout() {
   showCartDrawer.value = false;
-  window.location.href = '/checkout/checkout';
+  navigateTo('/checkout/checkout');
 }
 
 function addToCart() {

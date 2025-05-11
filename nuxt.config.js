@@ -1,11 +1,26 @@
 // nuxt.config.js
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui", "@pinia/nuxt"],
+  modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui", "@pinia/nuxt", "@nuxt/image"],
   
-  // Habilitar View Transitions API
+  // Configuraciones experimentales y avanzadas
   experimental: {
     viewTransition: true,
+  },
+  
+  // Configuración de app para rendimiento
+  app: {
+    // Habilitar prefetching inteligente
+    pageTransition: { name: 'page', mode: 'out-in' },
+    head: {
+      htmlAttrs: {
+        lang: 'es'
+      },
+      // Agregar hints de precarga para recursos críticos
+      link: [
+        { rel: 'preconnect', href: process.env.API_BASE_URL || "https://flowerpower.es/api" }
+      ]
+    }
   },
   css: [
     "~/assets/styles/main.css",

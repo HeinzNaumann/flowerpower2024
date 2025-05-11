@@ -43,21 +43,21 @@
 
     <!-- Sidebar and Product Grid -->
     <div class="flex flex-col md:flex-row">
-      <!-- Sidebar con filtros -->
+      <!-- Sidebar con filtros (lazy loaded) -->
       <aside class="w-full md:w-1/4 space-y-8">
-        <Filters
+        <LazyFilters
           :typeData="typeData"
           :title="$t('shop.filtersTitle.flowers')"
         />
-        <FilterColors
+        <LazyFilterColors
           :colors="availableColors"
           :title="$t('shop.filtersTitle.colors')"
         />
-        <Filters
+        <LazyFilters
           :typeData="typeData"
           :title="$t('shop.filtersTitle.moments')"
         />
-        <Filters
+        <LazyFilters
           :typeData="typeData"
           :title="$t('shop.filtersTitle.occasions')"
         />
@@ -65,10 +65,24 @@
 
       <!-- Grid de productos -->
       <main class="w-full md:w-3/4 md:pl-6">
-        <h1 class="text-2xl font-bold mb-6">
-          {{ $t('shop.title') }}
-        </h1>
+
+        
+        <!-- Mostrar mensaje de carga cuando los productos están pendientes -->
+        <div v-if="pending" class="flex justify-center items-center py-12">
+          <div class="animate-pulse flex flex-col items-center">
+            <div class="h-8 w-24 bg-gray-200 rounded mb-4"></div>
+            <div class="h-64 w-full max-w-md bg-gray-200 rounded"></div>
+          </div>
+        </div>
+        
+        <!-- Mostrar mensaje de error si hay un problema -->
+        <div v-else-if="error" class="text-red-500 text-center py-12">
+          {{ $t('shop.errorLoading') || 'Error cargando productos' }}
+        </div>
+        
+        <!-- Mostrar productos cuando están disponibles -->
         <div
+          v-else
           class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start"
         >
           <div v-for="(product, id) in products" :key="id">
@@ -78,11 +92,15 @@
               "
               class="flex flex-col w-full h-full bg-white justify-center p-2 hover:shadow-lg transition-shadow duration-200"
             >
-              <img
+              <NuxtImg
                 :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
                 :alt="product.slug"
                 class="w-full object-cover border-neutral-200 border-solid border mb-3"
+                width="400"
+                height="400"
+                format="webp"
                 loading="lazy"
+                placeholder
               />
               <p 
                 :alt="product.title" 
@@ -119,7 +137,7 @@ definePageMeta({
 
 const route = useRoute();
 const showDropdown = ref(false);
-const { data, error } = useFetchApi("products");
+const { data, error, pending } = useFetchApi("products");
 const config = useRuntimeConfig();
 
 const categories = ["flowers", "moments", "occasions"] as const;
