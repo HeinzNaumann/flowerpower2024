@@ -6,49 +6,45 @@
       </h2>
       <ul class="space-y-2 mt-4">
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {occasions: 'cumpleaños'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.birthday")
-          }}</a>
+          }}</NuxtLink>
         </li>
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {occasions: 'nacimiento'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.birth")
-          }}</a>
+          }}</NuxtLink>
         </li>
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {occasions: 'felicitaciones'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.congratulations")
-          }}</a>
+          }}</NuxtLink>
         </li>
-        <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
-            $t("categories.links.loremIpsum")
-          }}</a>
-        </li>
+
       </ul>
     </div>
     <div class="text-left">
       <h2 class="font-bold text-lg">{{ $t("categories.sections.moments") }}</h2>
       <ul class="space-y-2 mt-4">
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {moments: 'romantico'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.romantic")
-          }}</a>
+          }}</NuxtLink>
         </li>
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {moments: 'gracias'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.sayThankYou")
-          }}</a>
+          }}</NuxtLink>
         </li>
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {moments: 'buenosdias'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.goodMorning")
-          }}</a>
+          }}</NuxtLink>
         </li>
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {moments: 'buenasnoches'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.goodNight")
-          }}</a>
+          }}</NuxtLink>
         </li>
       </ul>
     </div>
@@ -58,30 +54,23 @@
       </h2>
       <ul class="space-y-2 mt-4">
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {occasions: 'pedidamano'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.proposal")
-          }}</a>
+          }}</NuxtLink>
         </li>
         <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
+          <NuxtLink :to="localePath({path: '/shop', query: {occasions: 'aniversario'}})" class="text-neutral-900 hover:underline">{{
             $t("categories.links.anniversary")
-          }}</a>
+          }}</NuxtLink>
         </li>
-        <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
-            $t("categories.links.loremIpsum")
-          }}</a>
-        </li>
-        <li>
-          <a href="#" class="text-neutral-900 hover:underline">{{
-            $t("categories.links.loremIpsum")
-          }}</a>
-        </li>
+
       </ul>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const localePath = useLocalePath();
+</script>
 
 <style></style>
