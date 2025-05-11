@@ -231,12 +231,7 @@
           >
             {{ $t("header.links.tienda") }}
           </NuxtLink>
-          <NuxtLink
-            :to="localePath({ path: '/subscriptions' })"
-            class="hover:text-neutral-600"
-          >
-            {{ $t("header.links.suscripciones") }}
-          </NuxtLink>
+
         </div>
 
         <!-- Flags Side by Side -->
@@ -319,12 +314,7 @@
         >
           {{ $t("header.links.tienda") }}
         </NuxtLink>
-        <NuxtLink
-          :to="localePath({ path: '/subscriptions' })"
-          class="hover:text-neutral-600"
-        >
-          {{ $t("header.links.suscripciones") }}
-        </NuxtLink>
+
       </div>
 
       <!-- Search Form Positioned Absolutely to the Right -->

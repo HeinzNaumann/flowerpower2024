@@ -147,6 +147,11 @@
     }
   },
   "checkout": {
+    "paymentCard": "Detalles de la tarjeta",
+    "cardInfo": "Introduce los datos de tu tarjeta para completar el pago.",
+    "invalidOrderMessage": "No se pudo obtener el clientSecret de Stripe.",
+    "cartEmpty": "Tu carrito está vacío."
+  ,
     "shippingTitle": "Dirección de envío",
     "name": "Nombre",
     "surname": "Apellidos",
@@ -155,6 +160,7 @@
     "postalCode": "Código postal",
     "zip": "Código postal",
     "country": "País",
+    "delivery": "Entrega",
     "phone": "Teléfono",
     "email": "Correo electrónico",
     "billingTitle": "Dirección de facturación",
@@ -266,6 +272,7 @@
   "cart": {
     "title": "Tu carrito",
     "empty": "El carrito está vacío",
+    "cartEmpty": "Tu carrito está vacío",
     "total": "Total:",
     "checkout": "Finalizar compra",
     "remove": "Eliminar",
