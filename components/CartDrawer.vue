@@ -83,23 +83,23 @@ function goToAddress() {
 
 // Debug: Mostrar formato de imágenes
 onMounted(() => {
-  console.log('Items en el carrito (detallado):', cart.items);
+
   
   // Inspeccionar cada item para ver su estructura exacta
   cart.items.forEach((item, index) => {
-    console.log(`Item ${index}: ${item.title}`);
-    console.log('- ID:', item.id);
-    console.log('- Es complemento:', item.isComplement);
-    console.log('- Imágenes:', item.images);
-    console.log('- Tipo de imágenes:', typeof item.images);
+
+
+
+
+
     if (item.images) {
       if (Array.isArray(item.images)) {
-        console.log('- Primera imagen del array:', item.images[0]);
+
       } else {
-        console.log('- Imagen (string):', item.images);
+
       }
     }
-    console.log('---');
+
   });
 });
 const cart = useCartStore();
