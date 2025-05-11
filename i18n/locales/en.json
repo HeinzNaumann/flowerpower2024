@@ -327,5 +327,177 @@
         "3": "If no one is available to receive the order, we will try to leave it in a safe place or with a neighbor, according to your instructions."
       }
     }
+  },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "dataCollection": {
+      "title": "Data Collection",
+      "description": "At Flower Power, we collect certain personal information to enhance your shopping experience and provide you with the best possible service. The data we may collect includes:",
+      "items": {
+        "0": "Contact information (name, address, email, phone number)",
+        "1": "Payment information (credit card details, billing address)",
+        "2": "Purchase history and preferences",
+        "3": "Technical information about your device and how you interact with our website"
+      }
+    },
+    "dataUse": {
+      "title": "Data Use",
+      "description": "We use the collected information for the following purposes:",
+      "items": {
+        "0": "Processing and delivering your orders",
+        "1": "Managing your account and providing customer support",
+        "2": "Personalizing your experience and offering products that may interest you",
+        "3": "Improving our website and services",
+        "4": "Complying with legal obligations and protecting our rights"
+      }
+    },
+    "cookies": {
+      "title": "Cookies and Similar Technologies",
+      "description": "We use cookies and similar technologies to enhance the functionality of our website and understand how you interact with it. You can set your browser to refuse all cookies or to alert you when a cookie is sent.",
+      "table": {
+        "type": "Type",
+        "purpose": "Purpose",
+        "duration": "Duration",
+        "rows": {
+          "0": {
+            "type": "Essential cookies",
+            "purpose": "Necessary for the basic functioning of the site",
+            "duration": "Session / Persistent"
+          },
+          "1": {
+            "type": "Preference cookies",
+            "purpose": "Remember your preferences and settings",
+            "duration": "1 year"
+          },
+          "2": {
+            "type": "Analytics cookies",
+            "purpose": "Help us understand how you use our site",
+            "duration": "2 years"
+          }
+        }
+      }
+    },
+    "thirdParties": {
+      "title": "Sharing with Third Parties",
+      "description": "We may share your personal information with third parties in the following circumstances:",
+      "items": {
+        "0": "Service providers who help us operate our business (payment processors, delivery services)",
+        "1": "When required by law or to protect our legal rights",
+        "2": "With your explicit consent"
+      }
+    },
+    "rights": {
+      "title": "Your Rights",
+      "description": "As a user, you have certain rights regarding your personal data:",
+      "items": {
+        "0": "Right to access your personal data",
+        "1": "Right to rectify inaccurate data",
+        "2": "Right to erasure of your data ('right to be forgotten')",
+        "3": "Right to restrict processing of your data",
+        "4": "Right to data portability"
+      }
+    },
+    "contact": "To exercise any of these rights or if you have questions about our privacy policy, please contact us at privacy{at}flowerpower.com"
+  },
+  "bouquetCarePage": {
+    "title": "Bouquet Care",
+    "generalCare": {
+      "title": "General Care",
+      "description": "To keep your flowers fresh and beautiful for as long as possible, follow these basic care tips:",
+      "tips": {
+        "0": "Cut the stems diagonally about 2-3 cm every 2-3 days with clean, sharp scissors",
+        "1": "Change the water in your vase every 2 days with fresh room temperature water",
+        "2": "Keep flowers away from direct sunlight, heat sources, and drafts",
+        "3": "Remove any leaves that would be submerged in water to prevent bacterial growth",
+        "4": "Remove wilted flowers to extend the life of the rest of the bouquet"
+      }
+    },
+    "wateringGuide": {
+      "title": "Watering Guide",
+      "description": "Different types of flowers have different water needs. Here's a quick guide:",
+      "table": {
+        "flowerType": "Flower Type",
+        "waterAmount": "Water Amount",
+        "frequency": "Frequency",
+        "rows": {
+          "0": {
+            "type": "Roses",
+            "amount": "5-7 cm in the vase",
+            "frequency": "Change water every 2 days"
+          },
+          "1": {
+            "type": "Tulips",
+            "amount": "3-5 cm in the vase",
+            "frequency": "Change water daily"
+          },
+          "2": {
+            "type": "Lilies",
+            "amount": "7-10 cm in the vase",
+            "frequency": "Change water every 2-3 days"
+          },
+          "3": {
+            "type": "Carnations",
+            "amount": "5-7 cm in the vase",
+            "frequency": "Change water every 3-4 days"
+          }
+        }
+      }
+    },
+    "seasonalCare": {
+      "title": "Seasonal Care",
+      "description": "Environmental conditions vary by season, which affects the care your flowers need:",
+      "seasons": {
+        "0": {
+          "name": "Spring",
+          "description": "With moderate temperatures, it's the ideal season for flowers. However, allergies can be an issue.",
+          "tips": {
+            "0": "Keep flowers in well-ventilated rooms but away from direct drafts",
+            "1": "Avoid placing them near open windows where pollen can enter"
+          }
+        },
+        "1": {
+          "name": "Summer",
+          "description": "Heat can significantly shorten the life of your flowers if precautions aren't taken.",
+          "tips": {
+            "0": "Keep flowers in the coolest rooms of the house, away from direct sunlight",
+            "1": "Consider adding ice cubes to the vase water on particularly hot days"
+          }
+        },
+        "2": {
+          "name": "Autumn",
+          "description": "Variable temperatures can affect the longevity of flowers.",
+          "tips": {
+            "0": "Avoid placing flowers near heating systems that are starting to operate",
+            "1": "Protect bouquets from cold drafts that may come through windows and doors"
+          }
+        },
+        "3": {
+          "name": "Winter",
+          "description": "Indoor heating can quickly dehydrate your flowers.",
+          "tips": {
+            "0": "Keep flowers away from radiators, heaters, and other direct heat sources",
+            "1": "Consider using a humidifier in the room where you keep your flowers"
+          }
+        }
+      }
+    },
+    "commonProblems": {
+      "title": "Common Problems",
+      "description": "Here you'll find solutions to the most frequent problems with flower bouquets:",
+      "problems": {
+        "0": {
+          "problem": "Flowers wilting prematurely",
+          "solution": "Make sure to change the water regularly, cut the stems, and keep flowers away from heat and direct sunlight. You can also add a floral preservative to the water."
+        },
+        "1": {
+          "problem": "Cloudy water with bad smell",
+          "solution": "Change the water immediately, clean the vase thoroughly with soap and hot water, trim the stems, and remove any leaves or petals that might be in the water."
+        },
+        "2": {
+          "problem": "Soft or sticky stems",
+          "solution": "This usually indicates bacterial rot. Remove affected flowers, trim healthy stems above the damaged part, and completely change the vase water."
+        }
+      }
+    }
   }
 }

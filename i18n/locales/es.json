@@ -288,5 +288,177 @@
         "3": "Si nadie puede recibir el pedido, intentaremos dejarlo en un lugar seguro o con un vecino, según tus instrucciones."
       }
     }
+  },
+  "privacyPage": {
+    "title": "Política de Privacidad",
+    "dataCollection": {
+      "title": "Recopilación de Datos",
+      "description": "En Flower Power, recopilamos cierta información personal para mejorar tu experiencia de compra y proporcionarte el mejor servicio posible. Los datos que podemos recopilar incluyen:",
+      "items": {
+        "0": "Información de contacto (nombre, dirección, correo electrónico, número de teléfono)",
+        "1": "Información de pago (datos de tarjeta de crédito, dirección de facturación)",
+        "2": "Historial de compras y preferencias",
+        "3": "Información técnica sobre tu dispositivo y cómo interactúas con nuestro sitio web"
+      }
+    },
+    "dataUse": {
+      "title": "Uso de Datos",
+      "description": "Utilizamos la información recopilada para los siguientes propósitos:",
+      "items": {
+        "0": "Procesar y entregar tus pedidos",
+        "1": "Gestionar tu cuenta y proporcionarte soporte al cliente",
+        "2": "Personalizar tu experiencia y ofrecerte productos que puedan interesarte",
+        "3": "Mejorar nuestro sitio web y servicios",
+        "4": "Cumplir con obligaciones legales y proteger nuestros derechos"
+      }
+    },
+    "cookies": {
+      "title": "Cookies y Tecnologías Similares",
+      "description": "Utilizamos cookies y tecnologías similares para mejorar la funcionalidad de nuestro sitio web y entender cómo interactúas con él. Puedes configurar tu navegador para rechazar todas las cookies o para que te avise cuando se envíe una cookie.",
+      "table": {
+        "type": "Tipo",
+        "purpose": "Propósito",
+        "duration": "Duración",
+        "rows": {
+          "0": {
+            "type": "Cookies esenciales",
+            "purpose": "Necesarias para el funcionamiento básico del sitio",
+            "duration": "Sesión / Persistentes"
+          },
+          "1": {
+            "type": "Cookies de preferencias",
+            "purpose": "Recordar tus preferencias y configuraciones",
+            "duration": "1 año"
+          },
+          "2": {
+            "type": "Cookies analíticas",
+            "purpose": "Ayudarnos a entender cómo utilizas nuestro sitio",
+            "duration": "2 años"
+          }
+        }
+      }
+    },
+    "thirdParties": {
+      "title": "Compartir con Terceros",
+      "description": "Podemos compartir tu información personal con terceros en las siguientes circunstancias:",
+      "items": {
+        "0": "Proveedores de servicios que nos ayudan a operar nuestro negocio (procesadores de pago, servicios de entrega)",
+        "1": "Cuando sea requerido por ley o para proteger nuestros derechos legales",
+        "2": "Con tu consentimiento explícito"
+      }
+    },
+    "rights": {
+      "title": "Tus Derechos",
+      "description": "Como usuario, tienes ciertos derechos respecto a tus datos personales:",
+      "items": {
+        "0": "Derecho de acceso a tus datos personales",
+        "1": "Derecho a rectificar datos inexactos",
+        "2": "Derecho a la supresión de tus datos ('derecho al olvido')",
+        "3": "Derecho a limitar el procesamiento de tus datos",
+        "4": "Derecho a la portabilidad de tus datos"
+      }
+    },
+    "contact": "Para ejercer cualquiera de estos derechos o si tienes preguntas sobre nuestra política de privacidad, por favor contáctanos en privacy{at}flowerpower.com"
+  },
+  "bouquetCarePage": {
+    "title": "Cuidado de Ramos",
+    "generalCare": {
+      "title": "Cuidados Generales",
+      "description": "Para mantener tus flores frescas y hermosas durante el mayor tiempo posible, sigue estos consejos básicos de cuidado:",
+      "tips": {
+        "0": "Corta los tallos en diagonal aproximadamente 2-3 cm cada 2-3 días con tijeras limpias y afiladas",
+        "1": "Cambia el agua de tu jarrón cada 2 días con agua fresca a temperatura ambiente",
+        "2": "Mantén las flores alejadas de la luz solar directa, fuentes de calor y corrientes de aire",
+        "3": "Retira las hojas que quedarían sumergidas en el agua para evitar la proliferación de bacterias",
+        "4": "Elimina las flores marchitas para prolongar la vida del resto del ramo"
+      }
+    },
+    "wateringGuide": {
+      "title": "Guía de Riego",
+      "description": "Diferentes tipos de flores tienen distintas necesidades de agua. Aquí tienes una guía rápida:",
+      "table": {
+        "flowerType": "Tipo de Flor",
+        "waterAmount": "Cantidad de Agua",
+        "frequency": "Frecuencia",
+        "rows": {
+          "0": {
+            "type": "Rosas",
+            "amount": "5-7 cm en el jarrón",
+            "frequency": "Cambio de agua cada 2 días"
+          },
+          "1": {
+            "type": "Tulipanes",
+            "amount": "3-5 cm en el jarrón",
+            "frequency": "Cambio de agua diario"
+          },
+          "2": {
+            "type": "Lirios",
+            "amount": "7-10 cm en el jarrón",
+            "frequency": "Cambio de agua cada 2-3 días"
+          },
+          "3": {
+            "type": "Claveles",
+            "amount": "5-7 cm en el jarrón",
+            "frequency": "Cambio de agua cada 3-4 días"
+          }
+        }
+      }
+    },
+    "seasonalCare": {
+      "title": "Cuidados por Temporada",
+      "description": "Las condiciones ambientales varían según la estación, lo que afecta al cuidado que necesitan tus flores:",
+      "seasons": {
+        "0": {
+          "name": "Primavera",
+          "description": "Con temperaturas moderadas, es la temporada ideal para las flores. Sin embargo, las alergias pueden ser un problema.",
+          "tips": {
+            "0": "Mantén las flores en habitaciones bien ventiladas pero sin corrientes directas",
+            "1": "Evita colocarlas cerca de ventanas abiertas donde el polen puede entrar"
+          }
+        },
+        "1": {
+          "name": "Verano",
+          "description": "El calor puede acortar significativamente la vida de tus flores si no se toman precauciones.",
+          "tips": {
+            "0": "Mantén las flores en las habitaciones más frescas de la casa, lejos del sol directo",
+            "1": "Considera añadir cubitos de hielo al agua del jarrón en días especialmente calurosos"
+          }
+        },
+        "2": {
+          "name": "Otoño",
+          "description": "Las temperaturas variables pueden afectar a la duración de las flores.",
+          "tips": {
+            "0": "Evita colocar las flores cerca de sistemas de calefacción que comienzan a funcionar",
+            "1": "Protege los ramos de las corrientes de aire frío que pueden entrar por ventanas y puertas"
+          }
+        },
+        "3": {
+          "name": "Invierno",
+          "description": "La calefacción interior puede deshidratar rápidamente tus flores.",
+          "tips": {
+            "0": "Mantén las flores alejadas de radiadores, estufas y otras fuentes de calor directo",
+            "1": "Considera utilizar un humidificador en la habitación donde tengas las flores"
+          }
+        }
+      }
+    },
+    "commonProblems": {
+      "title": "Problemas Comunes",
+      "description": "Aquí encontrarás soluciones a los problemas más frecuentes con los ramos de flores:",
+      "problems": {
+        "0": {
+          "problem": "Flores que se marchitan prematuramente",
+          "solution": "Asegúrate de cambiar el agua regularmente, cortar los tallos y mantener las flores alejadas del calor y la luz solar directa. También puedes añadir un conservante floral al agua."
+        },
+        "1": {
+          "problem": "Agua turbia con mal olor",
+          "solution": "Cambia el agua inmediatamente, limpia bien el jarrón con jabón y agua caliente, recorta los tallos y elimina cualquier hoja o pétalo que pueda estar en el agua."
+        },
+        "2": {
+          "problem": "Tallos blandos o pegajosos",
+          "solution": "Esto suele indicar pudrición bacteriana. Retira las flores afectadas, recorta los tallos sanos por encima de la parte dañada y cambia el agua del jarrón completamente."
+        }
+      }
+    }
   }
 }

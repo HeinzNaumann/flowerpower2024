@@ -331,5 +331,177 @@
         "3": "Wenn niemand zur Annahme der Bestellung verfügbar ist, versuchen wir, sie an einem sicheren Ort oder bei einem Nachbarn zu hinterlassen, gemäß Ihren Anweisungen."
       }
     }
+  },
+  "privacyPage": {
+    "title": "Datenschutzrichtlinie",
+    "dataCollection": {
+      "title": "Datenerhebung",
+      "description": "Bei Flower Power erheben wir bestimmte persönliche Informationen, um Ihr Einkaufserlebnis zu verbessern und Ihnen den bestmöglichen Service zu bieten. Zu den Daten, die wir erheben können, gehören:",
+      "items": {
+        "0": "Kontaktinformationen (Name, Adresse, E-Mail, Telefonnummer)",
+        "1": "Zahlungsinformationen (Kreditkartendaten, Rechnungsadresse)",
+        "2": "Kaufhistorie und Präferenzen",
+        "3": "Technische Informationen über Ihr Gerät und wie Sie mit unserer Website interagieren"
+      }
+    },
+    "dataUse": {
+      "title": "Datennutzung",
+      "description": "Wir verwenden die erhobenen Informationen für folgende Zwecke:",
+      "items": {
+        "0": "Verarbeitung und Lieferung Ihrer Bestellungen",
+        "1": "Verwaltung Ihres Kontos und Bereitstellung von Kundenservice",
+        "2": "Personalisierung Ihrer Erfahrung und Angebot von Produkten, die Sie interessieren könnten",
+        "3": "Verbesserung unserer Website und Dienstleistungen",
+        "4": "Einhaltung gesetzlicher Verpflichtungen und Schutz unserer Rechte"
+      }
+    },
+    "cookies": {
+      "title": "Cookies und ähnliche Technologien",
+      "description": "Wir verwenden Cookies und ähnliche Technologien, um die Funktionalität unserer Website zu verbessern und zu verstehen, wie Sie mit ihr interagieren. Sie können Ihren Browser so einstellen, dass er alle Cookies ablehnt oder Sie benachrichtigt, wenn ein Cookie gesendet wird.",
+      "table": {
+        "type": "Typ",
+        "purpose": "Zweck",
+        "duration": "Dauer",
+        "rows": {
+          "0": {
+            "type": "Essentielle Cookies",
+            "purpose": "Notwendig für die grundlegende Funktionalität der Website",
+            "duration": "Sitzung / Dauerhaft"
+          },
+          "1": {
+            "type": "Präferenz-Cookies",
+            "purpose": "Speichern Ihre Präferenzen und Einstellungen",
+            "duration": "1 Jahr"
+          },
+          "2": {
+            "type": "Analyse-Cookies",
+            "purpose": "Helfen uns zu verstehen, wie Sie unsere Website nutzen",
+            "duration": "2 Jahre"
+          }
+        }
+      }
+    },
+    "thirdParties": {
+      "title": "Weitergabe an Dritte",
+      "description": "Wir können Ihre persönlichen Daten unter folgenden Umständen an Dritte weitergeben:",
+      "items": {
+        "0": "Dienstleister, die uns bei der Führung unseres Geschäfts helfen (Zahlungsabwickler, Lieferdienste)",
+        "1": "Wenn dies gesetzlich vorgeschrieben ist oder zum Schutz unserer Rechte",
+        "2": "Mit Ihrer ausdrücklichen Zustimmung"
+      }
+    },
+    "rights": {
+      "title": "Ihre Rechte",
+      "description": "Als Nutzer haben Sie bestimmte Rechte in Bezug auf Ihre persönlichen Daten:",
+      "items": {
+        "0": "Recht auf Zugang zu Ihren persönlichen Daten",
+        "1": "Recht auf Berichtigung ungenauer Daten",
+        "2": "Recht auf Löschung Ihrer Daten ('Recht auf Vergessenwerden')",
+        "3": "Recht auf Einschränkung der Verarbeitung Ihrer Daten",
+        "4": "Recht auf Datenübertragbarkeit"
+      }
+    },
+    "contact": "Um eines dieser Rechte auszuüben oder wenn Sie Fragen zu unserer Datenschutzrichtlinie haben, kontaktieren Sie uns bitte unter privacy{at}flowerpower.com"
+  },
+  "bouquetCarePage": {
+    "title": "Blumenstraußpflege",
+    "generalCare": {
+      "title": "Allgemeine Pflege",
+      "description": "Um Ihre Blumen so lange wie möglich frisch und schön zu halten, befolgen Sie diese grundlegenden Pflegetipps:",
+      "tips": {
+        "0": "Schneiden Sie die Stiele alle 2-3 Tage diagonal etwa 2-3 cm mit einer sauberen, scharfen Schere ab",
+        "1": "Wechseln Sie das Wasser in Ihrer Vase alle 2 Tage mit frischem Wasser bei Zimmertemperatur",
+        "2": "Halten Sie Blumen von direktem Sonnenlicht, Wärmequellen und Zugluft fern",
+        "3": "Entfernen Sie alle Blätter, die im Wasser untergetaucht wären, um Bakterienwachstum zu verhindern",
+        "4": "Entfernen Sie verwelkte Blumen, um die Lebensdauer des restlichen Straußes zu verlängern"
+      }
+    },
+    "wateringGuide": {
+      "title": "Bewässerungsanleitung",
+      "description": "Verschiedene Blumenarten haben unterschiedliche Wasserbedürfnisse. Hier ist eine kurze Anleitung:",
+      "table": {
+        "flowerType": "Blumenart",
+        "waterAmount": "Wassermenge",
+        "frequency": "Häufigkeit",
+        "rows": {
+          "0": {
+            "type": "Rosen",
+            "amount": "5-7 cm in der Vase",
+            "frequency": "Wasserwechsel alle 2 Tage"
+          },
+          "1": {
+            "type": "Tulpen",
+            "amount": "3-5 cm in der Vase",
+            "frequency": "Täglicher Wasserwechsel"
+          },
+          "2": {
+            "type": "Lilien",
+            "amount": "7-10 cm in der Vase",
+            "frequency": "Wasserwechsel alle 2-3 Tage"
+          },
+          "3": {
+            "type": "Nelken",
+            "amount": "5-7 cm in der Vase",
+            "frequency": "Wasserwechsel alle 3-4 Tage"
+          }
+        }
+      }
+    },
+    "seasonalCare": {
+      "title": "Saisonale Pflege",
+      "description": "Die Umgebungsbedingungen variieren je nach Jahreszeit, was die Pflege Ihrer Blumen beeinflusst:",
+      "seasons": {
+        "0": {
+          "name": "Frühling",
+          "description": "Mit gemäßigten Temperaturen ist es die ideale Jahreszeit für Blumen. Allergien können jedoch ein Problem sein.",
+          "tips": {
+            "0": "Halten Sie Blumen in gut belüfteten Räumen, aber fern von direkter Zugluft",
+            "1": "Vermeiden Sie es, sie in der Nähe offener Fenster zu platzieren, wo Pollen eindringen können"
+          }
+        },
+        "1": {
+          "name": "Sommer",
+          "description": "Hitze kann die Lebensdauer Ihrer Blumen erheblich verkürzen, wenn keine Vorsichtsmaßnahmen getroffen werden.",
+          "tips": {
+            "0": "Halten Sie Blumen in den kühlsten Räumen des Hauses, fern von direktem Sonnenlicht",
+            "1": "Erwägen Sie, an besonders heißen Tagen Eiswürfel zum Vasenwasser hinzuzufügen"
+          }
+        },
+        "2": {
+          "name": "Herbst",
+          "description": "Variable Temperaturen können die Lebensdauer von Blumen beeinflussen.",
+          "tips": {
+            "0": "Vermeiden Sie es, Blumen in der Nähe von Heizsystemen zu platzieren, die in Betrieb genommen werden",
+            "1": "Schützen Sie Sträuße vor kalter Zugluft, die durch Fenster und Türen eindringen kann"
+          }
+        },
+        "3": {
+          "name": "Winter",
+          "description": "Innenheizung kann Ihre Blumen schnell austrocknen.",
+          "tips": {
+            "0": "Halten Sie Blumen fern von Heizkörpern, Heizgeräten und anderen direkten Wärmequellen",
+            "1": "Erwägen Sie die Verwendung eines Luftbefeuchters in dem Raum, in dem Sie Ihre Blumen aufbewahren"
+          }
+        }
+      }
+    },
+    "commonProblems": {
+      "title": "Häufige Probleme",
+      "description": "Hier finden Sie Lösungen für die häufigsten Probleme mit Blumensträußen:",
+      "problems": {
+        "0": {
+          "problem": "Blumen verwelken vorzeitig",
+          "solution": "Achten Sie darauf, das Wasser regelmäßig zu wechseln, die Stiele zu schneiden und die Blumen von Hitze und direktem Sonnenlicht fernzuhalten. Sie können auch ein Blumenfrischmittel zum Wasser hinzufügen."
+        },
+        "1": {
+          "problem": "Trübes Wasser mit schlechtem Geruch",
+          "solution": "Wechseln Sie das Wasser sofort, reinigen Sie die Vase gründlich mit Seife und heißem Wasser, kürzen Sie die Stiele und entfernen Sie alle Blätter oder Blütenblätter, die sich im Wasser befinden könnten."
+        },
+        "2": {
+          "problem": "Weiche oder klebrige Stiele",
+          "solution": "Dies deutet in der Regel auf Bakterienfäule hin. Entfernen Sie betroffene Blumen, schneiden Sie gesunde Stiele oberhalb des beschädigten Teils ab und wechseln Sie das Vasenwasser vollständig."
+        }
+      }
+    }
   }
 }

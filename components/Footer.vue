@@ -38,12 +38,12 @@
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a href="/privacy-policy" class="block hover:text-neutral-300">{{
                   $t("footer.links.privacyPolicy")
                 }}</a>
               </li>
               <li>
-                <a href="#" class="block hover:text-neutral-300">{{
+                <a href="/bouquet-care" class="block hover:text-neutral-300">{{
                   $t("footer.links.bouquetCare")
                 }}</a>
               </li>
@@ -118,12 +118,12 @@
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a href="/privacy-policy" class="hover:text-neutral-300">{{
                 $t("footer.links.privacyPolicy")
               }}</a>
             </li>
             <li>
-              <a href="#" class="hover:text-neutral-300">{{
+              <a href="/bouquet-care" class="hover:text-neutral-300">{{
                 $t("footer.links.bouquetCare")
               }}</a>
             </li>
@@ -237,7 +237,7 @@
         <a href="#" class="hover:text-neutral-300">{{
           $t("footer.links.termsOfUse")
         }}</a>
-        <a href="#" class="hover:text-neutral-300">{{
+        <a href="/privacy-policy" class="hover:text-neutral-300">{{
           $t("footer.links.privacyPolicy")
         }}</a>
         <a href="#" class="hover:text-neutral-300">{{
