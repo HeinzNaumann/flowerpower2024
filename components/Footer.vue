@@ -80,11 +80,7 @@
                   $t("footer.links.ourHistory")
                 }}</a>
               </li>
-              <li>
-                <a :href="localePath('/team')" class="block hover:text-neutral-300">{{
-                  $t("footer.links.team")
-                }}</a>
-              </li>
+
               <li>
                 <a :href="localePath('/physical-store')" class="block hover:text-neutral-300">{{
                   $t("footer.links.physicalStore")
@@ -140,11 +136,7 @@
                 $t("footer.links.ourHistory")
               }}</a>
             </li>
-            <li>
-              <a :href="localePath('/team')" class="hover:text-neutral-300">{{
-                $t("footer.links.team")
-              }}</a>
-            </li>
+
             <li>
               <a :href="localePath('/physical-store')" class="hover:text-neutral-300">{{
                 $t("footer.links.physicalStore")

@@ -66,9 +66,9 @@
       "shippingAndDelivery": "Envío y entregas",
       "privacyPolicy": "Política de privacidad",
       "bouquetCare": "Cuidado de ramos",
+      "physicalStore": "Tienda física",
       "ourHistory": "Nuestra Historia",
       "team": "Equipo",
-      "physicalStore": "Tienda física",
       "contact": "Contacto",
       "termsOfUse": "Condiciones de uso",
       "termsOfSale": "Condiciones de venta",
@@ -212,8 +212,7 @@
     "addToCart": "Añadir al carrito",
     "colors": "Colores",
     "description": "Descripción",
-    "sizes": "Tamaños aproximados",
-    "subTotal": "Subtotal"
+    "sizes": "Tamaños aproximados"
   },
   "shippingPage": {
     "title": "Envío y Entrega",
@@ -461,6 +460,102 @@
       }
     }
   },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes alguna pregunta o comentario? Estamos aquí para ayudarte. Ponte en contacto con nosotros y te responderemos lo antes posible.",
+    "info": {
+      "title": "Información de contacto",
+      "address": {
+        "title": "Dirección",
+        "line1": "Carrer Fetjet, 3",
+        "line2": "08009 Barcelona, España"
+      },
+      "email": {
+        "title": "Email"
+      },
+      "phone": {
+        "title": "Teléfono"
+      },
+      "hours": {
+        "title": "Horario",
+        "weekdays": "Lunes a Viernes: 10:00 - 20:00",
+        "weekends": "Sábados: 10:00 - 18:00"
+      },
+      "social": {
+        "title": "Síguenos"
+      }
+    },
+    "form": {
+      "title": "Envíanos un mensaje",
+      "firstName": "Nombre",
+      "firstNamePlaceholder": "Tu nombre",
+      "lastName": "Apellidos",
+      "lastNamePlaceholder": "Tus apellidos",
+      "email": "Email",
+      "emailPlaceholder": "tu.email{at}ejemplo.com",
+      "phone": "Teléfono",
+      "phonePlaceholder": "+34 XXX XXX XXX",
+      "subject": "Asunto",
+      "subjectPlaceholder": "Selecciona un asunto",
+      "subjects": {
+        "general": "Consulta general",
+        "order": "Consulta sobre un pedido",
+        "products": "Información sobre productos",
+        "wholesale": "Ventas al por mayor",
+        "other": "Otro asunto"
+      },
+      "message": "Mensaje",
+      "messagePlaceholder": "Escribe tu mensaje aquí...",
+      "privacyPolicyText": "He leído y acepto la",
+      "privacyPolicyLink": "política de privacidad",
+      "send": "Enviar mensaje",
+      "sending": "Enviando...",
+      "successMessage": "¡Gracias! Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo lo antes posible."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "questions": {
+        "0": {
+          "question": "¿Cuánto tiempo tardaré en recibir una respuesta?",
+          "answer": "Normalmente respondemos a todas las consultas en un plazo de 24-48 horas laborables."
+        },
+        "1": {
+          "question": "¿Puedo modificar o cancelar mi pedido?",
+          "answer": "Sí, puedes modificar o cancelar tu pedido siempre que no haya sido procesado. Contacta con nosotros lo antes posible."
+        },
+        "2": {
+          "question": "¿Realizáis envíos internacionales?",
+          "answer": "Sí, enviamos a varios países de Europa. Los tiempos de entrega y costes varían según el destino."
+        },
+        "3": {
+          "question": "¿Ofrecéis arreglos florales personalizados?",
+          "answer": "Por supuesto, podemos crear arreglos florales personalizados según tus preferencias. Contacta con nosotros para más detalles."
+        }
+      }
+    }
+  },
+
+  "physicalStore": {
+    "title": "Nuestra tienda física Flower Power",
+    "description": "En nuestra tienda física podrás sentir, oler y ver nuestras flores o plantas en persona. Estaremos encantados de recibirte para que nos conozcas y poder transmitirte nuestra pasión del mundo de las flores y plantas.",
+    "schedule": {
+      "title": "Horario",
+      "weekdays": "Encuéntranos de lunes a viernes, de 10 a 20h.",
+      "weekends": "Sábados de 10 a 18h."
+    },
+    "workshops": {
+      "title": "Talleres online",
+      "description": "Accede a nuestro canal de YouTube donde podrás ver cómo creamos nuestros ramos."
+    },
+    "location": {
+      "title": "Carrer Fetjet, 3",
+      "visit": "Visítanos, estaremos encantados de atenderte."
+    },
+    "video": {
+      "title": "Recorrido por nuestra tienda"
+    }
+  },
+
   "ourHistoryPage": {
     "title": "Sobre Nosotros",
     "teamSection": {

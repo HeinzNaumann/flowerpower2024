@@ -1,0 +1,68 @@
+{
+  "es": {
+    "physicalStore": {
+      "title": "Nuestra tienda física Flower Power",
+      "description": "En nuestra tienda física podrás sentir, oler y ver nuestras flores o plantas en persona. Estaremos encantados de recibirte para que nos conozcas y poder transmitirte nuestra pasión del mundo de las flores y plantas.",
+      "schedule": {
+        "title": "Horario",
+        "weekdays": "Encuéntranos de lunes a viernes, de 10 a 20h.",
+        "weekends": "Sábados de 10 a 18h."
+      },
+      "workshops": {
+        "title": "Talleres online",
+        "description": "Accede a nuestro canal de YouTube donde podrás ver cómo creamos nuestros ramos."
+      },
+      "location": {
+        "title": "Carrer Fetjet, 3",
+        "visit": "Visítanos, estaremos encantados de atenderte."
+      },
+      "video": {
+        "title": "Recorrido por nuestra tienda"
+      }
+    }
+  },
+  "en": {
+    "physicalStore": {
+      "title": "Our Flower Power Physical Store",
+      "description": "In our physical store, you can feel, smell, and see our flowers or plants in person. We will be delighted to welcome you so that you can get to know us and we can share our passion for the world of flowers and plants.",
+      "schedule": {
+        "title": "Opening Hours",
+        "weekdays": "Find us Monday to Friday, from 10 AM to 8 PM.",
+        "weekends": "Saturdays from 10 AM to 6 PM."
+      },
+      "workshops": {
+        "title": "Online Workshops",
+        "description": "Access our YouTube channel where you can see how we create our bouquets."
+      },
+      "location": {
+        "title": "Carrer Fetjet, 3",
+        "visit": "Visit us, we will be delighted to assist you."
+      },
+      "video": {
+        "title": "Tour of our store"
+      }
+    }
+  },
+  "de": {
+    "physicalStore": {
+      "title": "Unser Flower Power Geschäft",
+      "description": "In unserem Geschäft können Sie unsere Blumen und Pflanzen fühlen, riechen und persönlich sehen. Wir freuen uns darauf, Sie willkommen zu heißen, damit Sie uns kennenlernen und wir unsere Leidenschaft für die Welt der Blumen und Pflanzen teilen können.",
+      "schedule": {
+        "title": "Öffnungszeiten",
+        "weekdays": "Montag bis Freitag von 10 bis 20 Uhr.",
+        "weekends": "Samstags von 10 bis 18 Uhr."
+      },
+      "workshops": {
+        "title": "Online-Workshops",
+        "description": "Besuchen Sie unseren YouTube-Kanal, wo Sie sehen können, wie wir unsere Sträuße kreieren."
+      },
+      "location": {
+        "title": "Carrer Fetjet, 3",
+        "visit": "Besuchen Sie uns, wir freuen uns darauf, Ihnen zu helfen."
+      },
+      "video": {
+        "title": "Rundgang durch unser Geschäft"
+      }
+    }
+  }
+}

@@ -500,6 +500,102 @@
       }
     }
   },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Do you have any questions or comments? We're here to help. Get in touch with us and we'll respond as soon as possible.",
+    "info": {
+      "title": "Contact Information",
+      "address": {
+        "title": "Address",
+        "line1": "Carrer Fetjet, 3",
+        "line2": "08009 Barcelona, Spain"
+      },
+      "email": {
+        "title": "Email"
+      },
+      "phone": {
+        "title": "Phone"
+      },
+      "hours": {
+        "title": "Opening Hours",
+        "weekdays": "Monday to Friday: 10:00 AM - 8:00 PM",
+        "weekends": "Saturday: 10:00 AM - 6:00 PM"
+      },
+      "social": {
+        "title": "Follow Us"
+      }
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "firstName": "First Name",
+      "firstNamePlaceholder": "Your first name",
+      "lastName": "Last Name",
+      "lastNamePlaceholder": "Your last name",
+      "email": "Email",
+      "emailPlaceholder": "your.email{at}example.com",
+      "phone": "Phone",
+      "phonePlaceholder": "+34 XXX XXX XXX",
+      "subject": "Subject",
+      "subjectPlaceholder": "Select a subject",
+      "subjects": {
+        "general": "General Inquiry",
+        "order": "Order Inquiry",
+        "products": "Product Information",
+        "wholesale": "Wholesale",
+        "other": "Other"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "privacyPolicyText": "I have read and accept the",
+      "privacyPolicyLink": "privacy policy",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "successMessage": "Thank you! Your message has been sent successfully. We will get back to you as soon as possible."
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "questions": {
+        "0": {
+          "question": "How long will it take to receive a response?",
+          "answer": "We typically respond to all inquiries within 24-48 business hours."
+        },
+        "1": {
+          "question": "Can I modify or cancel my order?",
+          "answer": "Yes, you can modify or cancel your order as long as it hasn't been processed. Contact us as soon as possible."
+        },
+        "2": {
+          "question": "Do you ship internationally?",
+          "answer": "Yes, we ship to several European countries. Delivery times and costs vary depending on the destination."
+        },
+        "3": {
+          "question": "Do you offer custom floral arrangements?",
+          "answer": "Absolutely, we can create custom floral arrangements according to your preferences. Contact us for more details."
+        }
+      }
+    }
+  },
+
+  "physicalStore": {
+    "title": "Our Flower Power Physical Store",
+    "description": "In our physical store, you can feel, smell, and see our flowers or plants in person. We will be delighted to welcome you so that you can get to know us and we can share our passion for the world of flowers and plants.",
+    "schedule": {
+      "title": "Opening Hours",
+      "weekdays": "Find us Monday to Friday, from 10 AM to 8 PM.",
+      "weekends": "Saturdays from 10 AM to 6 PM."
+    },
+    "workshops": {
+      "title": "Online Workshops",
+      "description": "Access our YouTube channel where you can see how we create our bouquets."
+    },
+    "location": {
+      "title": "Carrer Fetjet, 3",
+      "visit": "Visit us, we will be delighted to assist you."
+    },
+    "video": {
+      "title": "Tour of our store"
+    }
+  },
+
   "ourHistoryPage": {
     "title": "About Us",
     "teamSection": {

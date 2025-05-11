@@ -504,6 +504,102 @@
       }
     }
   },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Haben Sie Fragen oder Anmerkungen? Wir sind hier, um zu helfen. Kontaktieren Sie uns und wir werden Ihnen so schnell wie möglich antworten.",
+    "info": {
+      "title": "Kontaktinformationen",
+      "address": {
+        "title": "Adresse",
+        "line1": "Carrer Fetjet, 3",
+        "line2": "08009 Barcelona, Spanien"
+      },
+      "email": {
+        "title": "E-Mail"
+      },
+      "phone": {
+        "title": "Telefon"
+      },
+      "hours": {
+        "title": "Öffnungszeiten",
+        "weekdays": "Montag bis Freitag: 10:00 - 20:00 Uhr",
+        "weekends": "Samstag: 10:00 - 18:00 Uhr"
+      },
+      "social": {
+        "title": "Folgen Sie uns"
+      }
+    },
+    "form": {
+      "title": "Senden Sie uns eine Nachricht",
+      "firstName": "Vorname",
+      "firstNamePlaceholder": "Ihr Vorname",
+      "lastName": "Nachname",
+      "lastNamePlaceholder": "Ihr Nachname",
+      "email": "E-Mail",
+      "emailPlaceholder": "ihre.email{at}beispiel.com",
+      "phone": "Telefon",
+      "phonePlaceholder": "+34 XXX XXX XXX",
+      "subject": "Betreff",
+      "subjectPlaceholder": "Wählen Sie einen Betreff",
+      "subjects": {
+        "general": "Allgemeine Anfrage",
+        "order": "Bestellanfrage",
+        "products": "Produktinformationen",
+        "wholesale": "Großhandel",
+        "other": "Sonstiges"
+      },
+      "message": "Nachricht",
+      "messagePlaceholder": "Schreiben Sie Ihre Nachricht hier...",
+      "privacyPolicyText": "Ich habe die",
+      "privacyPolicyLink": "Datenschutzrichtlinie gelesen und akzeptiere sie",
+      "send": "Nachricht senden",
+      "sending": "Wird gesendet...",
+      "successMessage": "Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Wir werden uns so schnell wie möglich bei Ihnen melden."
+    },
+    "faq": {
+      "title": "Häufig gestellte Fragen",
+      "questions": {
+        "0": {
+          "question": "Wie lange dauert es, bis ich eine Antwort erhalte?",
+          "answer": "Wir antworten in der Regel innerhalb von 24-48 Geschäftsstunden auf alle Anfragen."
+        },
+        "1": {
+          "question": "Kann ich meine Bestellung ändern oder stornieren?",
+          "answer": "Ja, Sie können Ihre Bestellung ändern oder stornieren, solange sie noch nicht bearbeitet wurde. Kontaktieren Sie uns so schnell wie möglich."
+        },
+        "2": {
+          "question": "Versenden Sie international?",
+          "answer": "Ja, wir versenden in mehrere europäische Länder. Lieferzeiten und Kosten variieren je nach Zielort."
+        },
+        "3": {
+          "question": "Bieten Sie individuelle Blumenarrangements an?",
+          "answer": "Absolut, wir können individuelle Blumenarrangements nach Ihren Wünschen erstellen. Kontaktieren Sie uns für weitere Details."
+        }
+      }
+    }
+  },
+
+  "physicalStore": {
+    "title": "Unser Flower Power Geschäft",
+    "description": "In unserem Geschäft können Sie unsere Blumen und Pflanzen fühlen, riechen und persönlich sehen. Wir freuen uns darauf, Sie willkommen zu heißen, damit Sie uns kennenlernen und wir unsere Leidenschaft für die Welt der Blumen und Pflanzen teilen können.",
+    "schedule": {
+      "title": "Öffnungszeiten",
+      "weekdays": "Montag bis Freitag von 10 bis 20 Uhr.",
+      "weekends": "Samstags von 10 bis 18 Uhr."
+    },
+    "workshops": {
+      "title": "Online-Workshops",
+      "description": "Besuchen Sie unseren YouTube-Kanal, wo Sie sehen können, wie wir unsere Sträuße kreieren."
+    },
+    "location": {
+      "title": "Carrer Fetjet, 3",
+      "visit": "Besuchen Sie uns, wir freuen uns darauf, Ihnen zu helfen."
+    },
+    "video": {
+      "title": "Rundgang durch unser Geschäft"
+    }
+  },
+
   "ourHistoryPage": {
     "title": "Über Uns",
     "teamSection": {
