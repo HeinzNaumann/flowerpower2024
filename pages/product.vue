@@ -88,7 +88,7 @@
                 class="w-24 h-24 object-contain mb-2 border p-2 mx-auto"
               />
               <div class="flex items-center justify-center mt-2 text-xs font-medium">
-                {{ $t("productPage.box") }} - €45.00
+                {{ $t("cart.subproducts.box") }} - €45.00
               </div>
             </div>
             <div
@@ -104,7 +104,7 @@
                 class="w-24 h-24 object-contain mb-2 border p-2 mx-auto"
               />
               <div class="flex items-center justify-center mt-2 text-xs font-medium">
-                {{ $t("productPage.bottle") }} - €45.00
+                {{ $t("cart.subproducts.bottle") }} - €45.00
               </div>
             </div>
             <div
@@ -120,7 +120,7 @@
                 class="w-24 h-24 object-contain mb-2 border p-2 mx-auto"
               />
               <div class="flex items-center justify-center mt-2 text-xs font-medium">
-                {{ $t("productPage.card") }} - €45.00
+                {{ $t("cart.subproducts.card") }} - €45.00
               </div>
             </div>
           </div>
@@ -271,19 +271,19 @@ function toggleComplement(id) {
 const COMPLEMENTS = [
   {
     id: 'box',
-    name: 'productPage.box',
+    name: 'cart.subproducts.box',
     price: 45,
     image: 'public/images/complements/bombones.webp',
   },
   {
     id: 'bottle',
-    name: 'productPage.bottle',
+    name: 'cart.subproducts.bottle',
     price: 45,
     image: 'public/images/complements/moet-chandon.webp',
   },
   {
     id: 'card',
-    name: 'productPage.card',
+    name: 'cart.subproducts.card',
     price: 45,
     image: 'public/images/complements/tarjeta-felicitacion.webp',
   },

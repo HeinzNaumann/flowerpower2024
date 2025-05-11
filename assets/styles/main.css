@@ -48,6 +48,11 @@ label {
   @apply text-base font-medium text-primary-900;
 }
 
+/* Cursor pointer para todos los elementos interactivos */
+button, a, [role="button"], .cursor-pointer, [tabindex="0"] {
+  cursor: pointer;
+}
+
 /* Botón al estilo Nike */
 button.btn-nike {
   background-color: var(--color-flowerpower-lila); /* Negro Nike */
