@@ -31,10 +31,10 @@
             class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
         </button>
-        <NuxtLink
+        <button
           v-if="isMounted"
-          :to="localePath({ path: '/checkout/checkout' })"
-          class="relative"
+          @click="openCartDrawer"
+          class="relative focus:outline-none"
         >
           <img
             src="/assets/icons/cart.svg"
@@ -47,7 +47,7 @@
           >
             {{ cart.totalItems }}
           </span>
-        </NuxtLink>
+        </button>
         <button class="" @click="toggleMenu" aria-label="Toggle menu">
           <!-- Hamburger Icon -->
           <img
@@ -69,10 +69,10 @@
           {{ $t("header.register") }}
         </button>
 
-        <NuxtLink
+        <button
           v-if="isMounted"
-          :to="localePath({ path: '/checkout/checkout' })"
-          class="relative"
+          @click="openCartDrawer"
+          class="relative focus:outline-none"
         >
           <img
             src="/assets/icons/cart.svg"
@@ -85,7 +85,7 @@
           >
             {{ cart.totalItems }}
           </span>
-        </NuxtLink>
+        </button>
         <div class="relative inline-block text-left" ref="dropdownRef">
           <button
             @click="toggleDropdown"
@@ -182,13 +182,16 @@
           {{ $t("header.register") }}
         </NuxtLink>
 
-        <NuxtLink :to="localePath({ path: '/cart' })">
+        <button
+          @click="openCartDrawer"
+          class="relative focus:outline-none"
+        >
           <img
             src="/assets/icons/cart.svg"
             :alt="$t('header.alt.cart')"
             class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
-        </NuxtLink>
+        </button>
         <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
         <div class="flex flex-col gap-2 mt-4">
           <button
@@ -348,9 +351,21 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-const isMounted = ref(false)
-onMounted(() => { isMounted.value = true })
+import { inject, ref, onMounted } from 'vue';
+import { useCartDrawer } from '~/composables/useCartDrawer';
+const { showCartDrawer } = useCartDrawer();
+const isMounted = ref(false);
+onMounted(() => {
+  isMounted.value = true;
+  console.log('[HEADER] mounted, showCartDrawer:', showCartDrawer.value);
+});
+
+function openCartDrawer() {
+  console.log('CLICK CARRITO HEADER');
+  showCartDrawer.value = true;
+}
+
+
 import LoginRegister from "~/components/LoginRegister.vue";
 const { locale } = useI18n();
 const localePath = useLocalePath();

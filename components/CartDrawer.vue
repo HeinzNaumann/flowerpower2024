@@ -47,9 +47,10 @@
             <span class="font-semibold">{{ $t('cart.total') || 'Total:' }}</span>
             <span class="text-xl font-bold">€ {{ groupedTotal.toFixed(2) }}</span>
           </div>
-          <UButton color="primary" block @click="$emit('checkout')" class="cursor-pointer transition-all duration-200 hover:opacity-90">
+          <UButton color="primary" block @click="goToAddress" class="cursor-pointer transition-all duration-200 hover:opacity-90">
             {{ $t('cart.checkout') || 'Finalizar compra' }}
           </UButton>
+
         </div>
       </aside>
     </transition>
@@ -60,9 +61,25 @@
 import { useCartStore } from '~/stores/cart';
 import { computed, watch, onMounted, onUnmounted, watchEffect } from 'vue';
 import { UButton } from '#components';
+import { useAuth } from '~/composables/useAuth';
+import { useRouter } from 'vue-router';
+import { useLocalePath } from '#i18n';
 
 const props = defineProps<{ open: boolean }>();
-const emit = defineEmits(['update:open', 'checkout']);
+const emit = defineEmits(['update:open']);
+
+const { isAuthenticated } = useAuth();
+const router = useRouter();
+const localePath = useLocalePath();
+
+function goToAddress() {
+  if (!isAuthenticated()) {
+    router.push(localePath('/checkout/guest-or-login'));
+  } else {
+    router.push(localePath('/checkout/address'));
+  }
+}
+
 
 // Debug: Mostrar formato de imágenes
 onMounted(() => {
