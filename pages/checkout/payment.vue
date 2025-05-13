@@ -344,15 +344,49 @@ const shippingAddress = computed<ShippingAddress>(() => {
 const totalPrice = computed(() => {
   let total = 0;
   
-  // Primero intentar usar el total de la orden
-  if (typeof order.total === 'number') {
+  // Log para debug - mostrar estado de orden y carrito
+  console.log('[DEBUG] Estado para calcular total:', {
+    'order.total': order.total,
+    'order.items': order.items?.length || 0,
+    'cart.items': cart.items?.length || 0,
+    'cart.totalPrice': cart.totalPrice
+  });
+
+  // Calcular del carrito primero si hay items
+  if (cart.items && cart.items.length > 0) {
+    // Calcular manualmente sumando cada item
+    total = cart.items.reduce((sum, item) => {
+      const itemTotal = (item.price || 0) * (item.quantity || 1);
+      console.log(`[DEBUG] Item ${item.title}: ${itemTotal}€`);
+      return sum + itemTotal;
+    }, 0);
+    console.log('[Checkout] Total calculado del carrito:', total);
+  }
+  
+  // Si el carrito no tiene total, intentar usar el de la orden
+  if (total === 0 && typeof order.total === 'number' && order.total > 0) {
     total = order.total;
     console.log('[Checkout] Usando total de orden:', total);
   }
-  // Si no hay total en orden o es 0, intentar usar el del carrito
-  else if (cart.items && cart.items.length > 0) {
-    total = cart.totalPrice || 0;
-    console.log('[Checkout] Usando total de carrito:', total);
+  
+  // Si aún no tenemos total pero tenemos items en orden, calcular manualmente
+  if (total === 0 && order.items && order.items.length > 0) {
+    total = order.items.reduce((sum, item) => {
+      return sum + ((item.price || 0) * (item.quantity || 1));
+    }, 0);
+    console.log('[Checkout] Total calculado de items en orden:', total);
+  }
+  
+  // FALLBACK: Si nada funciona pero hay items, usar un precio fijo
+  const hasItems = (cart.items?.length > 0 || order.items?.length > 0);
+  if (total === 0 && hasItems) {
+    // Buscar el primer item con precio
+    const items = [...(cart.items || []), ...(order.items || [])];
+    const firstItemWithPrice = items.find(item => item.price > 0);
+    if (firstItemWithPrice) {
+      total = firstItemWithPrice.price * (firstItemWithPrice.quantity || 1);
+      console.log('[Checkout] Usando precio del primer item como fallback:', total);
+    }
   }
   
   // Asegurarse de que nunca sea negativo
