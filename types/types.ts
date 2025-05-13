@@ -22,6 +22,7 @@ export interface RegisterForm {
   email: string;
   confirmEmail: string;
   phone: string;
+  countryCode?: string; // Código de país para el teléfono (ej: ES, FR, etc.)
   password: string;
   acceptTOS: boolean;
   subscribeNewsletter?: boolean;

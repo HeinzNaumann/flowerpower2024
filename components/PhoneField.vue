@@ -74,17 +74,42 @@ const countryOptions = ref(getPhoneCountries());
 const country = ref(
   countryOptions.value.find((c) => c.value === "ES") ?? countryOptions.value[0]
 );
-const localOnly = ref(props.modelValue?.replace(/^(\+\d{1,3})/, "") || "");
+// Si ya viene con prefijo internacional, extraer la parte local
+const hasPrefix = props.modelValue?.startsWith('+');
+const localOnly = ref(hasPrefix ? props.modelValue?.replace(/^(\+\d{1,3})/, "") : (props.modelValue || ""));
 
+// Determinar el país desde el prefijo, si existe
+if (hasPrefix && props.modelValue) {
+  const prefix = props.modelValue.match(/^(\+\d{1,3})/);
+  if (prefix && prefix[0]) {
+    const found = countryOptions.value.find(c => c.prefix === prefix[0]);
+    if (found) {
+      country.value = found;
+    }
+  }
+}
+
+// Esta variable nos ayuda a controlar cuando NO debemos actualizar
+const isUserTyping = ref(false);
+
+// Cuando cambia el valor externo, actualizar el componente
 watch(
   () => props.modelValue,
   (newVal) => {
-    localOnly.value = newVal?.replace(/^(\+\d{1,3})/, "") || "";
+    // Solo actualizar si no es el resultado de una edición del usuario
+    if (!isUserTyping.value) {
+      const hasPrefix = newVal?.startsWith('+');
+      localOnly.value = hasPrefix ? newVal?.replace(/^(\+\d{1,3})/, "") : (newVal || "");
+    }
+    isUserTyping.value = false;
   }
 );
 
+// Cuando cambia la parte local o el país, emitir el valor completo
 watch([localOnly, country], ([local, c]) => {
-  const full = `${c.prefix}${local.replace(/^0+/, "")}`;
+  isUserTyping.value = true;
+  // Solo agregar prefijo si hay un valor local
+  const full = local ? `${c.prefix}${local.replace(/^0+/, "")}` : "";
   emit("update:modelValue", full);
-});
+}, { flush: 'sync' });
 </script>

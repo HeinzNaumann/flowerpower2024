@@ -279,6 +279,7 @@ const registerForm: RegisterForm = reactive({
   email: "",
   confirmEmail: "",
   phone: "",
+  countryCode: "ES", // Añadido código de país por defecto
   password: "",
   acceptTOS: false,
   subscribeNewsletter: false,
@@ -329,22 +330,64 @@ async function handleRegister() {
   apiError.value = null;
   apiSuccess.value = null;
 
-  try {
-    const { confirmEmail, ...body } = registerForm;
+  // Validar teléfono antes de enviar (solo si se ha ingresado uno)
+  if (registerForm.phone) {
+    const phoneValid = isValidPhone(registerForm.phone, (registerForm.countryCode || 'ES') as CountryCode);
+    if (!phoneValid) {
+      apiError.value = "El número de teléfono no es válido";
+      isSubmitting.value = false;
+      return;
+    }
+    // Log del teléfono para depuración
+    console.log('Teléfono a enviar:', registerForm.phone);
+  }
 
-    await $fetch(`${apiUrl}/auth/register`, {
+  // Establecer código de país si no existe
+  if (!registerForm.countryCode) {
+    registerForm.countryCode = "ES"; // Código para España por defecto
+  }
+
+  // Log para depuración
+  console.log('Intentando registrar usuario con datos:', {
+    ...registerForm,
+    password: '********' // No mostrar contraseña en logs
+  });
+
+  try {
+    // Eliminar campos que no se envían al API
+    const { confirmEmail, acceptTOS, ...body } = registerForm;
+    
+    // IMPORTANTE: Preservar el teléfono con su formato internacional
+    // El componente PhoneField ya nos da el formato correcto con prefijo internacional
+    // NO eliminar caracteres no numéricos que pueden incluir '+' del prefijo internacional
+    
+    console.log(`Enviando solicitud de registro a ${apiUrl}/auth/register`);
+    
+    const response = await $fetch(`${apiUrl}/auth/register`, {
       method: "POST",
       body,
+      // Aumentar timeout para evitar problemas de red
+      options: {
+        timeout: 10000
+      }
     });
+
+    console.log('Respuesta del servidor de registro:', response);
 
     apiSuccess.value = `Registro exitoso ✨. Hemos enviado un email de confirmación a ${registerForm.email}. Por favor revisa tu bandeja de entrada 📩.`;
 
+    // De momento no hacemos auto-login para evitar problemas con verificación de email
+    // El usuario debe iniciar sesión manualmente después de verificar su email
+
     setTimeout(() => {
       internalOpen.value = false;
-    }, 10000);
+    }, 3000); // Reducido a 3 segundos para mejor experiencia
   } catch (error: any) {
-    apiError.value =
-      error?.data?.message || "Ha ocurrido un error durante el registro.";
+    console.error('Error durante el registro:', error);
+    // Mostrar mensaje de error más específico si está disponible
+    apiError.value = error?.data?.message || 
+                     error?.message || 
+                     "Ha ocurrido un error durante el registro. Por favor, intenta nuevamente.";
   } finally {
     isSubmitting.value = false;
   }
@@ -354,5 +397,24 @@ function toggleMode() {
   isLogin.value = !isLogin.value;
   apiError.value = null;
   apiSuccess.value = null;
+  // Resetear formularios al cambiar de modo
+  if (isLogin.value) {
+    Object.assign(loginForm, {
+      email: "",
+      password: ""
+    });
+  } else {
+    Object.assign(registerForm, {
+      name: "",
+      surname: "",
+      email: "",
+      confirmEmail: "",
+      phone: "",
+      countryCode: "ES",
+      password: "",
+      acceptTOS: false,
+      subscribeNewsletter: false
+    });
+  }
 }
 </script>
