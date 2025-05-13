@@ -47,23 +47,32 @@
             <span class="font-semibold">{{ $t('cart.total') || 'Total:' }}</span>
             <span class="text-xl font-bold">€ {{ groupedTotal.toFixed(2) }}</span>
           </div>
-          <UButton color="primary" block @click="goToAddress" class="cursor-pointer transition-all duration-200 hover:opacity-90">
+          <UButton color="primary" block @click="goToCheckout" class="cursor-pointer transition-all duration-200 hover:opacity-90">
             {{ $t('cart.checkout') || 'Finalizar compra' }}
           </UButton>
 
         </div>
       </aside>
     </transition>
+
+    <!-- Login/Register Modal -->
+    <LoginRegister
+      v-model:open="showLoginRegisterModal"
+      @logged-in="handleModalLoginSuccess"
+      @registered="handleModalRegisterSuccess" 
+      @continued-as-guest="handleModalContinueAsGuest"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cart';
-import { computed, watch, onMounted, onUnmounted, watchEffect } from 'vue';
+import { computed, watch, onMounted, onUnmounted, watchEffect, ref } from 'vue';
 import { UButton } from '#components';
 import { useAuth } from '~/composables/useAuth';
 import { useRouter } from 'vue-router';
 import { useLocalePath } from '#i18n';
+import LoginRegister from '~/components/LoginRegister.vue'; // Import the modal component
 
 const props = defineProps<{ open: boolean }>();
 const emit = defineEmits(['update:open']);
@@ -71,15 +80,49 @@ const emit = defineEmits(['update:open']);
 const { isAuthenticated } = useAuth();
 const router = useRouter();
 const localePath = useLocalePath();
+const cart = useCartStore();
 
-function goToAddress() {
+// State for controlling the LoginRegister modal
+const showLoginRegisterModal = ref(false);
+
+function goToCheckout() {
+  // Close the cart drawer first in all cases
+  emit('update:open', false);
+
   if (!isAuthenticated()) {
-    router.push(localePath('/checkout/guest-or-login'));
+    // If not authenticated, open the LoginRegister modal instead of redirecting
+    showLoginRegisterModal.value = true; 
   } else {
-    router.push(localePath('/checkout/checkout'));
+    // If authenticated, proceed directly to the checkout page
+    router.push(localePath('/checkout/checkout')); // Changed from /checkout/checkout for consistency
   }
 }
 
+// --- Handlers for LoginRegister Modal Events ---
+
+function handleModalLoginSuccess() {
+  // User logged in via modal, proceed to checkout
+  console.log("Login successful via modal, navigating to checkout...");
+  router.push(localePath('/checkout/checkout'));
+  // Modal closes itself via v-model:open
+}
+
+function handleModalRegisterSuccess() {
+  // User registered via modal. 
+  // Modal shows success message and closes itself.
+  // No immediate navigation needed, user might need to verify email first.
+  console.log("Registration successful via modal."); 
+  // Optionally, you could navigate somewhere or just let the modal close.
+}
+
+function handleModalContinueAsGuest() {
+  // User chose 'Continue as Guest' via modal, proceed to checkout
+  console.log("Continuing as guest via modal, navigating to checkout...");
+  // Potentially set a guest flag in your store here if needed
+  // e.g., const orderStore = useOrderStore(); orderStore.setIsGuest(true);
+  router.push(localePath('/checkout/checkout'));
+  // Modal closes itself via v-model:open
+}
 
 // Debug: Mostrar formato de imágenes
 onMounted(() => {
@@ -102,7 +145,6 @@ onMounted(() => {
 
   });
 });
-const cart = useCartStore();
 
 // Obtén el config fuera de la función
 const config = useRuntimeConfig();

@@ -1,22 +1,52 @@
 <template>
   <UModal
-    :title="
-      isLogin
-        ? 'Introduce tu dirección de correo electrónico para unirte o iniciar sesión.'
-        : 'Vamos a hacerte Flower Power Member'
-    "
-    :description="
-      isLogin
-        ? 'Accede a tu cuenta o únete a nosotros'
-        : 'Completa el formulario para crear tu cuenta'
-    "
+    :title="modalTitle"
+    :description="modalDescription"
     v-model:open="internalOpen"
     id="loginRegisterModal"
     overlay
   >
     <template #body>
+      <!-- INITIAL OPTIONS -->
+      <div v-if="currentView === 'initial'" class="space-y-4">
+        <UButton
+          label="Iniciar sesión"
+          icon="i-lucide-log-in"
+          color="primary"
+          variant="solid"
+          class="w-full btn-nike"
+          @click="switchToLogin"
+        />
+        <UButton
+          label="Crear cuenta"
+          icon="i-lucide-user-plus"
+          color="primary"
+          variant="outline"
+          class="w-full btn-nike"
+          @click="switchToRegister"
+        />
+        <UDivider label="O" />
+        <UButton
+          label="Continuar como invitado"
+          icon="i-lucide-user-check"
+          color="neutral"
+          variant="ghost"
+          class="w-full btn-nike"
+          @click="handleContinueAsGuest"
+        />
+      </div>
+
       <!-- LOGIN FORM -->
-      <template v-if="isLogin">
+      <template v-if="currentView === 'login'">
+        <UButton
+          icon="i-lucide-arrow-left"
+          variant="ghost"
+          color="neutral"
+          size="sm"
+          class="absolute top-4 left-4"
+          @click="switchToInitial"
+          aria-label="Volver"
+        />
         <UForm
           :schema="loginSchema"
           :state="loginForm"
@@ -64,7 +94,16 @@
       </template>
 
       <!-- REGISTRO FORM -->
-      <template v-else>
+      <template v-if="currentView === 'register'">
+        <UButton
+          icon="i-lucide-arrow-left"
+          variant="ghost"
+          color="neutral"
+          size="sm"
+          class="absolute top-4 left-4"
+          @click="switchToInitial"
+          aria-label="Volver"
+        />
         <UForm
           :schema="registerSchema"
           :state="registerForm"
@@ -192,47 +231,70 @@
       </div>
     </template>
 
-    <template #footer>
+    <template #footer v-if="currentView !== 'initial'">
       <UButton
+        v-if="currentView === 'login'"
         variant="link"
         color="primary"
-        class="mt-2 block text-sm text-primary-900 hover:text-primary-700 btn-nike full-size"
-        @click="toggleMode"
+        class="mt-2 block text-sm text-primary-900 hover:text-primary-700 w-full text-center"
+        @click="switchToRegister"
       >
-        <small>
-          {{
-            isLogin
-              ? "¿No tienes cuenta? Regístrate aquí"
-              : "¿Ya tienes cuenta? Inicia sesión"
-          }}
-        </small>
+        <small>¿No tienes cuenta? Regístrate aquí</small>
+      </UButton>
+      <UButton
+        v-if="currentView === 'register'"
+        variant="link"
+        color="primary"
+        class="mt-2 block text-sm text-primary-900 hover:text-primary-700 w-full text-center"
+        @click="switchToLogin"
+      >
+        <small>¿Ya tienes cuenta? Inicia sesión</small>
       </UButton>
     </template>
   </UModal>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from "vue";
+import { ref, reactive, watch, computed } from "vue";
 import { z } from "zod";
 import { usePhoneNumberValidation } from "~/composables/usePhoneNumberValidation";
 import type { RegisterForm } from "~/types/types";
 import type { CountryCode } from "libphonenumber-js";
 
-const props = defineProps<{ open: boolean }>();
-const emit = defineEmits(["update:open"]);
-const { isValidPhone } = usePhoneNumberValidation();
+const props = defineProps({
+  open: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits([
+  "update:open",
+  "loggedIn",
+  "registered",
+  "continuedAsGuest",
+]);
+
 const internalOpen = ref(props.open);
 watch(
   () => props.open,
   (newVal) => {
     internalOpen.value = newVal;
+    if (newVal) {
+      currentView.value = "initial";
+      apiError.value = null;
+      apiSuccess.value = null;
+    }
   }
 );
-watch(internalOpen, (val) => {
-  emit("update:open", val);
+watch(internalOpen, (newVal) => {
+  if (!newVal) {
+    emit("update:open", false);
+  }
 });
 
-const isLogin = ref(true);
+const currentView = ref<"initial" | "login" | "register">("initial");
+
 const isSubmitting = ref(false);
 const apiError = ref<string | null>(null);
 const apiSuccess = ref<string | null>(null);
@@ -240,6 +302,30 @@ const show = ref(false);
 
 const config = useRuntimeConfig();
 const apiUrl = config.public.apiBaseUrl;
+
+const modalTitle = computed(() => {
+  switch (currentView.value) {
+    case "login":
+      return "Iniciar sesión";
+    case "register":
+      return "Crear cuenta";
+    default:
+      return "Bienvenido/a a Flower Power";
+  }
+});
+
+const modalDescription = computed(() => {
+  switch (currentView.value) {
+    case "login":
+      return "Introduce tus datos para acceder a tu cuenta.";
+    case "register":
+      return "Completa el formulario para unirte.";
+    default:
+      return "Elige una opción para continuar con tu compra.";
+  }
+});
+
+const { isValidPhone } = usePhoneNumberValidation();
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -252,7 +338,7 @@ const registerSchema = z
     surname: z.string().min(1, "Apellidos requeridos"),
     email: z.string().email("Email inválido"),
     confirmEmail: z.string().email("Email inválido"),
-    countryCode: z.string().min(2).max(2), // ej: "ES"
+    countryCode: z.string().min(2).max(2),
     phone: z.string(),
     password: z
       .string()
@@ -279,7 +365,7 @@ const registerForm: RegisterForm = reactive({
   email: "",
   confirmEmail: "",
   phone: "",
-  countryCode: "ES", // Añadido código de país por defecto
+  countryCode: "ES",
   password: "",
   acceptTOS: false,
   subscribeNewsletter: false,
@@ -314,6 +400,8 @@ async function handleLogin() {
       response.email
     )} 👋`;
 
+    emit("loggedIn");
+
     setTimeout(() => {
       internalOpen.value = false;
     }, 1500);
@@ -330,91 +418,96 @@ async function handleRegister() {
   apiError.value = null;
   apiSuccess.value = null;
 
-  // Validar teléfono antes de enviar (solo si se ha ingresado uno)
   if (registerForm.phone) {
-    const phoneValid = isValidPhone(registerForm.phone, (registerForm.countryCode || 'ES') as CountryCode);
+    const phoneValid = isValidPhone(
+      registerForm.phone,
+      (registerForm.countryCode || "ES") as CountryCode
+    );
     if (!phoneValid) {
       apiError.value = "El número de teléfono no es válido";
       isSubmitting.value = false;
       return;
     }
-    // Log del teléfono para depuración
-    console.log('Teléfono a enviar:', registerForm.phone);
+    console.log("Teléfono a enviar:", registerForm.phone);
   }
 
-  // Establecer código de país si no existe
   if (!registerForm.countryCode) {
-    registerForm.countryCode = "ES"; // Código para España por defecto
+    registerForm.countryCode = "ES";
   }
 
-  // Log para depuración
-  console.log('Intentando registrar usuario con datos:', {
+  console.log("Intentando registrar usuario con datos:", {
     ...registerForm,
-    password: '********' // No mostrar contraseña en logs
+    password: "********",
   });
 
   try {
-    // Eliminar campos que no se envían al API
     const { confirmEmail, acceptTOS, ...body } = registerForm;
-    
-    // IMPORTANTE: Preservar el teléfono con su formato internacional
-    // El componente PhoneField ya nos da el formato correcto con prefijo internacional
-    // NO eliminar caracteres no numéricos que pueden incluir '+' del prefijo internacional
-    
+
     console.log(`Enviando solicitud de registro a ${apiUrl}/auth/register`);
-    
+
     const response = await $fetch(`${apiUrl}/auth/register`, {
       method: "POST",
       body,
-      // Aumentar timeout para evitar problemas de red
-      options: {
-        timeout: 10000
-      }
+      timeout: 10000,
     });
 
-    console.log('Respuesta del servidor de registro:', response);
+    console.log("Respuesta del servidor de registro:", response);
 
     apiSuccess.value = `Registro exitoso ✨. Hemos enviado un email de confirmación a ${registerForm.email}. Por favor revisa tu bandeja de entrada 📩.`;
 
-    // De momento no hacemos auto-login para evitar problemas con verificación de email
-    // El usuario debe iniciar sesión manualmente después de verificar su email
+    emit("registered");
 
     setTimeout(() => {
       internalOpen.value = false;
-    }, 3000); // Reducido a 3 segundos para mejor experiencia
+    }, 3000);
   } catch (error: any) {
-    console.error('Error durante el registro:', error);
-    // Mostrar mensaje de error más específico si está disponible
-    apiError.value = error?.data?.message || 
-                     error?.message || 
-                     "Ha ocurrido un error durante el registro. Por favor, intenta nuevamente.";
+    console.error("Error durante el registro:", error);
+    apiError.value =
+      error?.data?.message ||
+      error?.message ||
+      "Ha ocurrido un error durante el registro. Por favor, intenta nuevamente.";
   } finally {
     isSubmitting.value = false;
   }
 }
 
-function toggleMode() {
-  isLogin.value = !isLogin.value;
+function switchToLogin() {
+  currentView.value = "login";
+  resetFormsAndMessages();
+}
+
+function switchToRegister() {
+  currentView.value = "register";
+  resetFormsAndMessages();
+}
+
+function switchToInitial() {
+  currentView.value = "initial";
+  resetFormsAndMessages();
+}
+
+function handleContinueAsGuest() {
+  emit("continuedAsGuest");
+  internalOpen.value = false;
+}
+
+function resetFormsAndMessages() {
   apiError.value = null;
   apiSuccess.value = null;
-  // Resetear formularios al cambiar de modo
-  if (isLogin.value) {
-    Object.assign(loginForm, {
-      email: "",
-      password: ""
-    });
-  } else {
-    Object.assign(registerForm, {
-      name: "",
-      surname: "",
-      email: "",
-      confirmEmail: "",
-      phone: "",
-      countryCode: "ES",
-      password: "",
-      acceptTOS: false,
-      subscribeNewsletter: false
-    });
-  }
+  Object.assign(loginForm, {
+    email: "",
+    password: "",
+  });
+  Object.assign(registerForm, {
+    name: "",
+    surname: "",
+    email: "",
+    confirmEmail: "",
+    phone: "",
+    countryCode: "ES",
+    password: "",
+    acceptTOS: false,
+    subscribeNewsletter: false,
+  });
 }
 </script>
