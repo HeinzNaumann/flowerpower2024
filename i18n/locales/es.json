@@ -211,6 +211,11 @@
     "cardNoteLabel": "Mensaje para la tarjeta",
     "cartTitle": "Tu carrito de compra",
     "formError": "Por favor, completa todos los campos obligatorios",
+    "subtotalPrice": "Subtotal",
+    "shippingPrice": "Gastos de envío",
+    "shippingAvailable": "Entrega disponible: {shipping}€",
+    "shippingUnavailable": "Lo sentimos, no realizamos entregas en esta zona",
+    "enterPostalCode": "Introduce el código postal",
     "guestOrLogin": {
       "title": "¿Cómo quieres continuar?",
       "login": "Iniciar sesión",

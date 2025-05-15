@@ -37,7 +37,14 @@
         <UInput v-model="form.phone" type="tel" class="w-full" @input="clearError('phone')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.phone ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
       <UFormField name="zip" :label="$t('checkout.zip')" :class="{ 'text-red-500': errors.zip }">
-        <UInput v-model="form.zip" class="w-full" @input="clearError('zip')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.zip ? 'ring-red-500' : 'ring-gray-300') }" />
+        <UInput 
+          v-model="form.zip" 
+          class="w-full" 
+          @input="handleZipCodeChange"
+          @blur="validateZipCode" 
+          :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.zip ? 'ring-red-500' : 'ring-gray-300') }" 
+        />
+        <div v-if="zipCodeMessage" :class="[zipCodeMessageType === 'error' ? 'text-red-500' : 'text-green-600', 'text-xs mt-1']">{{ zipCodeMessage }}</div>
       </UFormField>
       <UFormField
         name="country"
@@ -165,12 +172,12 @@
       </UForm>
       <!-- Carrito en mobile -->
       <div class="block md:hidden mt-8">
-        <CartSummary @submit="submit" />
+        <CartSummary ref="mobileCartSummary" @submit="submit" />
       </div>
     </div>
     <!-- Carrito en desktop -->
     <div class="hidden md:block w-full max-w-md">
-      <CartSummary @submit="submit" />
+      <CartSummary ref="desktopCartSummary" @submit="submit" />
     </div>
     </div>
   </div>
@@ -178,6 +185,7 @@
 
 <script setup lang="ts">
 import CartSummary from '~/components/CartSummary.vue';
+import { getShippingByPostal } from '~/utils/mallorcaShippingRates';
 
 import { computed, reactive, ref, onMounted } from 'vue';
 import { CalendarDate, DateFormatter, getLocalTimeZone, type DateValue } from '@internationalized/date';
@@ -238,13 +246,61 @@ const formattedDeliveryDate = computed(() => {
 // Reactive errors object
 const errors = reactive<Record<string, string>>({});
 
+// Referencias a los componentes CartSummary
+const mobileCartSummary = ref<InstanceType<typeof CartSummary> | null>(null);
+const desktopCartSummary = ref<InstanceType<typeof CartSummary> | null>(null);
+
+// Estado para mensajes del código postal
+const zipCodeMessage = ref('');
+const zipCodeMessageType = ref<'success' | 'error'>('success');
+
 // Funciones para limpiar errores al escribir
 function clearError(field: string) {
   if (errors[field]) {
     delete errors[field];
   }
-  // Verificar si todos los campos están completos después de cada cambio
-  checkAllFieldsCompleted();
+}
+
+// Función para manejar el cambio en el código postal y actualizar los gastos de envío
+function handleZipCodeChange(event: Event) {
+  const input = event.target as HTMLInputElement;
+  const zipCode = input.value;
+  
+  // Limpiar errores existentes
+  clearError('zip');
+  zipCodeMessage.value = '';
+  
+  // Actualizar los componentes CartSummary con el nuevo código postal
+  if (mobileCartSummary.value) {
+    mobileCartSummary.value.updateShipping(zipCode);
+  }
+  if (desktopCartSummary.value) {
+    desktopCartSummary.value.updateShipping(zipCode);
+  }
+}
+
+// Validar el código postal cuando el usuario sale del campo
+function validateZipCode() {
+  const zipCode = form.zip;
+  const { t } = useI18n();
+  
+  // Verificar si el código postal tiene el formato correcto (5 dígitos)
+  if (zipCode && zipCode.length === 5 && /^\d{5}$/.test(zipCode)) {
+    // Comprobar si el código postal está en nuestra lista de tarifas
+    const shipping = getShippingByPostal(zipCode);
+    
+    if (shipping !== null) {
+      zipCodeMessage.value = t('checkout.shippingAvailable') || `Entrega disponible: ${shipping.toFixed(2)}€`;
+      zipCodeMessageType.value = 'success';
+    } else {
+      zipCodeMessage.value = t('checkout.shippingUnavailable') || 'Lo sentimos, no realizamos entregas en esta zona';
+      zipCodeMessageType.value = 'error';
+    }
+  } else if (zipCode) {
+    // Código postal con formato incorrecto
+    zipCodeMessage.value = t('validation.postalCode') || 'Introduce un código postal válido de 5 dígitos';
+    zipCodeMessageType.value = 'error';
+  }
 }
 
 // Variable reactiva para controlar la visibilidad del título

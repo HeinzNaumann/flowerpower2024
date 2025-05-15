@@ -294,7 +294,10 @@
     "securePayment": "100% secure payment. Your data is protected.",
     "delivery": "Delivery",
     "subtotal": "Subtotal",
-    "shipping": "Shipping"
+    "shipping": "Shipping",
+    "shippingAvailable": "Delivery available: {shipping}€",
+    "shippingUnavailable": "Sorry, we don't deliver to this area",
+    "enterPostalCode": "Enter postal code"
   },
   "shippingPage": {
     "title": "Shipping & Delivery",

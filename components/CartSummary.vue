@@ -26,7 +26,7 @@
             </div>
           </li>
           <li
-            v-for="sub in items.filter(sub => sub.isComplement && sub.parentProductId === item.id)"
+            v-for="sub in items.filter((sub: any) => sub.isComplement && sub.parentProductId === item.id)"
             :key="sub.id"
             class="py-1 flex items-center gap-3 justify-between bg-neutral-50 pl-10 border-l-4 border-[#db9526]"
           >
@@ -49,9 +49,26 @@
           </li>
         </template>
       </ul>
-      <div class="flex justify-between items-center border-t pt-4 mt-4">
-        <span class="font-semibold">{{ $t('checkout.total') || 'Total' }}:</span>
-        <span class="text-lg font-bold">€ {{ totalPrice.toFixed(2) }}</span>
+      <div class="space-y-2 border-t pt-4 mt-4">
+        <!-- Subtotal (productos sin envío) -->
+        <div class="flex justify-between items-center">
+          <span class="font-medium">{{ $t('checkout.subtotalPrice') || 'Subtotal' }}:</span>
+          <span class="font-medium">€ {{ totalPrice.toFixed(2) }}</span>
+        </div>
+        
+        <!-- Gastos de envío -->
+        <div class="flex justify-between items-center">
+          <span class="font-medium">{{ $t('checkout.shippingPrice') || 'Gastos de envío' }}:</span>
+          <span v-if="shippingCost !== null" class="font-medium">€ {{ shippingCost.toFixed(2) }}</span>
+          <span v-else-if="postalCode" class="text-sm text-amber-600">{{ $t('checkout.shippingUnavailable') || 'No disponible en tu zona' }}</span>
+          <span v-else class="text-sm text-neutral-500">{{ $t('checkout.enterPostalCode') || 'Introduce CP' }}</span>
+        </div>
+        
+        <!-- Total final (con envío) -->
+        <div class="flex justify-between items-center pt-2 border-t border-dashed">
+          <span class="font-semibold">{{ $t('checkout.total') || 'Total' }}:</span>
+          <span class="text-lg font-bold">€ {{ finalTotal.toFixed(2) }}</span>
+        </div>
       </div>
       
       <!-- Mensaje de error de validación -->
@@ -81,9 +98,31 @@ import { useCartStore } from '~/stores/cart';
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { UButton } from '#components';
+import { getShippingByPostal } from '~/utils/mallorcaShippingRates';
 const cartStore = useCartStore();
 const items = computed(() => cartStore.items);
 const totalPrice = computed(() => cartStore.totalPrice);
+
+// Datos para el cálculo de envío
+const postalCode = ref('');
+const shippingCost = ref<number | null>(null);
+
+// Calcular el total final (productos + envío si está disponible)
+const finalTotal = computed(() => {
+  return shippingCost.value !== null ? totalPrice.value + shippingCost.value : totalPrice.value;
+});
+
+// Esta función será llamada desde checkout.vue cuando cambie el código postal
+defineExpose({
+  updateShipping: (zipCode: string) => {
+    postalCode.value = zipCode;
+    if (zipCode && zipCode.length === 5) {
+      shippingCost.value = getShippingByPostal(zipCode);
+    } else {
+      shippingCost.value = null;
+    }
+  }
+});
 
 // Para el botón de compra y validación
 const loading = ref(false);

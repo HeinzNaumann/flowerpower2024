@@ -276,7 +276,10 @@
     "securePayment": "100% sichere Zahlung. Ihre Daten sind geschützt.",
     "delivery": "Lieferung",
     "subtotal": "Zwischensumme",
-    "shipping": "Versand"
+    "shipping": "Versand",
+    "shippingAvailable": "Lieferung verfügbar: {shipping}€",
+    "shippingUnavailable": "Es tut uns leid, wir liefern nicht in diese Region",
+    "enterPostalCode": "Postleitzahl eingeben"
   },
   "shippingPage": {
     "title": "Versand & Lieferung",
