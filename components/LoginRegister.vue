@@ -25,7 +25,7 @@
           class="w-full btn-nike"
           @click="switchToRegister"
         />
-        <UDivider label="O" />
+        <USeparator label="O" />
         <UButton
           label="Continuar como invitado"
           icon="i-lucide-user-check"
@@ -260,6 +260,7 @@ import { z } from "zod";
 import { usePhoneNumberValidation } from "~/composables/usePhoneNumberValidation";
 import type { RegisterForm } from "~/types/types";
 import type { CountryCode } from "libphonenumber-js";
+import { USeparator } from "#components";
 
 const props = defineProps({
   open: {

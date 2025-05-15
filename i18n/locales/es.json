@@ -570,7 +570,7 @@
       "lastName": "Apellidos",
       "lastNamePlaceholder": "Tus apellidos",
       "email": "Email",
-      "emailPlaceholder": "tu.email{at}ejemplo.com",
+      "emailPlaceholder": "Tu email",
       "phone": "Teléfono",
       "phonePlaceholder": "+34 XXX XXX XXX",
       "subject": "Asunto",
@@ -674,7 +674,7 @@
     },
     "thirdPartyLinks": {
       "title": "Enlaces a terceros",
-      "p1": "Nuestro sitio web puede contener enlaces a sitios web de terceros o servicios que no son propiedad ni están controlados por Flower Power. Flower Power no tiene control ni asume responsabilidad por el contenido, políticas de privacidad o prácticas de sitios web o servicios de terceros. No garantizamos ni respaldamos ninguna oferta de estos terceros. Reconoces y aceptas que Flower Power no será responsable, directa o indirectamente, por cualquier daño o pérdida causada o supuestamente causada por o en conexión con el uso o la confianza en dicho contenido, bienes o servicios disponibles en o a través de dichos sitios web o servicios."
+      "p1": "Nuestro sitio web puede contener enlaces a sitios web de terceros o servicios que no son propiedad ni están controlados por Flower Power. Flower Power no tiene control ni aprueba el contenido, políticas de privacidad o prácticas de sitios web o servicios de terceros. No garantizamos ni respaldamos ninguna oferta de estos terceros. Reconoces y aceptas que Flower Power no será responsable, directa o indirectamente, por cualquier daño o pérdida causada o supuestamente causada por o en conexión con el uso o la confianza en dicho contenido, bienes o servicios disponibles en o a través de dichos sitios web o servicios."
     },
     "liability": {
       "title": "Limitación de responsabilidad",

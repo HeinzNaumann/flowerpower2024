@@ -31,23 +31,25 @@
             class="size-6 hover:opacity-70 transition-opacity duration-200"
           />
         </button>
-        <button
-          v-if="isMounted"
-          @click="openCartDrawer"
-          class="relative focus:outline-none"
-        >
-          <img
-            src="/assets/icons/cart.svg"
-            :alt="$t('header.alt.cart')"
-            class="size-6 hover:opacity-70 transition-opacity duration-200 top-1 relative"
-          />
-          <span
-            v-if="cart.totalItems > 0"
-            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+        <ClientOnly>
+          <button
+            v-if="isMounted"
+            @click="openCartDrawer"
+            class="relative focus:outline-none"
           >
-            {{ cart.totalItems }}
-          </span>
-        </button>
+            <img
+              src="/assets/icons/cart.svg"
+              :alt="$t('header.alt.cart')"
+              class="size-6 hover:opacity-70 transition-opacity duration-200 top-1 relative"
+            />
+            <span
+              v-if="cart.totalItems > 0"
+              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+            >
+              {{ cart.totalItems }}
+            </span>
+          </button>
+        </ClientOnly>
         <button class="" @click="toggleMenu" aria-label="Toggle menu">
           <!-- Hamburger Icon -->
           <img
@@ -59,33 +61,37 @@
       </div>
       <!-- Desktop Navigation Links -->
       <div class="hidden mr-8 flex-row gap-3 items-baseline lg:flex">
-        <Avatar v-if="isAuthenticated() && isReady" />
+        <ClientOnly>
+          <Avatar v-if="isAuthenticated() && isReady" />
 
-        <button
-          v-if="!isAuthenticated()"
-          class="hover:text-neutral-600 cursor-pointer"
-          @click="openModal"
-        >
-          {{ $t("header.register") }}
-        </button>
-
-        <button
-          v-if="isMounted"
-          @click="openCartDrawer"
-          class="relative focus:outline-none"
-        >
-          <img
-            src="/assets/icons/cart.svg"
-            :alt="$t('header.alt.cart')"
-            class="size-6 hover:opacity-70 transition-opacity duration-200 top-1 relative"
-          />
-          <span
-            v-if="cart.totalItems > 0"
-            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+          <button
+            v-if="!isAuthenticated()"
+            class="hover:text-neutral-600 cursor-pointer"
+            @click="openModal"
           >
-            {{ cart.totalItems }}
-          </span>
-        </button>
+            {{ $t("header.register") }}
+          </button>
+        </ClientOnly>
+
+        <ClientOnly>
+          <button
+            v-if="isMounted"
+            @click="openCartDrawer"
+            class="relative focus:outline-none"
+          >
+            <img
+              src="/assets/icons/cart.svg"
+              :alt="$t('header.alt.cart')"
+              class="size-6 hover:opacity-70 transition-opacity duration-200 top-1 relative"
+            />
+            <span
+              v-if="cart.totalItems > 0"
+              class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full"
+            >
+              {{ cart.totalItems }}
+            </span>
+          </button>
+        </ClientOnly>
         <div class="relative inline-block text-left" ref="dropdownRef">
           <button
             @click="toggleDropdown"
@@ -172,16 +178,15 @@
             />
           </svg>
         </button>
-        <Avatar v-if="isAuthenticated() && isReady" />
-
-        <NuxtLink
-          v-else-if="!isReady"
-          class="hover:text-neutral-600"
-          :to="localePath({ path: '/login-register' })"
-        >
-          {{ $t("header.register") }}
-        </NuxtLink>
-
+        <ClientOnly>
+          <button
+            v-if="!isAuthenticated() && isReady"
+            class="w-full text-left p-2 hover:bg-neutral-100"
+          >
+            {{ $t("header.register") }}
+          </button>
+          <Avatar v-if="isAuthenticated() && isReady" class="mb-4" />
+        </ClientOnly>
         <button
           @click="openCartDrawer"
           class="relative focus:outline-none"
@@ -194,13 +199,6 @@
         </button>
         <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
         <div class="flex flex-col gap-2 mt-4">
-          <button
-            v-if="!isAuthenticated() && isReady"
-            class="uppercase tracking-wide font-semibold text-xs py-1 pl-0 pr-2 mb-2 text-left hover:underline transition-all duration-150 cursor-pointer"
-            @click="openModal"
-          >
-            {{ $t('header.register') }}
-          </button>
           <NuxtLink
             :to="localePath({ path: '/flowers' })"
             class="hover:text-neutral-600"

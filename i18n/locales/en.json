@@ -930,5 +930,53 @@
         }
       }
     }
+  },
+  "loginRegister": {
+    "modalTitleInitial": "Welcome to Flower Power",
+    "modalTitleLogin": "Log in",
+    "modalTitleRegister": "Create account",
+    "modalDescriptionInitial": "Choose an option to continue",
+    "modalDescriptionLogin": "Log in to your account to continue",
+    "modalDescriptionRegister": "Create a new account to get started",
+    "buttonLogin": "Log in",
+    "buttonRegister": "Create account",
+    "buttonGuest": "Continue as guest",
+    "separatorOr": "OR",
+    "buttonBack": "Back",
+    "labelEmail": "Email",
+    "labelPassword": "Password",
+    "labelName": "Name",
+    "labelSurname": "Surname",
+    "labelConfirmEmail": "Confirm Email",
+    "labelConfirmPassword": "Confirm Password",
+    "placeholderName": "Your name",
+    "placeholderSurname": "Your surname",
+    "placeholderEmail": "your email",
+    "placeholderConfirmEmail": "Repeat your email",
+    "placeholderPassword": "Password",
+    "placeholderConfirmPassword": "Repeat your password",
+    "linkForgotPassword": "Forgot your password?",
+    "buttonSubmitLogin": "Continue",
+    "buttonSubmitRegister": "Register me",
+    "checkboxAcceptTOS": "I accept the Privacy Policy  and the Terms of Use.",
+    "checkboxSubscribeNewsletter": "Sign up t o receive updates, offers, and member benefits.",
+    "footerLinkRegister": "Don't have an account? Create one",
+    "footerLinkLogin": "Already have an account? Log in",
+    "apiErrorTitle": "Error:",
+    "apiSuccessTitle": "Success:",
+    "apiErrorLoginToken": "No token received upon login.",
+    "apiErrorLoginGeneral": "An error occurred during login.",
+    "apiSuccessLogin": "Login successful. Welcome back {username} 👋",
+    "apiErrorRegisterPhone": "The phone number is not valid.",
+    "apiErrorRegisterGeneral": "An error occurred during registration. Please try again.",
+    "apiSuccessRegister": "Registration successful ✨. We have sent a confirmation email to {email}. Please check your inbox 📩.",
+    "validation": {
+      "invalidEmail": "Invalid email",
+      "required": "Field required",
+      "passwordMin": "Password must be at least 8 characters long",
+      "passwordPattern": "Password must contain an uppercase letter, a lowercase letter, and a number",
+      "acceptTOS": "You must accept the terms and conditions.",
+      "emailMismatch": "Emails do not match"
+    }
   }
 }
