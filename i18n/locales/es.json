@@ -215,6 +215,7 @@
     "shippingPrice": "Gastos de envío",
     "shippingAvailable": "Entrega disponible: {shipping}€",
     "shippingUnavailable": "Lo sentimos, no realizamos entregas en esta zona",
+    "shippingUnavailableError": "No realizamos entregas a este código postal",
     "enterPostalCode": "Introduce el código postal",
     "guestOrLogin": {
       "title": "¿Cómo quieres continuar?",

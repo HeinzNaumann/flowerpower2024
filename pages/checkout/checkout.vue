@@ -36,13 +36,13 @@
       >
         <UInput v-model="form.phone" type="tel" class="w-full" @input="clearError('phone')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.phone ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
-      <UFormField name="zip" :label="$t('checkout.zip')" :class="{ 'text-red-500': errors.zip }">
+      <UFormField name="zip" :label="$t('checkout.zip')" :class="{ 'text-red-500': errors.zip || !isShippingAvailable }">
         <UInput 
           v-model="form.zip" 
           class="w-full" 
           @input="handleZipCodeChange"
           @blur="validateZipCode" 
-          :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.zip ? 'ring-red-500' : 'ring-gray-300') }" 
+          :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + ((errors.zip || !isShippingAvailable) ? 'ring-red-500' : 'ring-gray-300') }" 
         />
         <div v-if="zipCodeMessage" :class="[zipCodeMessageType === 'error' ? 'text-red-500' : 'text-green-600', 'text-xs mt-1']">{{ zipCodeMessage }}</div>
       </UFormField>
@@ -253,6 +253,7 @@ const desktopCartSummary = ref<InstanceType<typeof CartSummary> | null>(null);
 // Estado para mensajes del código postal
 const zipCodeMessage = ref('');
 const zipCodeMessageType = ref<'success' | 'error'>('success');
+const isShippingAvailable = ref(false); // Controla si el envío está disponible para el código postal
 
 // Funciones para limpiar errores al escribir
 function clearError(field: string) {
@@ -268,7 +269,7 @@ function handleZipCodeChange(event: Event) {
   
   // Limpiar errores existentes
   clearError('zip');
-  zipCodeMessage.value = '';
+  clearError('shipping');
   
   // Actualizar los componentes CartSummary con el nuevo código postal
   if (mobileCartSummary.value) {
@@ -276,6 +277,14 @@ function handleZipCodeChange(event: Event) {
   }
   if (desktopCartSummary.value) {
     desktopCartSummary.value.updateShipping(zipCode);
+  }
+  
+  // Si el código postal está completo (5 dígitos), validarlo inmediatamente
+  if (zipCode && zipCode.length === 5) {
+    validateZipCode();
+  } else {
+    // Si no está completo, limpiar los mensajes
+    zipCodeMessage.value = '';
   }
 }
 
@@ -290,16 +299,29 @@ function validateZipCode() {
     const shipping = getShippingByPostal(zipCode);
     
     if (shipping !== null) {
-      zipCodeMessage.value = t('checkout.shippingAvailable') || `Entrega disponible: ${shipping.toFixed(2)}€`;
+      zipCodeMessage.value = t('checkout.shippingAvailable', { shipping: shipping.toFixed(2) }) || `Entrega disponible: ${shipping.toFixed(2)}€`;
       zipCodeMessageType.value = 'success';
+      isShippingAvailable.value = true;
+      // Eliminar error si existe
+      delete errors['shipping'];
     } else {
       zipCodeMessage.value = t('checkout.shippingUnavailable') || 'Lo sentimos, no realizamos entregas en esta zona';
       zipCodeMessageType.value = 'error';
+      isShippingAvailable.value = false;
+      // Añadir error de envío no disponible
+      errors['shipping'] = t('checkout.shippingUnavailableError') || 'No realizamos entregas a este código postal';
     }
   } else if (zipCode) {
     // Código postal con formato incorrecto
     zipCodeMessage.value = t('validation.postalCode') || 'Introduce un código postal válido de 5 dígitos';
     zipCodeMessageType.value = 'error';
+    isShippingAvailable.value = false;
+    // Añadir error de formato incorrecto
+    errors['shipping'] = t('validation.postalCode') || 'Introduce un código postal válido';
+  } else {
+    // No hay código postal
+    isShippingAvailable.value = false;
+    errors['shipping'] = t('validation.required') || 'El código postal es obligatorio';
   }
 }
 
@@ -460,6 +482,15 @@ onMounted(async () => {
       zip: ship.postalCode,
       country: ship.country || 'ES', // Añadimos el país y usamos 'ES' como valor por defecto
     });
+    
+    // Actualizar los gastos de envío con el código postal cargado
+    if (ship.postalCode) {
+      // Esperar brevemente para asegurar que los refs de CartSummary estén disponibles
+      setTimeout(() => {
+        handleZipCodeChange({ target: { value: ship.postalCode } } as any);
+        validateZipCode(); // Validar y mostrar el mensaje correspondiente
+      }, 100);
+    }
   }
   const bill = await getAddress("billing");
   if (bill) {
@@ -478,6 +509,19 @@ onMounted(async () => {
 async function submit(callbacks?: { onError?: (errors: Record<string, string>) => void, onSuccess?: () => void }) {
   // clear previous errors
   Object.keys(errors).forEach((k) => delete errors[k]);
+  
+  // Verificar la disponibilidad de envío antes de continuar
+  validateZipCode();
+  
+  // Si el código postal no está disponible para envío, detener el proceso
+  if (!isShippingAvailable.value) {
+    const { t } = useI18n();
+    errors['shipping'] = t('checkout.shippingUnavailableError') || 'No realizamos entregas a este código postal';
+    if (callbacks?.onError) {
+      callbacks.onError(errors);
+    }
+    return;
+  }
 
   // validate shipping form
   const s = addressSchema.safeParse(form);

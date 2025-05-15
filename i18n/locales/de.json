@@ -279,6 +279,7 @@
     "shipping": "Versand",
     "shippingAvailable": "Lieferung verfügbar: {shipping}€",
     "shippingUnavailable": "Es tut uns leid, wir liefern nicht in diese Region",
+    "shippingUnavailableError": "Wir liefern nicht an diese Postleitzahl",
     "enterPostalCode": "Postleitzahl eingeben"
   },
   "shippingPage": {

@@ -297,6 +297,7 @@
     "shipping": "Shipping",
     "shippingAvailable": "Delivery available: {shipping}€",
     "shippingUnavailable": "Sorry, we don't deliver to this area",
+    "shippingUnavailableError": "We don't deliver to this postal code",
     "enterPostalCode": "Enter postal code"
   },
   "shippingPage": {
