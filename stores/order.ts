@@ -9,6 +9,7 @@ interface CreateOrderMeta {
   deliveryDate: string;
   deliveryTime: string;
   cardNote?: string;
+  shippingCost?: number;
 }
 
 interface OrderState {
@@ -113,16 +114,15 @@ export const useOrderStore = defineStore("order", {
       const payload = {
         items: cart.items, // tu lista de productos
         shipping: {
-          ...shipping,
-          // Incluir el costo de envío en la dirección de envío
-          shippingCost: meta.shippingCost ?? 0
+          ...shipping
+          // Ya no incluimos shippingCost aquí, va en el nivel superior
         },
         billing, // facturación (o null)
         deliveryDate: meta.deliveryDate,
         deliveryTime: meta.deliveryTime,
         cardNote: meta.cardNote || "",
-        // Incluir el shippingCost en el nivel superior del payload
-        shippingCost: meta.shippingCost ?? 0,
+        // Incluir el shippingCost en el nivel superior del payload como número
+        shippingCost: typeof meta.shippingCost === 'number' ? meta.shippingCost : 0, // Asegurar que sea un número
         // Información del usuario para el backend según el UserInfoDto
         userInfo: {
           name: userName,
@@ -165,24 +165,27 @@ export const useOrderStore = defineStore("order", {
         this.total = response.total || cart.totalPrice;
         
         // Obtener el shippingCost de la respuesta del servidor o del meta
-        const serverShippingCost = response.shipping?.shippingCost ?? response.shippingCost;
-        const finalShippingCost = serverShippingCost !== undefined ? serverShippingCost : (meta.shippingCost ?? 0);
+        // Asegurarse de que shippingCost sea un número
+        const serverShippingCost = response.shippingCost !== undefined ? 
+          (typeof response.shippingCost === 'string' ? 
+           parseFloat(response.shippingCost) : 
+           Number(response.shippingCost)) : 0;
+           
+        const finalShippingCost = !isNaN(serverShippingCost) ? 
+          serverShippingCost : 
+          (typeof meta.shippingCost === 'number' ? meta.shippingCost : 0);
         
-        console.log('Costo de envío - Respuesta del servidor:', serverShippingCost);
-        console.log('Costo de envío - Meta:', meta.shippingCost);
-        console.log('Costo de envío final:', finalShippingCost);
+        console.log('Costo de envío - Respuesta del servidor:', response.shippingCost, '(tipo:', typeof response.shippingCost, ')');
+        console.log('Costo de envío - Meta:', meta.shippingCost, '(tipo:', typeof meta.shippingCost, ')');
+        console.log('Costo de envío final:', finalShippingCost, '(tipo:', typeof finalShippingCost, ')');
         
-        // Guardar los items, direcciones y costo de envío
+        // Guardar los items y direcciones
         this.items = cart.items;
-        this.shipping = {
-          ...(response.shipping || shipping), // Usar la dirección de envío del servidor si está disponible
-          // Asegurarse de que el shippingCost se guarde en el objeto de envío
-          shippingCost: finalShippingCost
-        };
+        this.shipping = response.shipping || shipping;
         this.billing = response.billing || billing;
         
-        // Guardar el shippingCost directamente en el estado de la orden
-        (this as any).shippingCost = finalShippingCost;
+        // Guardar el shippingCost en el estado de la orden como número
+        (this as any).shippingCost = Number(finalShippingCost) || 0;
         
         // Si la respuesta ya incluye un clientSecret, guardarlo
         if (response.clientSecret) {

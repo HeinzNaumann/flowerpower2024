@@ -41,6 +41,4 @@ export type Address = {
   surname?: string;
   email?: string;
   phone?: string;
-  // Costo de envío para la dirección
-  shippingCost?: number;
 };

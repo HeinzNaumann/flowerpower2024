@@ -598,13 +598,8 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       phone: form.phone
     };
     
-    // Asegurarnos de que el shippingPayload incluya el shippingCost
-    const shippingPayloadWithCost = {
-      ...shippingPayload,
-      shippingCost: currentShippingCost.value
-    };
-    
-    console.log('Dirección de envío con información del usuario y costo de envío:', shippingPayloadWithCost);
+    // Usar el shippingPayload sin modificar (el shippingCost va en el nivel superior)
+    console.log('Dirección de envío con información del usuario:', shippingPayload);
     
     const billingPayload = isBillingSameAsShipping.value
       ? null
@@ -624,6 +619,8 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
             phone: form.phone
           } : {}),
         };
+        
+    console.log('Costo de envío actual:', currentShippingCost.value);
 
     // persist default addresses if requested
     // Usamos el shippingPayload original (sin shippingCost) para guardar la dirección
@@ -643,13 +640,13 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
     try {
       // Guardar los datos de la orden en localStorage para que estén disponibles en la página de pago
       const orderData = {
-        shipping: shippingPayloadWithCost, // Usar el payload con shippingCost
+        shipping: shippingPayload, // Usar el payload original (sin shippingCost)
         billing: billingPayload,
         deliveryDate: form.deliveryDate,
         deliveryTime: form.deliveryTime,
         cardNote: form.cardNote,
         items: cartStore.items,
-        shippingCost: currentShippingCost.value,
+        shippingCost: currentShippingCost.value, // shippingCost en el nivel superior
         total: cartStore.totalPrice + currentShippingCost.value
       };
       
@@ -658,7 +655,7 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       console.log('Datos de la orden guardados en localStorage:', orderData);
       
       // Crear la orden en el backend
-      await orderStore.createOrder(shippingPayloadWithCost, billingPayload, {
+      await orderStore.createOrder(shippingPayload, billingPayload, {
         deliveryDate: form.deliveryDate,
         deliveryTime: form.deliveryTime,
         cardNote: form.cardNote,
