@@ -149,8 +149,7 @@
   "checkout": {
     "paymentCard": "Detalles de la tarjeta",
     "cardInfo": "Introduce los datos de tu tarjeta para completar el pago.",
-    "invalidOrderMessage": "No se pudo obtener el clientSecret de Stripe.",
-    "cartEmpty": "Tu carrito está vacío."
+    "invalidOrderMessage": "No se pudo obtener el clientSecret de Stripe."
   ,
     "shippingTitle": "Dirección de envío",
     "name": "Nombre",
@@ -221,12 +220,24 @@
       "title": "¿Cómo quieres continuar?",
       "login": "Iniciar sesión",
       "guest": "Comprar como invitado"
-    }
+    },
+    "orderSuccess": "¡Pedido realizado con éxito!",
+    "orderSuccessMessage": "Gracias por tu compra. Tu pedido ha sido recibido y está siendo procesado.",
+    "orderNumber": "Número de pedido",
+    "orderSummary": "Resumen del pedido",
+    "shippingDetails": "Detalles de envío",
+    "deliveryInfoTitle": "Información de entrega",
+    "cardNote": "Nota para tarjeta",
+    "noCardNote": "Sin nota especial",
+    "purchasedItems": "Productos comprados",
+    "trackingInfo": "Seguimiento del pedido",
+    "trackingMessage": "Recibirás un correo electrónico con la información de seguimiento una vez que tu pedido haya sido enviado.",
+    "viewOrders": "Ver mis pedidos",
+    "continueShopping": "Continuar comprando",
+    "cardEnding": "Tarjeta terminada en"
   },
   "dialog": {
-    "ok": "Aceptar",
-    "yes": "Sí",
-    "cancel": "Cancelar"
+    "ok": "Aceptar"
   },
   "validation": {
     "required": "Este campo es obligatorio",

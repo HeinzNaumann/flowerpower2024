@@ -39,7 +39,7 @@
               </div>
             </div>
             <div class="md:w-1/2">
-              <h3 class="font-medium text-primary-700 mb-2">{{ $t('checkout.deliveryInfo') || 'Información de entrega' }}</h3>
+              <h3 class="font-medium text-primary-700 mb-2">{{ $t('checkout.deliveryInfoTitle') || 'Información de entrega' }}</h3>
               <div class="text-sm text-neutral-600">
                 <p>{{ $t('checkout.deliveryDate') || 'Fecha de entrega' }}: {{ formatDate(shippingAddress.deliveryDate || getTomorrow()) }}</p>
                 <p>{{ $t('checkout.deliveryTime') || 'Hora de entrega' }}: {{ formatTime(shippingAddress.deliveryTime || '12:00') }}</p>

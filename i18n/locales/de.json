@@ -269,7 +269,6 @@
       "guest": "Als Gast fortfahren"
     },
     "billingInfo": "Rechnungsinformationen",
-    "deliveryDate": "Lieferdatum",
     "deliveryTime": "Lieferzeit",
     "paymentMethod": "Zahlungsmethode",
     "creditCard": "Kreditkarte",
@@ -280,7 +279,22 @@
     "shippingAvailable": "Lieferung verfügbar: {shipping}€",
     "shippingUnavailable": "Es tut uns leid, wir liefern nicht in diese Region",
     "shippingUnavailableError": "Wir liefern nicht an diese Postleitzahl",
-    "enterPostalCode": "Postleitzahl eingeben"
+    "enterPostalCode": "Postleitzahl eingeben",
+    "orderSuccess": "Bestellung erfolgreich abgeschlossen!",
+    "orderSuccessMessage": "Vielen Dank für Ihren Einkauf. Ihre Bestellung wurde erhalten und wird bearbeitet.",
+    "orderNumber": "Bestellnummer",
+    "orderSummary": "Bestellübersicht",
+    "shippingDetails": "Versanddetails",
+    "deliveryInfoTitle": "Lieferinformationen",
+    "cardNote": "Kartennotiz",
+    "noCardNote": "Keine besondere Notiz",
+    "purchasedItems": "Gekaufte Artikel",
+    "trackingInfo": "Sendungsverfolgung",
+    "trackingMessage": "Sie erhalten eine E-Mail mit Tracking-Informationen, sobald Ihre Bestellung versendet wurde.",
+    "viewOrders": "Meine Bestellungen anzeigen",
+    "continueShopping": "Weiter einkaufen",
+    "cardEnding": "Karte endend auf",
+    "deliveryDate": "Lieferdatum"
   },
   "shippingPage": {
     "title": "Versand & Lieferung",
