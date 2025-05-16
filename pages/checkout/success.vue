@@ -89,13 +89,17 @@
           <span>{{ $t('checkout.subtotal') || 'Subtotal' }}:</span>
           <span class="font-medium">€{{ (Number(subtotalPrice) || 0).toFixed(2) }}</span>
         </div>
+        <!-- Gastos de envío -->
         <div class="flex justify-between items-center mb-2">
           <span>{{ $t('checkout.shipping') || 'Envío' }}:</span>
           <span class="font-medium">€{{ (Number(shippingCost) || 0).toFixed(2) }}</span>
         </div>
+        <!-- Línea divisoria -->
+        <div class="border-t border-dashed border-gray-300 my-3"></div>
+        <!-- Total -->
         <div class="flex justify-between items-center font-bold text-lg">
           <span>{{ $t('checkout.total') || 'Total' }}:</span>
-          <span>€{{ (Number(subtotalPrice) + Number(shippingCost) || 0).toFixed(2) }}</span>
+          <span class="text-primary-600">€{{ (Number(subtotalPrice) + Number(shippingCost) || 0).toFixed(2) }}</span>
         </div>
 
         <div class="mt-6 p-4 bg-neutral-50 rounded">
@@ -281,7 +285,15 @@ async function loadOrderData() {
       
       // Nota de la tarjeta y costo de envío
       cardNote.value = (order.shipping as any).cardNote || '';
-      shippingCost.value = (order as any).shippingCost || 0;
+      
+      // Obtener el costo de envío desde el store de la orden o del pedido
+      const orderData = (order as any).orderData || {};
+      shippingCost.value = (order as any).shippingCost || 
+                          orderData.shippingCost || 
+                          (order.shipping as any)?.shippingCost || 
+                          0;
+      
+      console.log('Costo de envío cargado desde el store:', shippingCost.value);
       orderId.value = (order as any).id || generateOrderId();
       
       return;
@@ -329,7 +341,14 @@ async function loadOrderData() {
         // Nota de la tarjeta y costo de envío (desde el objeto raíz)
         cardNote.value = data.cardNote || '';
         console.log('Nota de la tarjeta:', data.cardNote);
-        shippingCost.value = data.shippingCost || 0;
+        
+        // Obtener el costo de envío del objeto data
+        shippingCost.value = data.shippingCost || 
+                            (data.orderData?.shippingCost) || 
+                            (data.shipping as any)?.shippingCost || 
+                            0;
+        
+        console.log('Costo de envío cargado desde localStorage:', shippingCost.value);
         orderId.value = data.id || generateOrderId();
       } catch (error) {
         console.error('Error al parsear los datos del pedido:', error);

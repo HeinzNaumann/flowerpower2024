@@ -48,7 +48,7 @@ export const useOrderStore = defineStore("order", {
     async createOrder(
       shipping: Address,
       billing: Address | null,
-      meta: CreateOrderMeta
+      meta: CreateOrderMeta & { shippingCost?: number }
     ) {
       console.log('Datos recibidos en createOrder:');
       console.log('Dirección de envío:', shipping);
@@ -112,11 +112,17 @@ export const useOrderStore = defineStore("order", {
       // Preparar el payload según el formato que espera el backend
       const payload = {
         items: cart.items, // tu lista de productos
-        shipping, // dirección de envío
+        shipping: {
+          ...shipping,
+          // Incluir el costo de envío en la dirección de envío
+          shippingCost: meta.shippingCost ?? 0
+        },
         billing, // facturación (o null)
         deliveryDate: meta.deliveryDate,
         deliveryTime: meta.deliveryTime,
         cardNote: meta.cardNote || "",
+        // Incluir el shippingCost en el nivel superior del payload
+        shippingCost: meta.shippingCost ?? 0,
         // Información del usuario para el backend según el UserInfoDto
         userInfo: {
           name: userName,
@@ -158,10 +164,25 @@ export const useOrderStore = defineStore("order", {
         this.status = (response.status || "pending") as "draft" | "pending" | "paid" | "failed";
         this.total = response.total || cart.totalPrice;
         
-        // Guardar los items y direcciones para mostrar en la página de pago
+        // Obtener el shippingCost de la respuesta del servidor o del meta
+        const serverShippingCost = response.shipping?.shippingCost ?? response.shippingCost;
+        const finalShippingCost = serverShippingCost !== undefined ? serverShippingCost : (meta.shippingCost ?? 0);
+        
+        console.log('Costo de envío - Respuesta del servidor:', serverShippingCost);
+        console.log('Costo de envío - Meta:', meta.shippingCost);
+        console.log('Costo de envío final:', finalShippingCost);
+        
+        // Guardar los items, direcciones y costo de envío
         this.items = cart.items;
-        this.shipping = shipping;
-        this.billing = billing;
+        this.shipping = {
+          ...(response.shipping || shipping), // Usar la dirección de envío del servidor si está disponible
+          // Asegurarse de que el shippingCost se guarde en el objeto de envío
+          shippingCost: finalShippingCost
+        };
+        this.billing = response.billing || billing;
+        
+        // Guardar el shippingCost directamente en el estado de la orden
+        (this as any).shippingCost = finalShippingCost;
         
         // Si la respuesta ya incluye un clientSecret, guardarlo
         if (response.clientSecret) {

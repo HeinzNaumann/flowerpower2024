@@ -598,7 +598,14 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       phone: form.phone
     };
     
-    console.log('Dirección de envío con información del usuario:', shippingPayload);
+    // Asegurarnos de que el shippingPayload incluya el shippingCost
+    const shippingPayloadWithCost = {
+      ...shippingPayload,
+      shippingCost: currentShippingCost.value
+    };
+    
+    console.log('Dirección de envío con información del usuario y costo de envío:', shippingPayloadWithCost);
+    
     const billingPayload = isBillingSameAsShipping.value
       ? null
       : {
@@ -619,6 +626,7 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
         };
 
     // persist default addresses if requested
+    // Usamos el shippingPayload original (sin shippingCost) para guardar la dirección
     if (saveAsDefault.value) {
       shippingExists.value
         ? await updateAddress(shippingPayload)
@@ -635,7 +643,7 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
     try {
       // Guardar los datos de la orden en localStorage para que estén disponibles en la página de pago
       const orderData = {
-        shipping: shippingPayload,
+        shipping: shippingPayloadWithCost, // Usar el payload con shippingCost
         billing: billingPayload,
         deliveryDate: form.deliveryDate,
         deliveryTime: form.deliveryTime,
@@ -650,7 +658,7 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       console.log('Datos de la orden guardados en localStorage:', orderData);
       
       // Crear la orden en el backend
-      await orderStore.createOrder(shippingPayload, billingPayload, {
+      await orderStore.createOrder(shippingPayloadWithCost, billingPayload, {
         deliveryDate: form.deliveryDate,
         deliveryTime: form.deliveryTime,
         cardNote: form.cardNote,
