@@ -41,10 +41,10 @@
             <div class="md:w-1/2">
               <h3 class="font-medium text-primary-700 mb-2">{{ $t('checkout.deliveryInfo') || 'Información de entrega' }}</h3>
               <div class="text-sm text-neutral-600">
-                <p>{{ $t('checkout.deliveryDate') || 'Fecha de entrega' }}: {{ formatDate(shippingAddress.deliveryDate) }}</p>
-                <p>{{ $t('checkout.deliveryTime') || 'Hora de entrega' }}: {{ formatTime(shippingAddress.deliveryTime) }}</p>
-                <p v-if="cardNote" class="mt-2">
-                  <span class="font-medium">{{ $t('checkout.cardNote') || 'Nota para tarjeta' }}:</span> {{ cardNote }}
+                <p>{{ $t('checkout.deliveryDate') || 'Fecha de entrega' }}: {{ formatDate(shippingAddress.deliveryDate || getTomorrow()) }}</p>
+                <p>{{ $t('checkout.deliveryTime') || 'Hora de entrega' }}: {{ formatTime(shippingAddress.deliveryTime || '12:00') }}</p>
+                <p class="mt-2">
+                  <span class="font-medium">{{ $t('checkout.cardNote') || 'Nota para tarjeta' }}:</span> {{ cardNote || $t('checkout.noCardNote') || 'Sin nota especial' }}
                 </p>
               </div>
             </div>
@@ -81,15 +81,25 @@
       <div class="mb-8">
         <div class="flex justify-between items-center mb-2">
           <span>{{ $t('checkout.subtotal') || 'Subtotal' }}:</span>
-          <span>€{{ totalPrice.toFixed(2) }}</span>
+          <span class="font-medium">€{{ (Number(subtotalPrice) || 0).toFixed(2) }}</span>
         </div>
         <div class="flex justify-between items-center mb-2">
           <span>{{ $t('checkout.shipping') || 'Envío' }}:</span>
-          <span>€0.00</span>
+          <span class="font-medium">€{{ (Number(shippingCost) || 0).toFixed(2) }}</span>
         </div>
-        <div class="flex justify-between items-center font-bold text-lg border-t pt-2 mt-2">
+        <div class="flex justify-between items-center font-bold text-lg">
           <span>{{ $t('checkout.total') || 'Total' }}:</span>
-          <span>€{{ totalPrice.toFixed(2) }}</span>
+          <span>€{{ (Number(subtotalPrice) + Number(shippingCost) || 0).toFixed(2) }}</span>
+        </div>
+
+        <div class="mt-6 p-4 bg-neutral-50 rounded">
+          <h3 class="font-medium mb-2">{{ $t('checkout.paymentMethod') || 'Método de pago' }}</h3>
+          <div class="flex items-center gap-2">
+            <div class="h-8 w-12 bg-neutral-200 rounded flex items-center justify-center">
+              <img src="/images/visa.svg" alt="Visa" class="h-4" />
+            </div>
+            <p class="text-sm text-neutral-600">{{ t('checkout.cardEnding') || 'Tarjeta terminada en' }} **** 4242</p>
+          </div>
         </div>
       </div>
 
@@ -129,58 +139,51 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useOrderStore } from "~/stores/order";
 import { useCartStore } from "~/stores/cart";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
+
+// Stores para acceder a los datos del pedido
 const order = useOrderStore();
 const cart = useCartStore();
 
-// Generar un ID de pedido aleatorio para la demo
-const orderId = ref(generateOrderId());
+// ID del pedido (generado aleatoriamente o recuperado del pedido)
+const orderId = ref('');
 
-// Datos simulados para la demo
-const totalPrice = ref(99.95);
-const cardNote = ref('Feliz cumpleaños mamá');
+// Información del pedido
+const orderData = ref<any>(null);
+const shippingCost = ref(0);
+const orderItems = ref<any[]>([]);
+const cardNote = ref('');
 
-// Dirección de envío (simulada para la demo)
-const shippingAddress = ref({
-  name: 'Juan',
-  surname: 'Pérez',
-  address: 'Calle Principal 123',
-  city: 'Madrid',
-  zip: '28001',
-  country: 'España',
-  deliveryDate: '2025-05-15',
-  deliveryTime: '14:00',
+// Subtotal (sin envío)
+const subtotalPrice = computed(() => {
+  let total = 0;
+  orderItems.value.forEach(item => {
+    total += Number(item.price) * Number(item.quantity || 1);
+  });
+  return total;
 });
 
-// Productos comprados (simulados para la demo)
-const orderItems = ref([
-  {
-    title: 'Ramo de rosas rojas',
-    quantity: 1,
-    price: 49.95,
-    image: '/images/products/ramo-rosas.jpg',
-    complements: ['Tarjeta de felicitación', 'Lazo decorativo']
-  },
-  {
-    title: 'Maceta decorativa',
-    quantity: 1,
-    price: 29.95,
-    image: '/images/products/maceta.jpg',
-    complements: []
-  },
-  {
-    title: 'Chocolates premium',
-    quantity: 1,
-    price: 20.05,
-    image: '/images/products/chocolates.jpg',
-    complements: []
-  }
-]);
+// Total del pedido (subtotal + envío)
+const totalPrice = computed(() => {
+  return Number(subtotalPrice.value) + Number(shippingCost.value);
+});
+
+// Datos de envío
+const shippingAddress = ref({
+  name: '',
+  surname: '',
+  address: '',
+  city: '',
+  zip: '',
+  country: '',
+  deliveryDate: getTomorrow(), // Usar la fecha de mañana como valor predeterminado
+  deliveryTime: '12:00', // Usar las 12:00 como hora predeterminada
+});
 
 // Formatear fecha para mostrar
 function formatDate(dateString: string) {
@@ -202,8 +205,116 @@ function generateOrderId() {
   return `FP-${timestamp}-${random}`;
 }
 
-onMounted(() => {
+// Función para obtener la fecha de mañana como string en formato YYYY-MM-DD
+function getTomorrow() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return tomorrow.toISOString().split('T')[0];
+}
+
+// Cargar los datos del pedido
+async function loadOrderData() {
+  try {
+    // Primero intentar obtener los datos del store de la orden
+    if (order.shipping && order.items && order.items.length > 0) {
+      console.log('Cargando datos del pedido desde el store de orden');
+      
+      // Datos de envío
+      shippingAddress.value = {
+        name: order.shipping.name || '',
+        surname: order.shipping.surname || '',
+        address: order.shipping.street || '',
+        city: order.shipping.city || '',
+        zip: order.shipping.postalCode || '',
+        country: order.shipping.country || '',
+        deliveryDate: (order.shipping as any).deliveryDate || getTomorrow(),
+        deliveryTime: (order.shipping as any).deliveryTime || '12:00'
+      };
+      
+      // Productos
+      orderItems.value = order.items.map(item => ({
+        title: item.title,
+        quantity: item.quantity || 1,
+        price: item.price,
+        image: item.images && item.images.length > 0 ? item.images[0] : '',
+        complements: (item as any).complements || []
+      }));
+      
+      // Nota de la tarjeta y costo de envío
+      cardNote.value = (order.shipping as any).cardNote || '';
+      shippingCost.value = (order as any).shippingCost || 0;
+      orderId.value = (order as any).id || generateOrderId();
+      
+      return;
+    }
+      // Si no hay datos en el store, intentar cargar desde localStorage
+    console.log('Intentando cargar datos del pedido desde localStorage');
+    const storedOrderData = localStorage.getItem('lastOrderData');
+    
+    if (storedOrderData) {
+      try {
+        const data = JSON.parse(storedOrderData);
+        orderData.value = data;
+        console.log('Datos del pedido cargados desde localStorage:', data);
+        
+        // IMPORTANTE: Las propiedades deliveryDate, deliveryTime y cardNote 
+        // están en la raíz del objeto en localStorage, no dentro de shipping
+        
+        // Datos de envío
+        if (data.shipping) {
+          shippingAddress.value = {
+            name: data.shipping.name || '',
+            surname: data.shipping.surname || '',
+            address: data.shipping.street || '',
+            city: data.shipping.city || '',
+            zip: data.shipping.postalCode || '',
+            country: data.shipping.country || '',
+            // Obtener fecha y hora del objeto raíz
+            deliveryDate: data.deliveryDate || getTomorrow(),
+            deliveryTime: data.deliveryTime || '12:00'
+          };
+          console.log('Fecha y hora de entrega:', data.deliveryDate, data.deliveryTime);
+        }
+        
+        // Productos
+        if (data.items && data.items.length > 0) {
+          orderItems.value = data.items.map((item: any) => ({
+            title: item.title,
+            quantity: item.quantity || 1,
+            price: item.price,
+            image: item.images && item.images.length > 0 ? item.images[0] : '',
+            complements: item.complements || []
+          }));
+        }
+        
+        // Nota de la tarjeta y costo de envío (desde el objeto raíz)
+        cardNote.value = data.cardNote || '';
+        console.log('Nota de la tarjeta:', data.cardNote);
+        shippingCost.value = data.shippingCost || 0;
+        orderId.value = data.id || generateOrderId();
+      } catch (error) {
+        console.error('Error al parsear los datos del pedido:', error);
+      }
+      
+      return;
+    }
+    
+    // Si no hay datos disponibles, generar datos por defecto
+    console.log('No se encontraron datos del pedido, usando valores por defecto');
+    orderId.value = generateOrderId();
+  } catch (error) {
+    console.error('Error al cargar los datos del pedido:', error);
+    // Usar valores por defecto en caso de error
+    orderId.value = generateOrderId();
+  }
+}
+
+onMounted(async () => {
+  // Intentar cargar los datos del pedido
+  await loadOrderData();
+  
   // Marcar el pedido como pagado y limpiar el carrito
+  // Esto asegura que no se pueda volver a pagar el mismo pedido
   order.markPaid();
   cart.clearCart();
 });
