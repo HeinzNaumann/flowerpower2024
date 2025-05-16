@@ -197,7 +197,7 @@ import { useOrderStore } from "~/stores/order";
 import { useCartStore } from "~/stores/cart";
 import type { Address } from "~/types/types";
 
-const { t } = useI18n();
+const { t, locale } = useI18n()
 const router = useRouter();
 
 const orderStore = useOrderStore();
@@ -232,7 +232,6 @@ const billing = reactive({ address: "", city: "", zip: "", country: "ES" });
 const deliveryDateObject = ref<CalendarDate>();
 
 // Formateador de fecha para mostrar en el input
-const { locale } = useI18n();
 const dateFormatter = new DateFormatter(locale.value || 'es-ES', {
   dateStyle: 'medium'
 });
@@ -293,6 +292,7 @@ function handleZipCodeChange(event: Event) {
 const isShippingCostValid = ref(false);
 const currentShippingCost = ref(0);
 const zipCodeError = ref(false);
+const localePath = useLocalePath();
 
 // Validar el código postal cuando el usuario sale del campo
 function validateZipCode() {
@@ -654,12 +654,13 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       localStorage.setItem('lastOrderData', JSON.stringify(orderData));
       console.log('Datos de la orden guardados en localStorage:', orderData);
       
-      // Crear la orden en el backend
+      // Crear la orden en el backend con el idioma actual
       await orderStore.createOrder(shippingPayload, billingPayload, {
         deliveryDate: form.deliveryDate,
         deliveryTime: form.deliveryTime,
         cardNote: form.cardNote,
-        shippingCost: currentShippingCost.value
+        shippingCost: currentShippingCost.value,
+        language: locale.value // Usar el locale obtenido en el setup
       });
       console.log('Orden creada correctamente');
       console.log('ClientSecret:', orderStore.clientSecret);
@@ -684,7 +685,7 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       
       // go to payment
       console.log('Intentando redirigir a /checkout/payment');
-      await router.push("/checkout/payment");
+      await router.push(localePath('/checkout/payment'));
       console.log('Redirección exitosa');
     } catch (error) {
       console.error('Error al crear la orden o redirigir:', error);

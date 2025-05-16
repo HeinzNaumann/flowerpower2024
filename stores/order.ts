@@ -10,6 +10,7 @@ interface CreateOrderMeta {
   deliveryTime: string;
   cardNote?: string;
   shippingCost?: number;
+  language?: string;
 }
 
 interface OrderState {
@@ -110,6 +111,9 @@ export const useOrderStore = defineStore("order", {
       this.userEmail = userEmail;
       this.userId = userId;
 
+      // Obtener el idioma actual
+      const currentLocale = useNuxtApp().$i18n?.locale?.value || 'es';
+      
       // Preparar el payload según el formato que espera el backend
       const payload = {
         items: cart.items, // tu lista de productos
@@ -123,6 +127,8 @@ export const useOrderStore = defineStore("order", {
         cardNote: meta.cardNote || "",
         // Incluir el shippingCost en el nivel superior del payload como número
         shippingCost: typeof meta.shippingCost === 'number' ? meta.shippingCost : 0, // Asegurar que sea un número
+        // Incluir el idioma para los correos electrónicos
+        language: currentLocale,
         // Información del usuario para el backend según el UserInfoDto
         userInfo: {
           name: userName,

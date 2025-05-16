@@ -169,10 +169,12 @@ function getImgUrl(img: string | string[]): string {
   }
   return `/images/${imgStr}`;
 }
+
 function formatDate(dateString: string): string {
   if (!dateString) return '';
   const date = new Date(dateString);
-  return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  // Usar el idioma actual para el formateo
+  return date.toLocaleDateString(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 function formatTime(timeString: string): string {
   if (!timeString) return '';
@@ -251,7 +253,7 @@ async function processPayment() {
   }
 }
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 // Stripe configuration
 const config = useRuntimeConfig();
