@@ -288,36 +288,56 @@ function handleZipCodeChange(event: Event) {
   }
 }
 
+// Obtener t desde useI18n para usarlo en las funciones
+// Estado para controlar la validez de los costes de envío
+const isShippingCostValid = ref(false);
+const currentShippingCost = ref(0);
+const zipCodeError = ref(false);
+
 // Validar el código postal cuando el usuario sale del campo
 function validateZipCode() {
   const zipCode = form.zip;
-  const { t } = useI18n();
+  clearError('zip');
+  clearError('shipping');
+  isShippingCostValid.value = false;
   
-  // Verificar si el código postal tiene el formato correcto (5 dígitos)
-  if (zipCode && zipCode.length === 5 && /^\d{5}$/.test(zipCode)) {
-    // Comprobar si el código postal está en nuestra lista de tarifas
+  if (zipCode && zipCode.length === 5) {
     const shipping = getShippingByPostal(zipCode);
-    
     if (shipping !== null) {
-      zipCodeMessage.value = t('checkout.shippingAvailable', { shipping: shipping.toFixed(2) }) || `Entrega disponible: ${shipping.toFixed(2)}€`;
-      zipCodeMessageType.value = 'success';
+      // Código postal válido, actualizar el coste de envío
+      currentShippingCost.value = shipping;
       isShippingAvailable.value = true;
-      // Eliminar error si existe
-      delete errors['shipping'];
+      isShippingCostValid.value = true;
+      zipCodeError.value = false;
+      // Limpiar el borde rojo si existía
+      const zipInput = document.getElementById('zip-input');
+      if (zipInput) {
+        zipInput.style.borderColor = '';
+      }
     } else {
-      zipCodeMessage.value = t('checkout.shippingUnavailable') || 'Lo sentimos, no realizamos entregas en esta zona';
-      zipCodeMessageType.value = 'error';
+      // Código postal no disponible para envío
+      currentShippingCost.value = 0;
       isShippingAvailable.value = false;
-      // Añadir error de envío no disponible
       errors['shipping'] = t('checkout.shippingUnavailableError') || 'No realizamos entregas a este código postal';
+      zipCodeError.value = true;
+      
+      // Añadir borde rojo al input
+      const zipInput = document.getElementById('zip-input');
+      if (zipInput) {
+        zipInput.style.borderColor = 'red';
+      }
     }
-  } else if (zipCode) {
-    // Código postal con formato incorrecto
-    zipCodeMessage.value = t('validation.postalCode') || 'Introduce un código postal válido de 5 dígitos';
-    zipCodeMessageType.value = 'error';
+  } else if (zipCode && zipCode.length > 0) {
+    // Código postal inválido (no tiene 5 dígitos)
+    currentShippingCost.value = 0;
     isShippingAvailable.value = false;
-    // Añadir error de formato incorrecto
-    errors['shipping'] = t('validation.postalCode') || 'Introduce un código postal válido';
+    zipCodeError.value = true;
+    
+    // Añadir borde rojo al input
+    const zipInput = document.getElementById('zip-input');
+    if (zipInput) {
+      zipInput.style.borderColor = 'red';
+    }
   } else {
     // No hay código postal
     isShippingAvailable.value = false;
@@ -515,7 +535,6 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
   
   // Si el código postal no está disponible para envío, detener el proceso
   if (!isShippingAvailable.value) {
-    const { t } = useI18n();
     errors['shipping'] = t('checkout.shippingUnavailableError') || 'No realizamos entregas a este código postal';
     if (callbacks?.onError) {
       callbacks.onError(errors);
