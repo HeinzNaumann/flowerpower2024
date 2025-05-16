@@ -57,7 +57,7 @@
               <li v-for="(item, index) in orderItems" :key="index" class="py-3 flex items-start gap-3">
                 <img 
                   v-if="item.image" 
-                  :src="item.image" 
+                  :src="getImgUrl(item.image)" 
                   :alt="item.title" 
                   class="w-16 h-16 object-cover rounded"
                 />
@@ -65,8 +65,14 @@
                   <div class="font-medium">{{ item.title }}</div>
                   <div class="text-sm text-neutral-500">x{{ item.quantity }}</div>
                   <div v-if="item.complements && item.complements.length > 0" class="mt-1">
-                    <div v-for="(complement, i) in item.complements" :key="i" class="text-xs text-neutral-500 flex items-center gap-1">
-                      <span>+ {{ complement }}</span>
+                    <div v-for="(complement, i) in item.complements" :key="i" class="text-xs text-neutral-500 flex items-center gap-2 mt-1">
+                      <img 
+                        v-if="complement.image" 
+                        :src="getImgUrl(complement.image)" 
+                        :alt="complement.name" 
+                        class="w-4 h-4 object-cover rounded-full"
+                      />
+                      <span>+ {{ complement.name || complement }}</span>
                     </div>
                   </div>
                 </div>
@@ -145,6 +151,39 @@ import { useCartStore } from "~/stores/cart";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
+const config = useRuntimeConfig?.() || {};
+
+// Función para construir la URL de la imagen
+function getImgUrl(img: string | string[]) {
+  if (!img) return '';
+  
+  // Si es un array, toma el primer elemento
+  if (Array.isArray(img)) {
+    if (img.length === 0) return '';
+    img = img[0];
+  }
+  
+  // Si ya es una URL completa (http o https), úsala directamente
+  if (img.startsWith('http')) return img;
+  
+  // Si contiene 'files/product' pero no tiene la URL completa, añádela
+  if (img.includes('files/product') && config.public?.apiBaseUrl) {
+    return `${config.public.apiBaseUrl}${img.startsWith('/') ? img : '/' + img}`;
+  }
+  
+  // Si es una ruta de complemento (empezando con 'images/complements')
+  if (img.includes('complements')) {
+    return img.startsWith('/') ? img : '/' + img;
+  }
+  
+  // Para productos regulares, usa la API
+  if (config.public?.apiBaseUrl) {
+    return `${config.public.apiBaseUrl}/files/product/${img}`;
+  }
+  
+  // Fallback: para rutas relativas, añade '/' al principio si no lo tiene
+  return img.startsWith('/') ? img : '/' + img;
+}
 
 // Stores para acceder a los datos del pedido
 const order = useOrderStore();
