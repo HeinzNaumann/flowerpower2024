@@ -67,15 +67,15 @@
           <div class="border-t pt-4">
             <div class="flex justify-between mb-1">
               <span>{{ $t('checkout.subtotal') || 'Subtotal' }}:</span>
-              <span>€{{ totalPrice.toFixed(2) }}</span>
+              <span>€{{ (Number(subtotalPrice) || 0).toFixed(2) }}</span>
             </div>
             <div class="flex justify-between mb-1">
               <span>{{ $t('checkout.shipping') || 'Envío' }}:</span>
-              <span>€0.00</span>
+              <span>€{{ (Number(shippingCost) || 0).toFixed(2) }}</span>
             </div>
             <div class="flex justify-between font-bold text-lg mt-2">
               <span>{{ $t('checkout.total') || 'Total' }}:</span>
-              <span>€{{ totalPrice.toFixed(2) }}</span>
+              <span>€{{ (Number(subtotalPrice) + Number(shippingCost) || 0).toFixed(2) }}</span>
             </div>
           </div>
         </div>
@@ -304,6 +304,51 @@ const cartItems = computed(() => {
   return cart.items || [];
 });
 
+// Costo de envío
+const shippingCost = computed(() => {
+  // Intentar obtener el costo de envío de la orden
+  if (order.shippingCost !== undefined) {
+    return order.shippingCost;
+  }
+  
+  // Si no está en la orden, intentar obtenerlo del localStorage
+  try {
+    const storedOrderData = localStorage.getItem('lastOrderData');
+    if (storedOrderData) {
+      const orderData = JSON.parse(storedOrderData);
+      if (orderData.shippingCost !== undefined) {
+        return orderData.shippingCost;
+      }
+    }
+  } catch (error) {
+    console.error('Error al leer shippingCost de localStorage:', error);
+  }
+  
+  // Valor por defecto
+  return 0;
+});
+
+// Subtotal (sin envío)
+const subtotalPrice = computed(() => {
+  // Calcular a partir de los items
+  let subtotal = 0;
+  cartItems.value.forEach(item => {
+    subtotal += item.price * (item.quantity || 1);
+  });
+  return subtotal;
+});
+
+// Total del pedido (subtotal + envío)
+const totalPrice = computed(() => {
+  // Primero intentar usar el total de la orden
+  if (order.total > 0) {
+    return Number(order.total);
+  }
+  
+  // Si no, calcular subtotal + envío
+  return Number(subtotalPrice.value || 0) + Number(shippingCost.value || 0);
+});
+
 // Dirección de envío
 const shippingAddress = computed<ShippingAddress>(() => {
   if (order.shipping) {
@@ -340,58 +385,22 @@ const shippingAddress = computed<ShippingAddress>(() => {
   };
 });
 
-// Precio total
-const totalPrice = computed(() => {
-  let total = 0;
-  
+// Actualización de logs para debug en el cómputo del total
+function updateDebugLogs() {
   // Log para debug - mostrar estado de orden y carrito
   console.log('[DEBUG] Estado para calcular total:', {
     'order.total': order.total,
+    'subtotalPrice': subtotalPrice.value,
+    'shippingCost': shippingCost.value,
     'order.items': order.items?.length || 0,
     'cart.items': cart.items?.length || 0,
-    'cart.totalPrice': cart.totalPrice
+    'cart.totalPrice': cart.totalPrice,
+    'totalPrice': subtotalPrice.value + shippingCost.value
   });
+};
 
-  // Calcular del carrito primero si hay items
-  if (cart.items && cart.items.length > 0) {
-    // Calcular manualmente sumando cada item
-    total = cart.items.reduce((sum, item) => {
-      const itemTotal = (item.price || 0) * (item.quantity || 1);
-      console.log(`[DEBUG] Item ${item.title}: ${itemTotal}€`);
-      return sum + itemTotal;
-    }, 0);
-    console.log('[Checkout] Total calculado del carrito:', total);
-  }
-  
-  // Si el carrito no tiene total, intentar usar el de la orden
-  if (total === 0 && typeof order.total === 'number' && order.total > 0) {
-    total = order.total;
-    console.log('[Checkout] Usando total de orden:', total);
-  }
-  
-  // Si aún no tenemos total pero tenemos items en orden, calcular manualmente
-  if (total === 0 && order.items && order.items.length > 0) {
-    total = order.items.reduce((sum, item) => {
-      return sum + ((item.price || 0) * (item.quantity || 1));
-    }, 0);
-    console.log('[Checkout] Total calculado de items en orden:', total);
-  }
-  
-  // FALLBACK: Si nada funciona pero hay items, usar un precio fijo
-  const hasItems = (cart.items?.length > 0 || order.items?.length > 0);
-  if (total === 0 && hasItems) {
-    // Buscar el primer item con precio
-    const items = [...(cart.items || []), ...(order.items || [])];
-    const firstItemWithPrice = items.find(item => item.price > 0);
-    if (firstItemWithPrice) {
-      total = firstItemWithPrice.price * (firstItemWithPrice.quantity || 1);
-      console.log('[Checkout] Usando precio del primer item como fallback:', total);
-    }
-  }
-  
-  // Asegurarse de que nunca sea negativo
-  return Math.max(0, total);
-});
+// Llamar a la función de debug cuando el componente se monta
+onMounted(updateDebugLogs);
 
 // Verificar si el total es válido
 const isValidOrder = computed(() => {

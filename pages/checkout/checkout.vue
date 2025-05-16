@@ -641,7 +641,8 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
         deliveryTime: form.deliveryTime,
         cardNote: form.cardNote,
         items: cartStore.items,
-        total: cartStore.totalPrice
+        shippingCost: currentShippingCost.value,
+        total: cartStore.totalPrice + currentShippingCost.value
       };
       
       // Guardar en localStorage
@@ -653,6 +654,7 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
         deliveryDate: form.deliveryDate,
         deliveryTime: form.deliveryTime,
         cardNote: form.cardNote,
+        shippingCost: currentShippingCost.value
       });
       console.log('Orden creada correctamente');
       console.log('ClientSecret:', orderStore.clientSecret);
