@@ -24,6 +24,7 @@ interface OrderState {
   shipping: Address | null; // Dirección de envío
   billing: Address | null; // Dirección de facturación
   total: number; // Total de la orden
+  shippingCost: number; // Costo de envío
 }
 
 export const useOrderStore = defineStore("order", {
@@ -37,7 +38,8 @@ export const useOrderStore = defineStore("order", {
     items: [],
     shipping: null,
     billing: null,
-    total: 0
+    total: 0,
+    shippingCost: 0
   }),
 
   actions: {
@@ -110,6 +112,11 @@ export const useOrderStore = defineStore("order", {
       this.userType = userType;
       this.userEmail = userEmail;
       this.userId = userId;
+
+      // Actualizar el costo de envío si se proporciona
+      if (meta.shippingCost !== undefined) {
+        this.shippingCost = meta.shippingCost;
+      }
 
       // Obtener el idioma actual
       const currentLocale = useNuxtApp().$i18n?.locale?.value || 'es';

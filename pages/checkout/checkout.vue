@@ -29,6 +29,27 @@
         </UFormField>
       </div>
 
+      <!-- EMAIL for guest checkout -->
+      <div v-if="!isAuthenticated" class="mb-2">
+        <UFormField
+          name="email"
+          :label="$t('checkout.email')"
+          :class="{ 'text-red-500': errors.email }"
+        >
+          <UInput
+            v-model="form.email"
+            type="email"
+            autocomplete="email"
+            class="w-full"
+            @input="clearError('email')"
+            :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.email ? 'ring-red-500' : 'ring-gray-300') }"
+          />
+          <template #help v-if="errors.email">
+            <span class="text-xs text-red-500">{{ errors.email }}</span>
+          </template>
+        </UFormField>
+      </div>
+
       <UFormField
         name="phone"
         :label="$t('checkout.phone')"
@@ -202,8 +223,14 @@ const router = useRouter();
 
 const orderStore = useOrderStore();
 const cartStore = useCartStore();
-const { getAddress, createAddress, updateAddress, userInfo, fetchUserInfo } =
-  useAuth();
+const { getAddress, createAddress, updateAddress, userInfo, fetchUserInfo } = useAuth();
+
+// Authentication state
+const isAuthenticated = computed(() => {
+  // useAuth composable provides isAuthenticated()
+  const auth = useAuth();
+  return auth && typeof auth.isAuthenticated === 'function' ? auth.isAuthenticated() : false;
+});
 
 // UI state
 const isSubmitting = ref(false);
@@ -230,6 +257,12 @@ const billing = reactive({ address: "", city: "", zip: "", country: "ES" });
 
 // Propiedad reactiva para el objeto CalendarDate del calendario
 const deliveryDateObject = ref<CalendarDate>();
+
+// Email validation helper
+function isValidEmail(email: string): boolean {
+  // Simple email regex
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 // Formateador de fecha para mostrar en el input
 const dateFormatter = new DateFormatter(locale.value || 'es-ES', {
@@ -529,13 +562,30 @@ onMounted(async () => {
 async function submit(callbacks?: { onError?: (errors: Record<string, string>) => void, onSuccess?: () => void }) {
   // clear previous errors
   Object.keys(errors).forEach((k) => delete errors[k]);
-  
+
+  // Email validation for guest checkout
+  if (!isAuthenticated.value) {
+    if (!form.email) {
+      errors.email = t('validation.required') || 'El email es obligatorio';
+    } else if (!isValidEmail(form.email)) {
+      errors.email = t('validation.email') || 'Introduce un email válido';
+    }
+  }
+
   // Verificar la disponibilidad de envío antes de continuar
   validateZipCode();
   
   // Si el código postal no está disponible para envío, detener el proceso
   if (!isShippingAvailable.value) {
     errors['shipping'] = t('checkout.shippingUnavailableError') || 'No realizamos entregas a este código postal';
+    if (callbacks?.onError) {
+      callbacks.onError(errors);
+    }
+    return;
+  }
+
+  // If there are errors, stop submission
+  if (Object.keys(errors).length > 0) {
     if (callbacks?.onError) {
       callbacks.onError(errors);
     }
