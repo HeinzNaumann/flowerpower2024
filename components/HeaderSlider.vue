@@ -30,9 +30,21 @@
           {{ $t(slide.titleKey) }}
         </p>
         <p v-if="slide.linkTextKey" class="text-xs lg:text-sm">
-          <NuxtLink :to="slide.link" class="underline">
+          <NuxtLink 
+            v-if="slide.id !== 2" 
+            :to="slide.link" 
+            class="underline"
+          >
             {{ $t(slide.linkTextKey) }}
           </NuxtLink>
+          <a 
+            v-else
+            href="#"
+            class="underline"
+            @click.prevent="$emit('open-register')"
+          >
+            {{ $t(slide.linkTextKey) }}
+          </a>
         </p>
         <p v-else-if="slide.descriptionKey" class="text-sm">
           {{ $t(slide.descriptionKey) }}
@@ -43,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+const emit = defineEmits(['open-register']);
 interface Slide {
   id: number;
   titleKey: string;

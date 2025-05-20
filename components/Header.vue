@@ -360,7 +360,7 @@
         </div>
       </form>
     </nav>
-    <HeaderSlider />
+    <HeaderSlider @open-register="openModal" />
   </header>
 </template>
 
