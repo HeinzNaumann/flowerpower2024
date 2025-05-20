@@ -146,13 +146,18 @@
 <script setup lang="ts">
 import { useCartStore } from "~/stores/cart";
 import { computed, watch, onMounted, onUnmounted, watchEffect, ref } from "vue";
+
 import { UButton } from "#components";
 import { useAuth } from "~/composables/useAuth";
 import { useRouter } from "vue-router";
 import { useLocalePath } from "#i18n";
 import LoginRegister from "~/components/LoginRegister.vue"; // Import the modal component
 
-const props = defineProps<{ open: boolean }>();
+const props = withDefaults(defineProps<{
+  open: boolean;
+}>(), {
+  open: false
+});
 const emit = defineEmits(["update:open"]);
 
 const { isAuthenticated } = useAuth();
