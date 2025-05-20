@@ -147,10 +147,11 @@
     }
   },
   "checkout": {
+    "cartTitle": "Tus productos",
+    "cartEmpty": "El carrito está vacío.",
     "paymentCard": "Detalles de la tarjeta",
     "cardInfo": "Introduce los datos de tu tarjeta para completar el pago.",
-    "invalidOrderMessage": "No se pudo obtener el clientSecret de Stripe."
-  ,
+    "invalidOrderMessage": "No se pudo obtener el clientSecret de Stripe.",
     "shippingTitle": "Dirección de envío",
     "name": "Nombre",
     "surname": "Apellidos",
@@ -208,7 +209,6 @@
     "deliveryTimeRange": "Horario disponible: 9:00 - 19:00",
     "deliveryInfoImportant": "Es importante que selecciones una fecha y hora de entrega para que podamos planificar tu pedido correctamente.",
     "cardNoteLabel": "Mensaje para la tarjeta",
-    "cartTitle": "Tu carrito de compra",
     "formError": "Por favor, completa todos los campos obligatorios",
     "subtotalPrice": "Subtotal",
     "shippingPrice": "Gastos de envío",
@@ -224,7 +224,6 @@
     "orderSuccess": "¡Pedido realizado con éxito!",
     "orderSuccessMessage": "Gracias por tu compra. Tu pedido ha sido recibido y está siendo procesado.",
     "orderNumber": "Número de pedido",
-    "orderSummary": "Resumen del pedido",
     "shippingDetails": "Detalles de envío",
     "deliveryInfoTitle": "Información de entrega",
     "cardNote": "Nota para tarjeta",

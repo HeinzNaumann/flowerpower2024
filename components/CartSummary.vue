@@ -1,7 +1,20 @@
 <template>
-  <div class="bg-neutral-50 rounded-lg shadow p-4">
-    <h2 class="text-lg font-semibold mb-4">{{ $t('checkout.cartTitle') || 'Tus productos' }}</h2>
-    <div v-if="items.length === 0" class="text-neutral-400">{{ $t('checkout.cartEmpty') || 'El carrito está vacío.' }}</div>
+  <div class="bg-neutral-50 rounded-lg shadow p-4 relative">
+    <div :class="{ 'opacity-100 transition-opacity duration-300': !loading, 'opacity-0 absolute': loading }">
+      <h2 class="text-lg font-semibold mb-4">{{ $t('checkout.cartTitle') || 'Tus productos' }}</h2>
+      <div v-if="items.length === 0" class="text-neutral-400">{{ $t('checkout.cartEmpty') || 'El carrito está vacío.' }}</div>
+    </div>
+    
+    <!-- Loading overlay with skeleton -->
+    <div v-if="loading" class="relative z-10 transition-opacity duration-300" :class="{ 'opacity-100': loading, 'opacity-0': !loading }">
+      <h2 class="text-lg font-semibold mb-4">{{ $t('checkout.cartTitle') || 'Tus productos' }}</h2>
+      <div class="space-y-4">
+        <div v-for="i in 3" :key="i" class="animate-pulse">
+          <div class="h-4 bg-neutral-200 rounded w-3/4 mb-2"></div>
+          <div class="h-3 bg-neutral-200 rounded w-1/2"></div>
+        </div>
+      </div>
+    </div>
     <div v-else>
       <ul class="divide-y divide-neutral-200 mb-4">
         <template v-for="item in items">
@@ -80,28 +93,63 @@
       </div>
       
       <!-- Botón de compra -->
-      <UButton
+      <button
         type="button"
-        color="primary"
-        class="w-full mt-4"
-        :loading="loading"
+        class="w-full mt-4 bg-[#db9526] hover:bg-opacity-90 text-black p-3 rounded-md transition-all duration-200 cursor-pointer font-medium flex items-center justify-center"
+        :disabled="loading"
         @click="submitForm"
       >
+        <span v-if="loading" class="animate-spin mr-2">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </span>
         {{ $t("checkout.confirm") || 'Confirmar compra' }}
-      </UButton>
+      </button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCartStore } from '~/stores/cart';
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { UButton } from '#components';
 import { getShippingByPostal } from '~/utils/mallorcaShippingRates';
-const cartStore = useCartStore();
-const items = computed(() => cartStore.items);
-const totalPrice = computed(() => cartStore.totalPrice);
+
+const cart = useCartStore();
+const { t } = useI18n();
+
+// Estado de carga
+const loading = ref(true);
+const items = ref<any[]>([]);
+
+// Cargar los ítems del carrito cuando el componente se monte
+onMounted(() => {
+  // Inicializar con los datos del carrito si ya están disponibles
+  if (cart.items.length > 0) {
+    items.value = [...cart.items];
+    loading.value = false;
+  }
+  
+  // Forzar un pequeño retraso para asegurar que la animación se vea suave
+  const timer = setTimeout(() => {
+    items.value = [...cart.items];
+    loading.value = false;
+  }, 50);
+  
+  // Limpiar el timer si el componente se desmonta
+  return () => clearTimeout(timer);
+});
+
+// Observar cambios en el carrito
+watch(() => cart.items, (newItems) => {
+  items.value = [...newItems];
+}, { deep: true, immediate: true });
+
+// Calcular el precio total
+const totalPrice = computed(() => {
+  return items.value.reduce((total, item) => total + (item.price * item.quantity), 0);
+});
 
 // Datos para el cálculo de envío
 const postalCode = ref('');
@@ -125,10 +173,11 @@ defineExpose({
 });
 
 // Para el botón de compra y validación
-const loading = ref(false);
 const validationError = ref(false);
 const formErrors = ref<Record<string, string>>({});
 const emit = defineEmits(['submit']);
+
+// Reutilizamos la variable loading ya declarada anteriormente
 
 
 
@@ -175,9 +224,6 @@ function submitForm() {
     loading.value = false;
   }, 5000);
 }
-
-// Inicializar i18n
-const { t } = useI18n();
 
 // Función para obtener la etiqueta del campo para mostrar en los errores
 function getFieldLabel(field: string): string {

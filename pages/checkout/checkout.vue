@@ -84,7 +84,6 @@
       >
         <UInput v-model="form.address" class="w-full" @input="clearError('address')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.address ? 'ring-red-500' : 'ring-gray-300') }" />
       </UFormField>
-
       <!-- NUEVOS campos -->
       <div class="grid grid-cols-2 gap-4">
         <UFormField
