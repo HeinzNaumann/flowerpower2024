@@ -219,19 +219,178 @@
             {{ $t("userPanel.orders") }}
           </h2>
 
-          <div v-if="orders.length" class="space-y-4">
-            <div v-for="o in orders" :key="o.id" class="border rounded-lg p-4">
-              <div class="flex justify-between">
+          <div v-if="orders.length" class="space-y-6">
+            <div v-for="o in orders" :key="o.id" class="border rounded-lg overflow-hidden">
+              <!-- Encabezado del pedido -->
+              <div class="bg-gray-50 px-4 py-3 border-b flex justify-between items-center">
                 <div>
-                  <p class="font-medium">#{{ o.id }}</p>
-                  <p class="text-sm text-neutral-600">
-                    {{ o.date ? d(new Date(o.date), "short") : $t("userPanel.noDate") }}
+                  <h3 class="font-semibold">Pedido #{{ formatOrderNumber(o.id) }}</h3>
+                  <p class="text-sm text-gray-500">
+                    {{ formatDateTime(o.createdAt || o.date, true) }}
                   </p>
                 </div>
-                <UBadge :color="orderColor(o.status)">
-                  {{ $t(`orderStatus.${o.status}`) }}
-                </UBadge>
+                <div class="flex items-center gap-2">
+                  <UBadge :color="orderColor(o.status)" size="lg" variant="subtle">
+                    {{ $t(`orderStatus.${o.status}`) }}
+                  </UBadge>
+                  <span class="text-lg font-semibold">{{ formatPrice(o.total) }}</span>
+                </div>
               </div>
+
+              <!-- Botón para expandir/colapsar detalles -->
+              <div 
+                class="flex items-center justify-between px-4 py-2 bg-gray-50 cursor-pointer hover:bg-gray-100"
+                @click="toggleOrderDetails(o.id)"
+              >
+                <span class="text-sm font-medium text-gray-700">
+                  {{ expandedOrderId === o.id ? 'Ocultar detalles' : 'Ver detalles' }}
+                </span>
+                <UIcon 
+                  :name="expandedOrderId === o.id ? 'i-heroicons-chevron-up' : 'i-heroicons-chevron-down'"
+                  class="w-5 h-5 text-gray-500"
+                />
+              </div>
+
+              <!-- Detalles del pedido (con transición) -->
+              <Transition
+                enter-active-class="transition-all duration-300 ease-out"
+                leave-active-class="transition-all duration-200 ease-in"
+                enter-from-class="opacity-0 max-h-0"
+                enter-to-class="opacity-100 max-h-[2000px]"
+                leave-from-class="opacity-100 max-h-[2000px]"
+                leave-to-class="opacity-0 max-h-0"
+              >
+                <div v-if="expandedOrderId === o.id" class="overflow-hidden">
+                  <div class="p-4">
+                    <!-- Información de entrega -->
+                    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+                      <h4 class="font-medium text-gray-700 mb-3">Información de entrega</h4>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <p class="text-sm text-gray-500">Fecha de entrega</p>
+                          <p class="font-medium">
+                            {{ o.deliveryDate ? formatDateTime(o.deliveryDate) : 'No especificada' }}
+                          </p>
+                        </div>
+                        <div>
+                          <p class="text-sm text-gray-500">Hora de entrega</p>
+                          <p class="font-medium">
+                            {{ o.deliveryTime || 'No especificada' }}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Direcciones -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                      <div>
+                        <h4 class="font-medium text-gray-700 mb-2">Dirección de envío</h4>
+                        <div v-if="o.shipping" class="text-sm text-gray-600 space-y-1">
+                          <p>{{ o.shipping.name }} {{ o.shipping.surname }}</p>
+                          <p>{{ o.shipping.street }}</p>
+                          <p>{{ o.shipping.postalCode }} {{ o.shipping.city }}</p>
+                          <p>{{ o.shipping.country }}</p>
+                          <p v-if="o.shipping.phone" class="mt-2">
+                            <UIcon name="i-heroicons-phone" class="mr-1" />
+                            {{ o.shipping.phone }}
+                          </p>
+                        </div>
+                        <p v-else class="text-sm text-gray-500">No especificada</p>
+                      </div>
+                      <div v-if="o.billing">
+                        <h4 class="font-medium text-gray-700 mb-2">Dirección de facturación</h4>
+                        <div class="text-sm text-gray-600 space-y-1">
+                          <p>{{ o.billing.name }} {{ o.billing.surname || '' }}</p>
+                          <p>{{ o.billing.street }}</p>
+                          <p>{{ o.billing.postalCode }} {{ o.billing.city }}</p>
+                          <p>{{ o.billing.country }}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Artículos del pedido -->
+                    <div class="mb-6">
+                      <h4 class="font-medium text-gray-700 text-lg mb-3">Artículos del pedido</h4>
+                      <div v-if="o.items && o.items.length" class="space-y-4">
+                        <div v-for="(item, index) in o.items" :key="index" class="bg-white rounded-lg p-4 border border-gray-100">
+                          <div class="grid grid-cols-12 gap-4">
+                            <!-- Imagen del producto si está disponible -->
+                            <div v-if="item.images && item.images.length" class="col-span-2">
+                              <img :src="item.images[0]" :alt="item.title || 'Producto'" class="w-full h-24 object-contain rounded-md" />
+                            </div>
+                            
+                            <!-- Detalles del producto -->
+                            <div :class="['flex flex-col', item.image ? 'col-span-10' : 'col-span-12']">
+                              <!-- Nombre y precio total -->
+                              <div class="flex justify-between items-start">
+                                <h5 class="font-semibold text-gray-900 text-base">
+                                  {{ item.title || 'Producto sin nombre' }}
+                                </h5>
+                                <span class="font-medium text-gray-900 whitespace-nowrap ml-4">
+                                  {{ formatPrice((item.price || 0) * (item.quantity || 1)) }}
+                                </span>
+                              </div>
+                              
+                              <!-- Variantes y opciones -->
+                              <div v-if="item.variant || item.color || item.size" class="mt-1 text-sm text-gray-600 space-y-1">
+                                <!-- Mostrar detalles adicionales del producto si están disponibles -->
+                                <p v-if="item.productDetails?.variant" class="capitalize">{{ item.productDetails.variant }}</p>
+                                <div v-if="item.color || item.size" class="flex items-center space-x-4 mt-1">
+                                  <span v-if="item.productDetails?.color" class="inline-flex items-center">
+                                    <span class="w-3 h-3 rounded-full mr-1 border border-gray-300" :style="{ backgroundColor: item.productDetails.color }"></span>
+                                    {{ item.productDetails.color }}
+                                  </span>
+                                  <span v-if="item.productDetails?.size">Talla: {{ item.productDetails.size }}</span>
+                                </div>
+                              </div>
+                              
+                              <!-- Cantidad y precio unitario -->
+                              <div class="mt-2 flex items-center justify-between text-sm text-gray-600">
+                                <div class="flex items-center space-x-2">
+                                  <span>Cantidad: {{ item.quantity || 1 }}</span>
+                                  <span class="text-gray-400">•</span>
+                                  <span>{{ formatPrice(item.price || 0) }} c/u</span>
+                                </div>
+                              </div>
+                              
+                              <!-- Notas del producto -->
+                              <div v-if="item.notes" class="mt-3 pt-3 border-t border-gray-100">
+                                <p class="text-sm font-medium text-gray-700 mb-1">Notas:</p>
+                                <p class="text-sm text-gray-600 whitespace-pre-line bg-gray-50 p-2 rounded">
+                                  {{ item.notes }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <p v-else class="text-sm text-gray-500 italic py-3">No hay artículos en este pedido</p>
+                    </div>
+
+                    <!-- Resumen del pedido -->
+                    <div class="mt-6 pt-4 border-t border-gray-200">
+                      <div class="space-y-2">
+                        <div class="flex justify-between">
+                          <span class="text-gray-600">Subtotal:</span>
+                          <span>{{ formatPrice(o.subtotal || 0) }}</span>
+                        </div>
+                        <div v-if="o.shippingCost" class="flex justify-between">
+                          <span class="text-gray-600">Gastos de envío:</span>
+                          <span>{{ formatPrice(o.shippingCost) }}</span>
+                        </div>
+                        <div v-if="o.discount && o.discount > 0" class="flex justify-between">
+                          <span class="text-gray-600">Descuento:</span>
+                          <span class="text-green-600">-{{ formatPrice(o.discount) }}</span>
+                        </div>
+                        <div class="flex justify-between items-center text-lg font-semibold pt-2 mt-2 border-t border-gray-200">
+                          <span>Total del pedido:</span>
+                          <span>{{ formatPrice(o.total) }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Transition>
             </div>
           </div>
 
@@ -268,12 +427,41 @@
 <script setup lang="ts">
 /* ---------------------------------------------------------------------- */
 /* imports ---------------------------------------------------------------- */
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { z } from "zod";
 import { parsePhoneNumberWithError } from "libphonenumber-js";
 import { useAuth } from "~/composables/useAuth";
 import type { Address } from "~/types/types";
+
+// Función para formatear fechas con hora
+const formatDateTime = (dateString: string, includeTime = false) => {
+  if (!dateString) return '';
+  
+  const date = new Date(dateString);
+  const options: Intl.DateTimeFormatOptions = {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  };
+  
+  if (includeTime) {
+    options.hour = '2-digit';
+    options.minute = '2-digit';
+  }
+  
+  return date.toLocaleDateString('es-ES', options);
+};
+
+/* ---------------------------------------------------------------------- */
+/* data ---------------------------------------------------------------- */
+const auth = useAuth();
+const expandedOrderId = ref<string | null>(null);
+
+// Alternar la visibilidad de los detalles del pedido
+const toggleOrderDetails = (orderId: string) => {
+  expandedOrderId.value = expandedOrderId.value === orderId ? null : orderId;
+};
 
 /* ---------------------------------------------------------------------- */
 /* i18n ------------------------------------------------------------------ */
@@ -523,6 +711,23 @@ function orderColor(status: string): 'primary' | 'secondary' | 'success' | 'info
   };
   return map[status] || "neutral";
 }
+
+/* ---------------------------------------------------------------------- */
+/* helpers -------------------------------------------------------------- */
+const formatPrice = (price: number) => {
+  return new Intl.NumberFormat('es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2
+  }).format(price);
+};
+
+/* ---------------------------------------------------------------------- */
+/* helpers -------------------------------------------------------------- */
+const formatOrderNumber = (orderId: string) => {
+  // Tomar solo los últimos 6 caracteres del ID para hacerlo más corto
+  return orderId ? orderId.slice(-6).toUpperCase() : '';
+};
 
 /* ---------------------------------------------------------------------- */
 /* logout ---------------------------------------------------------------- */
