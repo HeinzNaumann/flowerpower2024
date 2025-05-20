@@ -269,12 +269,34 @@ const filterTypes = ['search', 'flowers', 'moments', 'occasions', 'colors', 'tag
 type FilterType = typeof filterTypes[number];
 
 
+// Estado de ordenación
+const sortState = ref<{ type: 'price' | 'name' | null; order: 'asc' | 'desc' }>({ 
+  type: null, 
+  order: 'asc' 
+});
+
 // Productos sin filtrar
 const allProducts = computed<Product[]>(() => data.value || []);
 
-// Productos filtrados aplicando todos los filtros activos
+// Productos filtrados aplicando todos los filtros activos y ordenación
 const products = computed<Product[]>(() => {
-  return applyFilters(allProducts.value || []);
+  let filtered = applyFilters(allProducts.value || []);
+  
+  // Aplicar ordenación si hay un criterio activo
+  if (sortState.value.type) {
+    const { type, order } = sortState.value;
+    return [...filtered].sort((a, b) => {
+      if (type === 'price') {
+        return order === 'asc' ? a.price - b.price : b.price - a.price;
+      } else {
+        return order === 'asc' 
+          ? a.title.localeCompare(b.title) 
+          : b.title.localeCompare(a.title);
+      }
+    });
+  }
+  
+  return filtered;
 });
 
 const availableColors = ref<string[]>([]);
@@ -334,15 +356,8 @@ const toggleColorFilter = (colorValue: string) => {
 };
 
 const sortProducts = (type: "price" | "name", order: "asc" | "desc") => {
-  products.value.sort((a: any, b: any) => {
-    if (type === "price") {
-      return order === "asc" ? a.price - b.price : b.price - a.price;
-    } else {
-      return order === "asc"
-        ? a.title.localeCompare(b.title)
-        : b.title.localeCompare(a.title);
-    }
-  });
+  // Actualizar el estado de ordenación
+  sortState.value = { type, order };
   showDropdown.value = false;
 };
 </script>
