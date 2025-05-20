@@ -1,5 +1,6 @@
 <template>
   <header>
+  <CartDrawer v-model:open="showCartDrawer.value" />
     <div class="top-4 left-4 flex justify-between w-full pt-4">
       <NuxtLink :to="localePath({ path: '/' })">
         <img
@@ -188,7 +189,7 @@
           <Avatar v-if="isAuthenticated() && isReady" class="mb-4" />
         </ClientOnly>
         <button
-          @click="openCartDrawer"
+          @click="handleCartDrawerFromMenu"
           class="relative focus:outline-none"
         >
           <img
@@ -200,55 +201,59 @@
         <!-- Links Section for Tablet/Mobile in Hamburger Menu -->
         <div class="flex flex-col gap-2 mt-4">
           <NuxtLink
-            :to="localePath({ path: '/flowers' })"
+            :to="localePath({ name: 'shop', query: { tags: $t('header.links.flores') } })"
             class="hover:text-neutral-600"
+            @click="handleMenuLinkClick"
           >
             {{ $t("header.links.flores") }}
           </NuxtLink>
           <NuxtLink
-            :to="localePath({ path: '/roses' })"
+            :to="localePath({ name: 'shop', query: { tags: $t('header.links.rosas') } })"
             class="hover:text-neutral-600"
+            @click="handleMenuLinkClick"
           >
             {{ $t("header.links.rosas") }}
           </NuxtLink>
           <NuxtLink
-            :to="localePath({ path: '/plants' })"
+            :to="localePath({ name: 'shop', query: { tags: $t('header.links.plantas') } })"
             class="hover:text-neutral-600"
+            @click="handleMenuLinkClick"
           >
             {{ $t("header.links.plantas") }}
           </NuxtLink>
           <NuxtLink
-            :to="localePath({ path: '/moments' })"
+            :to="localePath({ name: 'shop', query: { tags: $t('header.links.momentos') } })"
             class="hover:text-neutral-600"
+            @click="handleMenuLinkClick"
           >
             {{ $t("header.links.momentos") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ path: '/shop' })"
             class="hover:text-neutral-600"
+            @click="handleMenuLinkClick"
           >
             {{ $t("header.links.tienda") }}
           </NuxtLink>
-
         </div>
 
         <!-- Flags Side by Side -->
         <div class="flex gap-2 mt-4">
-          <NuxtLink :to="switchLocalePath('es')">
+          <NuxtLink :to="getLocalePathWithQuery('es')" @click="handleMenuLinkClick">
             <img
               src="/images/flags/es.png"
               :alt="$t('header.alt.flag_es')"
               class="w-6 h-4"
             />
           </NuxtLink>
-          <NuxtLink :to="switchLocalePath('en')">
+          <NuxtLink :to="getLocalePathWithQuery('en')" @click="handleMenuLinkClick">
             <img
               src="/images/flags/en.png"
               :alt="$t('header.alt.flag_en')"
               class="w-6 h-4"
             />
           </NuxtLink>
-          <NuxtLink :to="switchLocalePath('de')">
+          <NuxtLink :to="getLocalePathWithQuery('de')" @click="handleMenuLinkClick">
             <img
               src="/images/flags/de.png"
               :alt="$t('header.alt.flag_de')"
@@ -347,6 +352,7 @@
 
 <script setup>
 import { inject, ref, onMounted } from 'vue';
+import CartDrawer from '~/components/CartDrawer.vue';
 import { useCartDrawer } from '~/composables/useCartDrawer';
 const { showCartDrawer } = useCartDrawer();
 const isMounted = ref(true);
@@ -368,6 +374,15 @@ function handleSearch() {
 function openCartDrawer() {
   showCartDrawer.value = true;
 }
+
+import { nextTick } from 'vue';
+function handleCartDrawerFromMenu() {
+  isMenuOpen.value = false;
+  nextTick(() => {
+    showCartDrawer.value = true;
+  });
+}
+
 
 
 import LoginRegister from "~/components/LoginRegister.vue";
@@ -539,6 +554,11 @@ const toggleMagnifier = () => {
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
 };
+
+function handleMenuLinkClick() {
+  isMenuOpen.value = false;
+}
+
 
 const handleClickOutside = (event) => {
   if (
