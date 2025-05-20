@@ -134,14 +134,15 @@ export function useProductFilters() {
         }
       }
 
-      // Filtro de tags (general)
+          // Filtro de tags (general)
       if (activeFilters.value.tags) {
-        const filterValue = activeFilters.value.tags.toLowerCase();
-        // Buscar en todas las categorías posibles
+        const filterValue = normalizeFilterValue(activeFilters.value.tags);
+        // Buscar en todas las categorías posibles incluyendo las etiquetas directas del producto
         matchesTags = (
-          (product.flowers || []).some(item => normalizeFilterValue(item).includes(normalizeFilterValue(filterValue))) ||
-          (product.moments || []).some(item => normalizeFilterValue(item).includes(normalizeFilterValue(filterValue))) ||
-          (product.occasions || []).some(item => normalizeFilterValue(item).includes(normalizeFilterValue(filterValue)))
+          (product.flowers || []).some(item => normalizeFilterValue(item).includes(filterValue)) ||
+          (product.moments || []).some(item => normalizeFilterValue(item).includes(filterValue)) ||
+          (product.occasions || []).some(item => normalizeFilterValue(item).includes(filterValue)) ||
+          (product.tags || []).some((tag: string) => normalizeFilterValue(tag).includes(filterValue))
         );
       }
 
