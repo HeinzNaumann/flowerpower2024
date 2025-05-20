@@ -1,6 +1,6 @@
 <template>
   <div class="container max-w-screen-xl mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+    <div class="flex flex-row md:flex-row justify-between items-center mb-8">
       <h1 class="text-3xl font-bold">{{ $t('common.shop') || 'Tienda' }}</h1>
       
       <!-- Sort Dropdown (a la derecha) -->
@@ -47,35 +47,54 @@
     <div class="flex flex-col md:flex-row">
       
       <!-- Columna de filtros con altura mínima fija para evitar saltos -->
-      <aside class="w-full md:w-1/4 md:pr-6 mb-6 md:mb-0">
-        <div class="sticky top-24 min-h-[600px] overflow-y-auto">
-          
+      <aside class="w-full md:w-1/4 md:pr-4 mb-2 md:mb-0">
+        <div class="sticky top-12 md:top-24 min-h-[200px] md:min-h-[600px] overflow-visible">
           <!-- Categorías de filtros con espacio mínimo fijo -->
-          <div class="space-y-8 pb-4">
-            <client-only>
-              <LazyFilters
-                :typeData="typeData"
-                :title="$t('shop.filtersTitle.flowers')"
-              />
-              <LazyFilterColors
-                :colors="availableColors"
-                :title="$t('shop.filtersTitle.colors')"
-              />
-              <LazyFilters
-                :typeData="typeData"
-                :title="$t('shop.filtersTitle.moments')"
-              />
-              <LazyFilters
-                :typeData="typeData"
-                :title="$t('shop.filtersTitle.occasions')"
-              />
-            </client-only>
-          </div>
+          <div>
+  <!-- Mobile/Tablet: filtros colapsables -->
+  <div class="block md:hidden space-y-2 pb-0">
+    <client-only>
+      <details class="border rounded-md">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.flowers')}}</summary>
+        <div class="p-3">
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.flowers')" />
+        </div>
+      </details>
+      <details class="border rounded-md">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.colors')}}</summary>
+        <div class="p-3">
+          <LazyFilterColors :colors="availableColors" :title="$t('shop.filtersTitle.colors')" />
+        </div>
+      </details>
+      <details class="border rounded-md">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.moments')}}</summary>
+        <div class="p-3">
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.moments')" />
+        </div>
+      </details>
+      <details class="border rounded-md">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.occasions')}}</summary>
+        <div class="p-3">
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.occasions')" />
+        </div>
+      </details>
+    </client-only>
+  </div>
+  <!-- Desktop: filtros siempre expandidos -->
+  <div class="hidden md:block space-y-4 pb-4">
+    <client-only>
+      <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.flowers')" />
+      <LazyFilterColors :colors="availableColors" :title="$t('shop.filtersTitle.colors')" />
+      <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.moments')" />
+      <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.occasions')" />
+    </client-only>
+  </div>
+</div>
         </div>
       </aside>
 
       <!-- Grid de productos con altura mínima para estabilidad -->
-      <main class="w-full md:w-3/4 md:pl-6 min-h-[800px]">
+      <main class="w-full md:w-3/4 md:pl-4 min-h-[800px]">
         <!-- Panel de filtros activos -->        
         <div v-if="hasActiveFilters" class="mb-4 p-3 bg-neutral-100 rounded-md">
           <div class="flex items-center justify-between mb-2">
