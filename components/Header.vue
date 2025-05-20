@@ -16,12 +16,26 @@
             v-if="isOpenMagnifier"
             class="items-center relative right-0 top-0 z-30 bl overflow-hidden p-1 rounded-sm"
             ref="formRef"
+            @submit.prevent="handleSearch"
           >
-            <input
-              type="text"
-              :placeholder="$t('header.input.placeholder')"
-              class="w-full border p-1 focus:outline-hidden focus:shadow-lg transition-all duration-300 ease-in-out delay-150"
-            />
+            <div class="relative w-full">
+              <input
+                v-model="searchQuery"
+                type="text"
+                :placeholder="$t('header.input.placeholder')"
+                class="w-full border p-1 pl-10 focus:outline-hidden focus:shadow-lg transition-all duration-300 ease-in-out delay-150"
+              />
+              <button
+                type="submit"
+                class="absolute left-2 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center cursor-pointer"
+              >
+                <img
+                  src="/assets/icons/magnifier.svg"
+                  :alt="$t('header.alt.magnifier')"
+                  class="w-5 h-5 text-neutral-400"
+                />
+              </button>
+            </div>
           </form>
         </transition>
         <button @click.stop="toggleMagnifier" class="relative z-10">
