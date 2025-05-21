@@ -316,7 +316,7 @@
                           <div class="grid grid-cols-12 gap-4">
                             <!-- Imagen del producto si está disponible -->
                             <div v-if="item.images && item.images.length" class="col-span-2">
-                              <img :src="item.images[0]" :alt="item.title || 'Producto'" class="w-full h-24 object-contain rounded-md" />
+                              <img :src="getImgUrl(item.images[0])" :alt="item.title || 'Producto'" class="w-full h-24 object-contain rounded-md" />
                             </div>
                             
                             <!-- Detalles del producto -->
@@ -698,6 +698,16 @@ async function handleSave() {
     saving.value = false;
   }
 }
+function getImgUrl(img: string | string[]): string {
+  if (!img) return "";
+  const imgStr = Array.isArray(img) ? img[0] : img;
+  if (imgStr.startsWith("http")) return imgStr;
+  if (imgStr.startsWith("images/")) {
+    return `/${imgStr}`;
+  }
+  return `/images/${imgStr}`;
+}
+
 
 /* ---------------------------------------------------------------------- */
 /* helpers --------------------------------------------------------------- */

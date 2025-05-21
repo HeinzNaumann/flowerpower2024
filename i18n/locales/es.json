@@ -283,7 +283,8 @@
     "processing": "En proceso",
     "shipped": "Enviado",
     "delivered": "Entregado",
-    "cancelled": "Cancelado"
+    "cancelled": "Cancelado",
+    "paid": "Pagado"
   },
   "cart": {
     "title": "Tu carrito",
@@ -293,6 +294,8 @@
     "checkout": "Finalizar compra",
     "remove": "Eliminar",
     "continueShopping": "Seguir comprando",
+    "cardInfo": "Tarjeta",
+    "paymentCard": "Pago con tarjeta",
     "subproducts": {
       "box": "Bombones",
       "bottle": "Champán",

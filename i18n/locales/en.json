@@ -191,7 +191,8 @@
     "processing": "Processing",
     "shipped": "Shipped",
     "delivered": "Delivered",
-    "cancelled": "Cancelled"
+    "cancelled": "Cancelled",
+    "paid": "Paid"
   },
   "common": {
     "edit": "Edit",
@@ -244,6 +245,8 @@
     "name": "Name",
     "surname": "Surname",
     "namePlaceholder": "Full name",
+    "cardInfo": "Card",
+    "paymentCard": "Payment with card",
     "surnamePlaceholder": "Surname",
     "email": "Email",
     "emailPlaceholder": "Email",

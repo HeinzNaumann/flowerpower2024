@@ -191,7 +191,8 @@
     "processing": "In Bearbeitung",
     "shipped": "Versendet",
     "delivered": "Geliefert",
-    "cancelled": "Storniert"
+    "cancelled": "Storniert",
+    "paid":"Bezahlt"
   },
   "common": {
     "edit": "Bearbeiten",
@@ -228,6 +229,7 @@
   },
   "checkout": {
     "shippingTitle": "Lieferadresse",
+    "paymentCard": "Zahlung mit Karte",
     "name": "Name",
     "surname": "Nachname",
     "namePlaceholder": "Vollständiger Name",
@@ -252,6 +254,7 @@
     "paymentSubtitle": "Schließen Sie Ihre Bestellung sicher ab",
     "orderSummary": "Bestellzusammenfassung",
     "paymentDetails": "Zahlungsdetails",
+    "cardInfo": "Karte",
     "cardNumber": "Kartennummer",
     "cardNumberPlaceholder": "1234 5678 9012 3456",
     "expiryDate": "Ablaufdatum",
