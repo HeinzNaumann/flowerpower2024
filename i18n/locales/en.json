@@ -241,6 +241,7 @@
     }
   },
   "checkout": {
+    "noItemsError": "Your cart is empty",
     "shippingTitle": "Shipping Address",
     "name": "Name",
     "surname": "Surname",
@@ -304,7 +305,6 @@
     "orderSuccess": "Order Completed Successfully!",
     "orderSuccessMessage": "Thank you for your purchase. Your order has been received and is being processed.",
     "orderNumber": "Order Number",
-    "orderSummary": "Order Summary",
     "shippingDetails": "Shipping Details",
     "deliveryInfoTitle": "Delivery Information",
     "cardNote": "Card Note",

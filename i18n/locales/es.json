@@ -149,6 +149,7 @@
   "checkout": {
     "cartTitle": "Tus productos",
     "cartEmpty": "El carrito está vacío.",
+    "noItemsError": "Tu carrito está vacío",
     "paymentCard": "Detalles de la tarjeta",
     "cardInfo": "Introduce los datos de tu tarjeta para completar el pago.",
     "invalidOrderMessage": "No se pudo obtener el clientSecret de Stripe.",
