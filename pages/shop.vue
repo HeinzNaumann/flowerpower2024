@@ -199,15 +199,11 @@
                 "
                 class="flex flex-col w-full h-full bg-white justify-center p-2 hover:shadow-lg transition-shadow duration-200"
               >
-                <NuxtImg
+                <img
                   :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
                   :alt="product.slug"
                   class="w-full object-cover border-neutral-200 border-solid border mb-3"
-                  width="400"
-                  height="400"
-                  format="webp"
                   loading="lazy"
-                  placeholder
                 />
                 <p 
                   :alt="product.title" 

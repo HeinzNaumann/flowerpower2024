@@ -38,7 +38,7 @@
         @mouseleave="stopZoom"
         @wheel.prevent="handleWheel"
       >
-        <NuxtImg
+        <img
           :src="`${config.public.apiBaseUrl}/files/product/${product.images}`"
           width="500"
           height="500"
@@ -46,9 +46,6 @@
           class="w-[400px] h-[400px] md:w-[500px] md:h-[500px] object-cover"
           alt="Flower Power Emilio Bouquet"
           @click="toggleZoom"
-          format="webp"
-          loading="lazy"
-          placeholder
         />
         <button
           @click="toggleZoom"
