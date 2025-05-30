@@ -1,0 +1,64 @@
+name: Deploy Frontend Staging
+
+on:
+  push:
+    branches:
+      - main # O la rama que uses para staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Nuxt app
+        run: pnpm build
+
+      - name: Generate .env file
+        run: |
+          echo "STAGE=${{ secrets.STAGE }}" > .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "API_BASE_URL=${{ secrets.API_BASE_URL }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> .env
+          echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> .env
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.AWS_SSH_KEY }}
+
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H 54.73.233.6 >> ~/.ssh/known_hosts
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude '.env' ./ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend
+
+      - name: Copy .env file to server
+        run: |
+          scp .env ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/.env
+
+      - name: Restart frontend with PM2
+        run: |
+          ssh ubuntu@54.73.233.6 '
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            cd /var/www/flowerpower-staging/flowerpower-frontend
+            pm2 reload flowerpower-frontend-staging \
+              || pm2 start .output/server/index.mjs --name flowerpower-frontend-staging --interpreter /home/ubuntu/.nvm/versions/node/v22.10.0/bin/node
+          '
