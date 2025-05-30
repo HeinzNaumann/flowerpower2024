@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-12">
+  <div class="md:mx-12 mx-2">
     <!-- Hero siempre visible -->
     <Hero />
 
