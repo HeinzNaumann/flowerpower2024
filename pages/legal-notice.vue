@@ -4,7 +4,6 @@
       <!-- Título -->
       <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">{{ $t('legalNotice.title') }}</h1>
       
-      <!-- Fecha de última actualización -->
       <p class="text-gray-600 mb-8 text-center">{{ $t('legalNotice.lastUpdated') }}: 11/05/2025</p>
       
       <!-- Introducción -->
