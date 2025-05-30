@@ -22,21 +22,6 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build Nuxt app
-        run: pnpm build
-
-      - name: Generate .env file
-        run: |
-          echo "STAGE=${{ secrets.STAGE }}" > .env
-          echo "PORT=${{ secrets.PORT }}" >> .env
-          echo "API_BASE_URL=${{ secrets.API_BASE_URL }}" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> .env
-          echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> .env
-
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -45,20 +30,27 @@ jobs:
       - name: Add server to known_hosts
         run: ssh-keyscan -H 54.73.233.6 >> ~/.ssh/known_hosts
 
-      - name: Deploy via rsync
+      - name: Rsync código al servidor (sin node_modules ni .output)
         run: |
-          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude '.env' ./ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend
+          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude '.output' --exclude '.env' ./ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend
 
-      - name: Copy .env file to server
+      - name: Crear y copiar el .env de staging al servidor
         run: |
-          scp .env ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/.env
+          ssh ubuntu@54.73.233.6 'echo "STAGE=${{ secrets.STAGE }}" > /var/www/flowerpower-staging/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "PORT=${{ secrets.PORT }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "API_BASE_URL=${{ secrets.API_BASE_URL }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
 
-      - name: Restart frontend with PM2
+      - name: Build, install y restart con PM2 en el servidor
         run: |
           ssh ubuntu@54.73.233.6 '
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd /var/www/flowerpower-staging/flowerpower-frontend
-            pm2 reload flowerpower-frontend-staging \
-              || pm2 start .output/server/index.mjs --name flowerpower-frontend-staging --interpreter /home/ubuntu/.nvm/versions/node/v22.10.0/bin/node
+            pnpm install
+            pnpm build
+            pm2 reload ecosystem.config.cjs --env staging \
+              || pm2 start ecosystem.config.cjs --env staging
           '
