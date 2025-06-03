@@ -571,7 +571,7 @@
       "address": {
         "title": "Address",
         "line1": "Carrer Fetjet, 3",
-        "line2": "08009 Barcelona, Spain"
+        "line2": "07560 Cala Millor, Mallorca, Spain"
       },
       "email": {
         "title": "Email"
@@ -581,8 +581,8 @@
       },
       "hours": {
         "title": "Opening Hours",
-        "weekdays": "Monday to Friday: 10:00 AM - 8:00 PM",
-        "weekends": "Saturday: 10:00 AM - 6:00 PM"
+        "weekdays": "Monday to Friday: 10:00 AM - 16:00 PM",
+        "weekends": "Saturday: 10:00 AM - 14:00 PM"
       },
       "social": {
         "title": "Follow Us"
@@ -788,7 +788,7 @@
   "legalNotice": {
     "title": "Legal Notice",
     "lastUpdated": "Last updated",
-    "introduction": "In compliance with the duty of information set out in Article 10 of Law 34/2002, of July 11, on Services of the Information Society and Electronic Commerce, the following data is reflected: the company owner of this website is Flower Power, S.L., with registered office for these purposes at Carrer Fetjet, 3, 08009 Barcelona.",
+    "introduction": "In compliance with the duty of information set out in Article 10 of Law 34/2002, of July 11, on Services of the Information Society and Electronic Commerce, the following data is reflected: the company owner of this website is Flower Power, S.L., with registered office for these purposes at Carrer Fetjet, 3, 07560 Cala Millor, Mallorca.",
     "identificationData": {
       "title": "Identification Data",
       "companyName": {
@@ -801,7 +801,7 @@
       },
       "address": {
         "label": "Registered office",
-        "value": "Carrer Fetjet, 3, 08009 Barcelona, Spain"
+        "value": "Carrer Fetjet, 3, 07560 Cala Millor, Mallorca"
       },
       "email": {
         "label": "Email",
@@ -813,7 +813,7 @@
       },
       "registrationData": {
         "label": "Registration data",
-        "value": "Registered in the Commercial Registry of Barcelona, Volume 12345, Folio 67, Sheet B-123456, Registration 1"
+        "value": "Registered in the Commercial Registry of Mallorca, Volume 12345, Folio 67, Sheet B-123456, Registration 1"
       }
     },
     "purpose": {
@@ -845,7 +845,7 @@
     },
     "applicableLaw": {
       "title": "Applicable Law",
-      "p1": "The relationship between Flower Power, S.L. and the user will be governed by current Spanish regulations and any controversy will be submitted to the Courts and tribunals of the city of Barcelona."
+      "p1": "The relationship between Flower Power, S.L. and the user will be governed by current Spanish regulations and any controversy will be submitted to the Courts and tribunals of the city of Mallorca."
     }
   },
 

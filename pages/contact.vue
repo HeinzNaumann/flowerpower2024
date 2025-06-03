@@ -225,7 +225,7 @@
     <!-- Mapa -->
     <div class="rounded-xl overflow-hidden shadow-lg h-96 mb-16">
       <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2993.6854665897584!2d2.1518899999999997!3d41.3867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4a2f4142fdb4d%3A0x4c0a0e7d01b6d79f!2sCarrer%20Fetjet%2C%203%2C%2008009%20Barcelona!5e0!3m2!1ses!2ses!4v1620000000000!5m2!1ses!2ses" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6148.115078431247!2d3.381246276597634!3d39.603386271581925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1296407f61667653%3A0x1ae75ff06f6bdf05!2sFlorister%C3%ADa%20Flower%20Power!5e0!3m2!1ses!2ses!4v1748925552262!5m2!1ses!2ses"
         width="100%" 
         height="100%" 
         style="border:0;" 

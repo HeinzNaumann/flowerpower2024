@@ -566,7 +566,7 @@
       "address": {
         "title": "Dirección",
         "line1": "Carrer Fetjet, 3",
-        "line2": "08009 Barcelona, España"
+        "line2": "07560 Cala Millor, Mallorca"
       },
       "email": {
         "title": "Email"
@@ -576,8 +576,8 @@
       },
       "hours": {
         "title": "Horario",
-        "weekdays": "Lunes a Viernes: 10:00 - 20:00",
-        "weekends": "Sábados: 10:00 - 18:00"
+        "weekdays": "Lunes a Viernes: 10:00 - 16:00",
+        "weekends": "Sábados: 10:00 - 14:00"
       },
       "social": {
         "title": "Síguenos"
@@ -783,20 +783,20 @@
   "legalNotice": {
     "title": "Aviso Legal",
     "lastUpdated": "Última actualización",
-    "introduction": "En cumplimiento con el deber de información recogido en el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico, a continuación se reflejan los siguientes datos: la empresa titular de este sitio web es Flower Power, S.L., con domicilio a estos efectos en Carrer Fetjet, 3, 08009 Barcelona.",
+    "introduction": "En cumplimiento con el deber de información recogido en el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico, a continuación se reflejan los siguientes datos: la empresa titular de este sitio web es Flower Power, S.L., con domicilio a estos efectos en Carrer Fetjet, 3, 07560 Cala Millor, Mallorca.",
     "identificationData": {
       "title": "Datos identificativos",
       "companyName": {
         "label": "Denominación social",
-        "value": "Flower Power, S.L."
+        "value": "Antonia Madueño Beltran"
       },
       "nif": {
         "label": "NIF",
-        "value": "B12345678"
+        "value": "304919..."
       },
       "address": {
         "label": "Domicilio social",
-        "value": "Carrer Fetjet, 3, 08009 Barcelona, España"
+        "value": "Carrer Fetjet, 3, 07560 Cala Millor, Mallorca"
       },
       "email": {
         "label": "Correo electrónico",
@@ -804,11 +804,11 @@
       },
       "phone": {
         "label": "Teléfono",
-        "value": "+34 93 123 45 67"
+        "value": "+34 971587497"
       },
       "registrationData": {
         "label": "Datos registrales",
-        "value": "Inscrita en el Registro Mercantil de Barcelona, Tomo 12345, Folio 67, Hoja B-123456, Inscripción 1"
+        "value": "Inscrita en el Registro Mercantil de las islas baleares, Tomo 12345, Folio 67, Hoja B-123456, Inscripción 1"
       }
     },
     "purpose": {
@@ -840,7 +840,7 @@
     },
     "applicableLaw": {
       "title": "Legislación aplicable",
-      "p1": "La relación entre Flower Power, S.L. y el usuario se regirá por la normativa española vigente y cualquier controversia se someterá a los Juzgados y tribunales de la ciudad de Barcelona."
+      "p1": "La relación entre Flower Power, S.L. y el usuario se regirá por la normativa española vigente y cualquier controversia se someterá a los Juzgados y tribunales de la ciudad de Mallorca."
     }
   },
 

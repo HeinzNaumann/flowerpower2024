@@ -553,7 +553,7 @@
       "address": {
         "title": "Adresse",
         "line1": "Carrer Fetjet, 3",
-        "line2": "08009 Barcelona, Spanien"
+        "line2": "07560 Cala Millor, Mallorca, Spanien"
       },
       "email": {
         "title": "E-Mail"
@@ -563,8 +563,8 @@
       },
       "hours": {
         "title": "Öffnungszeiten",
-        "weekdays": "Montag bis Freitag: 10:00 - 20:00 Uhr",
-        "weekends": "Samstag: 10:00 - 18:00 Uhr"
+        "weekdays": "Montag bis Freitag: 10:00 - 16:00 Uhr",
+        "weekends": "Samstag: 10:00 - 14:00 Uhr"
       },
       "social": {
         "title": "Folgen Sie uns"
@@ -770,7 +770,7 @@
   "legalNotice": {
     "title": "Rechtliche Hinweise",
     "lastUpdated": "Zuletzt aktualisiert",
-    "introduction": "In Erfüllung der Informationspflicht gemäß Artikel 10 des Gesetzes 34/2002 vom 11. Juli über Dienste der Informationsgesellschaft und des elektronischen Handels werden die folgenden Daten wiedergegeben: Der Inhaber dieser Website ist Flower Power, S.L., mit Sitz für diese Zwecke in Carrer Fetjet, 3, 08009 Barcelona.",
+    "introduction": "In Erfüllung der Informationspflicht gemäß Artikel 10 des Gesetzes 34/2002 vom 11. Juli über Dienste der Informationsgesellschaft und des elektronischen Handels werden die folgenden Daten wiedergegeben: Der Inhaber dieser Website ist Flower Power, S.L., mit Sitz für diese Zwecke in Carrer Fetjet, 3, 07560 Cala Millor, Mallorca.",
     "identificationData": {
       "title": "Identifikationsdaten",
       "companyName": {
@@ -783,7 +783,7 @@
       },
       "address": {
         "label": "Geschäftssitz",
-        "value": "Carrer Fetjet, 3, 08009 Barcelona, Spanien"
+        "value": "Carrer Fetjet, 3, 07560 Cala Millor, Mallorca, Spanien"
       },
       "email": {
         "label": "E-Mail",
@@ -795,7 +795,7 @@
       },
       "registrationData": {
         "label": "Registrierungsdaten",
-        "value": "Eingetragen im Handelsregister von Barcelona, Band 12345, Blatt 67, Eintrag B-123456, Registrierung 1"
+        "value": "Eingetragen im Handelsregister von Mallorca, Band 12345, Blatt 67, Eintrag B-123456, Registrierung 1"
       }
     },
     "purpose": {
@@ -827,7 +827,7 @@
     },
     "applicableLaw": {
       "title": "Anwendbares Recht",
-      "p1": "Die Beziehung zwischen Flower Power, S.L. und dem Benutzer unterliegt den geltenden spanischen Vorschriften, und jede Kontroverse wird den Gerichten der Stadt Barcelona unterworfen."
+      "p1": "Die Beziehung zwischen Flower Power, S.L. und dem Benutzer unterliegt den geltenden spanischen Vorschriften, und jede Kontroverse wird den Gerichten der Stadt Palma de Mallorca unterworfen."
     }
   },
 
