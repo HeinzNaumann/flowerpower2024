@@ -246,7 +246,7 @@ const showDropdown = ref(false);
 const { data, error, pending } = useFetchApi("products");
 const config = useRuntimeConfig();
 
-const categories = ["flowers", "moments", "occasions"] as const;
+const categories = ["flowers", "moments", "occasions", "tags"] as const;
 type Category = (typeof categories)[number];
 
 type CategoryItem = { name: string; count: number };
@@ -255,6 +255,7 @@ const typeData = ref<Record<Category, CategoryItem[]>>({
   flowers: [],
   moments: [],
   occasions: [],
+  tags: [],
 });
 
 // Usar el composable de filtros centralizado
@@ -304,6 +305,7 @@ watch(
       flowers: [],
       moments: [],
       occasions: [],
+      tags: [],
     };
 
     categories.forEach((category) => {
