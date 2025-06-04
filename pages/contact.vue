@@ -104,10 +104,12 @@
                 type="text" 
                 id="firstName" 
                 v-model="form.firstName" 
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent"
+                :class="['w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent', formErrors.firstName ? 'border-red-500 ring-red-500' : 'border-gray-300']"
                 :placeholder="$t('contact.form.firstNamePlaceholder')"
                 required
+                @input="() => { if (formErrors.firstName) delete formErrors.firstName }"
               />
+              <div v-if="formErrors.firstName" class="text-xs text-red-500 mt-1">{{ formErrors.firstName }}</div>
             </div>
             <div>
               <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('contact.form.lastName') }}</label>
@@ -115,10 +117,12 @@
                 type="text" 
                 id="lastName" 
                 v-model="form.lastName" 
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent"
+                :class="['w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent', formErrors.lastName ? 'border-red-500 ring-red-500' : 'border-gray-300']"
                 :placeholder="$t('contact.form.lastNamePlaceholder')"
                 required
+                @input="() => { if (formErrors.lastName) delete formErrors.lastName }"
               />
+              <div v-if="formErrors.lastName" class="text-xs text-red-500 mt-1">{{ formErrors.lastName }}</div>
             </div>
           </div>
           
@@ -130,10 +134,12 @@
                 type="email" 
                 id="email" 
                 v-model="form.email" 
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent"
+                :class="['w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent', formErrors.email ? 'border-red-500 ring-red-500' : 'border-gray-300']"
                 :placeholder="$t('contact.form.emailPlaceholder')"
                 required
+                @input="() => { if (formErrors.email) delete formErrors.email }"
               />
+              <div v-if="formErrors.email" class="text-xs text-red-500 mt-1">{{ formErrors.email }}</div>
             </div>
             <div>
               <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">{{ $t('contact.form.phone') }}</label>
@@ -141,9 +147,11 @@
                 type="tel" 
                 id="phone" 
                 v-model="form.phone" 
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent"
+                :class="['w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent', formErrors.phone ? 'border-red-500 ring-red-500' : 'border-gray-300']"
                 :placeholder="$t('contact.form.phonePlaceholder')"
+                @input="() => { if (formErrors.phone) delete formErrors.phone }"
               />
+              <div v-if="formErrors.phone" class="text-xs text-red-500 mt-1">{{ formErrors.phone }}</div>
             </div>
           </div>
           
@@ -153,8 +161,9 @@
             <select 
               id="subject" 
               v-model="form.subject" 
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent"
+              :class="['w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent', formErrors.subject ? 'border-red-500 ring-red-500' : 'border-gray-300']"
               required
+              @change="() => { if (formErrors.subject) delete formErrors.subject }"
             >
               <option value="" disabled selected>{{ $t('contact.form.subjectPlaceholder') }}</option>
               <option value="general">{{ $t('contact.form.subjects.general') }}</option>
@@ -172,10 +181,12 @@
               id="message" 
               v-model="form.message" 
               rows="5" 
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent"
+              :class="['w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-[#382C3E] focus:border-transparent', formErrors.message ? 'border-red-500 ring-red-500' : 'border-gray-300']"
               :placeholder="$t('contact.form.messagePlaceholder')"
               required
+              @input="() => { if (formErrors.message) delete formErrors.message }"
             ></textarea>
+            <div v-if="formErrors.message" class="text-xs text-red-500 mt-1">{{ formErrors.message }}</div>
           </div>
           
           <!-- Política de privacidad -->
@@ -185,9 +196,11 @@
                 id="privacy" 
                 type="checkbox" 
                 v-model="form.privacy" 
-                class="h-4 w-4 text-[#382C3E] border-gray-300 rounded focus:ring-[#382C3E]"
+                :class="['h-4 w-4 text-[#382C3E] rounded focus:ring-[#382C3E]', formErrors.privacy ? 'border-red-500 ring-2 ring-red-500' : 'border-gray-300']"
                 required
+                @change="() => { if (formErrors.privacy) delete formErrors.privacy }"
               />
+              <div v-if="formErrors.privacy" class="text-xs text-red-500 mt-1">{{ formErrors.privacy }}</div>
             </div>
             <div class="ml-3 text-sm">
               <label for="privacy" class="font-medium text-gray-700">
@@ -253,6 +266,8 @@
 import { ref } from 'vue';
 import { useLocalePath } from '#imports';
 import { useHead } from '#imports';
+const config = useRuntimeConfig();
+const apiUrl = config.public.apiBaseUrl;
 
 const localePath = useLocalePath();
 
@@ -280,19 +295,64 @@ const form = ref({
 
 const isSubmitting = ref(false);
 const formSubmitted = ref(false);
+const submitError = ref("");
+const formErrors = ref({});
+
+import { useContactSchema } from '~/composables/contactSchema';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+const contactSchema = useContactSchema();
+
+function validateFormZod() {
+  const result = contactSchema.safeParse(form.value);
+  if (result.success) {
+    formErrors.value = {};
+    return true;
+  } else {
+    const errors = {};
+    for (const err of result.error.errors) {
+      if (err.path && err.path.length > 0) {
+        errors[err.path[0]] = err.message;
+      }
+    }
+    formErrors.value = errors;
+    return false;
+  }
+}
 
 // Método para enviar el formulario
 const submitForm = async () => {
+  formSubmitted.value = false;
+  submitError.value = "";
+  if (!validateFormZod()) {
+    return;
+  }
   isSubmitting.value = true;
-  
   try {
-    // Aquí iría la lógica para enviar el formulario a un backend
-    console.log('Formulario enviado:', form.value);
-    
-    // Simulamos una espera de 1 segundo para mostrar el estado de carga
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Resetear el formulario
+    const formData = {
+      name: form.value.firstName,
+      lastName: form.value.lastName,
+      email: form.value.email,
+      phone: form.value.phone || undefined,
+      subject: form.value.subject,
+      message: form.value.message
+    };
+    console.log(apiUrl);
+    console.log(formData);
+
+    const response = await fetch(`${apiUrl}/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData)
+    });
+    console.log(response);
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error(responseData.message || t('contact.formError'));
+    }
     form.value = {
       firstName: '',
       lastName: '',
@@ -302,16 +362,14 @@ const submitForm = async () => {
       message: '',
       privacy: false
     };
-    
-    // Mostrar mensaje de éxito
+    formErrors.value = {};
     formSubmitted.value = true;
-    
-    // Ocultar mensaje de éxito después de 5 segundos
     setTimeout(() => {
       formSubmitted.value = false;
     }, 5000);
   } catch (error) {
     console.error('Error al enviar el formulario:', error);
+    submitError.value = error.message || t('contact.formError');
   } finally {
     isSubmitting.value = false;
   }
