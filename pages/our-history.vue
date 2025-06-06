@@ -10,7 +10,7 @@
       </div>
       <div class="rounded-lg overflow-hidden shadow-lg">
         <img 
-          src="" 
+          src="assets/images/trabajando-flowerpower-floristeria.jpg" 
           :alt="$t('ourHistoryPage.teamSection.imageAlt')" 
           class="w-full h-auto"
         />
@@ -31,7 +31,9 @@
       </div>
       <div class="rounded-lg overflow-hidden shadow-lg md:order-1">
         <img 
-          src="" 
+          src="assets/images/Antonia_Madueño.jpg" 
+          width="500"
+          height="500"
           :alt="$t('ourHistoryPage.founderSection.imageAlt')" 
           class="w-full h-auto"
         />

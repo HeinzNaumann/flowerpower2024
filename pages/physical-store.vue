@@ -69,15 +69,7 @@
       <h2 class="text-2xl font-bold text-center mb-6">{{ $t('physicalStore.video.title') }}</h2>
       <div class="w-full aspect-w-16 aspect-h-9 rounded-lg overflow-hidden shadow-lg">
         <!-- Aquí iría el iframe de YouTube o un reproductor de video -->
-        <iframe 
-          width="100%" 
-          height="500" 
-          src="https://www.youtube.com/embed/YOUR_VIDEO_ID" 
-          title="Flower Power Tienda" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
+<iframe width="100%" height="500" src="https://www.youtube.com/embed/rC71KDTVGgY" title="Floristería Flower Power" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
   </div>
