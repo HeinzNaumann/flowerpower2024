@@ -151,21 +151,21 @@
         </div>
 
         <div class="flex justify-end space-x-4">
-          <a href="https://www.facebook.com/flowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
+          <a href="https://www.facebook.com/FlowerPower.es" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
             <img
               src="/assets/icons/facebook.svg"
               :alt="$t('footer.socialMedia.facebook')"
               class="w-6 h-6 text-white"
             />
           </a>
-          <a href="https://www.youtube.com/flowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
+          <a href="https://www.youtube.com/@flowerpower4999" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
             <img
               src="/assets/icons/youtube.svg"
               :alt="$t('footer.socialMedia.youtube')"
               class="w-6 h-6"
             />
           </a>
-          <a href="https://www.instagram.com/flowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
+          <a href="https://www.instagram.com/floristeriaflowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
             <img
               src="/assets/icons/instagram.svg"
               :alt="$t('footer.socialMedia.instagram')"
@@ -177,21 +177,21 @@
 
       <!-- Social Media Icons (Mobile/Tablet) -->
       <div class="mt-8 flex justify-center space-x-6 lg:hidden">
-        <a href="https://www.facebook.com/flowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
+        <a href="https://www.facebook.com/FlowerPower.es" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
           <img
             src="/assets/icons/facebook.svg"
             :alt="$t('footer.socialMedia.facebook')"
             class="w-8 h-8"
           />
         </a>
-        <a href="https://www.youtube.com/flowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
+        <a href="https://www.youtube.com/@flowerpower4999" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
           <img
             src="/assets/icons/youtube.svg"
             :alt="$t('footer.socialMedia.youtube')"
             class="w-8 h-8"
           />
         </a>
-        <a href="https://www.instagram.com/flowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
+        <a href="https://www.instagram.com/floristeriaflowerpower" target="_blank" rel="noopener noreferrer" class="hover:opacity-75">
           <img
             src="/assets/icons/instagram.svg"
             :alt="$t('footer.socialMedia.instagram')"
