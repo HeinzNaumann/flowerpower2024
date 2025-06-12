@@ -625,8 +625,8 @@
     "description": "In unserem Geschäft können Sie unsere Blumen und Pflanzen fühlen, riechen und persönlich sehen. Wir freuen uns darauf, Sie willkommen zu heißen, damit Sie uns kennenlernen und wir unsere Leidenschaft für die Welt der Blumen und Pflanzen teilen können.",
     "schedule": {
       "title": "Öffnungszeiten",
-      "weekdays": "Montag bis Freitag von 10 bis 20 Uhr.",
-      "weekends": "Samstags von 10 bis 18 Uhr."
+      "weekdays": "Montag bis Freitag von 10 bis 16 Uhr.",
+      "weekends": "Samstags von 10 bis 14 Uhr."
     },
     "workshops": {
       "title": "Online-Workshops",

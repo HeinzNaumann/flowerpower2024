@@ -638,8 +638,8 @@
     "description": "En nuestra tienda física podrás sentir, oler y ver nuestras flores o plantas en persona. Estaremos encantados de recibirte para que nos conozcas y poder transmitirte nuestra pasión del mundo de las flores y plantas.",
     "schedule": {
       "title": "Horario",
-      "weekdays": "Encuéntranos de lunes a viernes, de 10 a 20h.",
-      "weekends": "Sábados de 10 a 18h."
+      "weekdays": "Encuéntranos de lunes a viernes, de 10 a 16h.",
+      "weekends": "Sábados de 10 a 14h."
     },
     "workshops": {
       "title": "Talleres online",
