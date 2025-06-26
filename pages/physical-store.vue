@@ -12,7 +12,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
       <div>
         <img 
-          src="" 
+          src="assets/images/tienda_flower_power.jpeg" 
           alt="Flower Power tienda física" 
           class="w-full h-auto rounded-lg shadow-lg"
         />
@@ -29,14 +29,14 @@
         <div class="bg-neutral-100 p-6 rounded-lg shadow">
           <h2 class="text-xl font-bold mb-2">{{ $t('physicalStore.workshops.title') }}</h2>
           <p>{{ $t('physicalStore.workshops.description') }}</p>
-        </div>
+        </div>º
       </div>
     </div>
 
     <!-- Segunda imagen de la tienda -->
     <div class="mb-16">
       <img 
-        src="" 
+        src="assets/images/tienda_flower_power_interior.jpeg" 
         alt="Interior de la tienda Flower Power" 
         class="w-full h-auto rounded-lg shadow-lg"
       />
