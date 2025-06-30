@@ -24,7 +24,6 @@
       {{ $t("productPage.errorLoading") || "Error cargando el producto" }}
     </div>
 
-    <!-- Contenido del producto -->
     <div v-else>
       <h1 class="text-2xl font-bold mb-8">
         {{ $t("productPage.product") }} / {{ product.title }}
