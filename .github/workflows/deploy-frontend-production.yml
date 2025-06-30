@@ -1,0 +1,56 @@
+name: Deploy Frontend Production
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PROD_AWS_SSH_KEY }}
+
+      - name: Add server to known_hosts
+        run: ssh-keyscan -H 54.73.233.6 >> ~/.ssh/known_hosts
+
+      - name: Rsync código al servidor (sin node_modules ni .output)
+        run: |
+          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude '.output' --exclude '.env' ./ ubuntu@54.73.233.6:/var/www/flowerpower-production/flowerpower-frontend
+
+      - name: Crear y copiar el .env de producción al servidor
+        run: |
+          ssh ubuntu@54.73.233.6 'echo "STAGE=production" > /var/www/flowerpower-production/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "PORT=${{ secrets.PROD_PORT }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "API_BASE_URL=${{ secrets.PROD_API_BASE_URL }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "JWT_SECRET=${{ secrets.PROD_JWT_SECRET }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "STRIPE_SECRET_KEY=${{ secrets.PROD_STRIPE_SECRET_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "STRIPE_PUBLIC_KEY=${{ secrets.PROD_STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
+
+      - name: Build, install y restart con PM2 en el servidor
+        run: |
+          ssh ubuntu@54.73.233.6 '
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            cd /var/www/flowerpower-production/flowerpower-frontend
+            pnpm install
+            pnpm build
+            pm2 reload ecosystem.config.cjs --env production \
+              || pm2 start ecosystem.config.cjs --env production
+          '

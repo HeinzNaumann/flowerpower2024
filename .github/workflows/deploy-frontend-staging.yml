@@ -3,7 +3,7 @@ name: Deploy Frontend Staging
 on:
   push:
     branches:
-      - master # O la rama que uses para staging
+      - develop # O la rama que uses para staging
 
 jobs:
   deploy:
