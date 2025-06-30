@@ -269,19 +269,19 @@ const COMPLEMENTS = [
   {
     id: 'box',
     name: 'cart.subproducts.box',
-    price: 45,
+    price: 12,
     image: 'public/images/complements/bombones.webp',
   },
   {
     id: 'bottle',
     name: 'cart.subproducts.bottle',
-    price: 45,
+    price: 59,
     image: 'public/images/complements/moet-chandon.webp',
   },
   {
     id: 'card',
     name: 'cart.subproducts.card',
-    price: 45,
+    price: 4.75,
     image: 'public/images/complements/tarjeta-felicitacion.webp',
   },
 ];
