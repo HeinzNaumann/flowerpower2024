@@ -51,6 +51,6 @@ jobs:
             cd /var/www/flowerpower-production/flowerpower-frontend
             pnpm install
             pnpm build
-            pm2 reload ecosystem.config.cjs --env production \
-              || pm2 start ecosystem.config.cjs --env production
+            pm2 delete flowerpower-frontend-production || true
+            pm2 start .output/server/index.mjs --name flowerpower-frontend-production
           '
