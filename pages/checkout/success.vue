@@ -126,7 +126,7 @@
         </div>
       </div>
 
-      <!-- Botones de acción -->
+      <!-- Botones de acció -->
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <UButton
           to="/"
