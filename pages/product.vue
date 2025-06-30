@@ -354,9 +354,12 @@ const COMPLEMENTS = [
 
 const totalPrice = computed(() => {
   let total = Number(product.value?.price || 0);
-  if (selectedComplements.value.box) total += 45;
-  if (selectedComplements.value.bottle) total += 45;
-  if (selectedComplements.value.card) total += 45;
+  Object.keys(selectedComplements.value).forEach((key) => {
+    if (selectedComplements.value[key]) {
+      const complement = COMPLEMENTS.find((c) => c.id === key);
+      if (complement) total += complement.price;
+    }
+  });
   return total.toFixed(2);
 });
 
