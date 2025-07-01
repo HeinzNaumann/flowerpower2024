@@ -316,12 +316,7 @@
     "title": "Envío y Entrega",
     "deliveryAreas": {
       "title": "Áreas de Entrega",
-      "description": "En Flower Power, ofrecemos servicios de entrega de flores frescas en las siguientes áreas. Si tu ubicación no aparece en la lista, contáctanos para verificar la disponibilidad.",
-      "areas": {
-        "0": "Madrid capital y área metropolitana - Entrega el mismo día disponible",
-        "1": "Resto de la Península - Entrega en 24-48 horas",
-        "2": "Islas Baleares y Canarias - Entrega en 48-72 horas"
-      }
+      "description": "En Flower Power, ofrecemos servicios de entrega de flores frescas en las siguientes áreas. Si tu ubicación no aparece en la lista, contáctanos para verificar la disponibilidad."
     },
     "deliveryTimes": {
       "title": "Tiempos de Entrega",
@@ -329,51 +324,12 @@
       "table": {
         "orderType": "Tipo de Pedido",
         "processingTime": "Tiempo de Procesamiento",
-        "deliveryTime": "Tiempo de Entrega",
-        "rows": {
-          "0": {
-            "type": "Pedido Estándar",
-            "processing": "Hasta 24 horas",
-            "delivery": "1-2 días laborables"
-          },
-          "1": {
-            "type": "Pedido Express",
-            "processing": "2-3 horas",
-            "delivery": "Mismo día (pedidos antes de las 14:00h)"
-          },
-          "2": {
-            "type": "Pedido Personalizado",
-            "processing": "24-48 horas",
-            "delivery": "2-3 días laborables"
-          }
-        }
+        "deliveryTime": "Tiempo de Entrega"
       }
     },
     "shippingCosts": {
       "title": "Costes de Envío",
-      "description": "Nuestros costes de envío dependen de la ubicación de entrega y el tipo de servicio seleccionado. Para pedidos superiores a 60€, ofrecemos envío gratuito en entregas estándar dentro de Madrid capital.",
-      "table": {
-        "location": "Ubicación",
-        "standardDelivery": "Entrega Estándar",
-        "expressDelivery": "Entrega Express",
-        "rows": {
-          "0": {
-            "location": "Madrid Capital",
-            "standard": "4,95€",
-            "express": "9,95€"
-          },
-          "1": {
-            "location": "Península",
-            "standard": "7,95€",
-            "express": "12,95€"
-          },
-          "2": {
-            "location": "Islas",
-            "standard": "12,95€",
-            "express": "No disponible"
-          }
-        }
-      }
+      "description": "Nuestros costes de envío dependen de la ubicación de entrega y el tipo de servicio seleccionado."
     },
     "specialInstructions": {
       "title": "Instrucciones Especiales",

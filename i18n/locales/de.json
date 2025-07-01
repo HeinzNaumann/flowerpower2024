@@ -303,12 +303,7 @@
     "title": "Versand & Lieferung",
     "deliveryAreas": {
       "title": "Liefergebiete",
-      "description": "Bei Flower Power bieten wir frische Blumenlieferungen in den folgenden Gebieten an. Wenn Ihr Standort nicht aufgeführt ist, kontaktieren Sie uns bitte, um die Verfügbarkeit zu prüfen.",
-      "areas": {
-        "0": "Madrid Stadt und Metropolregion - Lieferung am selben Tag möglich",
-        "1": "Restliche Halbinsel - Lieferung innerhalb von 24-48 Stunden",
-        "2": "Balearen und Kanarische Inseln - Lieferung innerhalb von 48-72 Stunden"
-      }
+      "description": "Bei Flower Power bieten wir frische Blumenlieferungen in den folgenden Gebieten an. Wenn Ihr Standort nicht aufgeführt ist, kontaktieren Sie uns bitte, um die Verfügbarkeit zu prüfen."
     },
     "deliveryTimes": {
       "title": "Lieferzeiten",
@@ -316,51 +311,12 @@
       "table": {
         "orderType": "Bestelltyp",
         "processingTime": "Bearbeitungszeit",
-        "deliveryTime": "Lieferzeit",
-        "rows": {
-          "0": {
-            "type": "Standardbestellung",
-            "processing": "Bis zu 24 Stunden",
-            "delivery": "1-2 Werktage"
-          },
-          "1": {
-            "type": "Expressbestellung",
-            "processing": "2-3 Stunden",
-            "delivery": "Am selben Tag (Bestellungen vor 14:00 Uhr)"
-          },
-          "2": {
-            "type": "Individuelle Bestellung",
-            "processing": "24-48 Stunden",
-            "delivery": "2-3 Werktage"
-          }
-        }
+        "deliveryTime": "Lieferzeit"
       }
     },
     "shippingCosts": {
       "title": "Versandkosten",
-      "description": "Unsere Versandkosten hängen vom Lieferort und der gewählten Versandart ab. Für Bestellungen über 60€ bieten wir kostenlosen Standardversand innerhalb der Stadt Madrid an.",
-      "table": {
-        "location": "Standort",
-        "standardDelivery": "Standardlieferung",
-        "expressDelivery": "Expresslieferung",
-        "rows": {
-          "0": {
-            "location": "Madrid Stadt",
-            "standard": "4,95€",
-            "express": "9,95€"
-          },
-          "1": {
-            "location": "Halbinsel",
-            "standard": "7,95€",
-            "express": "12,95€"
-          },
-          "2": {
-            "location": "Inseln",
-            "standard": "12,95€",
-            "express": "Nicht verfügbar"
-          }
-        }
-      }
+      "description": "Unsere Versandkosten hängen vom Lieferort und der gewählten Versandart ab. "
     },
     "specialInstructions": {
       "title": "Besondere Hinweise",
