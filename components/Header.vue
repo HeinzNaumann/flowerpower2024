@@ -197,6 +197,7 @@
           <button
             v-if="!isAuthenticated() && isReady"
             class="w-full text-left p-2 hover:bg-neutral-100"
+            @click="openModal"
           >
             {{ $t("header.register") }}
           </button>
