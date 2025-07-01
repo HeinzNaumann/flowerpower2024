@@ -442,7 +442,7 @@ async function handleRegister() {
   });
 
   try {
-    const { confirmEmail, acceptTOS, ...body } = registerForm;
+    const { countryCode, confirmEmail, ...body } = registerForm;
 
     console.log(`Enviando solicitud de registro a ${apiUrl}/auth/register`);
 
@@ -503,9 +503,8 @@ function resetFormsAndMessages() {
     name: "",
     surname: "",
     email: "",
-    confirmEmail: "",
+    confirmEmail: "", // Solo para validación local, no se envía
     phone: "",
-    countryCode: "ES",
     password: "",
     acceptTOS: false,
     subscribeNewsletter: false,
