@@ -43,7 +43,7 @@ jobs:
           ssh ubuntu@54.73.233.6 'echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
 
-      - name: Build, install y restart con PM2 en el servidor
+      - name: Build, install y restart con PM2 en el servidor (con .env export)
         run: |
           ssh ubuntu@54.73.233.6 '
             export NVM_DIR="$HOME/.nvm"
@@ -51,6 +51,9 @@ jobs:
             cd /var/www/flowerpower-production/flowerpower-frontend
             pnpm install
             pnpm build
+            set -a
+            source .env
+            set +a
             pm2 delete flowerpower-frontend-production || true
-            pm2 start .output/server/index.mjs --name flowerpower-frontend-production
+            pm2 start .output/server/index.mjs --name flowerpower-frontend-production --interpreter $(which node)
           '
