@@ -80,7 +80,7 @@ export default defineNuxtConfig({
       },
       // Agregar hints de precarga para recursos críticos
       link: [
-        { rel: 'preconnect', href: process.env.API_BASE_URL || "https://flowerpower.es/api" }
+        { rel: 'preconnect', href: process.env.API_BASE_URL || "https://www.flowerpower.es/api" }
       ]
     }
   },
