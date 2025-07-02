@@ -40,10 +40,10 @@ jobs:
       - name: Add server to known_hosts
         run: ssh-keyscan -H 54.73.233.6 >> ~/.ssh/known_hosts
 
-      # --- LIMPIAR .output VIEJO EN EL SERVER ---
-      - name: Limpiar .output viejo en el servidor
+      - name: Limpiar .output viejo en el servidor (BORRADO COMPLETO Y RECREACIÓN)
         run: |
-          ssh ubuntu@54.73.233.6 'rm -rf /var/www/flowerpower-production/flowerpower-frontend/.output/*'
+          ssh ubuntu@54.73.233.6 'rm -rf /var/www/flowerpower-production/flowerpower-frontend/.output'
+          ssh ubuntu@54.73.233.6 'mkdir -p /var/www/flowerpower-production/flowerpower-frontend/.output'
 
       # --- COPIAR NUEVO .output ---
       - name: Rsync .output al servidor (solo build ya generado)
