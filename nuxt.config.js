@@ -115,11 +115,11 @@ export default defineNuxtConfig({
       redirectOn: "root",
     },
     seo: true,
-    baseUrl: "https://flowerpower.es",
+    baseUrl: "https://www.flowerpower.es",
   },
   runtimeConfig: {
     public: {
-      apiBaseUrl: process.env.API_BASE_URL || "https://flowerpower.es/api",
+      apiBaseUrl: process.env.API_BASE_URL || "https://www.flowerpower.es/api",
       stripePublicKey: process.env.STRIPE_PUBLIC_KEY || "",
     },
   },
