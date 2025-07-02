@@ -23,7 +23,6 @@
 import { defineProps, ref, watch } from "vue";
 import type { Product } from '~/types/types';
 
-// Importar el composable de filtros
 const { activeFilters, applyFilter } = useProductFilters();
 
 // Obtener los productos del store o del contexto

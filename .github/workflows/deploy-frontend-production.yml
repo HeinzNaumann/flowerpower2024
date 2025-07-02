@@ -3,7 +3,11 @@ name: Deploy Frontend Production
 on:
   push:
     branches:
-      - main 
+      - main
+
+concurrency:
+  group: deploy-frontend-production
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -22,6 +26,12 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Nuxt app
+        run: pnpm build
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -30,9 +40,13 @@ jobs:
       - name: Add server to known_hosts
         run: ssh-keyscan -H 54.73.233.6 >> ~/.ssh/known_hosts
 
-      - name: Rsync código al servidor (sin node_modules ni .output)
+      - name: Rsync .output al servidor (solo build ya generado)
         run: |
-          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude '.output' --exclude '.env' ./ ubuntu@54.73.233.6:/var/www/flowerpower-production/flowerpower-frontend
+          rsync -avz --delete .output/ ubuntu@54.73.233.6:/var/www/flowerpower-production/flowerpower-frontend/.output
+
+      - name: Copiar package.json y pnpm-lock.yaml
+        run: |
+          scp package.json pnpm-lock.yaml ubuntu@54.73.233.6:/var/www/flowerpower-production/flowerpower-frontend/
 
       - name: Crear y copiar el .env de producción al servidor
         run: |
@@ -43,14 +57,13 @@ jobs:
           ssh ubuntu@54.73.233.6 'echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
 
-      - name: Build, install y restart con PM2 en el servidor (con .env export)
+      - name: Instalar solo dependencias de prod y restart con PM2
         run: |
           ssh ubuntu@54.73.233.6 '
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd /var/www/flowerpower-production/flowerpower-frontend
-            pnpm install
-            pnpm build
+            pnpm install --prod
             set -a
             source .env
             set +a
