@@ -26,6 +26,33 @@ import { useCustomPageTransition } from '~/composables/pageTransition'
 
 // Obtener las clases de transición
 const transitionClasses = useCustomPageTransition()
+
+import { useRouter, useRoute } from 'vue-router'
+import { onMounted } from 'vue'
+
+const router = useRouter()
+const route = useRoute()
+
+onMounted(() => {
+  // Tracking inicial (por si la navegación es directa)
+  if (window.gtag && (!window.cookiePreferences || window.cookiePreferences.analytics)) {
+    window.gtag('event', 'page_view', {
+      page_path: route.fullPath,
+      page_title: document.title,
+      page_location: window.location.href
+    })
+  }
+  // Tracking en cada cambio de ruta
+  router.afterEach((to) => {
+    if (window.gtag && (!window.cookiePreferences || window.cookiePreferences.analytics)) {
+      window.gtag('event', 'page_view', {
+        page_path: to.fullPath,
+        page_title: document.title,
+        page_location: window.location.href
+      })
+    }
+  })
+})
 </script>
 
 <style>
