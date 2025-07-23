@@ -251,6 +251,7 @@
     "confirm": "Adresse bestätigen",
     "saveAsDefault": "Adresse als Standard speichern",
     "paymentTitle": "Kauf abschließen",
+    "deliveryTimeRange": "Verfugbare Stunden: 9:00 AM - 7:00 PM",
     "paymentSubtitle": "Schließen Sie Ihre Bestellung sicher ab",
     "deliveryInfoImportant": "Es ist wichtig, eine Lieferdatum und eine Lieferzeit auszuwählen, um Ihre Bestellung korrekt zu verarbeiten.",
     "orderSummary": "Bestellzusammenfassung",
