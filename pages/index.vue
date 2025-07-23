@@ -16,6 +16,21 @@
 </template>
 
 <script setup lang="ts">
+import { useHead } from '#imports';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+// SEO dinámico portada
+useHead({
+  title: t('home.seo.title'),
+  meta: [
+    {
+      name: 'description',
+      content: t('home.seo.description')
+    }
+  ]
+});
 // Configurar la carga progresiva
 const nuxtApp = useNuxtApp()
 
