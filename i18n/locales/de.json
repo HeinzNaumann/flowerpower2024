@@ -252,7 +252,7 @@
     "saveAsDefault": "Adresse als Standard speichern",
     "paymentTitle": "Kauf abschließen",
     "paymentSubtitle": "Schließen Sie Ihre Bestellung sicher ab",
-    "deliveryTimeImportant": "Es ist wichtig, eine Lieferdatum und eine Lieferzeit auszuwählen, um Ihre Bestellung korrekt zu verarbeiten.",
+    "deliveryInfoImportant": "Es ist wichtig, eine Lieferdatum und eine Lieferzeit auszuwählen, um Ihre Bestellung korrekt zu verarbeiten.",
     "orderSummary": "Bestellzusammenfassung",
     "cardNoteLabel": "Kartennotiz",
     "paymentDetails": "Zahlungsdetails",
