@@ -63,6 +63,8 @@ jobs:
           ssh ubuntu@54.73.233.6 'echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "NUXT_PUBLIC_STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-production/flowerpower-frontend/.env'
+
 
       - name: Instalar solo dependencias de prod y restart con PM2
         run: |

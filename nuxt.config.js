@@ -120,7 +120,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiBaseUrl: process.env.API_BASE_URL || "https://www.flowerpower.es/api",
-      stripePublicKey: process.env.STRIPE_PUBLIC_KEY || "",
+      stripePublicKey: process.env.NUXT_PUBLIC_STRIPE_PUBLIC_KEY || "",
     },
   },
 });
