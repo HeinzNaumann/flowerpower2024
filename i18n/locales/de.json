@@ -146,6 +146,10 @@
     "geburtstage": "geburtstage"
   },
   "productPage": {
+    "seo": {
+      "title": "{product} kaufen | Schnelle Lieferung | Flower Power Mallorca",
+      "description": "Entdecken Sie {product} bei Flower Power Mallorca. Frische Blumen und Pflanzen, schnelle Lieferung und persönlicher Service. Jetzt online bestellen und mit bester Qualität überraschen."
+    },
     "product": "Produkt",
     "addYourComplement": "Fügen Sie Ihrer Bestellung eine Ergänzung hinzu",
     "subTotal": "Zwischensumme",

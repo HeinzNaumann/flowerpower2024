@@ -146,6 +146,10 @@
     "birthdays": "birthdays"
   },
   "productPage": {
+    "seo": {
+      "title": "Buy {product} | Fast Delivery | Flower Power Mallorca",
+      "description": "Discover {product} at Flower Power Mallorca. Fresh flowers and plants, fast delivery, and personalized service. Order online and delight someone with the best quality."
+    },
     "product": "Product",
     "addYourComplement": "Add a complement to your order",
     "subTotal": "Subtotal",

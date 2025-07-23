@@ -271,6 +271,21 @@ const config = useRuntimeConfig();
 const route = useRoute();
 const slug = route.query.slug;
 const { locale, t } = useI18n();
+import { useHead } from '#imports';
+
+// SEO dinámico multilingüe para producto
+useHead(() => {
+  const productName = product.value?.title || '';
+  return {
+    title: t('productPage.seo.title', { product: productName }),
+    meta: [
+      {
+        name: 'description',
+        content: t('productPage.seo.description', { product: productName })
+      }
+    ]
+  };
+});
 
 const cart = useCartStore();
 

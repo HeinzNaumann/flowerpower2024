@@ -80,12 +80,16 @@
 import { useHead } from '#imports';
 
 // SEO
+import { useI18n } from 'vue-i18n';
+
+const { t, locale } = useI18n();
+
 useHead({
-  title: 'Nuestra Tienda Física | Flower Power',
+  title: t('physicalStore.title') + ' | Flower Power',
   meta: [
     {
       name: 'description',
-      content: 'Visita nuestra tienda física en Barcelona. Podrás sentir, oler y ver nuestras flores y plantas en persona.'
+      content: t('physicalStore.description')
     }
   ]
 });

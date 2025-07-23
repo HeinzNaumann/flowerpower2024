@@ -191,7 +191,7 @@
     "zipPlaceholder": "00000",
     "countryPlaceholder": "ES",
     "confirm": "Confirmar dirección",
-    "saveAsDefault": "Guardar dirección como predeterminada",
+    "saveAsDefault": "Guardar dirección como predetexrminada",
     "paymentTitle": "Completar compra",
     "paymentSubtitle": "Completa tu pedido de forma segura",
     "paymentDetails": "Detalles de pago",
@@ -304,6 +304,10 @@
     }
   },
   "productPage": {
+    "seo": {
+      "title": "Comprar {product} | Envío rápido | Flower Power Mallorca",
+      "description": "Descubre {product} en Flower Power Mallorca. Flores y plantas frescas, entrega rápida y atención personalizada. Haz tu pedido online y sorprende con la mejor calidad."
+    },
     "product": "Producto",
     "addYourComplement": "Añade un complemento a tu pedido",
     "subTotal": "Subtotal",
