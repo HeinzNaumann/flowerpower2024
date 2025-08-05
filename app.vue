@@ -1,16 +1,6 @@
 <template>
   <UApp>
     <NuxtLayout>
-      <Head>
-      <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-WFLPL6JJGK"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-WFLPL6JJGK');
-      </script>
-    </Head>
       <NuxtPage :transition="{
         name: 'page',
         mode: 'out-in',
@@ -23,6 +13,7 @@
 <script setup>
 // Importar las transiciones personalizadas
 import { useCustomPageTransition } from '~/composables/pageTransition'
+import { useHead } from '#imports'
 
 // Obtener las clases de transición
 const transitionClasses = useCustomPageTransition()
@@ -32,6 +23,23 @@ import { onMounted } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
+
+useHead({
+  script: [
+    {
+      src: 'https://www.googletagmanager.com/gtag/js?id=G-WFLPL6JJGK',
+      async: true
+    },
+    {
+      children: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WFLPL6JJGK');
+      `
+    }
+  ]
+})
 
 onMounted(() => {
   // Tracking inicial (por si la navegación es directa)
