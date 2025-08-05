@@ -38,34 +38,29 @@
 
       <!-- LOGIN FORM -->
       <template v-if="currentView === 'login'">
-        <UButton
-          icon="i-lucide-arrow-left"
-          variant="ghost"
-          color="neutral"
-          size="sm"
-          class="absolute top-4 left-4"
-          @click="switchToInitial"
-          aria-label="Volver"
-        />
         <UForm
           :schema="loginSchema"
           :state="loginForm"
           class="space-y-4"
           @submit="handleLogin"
         >
-          <UFormField label="Email" name="email">
+          <UFormField label="Email" name="email" class="w-full">
             <UInput
               v-model="loginForm.email"
               type="email"
               autocomplete="email"
+              class="w-full"
+              placeholder="tuemail@ejemplo.com"
             />
           </UFormField>
 
-          <UFormField label="Password" name="password">
+          <UFormField label="Password" name="password" class="w-full">
             <UInput
               v-model="loginForm.password"
               type="password"
               autocomplete="current-password"
+              class="w-full"
+              placeholder="••••••••"
             />
           </UFormField>
 
@@ -95,81 +90,72 @@
 
       <!-- REGISTRO FORM -->
       <template v-if="currentView === 'register'">
-        <UButton
-          icon="i-lucide-arrow-left"
-          variant="ghost"
-          color="neutral"
-          size="sm"
-          class="absolute top-4 left-4"
-          @click="switchToInitial"
-          aria-label="Volver"
-        />
         <UForm
           :schema="registerSchema"
           :state="registerForm"
           @submit="handleRegister"
           class="space-y-6"
         >
-          <div class="flex space-x-2">
-            <UFormField name="name" label="Nombre">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <UFormField name="name" label="Nombre" class="w-full">
               <UInput
                 v-model="registerForm.name"
                 placeholder="Tu nombre"
                 autocomplete="given-name"
+                class="w-full"
               />
             </UFormField>
-            <UFormField name="surname" label="Apellidos">
+            <UFormField name="surname" label="Apellidos" class="w-full">
               <UInput
                 v-model="registerForm.surname"
                 placeholder="Tus apellidos"
                 autocomplete="family-name"
+                class="w-full"
               />
             </UFormField>
           </div>
 
           <!-- EMAIL Y CONFIRMACIÓN -->
-          <div class="flex space-x-2">
-            <UFormField name="email" label="Email">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <UFormField name="email" label="Email" class="w-full">
               <UInput
                 v-model="registerForm.email"
                 type="email"
                 placeholder="tucorreo@mail.com"
                 autocomplete="email"
-                class="input-nike"
+                class="w-full"
               />
             </UFormField>
 
-            <UFormField name="confirmEmail" label="Confirma Email">
+            <UFormField name="confirmEmail" label="Confirmar email" class="w-full">
               <UInput
                 v-model="registerForm.confirmEmail"
                 type="email"
                 placeholder="Repite tu correo"
                 autocomplete="email"
-                class="input-nike"
+                class="w-full"
               />
             </UFormField>
           </div>
 
           <PhoneField v-model="registerForm.phone" />
 
-          <UFormField name="password" label="Password">
+          <UFormField name="password" label="Password" class="w-full">
             <UInput
               v-model="registerForm.password"
-              placeholder="Password"
+              placeholder="Crea una contraseña segura"
               :type="show ? 'text' : 'password'"
               :ui="{ trailing: 'pe-1' }"
               class="w-full"
-              autocomplete="new-password"
             >
               <template #trailing>
                 <UButton
                   color="neutral"
                   variant="link"
-                  size="sm"
+                  size="xs"
                   :icon="show ? 'i-lucide-eye-off' : 'i-lucide-eye'"
-                  :aria-label="show ? 'Ocultar' : 'Mostrar'"
-                  :aria-pressed="show"
                   @click="show = !show"
+                  aria-label="Toggle password visibility"
                 />
               </template>
             </UInput>
@@ -479,11 +465,6 @@ function switchToLogin() {
 
 function switchToRegister() {
   currentView.value = "register";
-  resetFormsAndMessages();
-}
-
-function switchToInitial() {
-  currentView.value = "initial";
   resetFormsAndMessages();
 }
 
