@@ -1,5 +1,6 @@
 <template>
   <div class="container mx-auto px-4 py-12">
+    <LocalBusinessSchema />
     <!-- Encabezado -->
     <div class="text-center mb-16">
       <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ $t('contact.title') }}</h1>

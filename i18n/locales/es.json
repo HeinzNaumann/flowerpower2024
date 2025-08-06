@@ -538,7 +538,7 @@
       "title": "Información de contacto",
       "address": {
         "title": "Dirección",
-        "line1": "Carrer Fetjet, 3",
+        "line1": "Carrer Fetget, 3",
         "line2": "07560 Cala Millor, Mallorca"
       },
       "email": {
@@ -619,7 +619,7 @@
       "description": "Accede a nuestro canal de YouTube donde podrás ver cómo creamos nuestros ramos."
     },
     "location": {
-      "title": "Carrer Fetjet, 3",
+      "title": "Carrer Fetget, 3",
       "visit": "Visítanos, estaremos encantados de atenderte."
     },
     "video": {
@@ -756,7 +756,7 @@
   "legalNotice": {
     "title": "Aviso Legal",
     "lastUpdated": "Última actualización",
-    "introduction": "En cumplimiento con el deber de información recogido en el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico, a continuación se reflejan los siguientes datos: la empresa titular de este sitio web es Flower Power, S.L., con domicilio a estos efectos en Carrer Fetjet, 3, 07560 Cala Millor, Mallorca.",
+    "introduction": "En cumplimiento con el deber de información recogido en el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico, a continuación se reflejan los siguientes datos: la empresa titular de este sitio web es Flower Power, S.L., con domicilio a estos efectos en Carrer Fetget, 3, 07560 Cala Millor, Mallorca.",
     "identificationData": {
       "title": "Datos identificativos",
       "companyName": {
@@ -769,7 +769,7 @@
       },
       "address": {
         "label": "Domicilio social",
-        "value": "Carrer Fetjet, 3, 07560 Cala Millor, Mallorca"
+        "value": "Carrer Fetget, 3, 07560 Cala Millor, Mallorca"
       },
       "email": {
         "label": "Correo electrónico",

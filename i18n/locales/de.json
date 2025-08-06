@@ -520,7 +520,7 @@
       "title": "Kontaktinformationen",
       "address": {
         "title": "Adresse",
-        "line1": "Carrer Fetjet, 3",
+        "line1": "Carrer Fetget, 3",
         "line2": "07560 Cala Millor, Mallorca, Spanien"
       },
       "email": {
@@ -601,7 +601,7 @@
       "description": "Besuchen Sie unseren YouTube-Kanal, wo Sie sehen können, wie wir unsere Sträuße kreieren."
     },
     "location": {
-      "title": "Carrer Fetjet, 3",
+      "title": "Carrer Fetget, 3",
       "visit": "Besuchen Sie uns, wir freuen uns darauf, Ihnen zu helfen."
     },
     "video": {
@@ -738,7 +738,7 @@
   "legalNotice": {
     "title": "Rechtliche Hinweise",
     "lastUpdated": "Zuletzt aktualisiert",
-    "introduction": "In Erfüllung der Informationspflicht gemäß Artikel 10 des Gesetzes 34/2002 vom 11. Juli über Dienste der Informationsgesellschaft und des elektronischen Handels werden die folgenden Daten wiedergegeben: Der Inhaber dieser Website ist Flower Power, S.L., mit Sitz für diese Zwecke in Carrer Fetjet, 3, 07560 Cala Millor, Mallorca.",
+    "introduction": "In Erfüllung der Informationspflicht gemäß Artikel 10 des Gesetzes 34/2002 vom 11. Juli über Dienste der Informationsgesellschaft und des elektronischen Handels werden die folgenden Daten wiedergegeben: Der Inhaber dieser Website ist Flower Power, S.L., mit Sitz für diese Zwecke in Carrer Fetget, 3, 07560 Cala Millor, Mallorca.",
     "identificationData": {
       "title": "Identifikationsdaten",
       "companyName": {
@@ -751,7 +751,7 @@
       },
       "address": {
         "label": "Geschäftssitz",
-        "value": "Carrer Fetjet, 3, 07560 Cala Millor, Mallorca, Spanien"
+        "value": "Carrer Fetget, 3, 07560 Cala Millor, Mallorca, Spanien"
       },
       "email": {
         "label": "E-Mail",
