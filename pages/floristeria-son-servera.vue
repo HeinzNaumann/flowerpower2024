@@ -7,9 +7,9 @@
           <h1 class="text-4xl md:text-5xl font-bold mb-4">
             Floristería en Son Servera
           </h1>
-          <p class="text-xl md:text-2xl mb-8 opacity-90">
+          <h3 class="text-xl md:text-2xl mb-8 opacity-90">
             Servicio de flores y plantas con entrega a domicilio en toda Son Servera
-          </p>
+          </h3>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <NuxtLink
               :to="$localePath('/shop')"
@@ -130,10 +130,10 @@
     <!-- CTA Final -->
     <div class="py-16 bg-[#3F2D50] text-white">
       <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4">¿Necesitas flores en Son Servera?</h2>
-        <p class="text-xl mb-8 opacity-90">
+        <h3 class="text-3xl font-bold mb-4">¿Necesitas flores en Son Servera?</h3>
+        <h3 class="text-xl mb-8 opacity-90">
           Contáctanos ahora y recibe tu pedido hoy mismo
-        </p>
+        </h3>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="tel:+34971587497"

@@ -7,9 +7,9 @@
           <h1 class="text-4xl md:text-5xl font-bold mb-4">
             Floristería en Artá
           </h1>
-          <p class="text-xl md:text-2xl mb-8 opacity-90">
+          <h3 class="text-xl md:text-2xl mb-8 opacity-90">
             Flores frescas y entrega rápida en todo Artá y pueblos cercanos
-          </p>
+            </h3>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <NuxtLink
               :to="$localePath('/shop')"
@@ -143,9 +143,9 @@
     <div class="py-16 bg-[#3F2D50] text-white">
       <div class="container mx-auto px-4 text-center">
         <h2 class="text-3xl font-bold mb-4">¿Necesitas flores en Artá?</h2>
-        <p class="text-xl mb-8 opacity-90">
+        <h3 class="text-xl mb-8 opacity-90">
           Contáctanos y recibe tu pedido en Artá o cualquier punto del Llevant
-        </p>
+        </h3>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="tel:+34971587497"
