@@ -142,7 +142,7 @@
     <!-- CTA Final -->
     <div class="py-16 bg-[#3F2D50] text-white">
       <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4">Need flowers in Son Servera?</h2>
+        <h1 class="text-3xl font-bold mb-4">Need flowers in Son Servera?</h1>
         <h3 class="text-xl mb-8 opacity-90">
           Contact us now and receive your order today
         </h3>

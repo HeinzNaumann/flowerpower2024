@@ -142,7 +142,7 @@
     <!-- CTA Final -->
     <div class="py-16 bg-[#3F2D50] text-white">
       <div class="container mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4">Brauchen Sie Blumen in Son Servera?</h2>
+        <h1 class="text-3xl font-bold mb-4">Brauchen Sie Blumen in Son Servera?</h1>
         <h3 class="text-xl mb-8 opacity-90">
           Kontaktieren Sie uns jetzt und erhalten Sie Ihre Bestellung noch heute
         </h3>
