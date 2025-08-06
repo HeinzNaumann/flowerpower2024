@@ -3,7 +3,7 @@
   
   <!-- Página principal -->
   <url>
-    <loc>https://flowerpower.com/</loc>
+    <loc>https://flowerpower.es/</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
@@ -11,7 +11,7 @@
 
   <!-- Tienda -->
   <url>
-    <loc>https://flowerpower.com/shop</loc>
+    <loc>https://flowerpower.es/shop</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -19,7 +19,7 @@
 
   <!-- Tienda física -->
   <url>
-    <loc>https://flowerpower.com/physical-store</loc>
+    <loc>https://flowerpower.es/physical-store</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -27,7 +27,7 @@
 
   <!-- Nuestra historia -->
   <url>
-    <loc>https://flowerpower.com/our-history</loc>
+    <loc>https://flowerpower.es/our-history</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
@@ -35,7 +35,7 @@
 
   <!-- Contacto -->
   <url>
-    <loc>https://flowerpower.com/contact</loc>
+    <loc>https://flowerpower.es/contact</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -43,7 +43,7 @@
 
   <!-- Checkout -->
   <url>
-    <loc>https://flowerpower.com/checkout</loc>
+    <loc>https://flowerpower.es/checkout</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -51,14 +51,14 @@
 
   <!-- Páginas de ubicación - Español -->
   <url>
-    <loc>https://flowerpower.com/floristeria-son-servera</loc>
+    <loc>https://flowerpower.es/floristeria-son-servera</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://flowerpower.com/floristeria-arta</loc>
+    <loc>https://flowerpower.es/floristeria-arta</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -66,14 +66,14 @@
 
   <!-- Páginas de ubicación - Inglés -->
   <url>
-    <loc>https://flowerpower.com/florist-son-servera</loc>
+    <loc>https://flowerpower.es/florist-son-servera</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://flowerpower.com/florist-arta</loc>
+    <loc>https://flowerpower.es/florist-arta</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -81,14 +81,14 @@
 
   <!-- Páginas de ubicación - Alemán -->
   <url>
-    <loc>https://flowerpower.com/blumengeschaeft-son-servera</loc>
+    <loc>https://flowerpower.es/blumengeschaeft-son-servera</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://flowerpower.com/blumengeschaeft-arta</loc>
+    <loc>https://flowerpower.es/blumengeschaeft-arta</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -96,21 +96,21 @@
 
   <!-- Páginas de políticas -->
   <url>
-    <loc>https://flowerpower.com/privacy-policy</loc>
+    <loc>https://flowerpower.es/privacy-policy</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://flowerpower.com/terms-of-service</loc>
+    <loc>https://flowerpower.es/terms-of-service</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
-    <loc>https://flowerpower.com/cookies-policy</loc>
+    <loc>https://flowerpower.es/cookies-policy</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
