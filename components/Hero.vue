@@ -20,7 +20,7 @@
       <img
         src="/images/floristeriaFlowerPower-Hero.webp"
         alt="{{ $t('header.alt.logo') }}"
-        class="h-[800px] object-cover w-full"
+        class="h-[80vh] object-cover w-full"
         loading="eager"
       />
 
