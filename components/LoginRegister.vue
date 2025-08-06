@@ -244,6 +244,7 @@
 import { ref, reactive, watch, computed } from "vue";
 import { z } from "zod";
 import { usePhoneNumberValidation } from "~/composables/usePhoneNumberValidation";
+import { useI18n } from "vue-i18n";
 import type { RegisterForm } from "~/types/types";
 import type { CountryCode } from "libphonenumber-js";
 import { USeparator } from "#components";
@@ -289,6 +290,7 @@ const show = ref(false);
 
 const config = useRuntimeConfig();
 const apiUrl = config.public.apiBaseUrl;
+const { t } = useI18n();
 
 const modalTitle = computed(() => {
   switch (currentView.value) {
@@ -449,10 +451,20 @@ async function handleRegister() {
     }, 3000);
   } catch (error: any) {
     console.error("Error durante el registro:", error);
-    apiError.value =
-      error?.data?.message ||
-      error?.message ||
-      "Ha ocurrido un error durante el registro. Por favor, intenta nuevamente.";
+    
+    // Detectar si el error es de usuario ya registrado
+    const errorMessage = error?.data?.message || error?.message;
+    const errorStatus = error?.status || error?.data?.status;
+    
+    if (errorStatus === 409 || 
+        errorStatus === 400 && errorMessage?.toLowerCase()?.includes("already exists") ||
+        errorMessage?.toLowerCase()?.includes("already registered") ||
+        errorMessage?.toLowerCase()?.includes("usuario ya registrado") ||
+        errorMessage?.toLowerCase()?.includes("email already exists")) {
+      apiError.value = t('auth.errors.userAlreadyRegistered');
+    } else {
+      apiError.value = errorMessage || t('auth.errors.genericError');
+    }
   } finally {
     isSubmitting.value = false;
   }

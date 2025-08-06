@@ -254,6 +254,13 @@
     "date": "Por favor, introduce una fecha válida",
     "time": "Por favor, introduce una hora válida"
   },
+  "auth": {
+    "errors": {
+      "userAlreadyRegistered": "Este correo electrónico ya está registrado. Por favor, inicia sesión o utiliza otro correo electrónico.",
+      "invalidCredentials": "Credenciales inválidas. Por favor, verifica tu correo y contraseña.",
+      "genericError": "Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde."
+    }
+  },
   "userPanel": {
     "myAccount": "Mi cuenta",
     "logout": "Cerrar sesión",

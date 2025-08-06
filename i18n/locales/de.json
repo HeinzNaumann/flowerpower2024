@@ -949,5 +949,12 @@
       "acceptTOS": "Sie müssen die Allgemeinen Geschäftsbedingungen akzeptieren.",
       "emailMismatch": "E-Mails stimmen nicht überein"
     }
+  },
+  "auth": {
+    "errors": {
+      "userAlreadyRegistered": "Diese E-Mail-Adresse ist bereits registriert. Bitte melden Sie sich an oder verwenden Sie eine andere E-Mail-Adresse.",
+      "invalidCredentials": "Ungültige Anmeldedaten. Bitte überprüfen Sie Ihre E-Mail und Ihr Passwort.",
+      "genericError": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
+    }
   }
 }
