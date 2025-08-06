@@ -1,7 +1,9 @@
 {
   "welcome": "Bienvenido",
   "common": {
-    "shop": "Tienda"
+    "shop": "Tienda",
+    "yes": "Sí",
+    "cancel": "Cancelar"
   },
   "underConstruction": {
     "heading": "Flower Power Website en construcción",

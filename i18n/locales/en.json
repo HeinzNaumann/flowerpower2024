@@ -204,7 +204,9 @@
   },
   "common": {
     "edit": "Edit",
-    "shop": "Shop"
+    "shop": "Shop",
+    "yes": "Yes",
+    "cancel": "Cancel"
   },
   "dialog": {
     "ok": "OK",
