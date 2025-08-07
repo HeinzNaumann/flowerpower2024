@@ -31,22 +31,13 @@ useHead({
     }
   ]
 });
-// Configurar la carga progresiva
-const nuxtApp = useNuxtApp()
-
 // Optimizar la carga de recursos
 onMounted(() => {
-  // Priorizar la interactividad inicial
-  window.requestIdleCallback = window.requestIdleCallback || function(cb) {
-    return setTimeout(function() {
-      const start = Date.now()
-      cb({
-        didTimeout: false,
-        timeRemaining: function() {
-          return Math.max(0, 50 - (Date.now() - start))
-        }
-      })
-    }, 1)
+  // Código de optimización simplificado
+  if (typeof window !== 'undefined') {
+    window.requestIdleCallback = window.requestIdleCallback || function(cb) {
+      return setTimeout(cb, 1);
+    };
   }
 })
 </script>
