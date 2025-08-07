@@ -3,6 +3,16 @@ export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   modules: ["@nuxtjs/i18n", "nuxt-swiper", "@nuxt/ui", "@pinia/nuxt", "@nuxt/image"],
   
+  // Configuración de Nuxt UI para incluir iconos en el bundle
+  ui: {
+    icons: {
+      // Incluir los iconos necesarios en el bundle para evitar problemas en producción
+      collections: {
+        lucide: ['check', 'x', 'chevron-down', 'eye', 'eye-off']
+      }
+    }
+  },
+  
   // Configuración de Vite para manejar eventos pasivos y mejorar el rendimiento
   vite: {
     optimizeDeps: {
