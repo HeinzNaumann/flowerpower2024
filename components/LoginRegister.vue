@@ -10,7 +10,7 @@
       <!-- INITIAL OPTIONS -->
       <div v-if="currentView === 'initial'" class="space-y-4">
         <UButton
-          label="Iniciar sesión"
+          :label="t('loginRegister.buttonLogin')"
           icon="i-lucide-log-in"
           color="primary"
           variant="solid"
@@ -18,16 +18,16 @@
           @click="switchToLogin"
         />
         <UButton
-          label="Crear cuenta"
+          :label="t('loginRegister.buttonRegister')"
           icon="i-lucide-user-plus"
           color="primary"
           variant="outline"
           class="w-full btn-nike"
           @click="switchToRegister"
         />
-        <USeparator label="O" />
+        <USeparator :label="t('loginRegister.separatorOr')" />
         <UButton
-          label="Continuar como invitado"
+          :label="t('loginRegister.buttonGuest')"
           icon="i-lucide-user-check"
           color="neutral"
           variant="ghost"
@@ -44,23 +44,23 @@
           class="space-y-4"
           @submit="handleLogin"
         >
-          <UFormField label="Email" name="email" class="w-full">
+          <UFormField :label="t('loginRegister.labelEmail')" name="email" class="w-full">
             <UInput
               v-model="loginForm.email"
               type="email"
               autocomplete="email"
               class="w-full"
-              placeholder="tuemail@ejemplo.com"
+              :placeholder="t('loginRegister.placeholderEmail')"
             />
           </UFormField>
 
-          <UFormField label="Password" name="password" class="w-full">
+          <UFormField :label="t('loginRegister.labelPassword')" name="password" class="w-full">
             <UInput
               v-model="loginForm.password"
               type="password"
               autocomplete="current-password"
               class="w-full"
-              placeholder="••••••••"
+              :placeholder="t('loginRegister.placeholderPassword')"
             />
           </UFormField>
 
@@ -74,7 +74,7 @@
             <template v-if="isSubmitting">
               <span class="loading loading-spinner loading-xs"></span>
             </template>
-            <template v-else>Continuar</template>
+            <template v-else>{{ t('loginRegister.buttonSubmitLogin') }}</template>
           </UButton>
           <div class="text-sm text-right mt-2">
             <NuxtLink
@@ -82,7 +82,7 @@
               class="text-primary-600 hover:underline"
               @click.prevent="internalOpen = false"
             >
-              ¿Has olvidado tu contraseña?
+              {{ t('loginRegister.linkForgotPassword') }}
             </NuxtLink>
           </div>
         </UForm>
@@ -97,18 +97,18 @@
           class="space-y-6"
         >
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <UFormField name="name" label="Nombre" class="w-full">
+            <UFormField name="name" :label="t('loginRegister.labelName')" class="w-full">
               <UInput
                 v-model="registerForm.name"
-                placeholder="Tu nombre"
+                :placeholder="t('loginRegister.placeholderName')"
                 autocomplete="given-name"
                 class="w-full"
               />
             </UFormField>
-            <UFormField name="surname" label="Apellidos" class="w-full">
+            <UFormField name="surname" :label="t('loginRegister.labelSurname')" class="w-full">
               <UInput
                 v-model="registerForm.surname"
-                placeholder="Tus apellidos"
+                :placeholder="t('loginRegister.placeholderSurname')"
                 autocomplete="family-name"
                 class="w-full"
               />
@@ -117,21 +117,21 @@
 
           <!-- EMAIL Y CONFIRMACIÓN -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <UFormField name="email" label="Email" class="w-full">
+            <UFormField name="email" :label="t('loginRegister.labelEmail')" class="w-full">
               <UInput
                 v-model="registerForm.email"
                 type="email"
-                placeholder="tucorreo@mail.com"
+                :placeholder="t('loginRegister.placeholderEmail')"
                 autocomplete="email"
                 class="w-full"
               />
             </UFormField>
 
-            <UFormField name="confirmEmail" label="Confirmar email" class="w-full">
+            <UFormField name="confirmEmail" :label="t('loginRegister.labelConfirmEmail')" class="w-full">
               <UInput
                 v-model="registerForm.confirmEmail"
                 type="email"
-                placeholder="Repite tu correo"
+                :placeholder="t('loginRegister.placeholderConfirmEmail')"
                 autocomplete="email"
                 class="w-full"
               />
@@ -140,10 +140,10 @@
 
           <PhoneField v-model="registerForm.phone" />
 
-          <UFormField name="password" label="Password" class="w-full">
+          <UFormField name="password" :label="t('loginRegister.labelPassword')" class="w-full">
             <UInput
               v-model="registerForm.password"
-              placeholder="Crea una contraseña segura"
+              :placeholder="t('loginRegister.placeholderPassword')"
               :type="show ? 'text' : 'password'"
               :ui="{ trailing: 'pe-1' }"
               class="w-full"
@@ -179,11 +179,15 @@
                 </label>
               </div>
               <label for="acceptTOS" class="cursor-pointer">
-                Acepto la
-                <a href="/terminos" class="text-brand1 hover:underline">
-                  Política de privacidad
-                </a>
-                y los Términos de uso.
+                {{ t('loginRegister.acceptPrefix') }}
+                <NuxtLink to="/privacy-policy" class="text-brand1 hover:underline">
+                  {{ t('footer.links.privacyPolicy') }}
+                </NuxtLink>
+                {{ ' ' + t('loginRegister.acceptAnd') + ' ' }}
+                <NuxtLink to="/terms-of-use" class="text-brand1 hover:underline">
+                  {{ t('footer.links.termsOfUse') }}
+                </NuxtLink>
+                {{ t('loginRegister.acceptSuffix') }}
               </label>
             </div>
           </UFormField>
@@ -205,8 +209,7 @@
               </label>
             </div>
             <label for="subscribeNewsletter" class="cursor-pointer">
-              Regístrate para recibir actualizaciones, ofertas y ventajas para
-              Members.
+              {{ t('loginRegister.checkboxSubscribeNewsletter') }}
             </label>
           </div>
 
@@ -220,7 +223,7 @@
             <template v-if="isSubmitting">
               <span class="loading loading-spinner loading-xs"></span>
             </template>
-            <template v-else>Registrarme</template>
+            <template v-else>{{ t('loginRegister.buttonSubmitRegister') }}</template>
           </UButton>
         </UForm>
       </template>
@@ -231,7 +234,7 @@
         class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4"
         role="alert"
       >
-        <strong class="font-bold">Error:</strong>
+        <strong class="font-bold">{{ t('loginRegister.apiErrorTitle') }}</strong>
         <span class="block sm:inline">{{ apiError }}</span>
       </div>
 
@@ -240,7 +243,7 @@
         class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4"
         role="alert"
       >
-        <strong class="font-bold">Éxito:</strong>
+        <strong class="font-bold">{{ t('loginRegister.apiSuccessTitle') }}</strong>
         <span class="block sm:inline">{{ apiSuccess }}</span>
       </div>
     </template>
@@ -253,7 +256,7 @@
         class="mt-2 block text-sm text-primary-900 hover:text-primary-700 w-full text-center"
         @click="switchToRegister"
       >
-        <small>¿No tienes cuenta? Regístrate aquí</small>
+        <small>{{ t('loginRegister.footerLinkRegister') }}</small>
       </UButton>
       <UButton
         v-if="currentView === 'register'"
@@ -262,7 +265,7 @@
         class="mt-2 block text-sm text-primary-900 hover:text-primary-700 w-full text-center"
         @click="switchToLogin"
       >
-        <small>¿Ya tienes cuenta? Inicia sesión</small>
+        <small>{{ t('loginRegister.footerLinkLogin') }}</small>
       </UButton>
     </template>
   </UModal>
@@ -323,56 +326,56 @@ const { t } = useI18n();
 const modalTitle = computed(() => {
   switch (currentView.value) {
     case "login":
-      return "Iniciar sesión";
+      return t('loginRegister.modalTitleLogin');
     case "register":
-      return "Crear cuenta";
+      return t('loginRegister.modalTitleRegister');
     default:
-      return "Bienvenido/a a Flower Power";
+      return t('loginRegister.modalTitleInitial');
   }
 });
 
 const modalDescription = computed(() => {
   switch (currentView.value) {
     case "login":
-      return "Introduce tus datos para acceder a tu cuenta.";
+      return t('loginRegister.modalDescriptionLogin');
     case "register":
-      return "Completa el formulario para unirte.";
+      return t('loginRegister.modalDescriptionRegister');
     default:
-      return "Elige una opción para continuar con tu compra.";
+      return t('loginRegister.modalDescriptionInitial');
   }
 });
 
 const { isValidPhone } = usePhoneNumberValidation();
 
 const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(1, "Contraseña requerida"),
+  email: z.string().email(t('loginRegister.validation.invalidEmail')),
+  password: z.string().min(1, t('loginRegister.validation.required')),
 });
 
 const registerSchema = z
   .object({
-    name: z.string().min(1, "Nombre requerido"),
-    surname: z.string().min(1, "Apellidos requeridos"),
-    email: z.string().email("Email inválido"),
-    confirmEmail: z.string().email("Email inválido"),
+    name: z.string().min(1, t('loginRegister.validation.required')),
+    surname: z.string().min(1, t('loginRegister.validation.required')),
+    email: z.string().email(t('loginRegister.validation.invalidEmail')),
+    confirmEmail: z.string().email(t('loginRegister.validation.invalidEmail')),
     countryCode: z.string().min(2).max(2),
     phone: z.string(),
     password: z
       .string()
-      .min(6, "La contraseña debe tener al menos 6 caracteres")
+      .min(8, t('loginRegister.validation.passwordMin'))
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
-        "La contraseña debe contener una letra mayúscula, una minúscula y un número"
+        t('loginRegister.validation.passwordPattern')
       ),
     acceptTOS: z
       .boolean()
       .refine((v) => v === true, {
-        message: "Debes aceptar los términos y condiciones.",
+        message: t('loginRegister.validation.acceptTOS'),
       }),
     subscribeNewsletter: z.boolean().optional(),
   })
   .refine((data) => data.email === data.confirmEmail, {
-    message: "Los correos electrónicos no coinciden",
+    message: t('loginRegister.validation.emailMismatch'),
     path: ["confirmEmail"],
   });
 
@@ -407,15 +410,13 @@ async function handleLogin() {
     );
 
     if (!response?.token) {
-      apiError.value = "No se ha recibido un token al hacer login.";
+      apiError.value = t('loginRegister.apiErrorLoginToken');
       return;
     }
 
     const getUsernameFromEmail = (email: string): string => email.split("@")[0];
     setAuth(response.token, getUsernameFromEmail(response.email));
-    apiSuccess.value = `Login exitoso. Bienvenido de nuevo ${getUsernameFromEmail(
-      response.email
-    )} 👋`;
+    apiSuccess.value = t('loginRegister.apiSuccessLogin', { username: getUsernameFromEmail(response.email) });
 
     emit("loggedIn");
 
@@ -423,8 +424,7 @@ async function handleLogin() {
       internalOpen.value = false;
     }, 1500);
   } catch (error: any) {
-    apiError.value =
-      error?.data?.message || "Ha ocurrido un error durante el login.";
+    apiError.value = error?.data?.message || t('loginRegister.apiErrorLoginGeneral');
   } finally {
     isSubmitting.value = false;
   }
@@ -441,7 +441,7 @@ async function handleRegister() {
       (registerForm.countryCode || "ES") as CountryCode
     );
     if (!phoneValid) {
-      apiError.value = "El número de teléfono no es válido";
+      apiError.value = t('loginRegister.apiErrorRegisterPhone');
       isSubmitting.value = false;
       return;
     }
@@ -470,7 +470,7 @@ async function handleRegister() {
 
     console.log("Respuesta del servidor de registro:", response);
 
-    apiSuccess.value = `Registro exitoso ✨. Hemos enviado un email de confirmación a ${registerForm.email}. Por favor revisa tu bandeja de entrada 📩.`;
+    apiSuccess.value = t('loginRegister.apiSuccessRegister', { email: registerForm.email });
 
     emit("registered");
 
@@ -491,7 +491,7 @@ async function handleRegister() {
         errorMessage?.toLowerCase()?.includes("email already exists")) {
       apiError.value = t('auth.errors.userAlreadyRegistered');
     } else {
-      apiError.value = errorMessage || t('auth.errors.genericError');
+      apiError.value = errorMessage || t('loginRegister.apiErrorRegisterGeneral');
     }
   } finally {
     isSubmitting.value = false;
