@@ -189,8 +189,22 @@
           </UFormField>
 
           <div class="flex items-center gap-2 text-sm text-primary-900">
-            <UCheckbox v-model="registerForm.subscribeNewsletter" />
-            <label>
+            <div class="custom-checkbox-wrapper">
+              <input 
+                id="subscribeNewsletter" 
+                v-model="registerForm.subscribeNewsletter" 
+                type="checkbox" 
+                class="custom-checkbox" 
+              />
+              <label for="subscribeNewsletter" class="custom-checkbox-label">
+                <span class="custom-checkbox-box">
+                  <svg class="custom-checkbox-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m9 12 2 2 4-4"/>
+                  </svg>
+                </span>
+              </label>
+            </div>
+            <label for="subscribeNewsletter" class="cursor-pointer">
               Regístrate para recibir actualizaciones, ofertas y ventajas para
               Members.
             </label>
@@ -350,11 +364,11 @@ const registerSchema = z
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
         "La contraseña debe contener una letra mayúscula, una minúscula y un número"
       ),
-    acceptTOS: z.literal(true, {
-      errorMap: () => ({
+    acceptTOS: z
+      .boolean()
+      .refine((v) => v === true, {
         message: "Debes aceptar los términos y condiciones.",
       }),
-    }),
     subscribeNewsletter: z.boolean().optional(),
   })
   .refine((data) => data.email === data.confirmEmail, {

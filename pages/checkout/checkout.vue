@@ -157,10 +157,24 @@
 
       <!-- BILLING checkbox y campos -->
       <UFormField>
-        <label class="flex items-center gap-2">
-          <UCheckbox v-model="isBillingSameAsShipping" />
-          <span v-html="$t('checkout.billingCheckbox')" />
-        </label>
+        <div class="flex items-center gap-2 text-sm text-primary-900">
+          <div class="custom-checkbox-wrapper">
+            <input 
+              id="billingSameAsShipping" 
+              v-model="isBillingSameAsShipping" 
+              type="checkbox" 
+              class="custom-checkbox" 
+            />
+            <label for="billingSameAsShipping" class="custom-checkbox-label">
+              <span class="custom-checkbox-box">
+                <svg class="custom-checkbox-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m9 12 2 2 4-4"/>
+                </svg>
+              </span>
+            </label>
+          </div>
+          <label for="billingSameAsShipping" class="cursor-pointer" v-html="$t('checkout.billingCheckbox')" />
+        </div>
       </UFormField>
       <div v-if="!isBillingSameAsShipping" class="pl-4 border-l">
         <UFormField

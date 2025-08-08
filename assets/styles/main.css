@@ -94,8 +94,8 @@ button, a, [role="button"], .cursor-pointer, [tabindex="0"] {
 
 /* Estados del checkbox */
 .custom-checkbox:checked + .custom-checkbox-label .custom-checkbox-box {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+  background-color: var(--color-flowerpower-lila);
+  border-color: var(--color-flowerpower-lila);
 }
 
 .custom-checkbox:checked + .custom-checkbox-label .custom-checkbox-icon {
@@ -103,11 +103,11 @@ button, a, [role="button"], .cursor-pointer, [tabindex="0"] {
 }
 
 .custom-checkbox:hover + .custom-checkbox-label .custom-checkbox-box {
-  border-color: #3b82f6;
+  border-color: var(--color-flowerpower-lila);
 }
 
 .custom-checkbox:focus + .custom-checkbox-label .custom-checkbox-box {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid var(--color-flowerpower-lila);
   outline-offset: 2px;
 }
 
