@@ -163,8 +163,22 @@
 
           <UFormField name="acceptTOS">
             <div class="flex items-center gap-2 text-sm text-primary-900">
-              <UCheckbox v-model="registerForm.acceptTOS" />
-              <label>
+              <div class="custom-checkbox-wrapper">
+                <input 
+                  id="acceptTOS" 
+                  v-model="registerForm.acceptTOS" 
+                  type="checkbox" 
+                  class="custom-checkbox" 
+                />
+                <label for="acceptTOS" class="custom-checkbox-label">
+                  <span class="custom-checkbox-box">
+                    <svg class="custom-checkbox-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                  </span>
+                </label>
+              </div>
+              <label for="acceptTOS" class="cursor-pointer">
                 Acepto la
                 <a href="/terminos" class="text-brand1 hover:underline">
                   Política de privacidad
