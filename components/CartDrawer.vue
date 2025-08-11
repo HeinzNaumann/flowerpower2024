@@ -199,15 +199,10 @@ function handleModalRegisterSuccess() {
 }
 
 function handleModalContinueAsGuest() {
-  // User chose 'Continue as Guest' via modal, proceed to checkout
   console.log("Continuing as guest via modal, navigating to checkout...");
-  // Potentially set a guest flag in your store here if needed
-  // e.g., const orderStore = useOrderStore(); orderStore.setIsGuest(true);
   router.push(localePath("/checkout/checkout"));
-  // Modal closes itself via v-model:open
 }
 
-// Debug: Mostrar formato de imágenes
 onMounted(() => {
   // Inspeccionar cada item para ver su estructura exacta
   cart.items.forEach((item, index) => {

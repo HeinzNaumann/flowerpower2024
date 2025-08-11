@@ -166,7 +166,7 @@
               required
               @change="() => { if (formErrors.subject) delete formErrors.subject }"
             >
-              <option value="" disabled selected>{{ $t('contact.form.subjectPlaceholder') }}</option>
+              <option value="" disabled>{{ $t('contact.form.subjectPlaceholder') }}</option>
               <option value="general">{{ $t('contact.form.subjects.general') }}</option>
               <option value="order">{{ $t('contact.form.subjects.order') }}</option>
               <option value="products">{{ $t('contact.form.subjects.products') }}</option>
