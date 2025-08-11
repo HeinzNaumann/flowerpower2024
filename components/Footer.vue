@@ -28,24 +28,24 @@
           >
             <ul v-if="openSection === 'help'" class="py-4 space-y-4">
               <li>
-                <a :href="localePath('/faq')" class="block hover:text-neutral-300">{{
+                <NuxtLink :to="localePath('/faq')" class="block hover:text-neutral-300">{{
                   $t("footer.links.faq")
-                }}</a>
+                }}</NuxtLink>
               </li>
               <li>
-                <a :href="localePath('/shipping-delivery')" class="block hover:text-neutral-300">{{
+                <NuxtLink :to="localePath('/shipping-delivery')" class="block hover:text-neutral-300">{{
                   $t("footer.links.shippingAndDelivery")
-                }}</a>
+                }}</NuxtLink>
               </li>
               <li>
-                <a :href="localePath('/privacy-policy')" class="block hover:text-neutral-300">{{
+                <NuxtLink :to="localePath('/privacy-policy')" class="block hover:text-neutral-300">{{
                   $t("footer.links.privacyPolicy")
-                }}</a>
+                }}</NuxtLink>
               </li>
               <li>
-                <a :href="localePath('/bouquet-care')" class="block hover:text-neutral-300">{{
+                <NuxtLink :to="localePath('/bouquet-care')" class="block hover:text-neutral-300">{{
                   $t("footer.links.bouquetCare")
-                }}</a>
+                }}</NuxtLink>
               </li>
             </ul>
           </transition>
@@ -76,20 +76,20 @@
           >
             <ul v-if="openSection === 'about'" class="py-4 space-y-4">
               <li>
-                <a :href="localePath('/our-history')" class="block hover:text-neutral-300">{{
+                <NuxtLink :to="localePath('/our-history')" class="block hover:text-neutral-300">{{
                   $t("footer.links.ourHistory")
-                }}</a>
+                }}</NuxtLink>
               </li>
 
               <li>
-                <a :href="localePath('/physical-store')" class="block hover:text-neutral-300">{{
+                <NuxtLink :to="localePath('/physical-store')" class="block hover:text-neutral-300">{{
                   $t("footer.links.physicalStore")
-                }}</a>
+                }}</NuxtLink>
               </li>
               <li>
-                <a :href="localePath('/contact')" class="block hover:text-neutral-300">{{
+                <NuxtLink :to="localePath('/contact')" class="block hover:text-neutral-300">{{
                   $t("footer.links.contact")
-                }}</a>
+                }}</NuxtLink>
               </li>
             </ul>
           </transition>
@@ -104,24 +104,24 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <a :href="localePath('/faq')" class="hover:text-neutral-300">{{
+              <NuxtLink :to="localePath('/faq')" class="hover:text-neutral-300">{{
                 $t("footer.links.faq")
-              }}</a>
+              }}</NuxtLink>
             </li>
             <li>
-              <a :href="localePath('/shipping-delivery')" class="hover:text-neutral-300">{{
+              <NuxtLink :to="localePath('/shipping-delivery')" class="hover:text-neutral-300">{{
                 $t("footer.links.shippingAndDelivery")
-              }}</a>
+              }}</NuxtLink>
             </li>
             <li>
-              <a :href="localePath('/privacy-policy')" class="hover:text-neutral-300">{{
+              <NuxtLink :to="localePath('/privacy-policy')" class="hover:text-neutral-300">{{
                 $t("footer.links.privacyPolicy")
-              }}</a>
+              }}</NuxtLink>
             </li>
             <li>
-              <a :href="localePath('/bouquet-care')" class="hover:text-neutral-300">{{
+              <NuxtLink :to="localePath('/bouquet-care')" class="hover:text-neutral-300">{{
                 $t("footer.links.bouquetCare")
-              }}</a>
+              }}</NuxtLink>
             </li>
           </ul>
         </div>
@@ -132,20 +132,20 @@
           </h3>
           <ul class="space-y-2">
             <li>
-              <a :href="localePath('/our-history')" class="hover:text-neutral-300">{{
+              <NuxtLink :to="localePath('/our-history')" class="hover:text-neutral-300">{{
                 $t("footer.links.ourHistory")
-              }}</a>
+              }}</NuxtLink>
             </li>
 
             <li>
-              <a :href="localePath('/physical-store')" class="hover:text-neutral-300">{{
+              <NuxtLink :to="localePath('/physical-store')" class="hover:text-neutral-300">{{
                 $t("footer.links.physicalStore")
-              }}</a>
+              }}</NuxtLink>
             </li>
             <li>
-              <a :href="localePath('/contact')" class="hover:text-neutral-300">{{
+              <NuxtLink :to="localePath('/contact')" class="hover:text-neutral-300">{{
                 $t("footer.links.contact")
-              }}</a>
+              }}</NuxtLink>
             </li>
           </ul>
         </div>
@@ -226,21 +226,21 @@
       <div
         class="flex flex-col lg:flex-row justify-start lg:justify-end text-sm space-y-2 lg:space-y-0 lg:space-x-4"
       >
-        <a :href="localePath('/terms-of-use')" class="hover:text-neutral-300">{{
+        <NuxtLink :to="localePath('/terms-of-use')" class="hover:text-neutral-300">{{
           $t("footer.links.termsOfUse")
-        }}</a>
-        <a :href="localePath('/privacy-policy')" class="hover:text-neutral-300">{{
+        }}</NuxtLink>
+        <NuxtLink :to="localePath('/privacy-policy')" class="hover:text-neutral-300">{{
           $t("footer.links.privacyPolicy")
-        }}</a>
-        <a :href="localePath('/terms-of-sale')" class="hover:text-neutral-300">{{
+        }}</NuxtLink>
+        <NuxtLink :to="localePath('/terms-of-sale')" class="hover:text-neutral-300">{{
           $t("footer.links.termsOfSale")
-        }}</a>
-        <a :href="localePath('/legal-notice')" class="hover:text-neutral-300">{{
+        }}</NuxtLink>
+        <NuxtLink :to="localePath('/legal-notice')" class="hover:text-neutral-300">{{
           $t("footer.links.legalNotice")
-        }}</a>
-        <a :href="localePath('/cookie-settings')" class="hover:text-neutral-300">{{
+        }}</NuxtLink>
+        <NuxtLink :to="localePath('/cookie-settings')" class="hover:text-neutral-300">{{
           $t("footer.links.cookieSettings")
-        }}</a>
+        }}</NuxtLink>
       </div>
     </div>
   </footer>
