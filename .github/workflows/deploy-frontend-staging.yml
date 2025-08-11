@@ -3,7 +3,11 @@ name: Deploy Frontend Staging
 on:
   push:
     branches:
-      - develop # O la rama que uses para staging
+      - develop
+
+concurrency:
+  group: deploy-frontend-staging
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -22,6 +26,12 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Nuxt app
+        run: pnpm build
+
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -30,27 +40,40 @@ jobs:
       - name: Add server to known_hosts
         run: ssh-keyscan -H 54.73.233.6 >> ~/.ssh/known_hosts
 
-      - name: Rsync código al servidor (sin node_modules ni .output)
+      - name: Limpiar .output viejo en el servidor (BORRADO COMPLETO Y RECREACIÓN)
         run: |
-          rsync -avz --exclude '.git' --exclude 'node_modules' --exclude '.output' --exclude '.env' ./ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend
+          ssh ubuntu@54.73.233.6 'rm -rf /var/www/flowerpower-staging/flowerpower-frontend/.output'
+          ssh ubuntu@54.73.233.6 'mkdir -p /var/www/flowerpower-staging/flowerpower-frontend/.output'
+
+      # --- COPIAR NUEVO .output ---
+      - name: Rsync .output al servidor (solo build ya generado)
+        run: |
+          rsync -avz --delete .output/ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/.output
+          rsync -avz --delete public/ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/public || true
+
+      - name: Copiar package.json y pnpm-lock.yaml
+        run: |
+          scp package.json pnpm-lock.yaml ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/
 
       - name: Crear y copiar el .env de staging al servidor
         run: |
-          ssh ubuntu@54.73.233.6 'echo "STAGE=${{ secrets.STAGE }}" > /var/www/flowerpower-staging/flowerpower-frontend/.env'
+          ssh ubuntu@54.73.233.6 'echo "STAGE=staging" > /var/www/flowerpower-staging/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "PORT=${{ secrets.PORT }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "API_BASE_URL=${{ secrets.API_BASE_URL }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
 
-      - name: Build, install y restart con PM2 en el servidor
+      - name: Instalar solo dependencias de prod y restart con PM2
         run: |
           ssh ubuntu@54.73.233.6 '
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd /var/www/flowerpower-staging/flowerpower-frontend
-            pnpm install
-            pnpm build
-            pm2 reload ecosystem.config.cjs --env staging \
-              || pm2 start ecosystem.config.cjs --env staging
+            pnpm install --prod
+            set -a
+            source .env
+            set +a
+            pm2 delete flowerpower-frontend-staging || true
+            pm2 start .output/server/index.mjs --name flowerpower-frontend-staging --interpreter $(which node)
           '
