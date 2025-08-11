@@ -73,7 +73,6 @@ export default defineNuxtConfig({
   // Configuración de app para rendimiento
   app: {
     // Habilitar prefetching inteligente
-    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       htmlAttrs: {
         lang: 'es'
