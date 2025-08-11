@@ -199,3 +199,37 @@ body {
   font-family: var(--font-rubik);
   color: var(--color-primary-900);
 }
+
+/* View Transitions API: instant (no fade, no motion) */
+::view-transition-old(root) {
+  animation: none !important;
+}
+::view-transition-new(root) {
+  animation: none !important;
+}
+
+@keyframes view-slide-in {
+  from {
+    transform: translateY(6px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes view-slide-out {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

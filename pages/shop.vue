@@ -232,14 +232,6 @@ import { computed, nextTick, onMounted, ref, watch } from "vue";
 import type { Product } from "~/types/types";
 const localePath = useLocalePath();
 
-// Definir metadatos de la página, incluyendo la transición
-definePageMeta({
-  pageTransition: {
-    name: 'fade-slide',
-    mode: 'out-in'
-  }
-});
-
 const route = useRoute();
 const router = useRouter();
 const showDropdown = ref(false);
