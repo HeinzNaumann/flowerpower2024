@@ -12,7 +12,7 @@
         :to="$localePath('/shop')"
         class="inline-block bg-white text-neutral-900 font-bold py-2 px-5 rounded-full hover:bg-neutral-200 transition duration-200 transform hover:scale-105"
       >
-        {{ $t("button.buy") }}
+        {{ $t("home.cta.primary") }}
       </NuxtLink>
     </div>
 
@@ -36,7 +36,7 @@
           :to="$localePath('/shop')"
           class="inline-block bg-white text-neutral-900 font-bold py-2 px-4 rounded-full hover:bg-red-400 hover:text-white transition-all duration-300 transform hover:scale-105"
         >
-          {{ $t("button.buy") }}
+          {{ $t("home.cta.primary") }}
         </NuxtLink>
       </div>
     </div>
