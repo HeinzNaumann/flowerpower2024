@@ -2,8 +2,8 @@
   <div>
     <h3 class="font-bold text-lg">{{ title }}</h3>
     <ul class="space-y-2 mt-2">
-      <!-- Recorremos 'categories' que ahora es CategoryItem[] -->
-      <li v-for="category in categories" :key="category.name" class="py-1">
+      <!-- Mostrar categorías visibles (siempre las primeras 2 si hay más de 2) -->
+      <li v-for="category in visibleCategories" :key="category.name" class="py-1">
         <button 
           @click="applyFilter(currentCategory, category.name.toLowerCase().replace(/\s+/g, ''))"
           class="text-left w-full hover:text-neutral-800 transition-colors"
@@ -15,12 +15,39 @@
           <span class="text-neutral-400 ml-1">({{ category.count }})</span>
         </button>
       </li>
+      
+      <!-- Mostrar categorías ocultas cuando está expandido -->
+      <template v-if="isExpanded">
+        <li v-for="category in hiddenCategories" :key="category.name" class="py-1">
+          <button 
+            @click="applyFilter(currentCategory, category.name.toLowerCase().replace(/\s+/g, ''))"
+            class="text-left w-full hover:text-neutral-800 transition-colors"
+            :class="{
+              'font-semibold': isActiveFilter(currentCategory, category.name.toLowerCase().replace(/\s+/g, ''))
+            }"
+          >
+            <span>{{ category.name }}</span>
+            <span class="text-neutral-400 ml-1">({{ category.count }})</span>
+          </button>
+        </li>
+      </template>
+      
+      <!-- Botón para expandir/contraer cuando hay más de 2 categorías -->
+      <li v-if="shouldShowToggle" class="py-1">
+        <button 
+          @click="toggleExpanded"
+          class="text-left w-full text-neutral-500 hover:text-neutral-700 transition-colors text-sm font-medium"
+        >
+          {{ isExpanded ? $t('shop.showLess') : $t('shop.showMore') }}
+          <span class="ml-1">{{ isExpanded ? '▲' : '▼' }}</span>
+        </button>
+      </li>
     </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, watch } from "vue";
+import { defineProps, ref, watch, computed } from "vue";
 import type { Product } from '~/types/types';
 
 const { activeFilters, applyFilter } = useProductFilters();
@@ -39,6 +66,29 @@ const props = defineProps<{
 const title = ref<string>("");
 const categories = ref<CategoryItem[]>([]);
 const currentCategory = ref<CategoryType>("flowers"); // Categoría actual (flowers, moments, occasions)
+const isExpanded = ref<boolean>(false); // Estado del acordeón
+
+// Computed properties para el acordeón
+const shouldShowToggle = computed(() => categories.value.length > 4);
+
+const visibleCategories = computed(() => {
+  if (!shouldShowToggle.value || isExpanded.value) {
+    return categories.value;
+  }
+  return categories.value.slice(0, 4);
+});
+
+const hiddenCategories = computed(() => {
+  if (!shouldShowToggle.value) {
+    return [];
+  }
+  return categories.value.slice(4);
+});
+
+// Función para alternar el estado expandido
+const toggleExpanded = () => {
+  isExpanded.value = !isExpanded.value;
+};
 
 // Función para verificar si un filtro está activo
 function isActiveFilter(filterType: CategoryType, value: string): boolean {

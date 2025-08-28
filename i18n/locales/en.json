@@ -77,6 +77,8 @@
     "priceHighToLow": "Price: High to Low",
     "nameAToZ": "Name: A to Z",
     "nameZToA": "Name: Z to A",
+    "showMore": "Show more",
+    "showLess": "Show less",
     "errorLoading": "Error loading products"
   },
   "footer": {

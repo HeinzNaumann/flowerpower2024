@@ -61,28 +61,29 @@
   "shop": {
     "filtersTitle": {
       "flowers": "Flores",
+      "colors": "Colores",
       "moments": "Momentos",
-      "occasions": "Ocasiones",
-      "colors": "Colores"
+      "occasions": "Ocasiones"
     },
     "searchResults": "Resultados para",
     "activeFilters": "Filtros activos",
     "clearAllFilters": "Borrar todos",
     "search": "Búsqueda",
     "filters": "Filtros",
-    "flowers": "Flores",
-    "moments": "Momentos",
-    "occasions": "Ocasiones",
-    "colors": "Colores",
-    "tags": "Etiquetas",
+    "flowers": "flores",
+    "moments": "momentos",
+    "occasions": "ocasiones",
+    "colors": "colores",
+    "tags": "etiquetas",
     "noResults": "No se encontraron productos con los filtros seleccionados",
-    "clearFilters": "Borrar filtros",
+    "errorLoading": "Error cargando productos",
     "sort": "Ordenar por",
     "priceLowToHigh": "Precio: De menor a mayor",
     "priceHighToLow": "Precio: De mayor a menor",
     "nameAToZ": "Nombre: A-Z",
     "nameZToA": "Nombre: Z-A",
-    "errorLoading": "Error cargando productos"
+    "showMore": "Ver más",
+    "showLess": "Ver menos"
   },
   "footer": {
     "sections": {

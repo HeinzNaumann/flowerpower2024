@@ -20,7 +20,6 @@
         ]"
         aria-label="Filtrar por color"
       >
-        <!-- Indicador visual para filtro activo -->
         <span v-if="isActiveFilter('colors', color.name.toLowerCase().replace(/\s+/g, ''))" 
           class="absolute -top-1 -right-1 w-3 h-3 bg-white border border-black rounded-full">            
         </span>
