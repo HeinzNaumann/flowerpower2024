@@ -301,16 +301,24 @@ watch(
     };
 
     categories.forEach((category) => {
-      const rawStrings = newProducts.flatMap(
-        (product) => product[category] || []
-      );
+      // Normalizar a un array de strings y filtrar valores no válidos
+      const rawStrings = newProducts.flatMap((product) => {
+        const value = product[category] as unknown;
+        if (Array.isArray(value)) return value;
+        if (typeof value === "string" && value) return [value];
+        return [] as string[];
+      }).filter((v): v is string => typeof v === "string" && v.length > 0);
 
       const allItems = rawStrings.flatMap((str) =>
-        str.split(",").map((s) => {
-          const trimmed = s.trim();
-          if (!trimmed) return "";
-          return trimmed[0].toUpperCase() + trimmed.slice(1).toLowerCase();
-        })
+        (typeof str === "string" ? str : "")
+          .split(",")
+          .map((s) => {
+            const trimmed = s.trim();
+            if (!trimmed) return "";
+            return (
+              trimmed[0].toUpperCase() + trimmed.slice(1).toLowerCase()
+            );
+          })
       );
 
       const freqMap = allItems.reduce((acc, item) => {
@@ -329,7 +337,11 @@ watch(
 
     const allColors = newProducts.flatMap((product) => product.colors || []);
     availableColors.value = Array.from(
-      new Set(allColors.map((color) => color.toLowerCase()))
+      new Set(
+        allColors
+          .filter((color): color is string => typeof color === "string")
+          .map((color) => color.toLowerCase())
+      )
     );
   },
   { immediate: true }
