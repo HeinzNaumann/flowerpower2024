@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="font-bold text-lg">{{ title }}</h3>
+    <h3 v-if="showTitle" class="font-bold text-lg">{{ title }}</h3>
     <div class="flex flex-wrap mt-2 gap-2">
       <button
         v-for="color in mappedColors"
@@ -103,6 +103,10 @@ const props = defineProps({
     type: String,
     required: true,
     default: "colors",
+  },
+  showTitle: {
+    type: Boolean,
+    default: true,
   },
 });
 

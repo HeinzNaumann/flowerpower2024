@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 class="font-bold text-lg">{{ title }}</h3>
+    <h3 v-if="showTitle" class="font-bold text-lg">{{ title }}</h3>
     <ul class="space-y-2 mt-2">
       <!-- Mostrar categorías visibles (siempre las primeras 2 si hay más de 2) -->
       <li v-for="category in visibleCategories" :key="category.name" class="py-1">
@@ -61,9 +61,11 @@ type CategoryType = "flowers" | "moments" | "occasions" | "tags";
 const props = defineProps<{
   title: string;
   typeData: Record<CategoryType, CategoryItem[]>;
+  showTitle?: boolean;
 }>();
 
 const title = ref<string>("");
+const showTitle = computed(() => props.showTitle !== false);
 const categories = ref<CategoryItem[]>([]);
 const currentCategory = ref<CategoryType>("flowers"); // Categoría actual (flowers, moments, occasions)
 const isExpanded = ref<boolean>(false); // Estado del acordeón

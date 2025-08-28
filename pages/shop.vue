@@ -48,45 +48,65 @@
       
       <!-- Columna de filtros con altura mínima fija para evitar saltos -->
       <aside class="w-full md:w-1/4 md:pr-4 mb-2 md:mb-0">
-        <div class="sticky top-12 md:top-24 min-h-[200px] md:min-h-[600px] overflow-visible">
+        <div class="md:sticky md:top-24 md:max-h-[calc(100vh-6rem)] md:overflow-y-auto overscroll-contain scrollbar-light min-h-[200px] md:min-h-0 pr-1">
           <!-- Categorías de filtros con espacio mínimo fijo -->
           <div>
   <!-- Mobile/Tablet: filtros colapsables -->
-  <div class="block md:hidden space-y-2 pb-0">
+  <div class="block md:hidden space-y-3 pb-0">
     <client-only>
-      <details class="border rounded-md">
-        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.flowers')}}</summary>
+      <details class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.occasions')}}</summary>
         <div class="p-3">
-          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.flowers')" />
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.occasions')" :show-title="false" />
         </div>
       </details>
-      <details class="border rounded-md">
-        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.colors')}}</summary>
+      <details class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.colors')}}</summary>
         <div class="p-3">
-          <LazyFilterColors :colors="availableColors" :title="$t('shop.filtersTitle.colors')" />
+          <LazyFilterColors :colors="availableColors" :title="$t('shop.filtersTitle.colors')" :show-title="false" />
         </div>
       </details>
-      <details class="border rounded-md">
-        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.moments')}}</summary>
+      <details class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.moments')}}</summary>
         <div class="p-3">
-          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.moments')" />
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.moments')" :show-title="false" />
         </div>
       </details>
-      <details class="border rounded-md">
-        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b">{{$t('shop.filtersTitle.occasions')}}</summary>
+      <details class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.flowers')}}</summary>
         <div class="p-3">
-          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.occasions')" />
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.flowers')" :show-title="false" />
         </div>
       </details>
     </client-only>
   </div>
   <!-- Desktop: filtros siempre expandidos -->
-  <div class="hidden md:block space-y-4 pb-4">
+  <div class="hidden md:block space-y-6 pb-4">
     <client-only>
-      <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.flowers')" />
-      <LazyFilterColors :colors="availableColors" :title="$t('shop.filtersTitle.colors')" />
-      <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.moments')" />
-      <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.occasions')" />
+      <details open class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.occasions')}}</summary>
+        <div class="p-3">
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.occasions')" :show-title="false" />
+        </div>
+      </details>
+      <details open class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.colors')}}</summary>
+        <div class="p-3">
+          <LazyFilterColors :colors="availableColors" :title="$t('shop.filtersTitle.colors')" :show-title="false" />
+        </div>
+      </details>
+      <details open class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.moments')}}</summary>
+        <div class="p-3">
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.moments')" :show-title="false" />
+        </div>
+      </details>
+      <details open class="border border-neutral-200 rounded-md bg-white">
+        <summary class="cursor-pointer font-bold px-3 py-2 select-none bg-neutral-50 border-b border-neutral-200">{{$t('shop.filtersTitle.flowers')}}</summary>
+        <div class="p-3">
+          <LazyFilters :typeData="typeData" :title="$t('shop.filtersTitle.flowers')" :show-title="false" />
+        </div>
+      </details>
     </client-only>
   </div>
 </div>
