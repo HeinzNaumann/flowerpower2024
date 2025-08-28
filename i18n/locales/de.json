@@ -76,7 +76,9 @@
     "tryAgain": "Versuchen Sie, Ihre Filter zu ändern oder",
     "tags": "Tags",
     "noResults": "Keine Ergebnisse gefunden",
-    "clearFilters": "Versuchen Sie es mit anderen Filtern oder löschen Sie alle Filter"
+    "clearFilters": "Versuchen Sie es mit anderen Filtern oder löschen Sie alle Filter",
+    "showMore": "Mehr anzeigen",
+    "showLess": "Weniger anzeigen"
   },
 
   "footer": {
