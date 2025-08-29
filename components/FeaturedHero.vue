@@ -6,7 +6,7 @@
   <div class="flex flex-col md:flex-row gap-4 mb-10 justify-around object-fit">
     <div class="relative card-container">
       <img
-        src="public/images/floristeriaFlowerPower-Hero.webp"
+        src="public/images/floristeriaFlowerPower-Hero-big.webp"
         alt="Ramo de flores con anémonas moradas, dalias lilas y lisianthus"
         class="w-full h-full object-cover"
       />
