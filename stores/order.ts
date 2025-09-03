@@ -16,6 +16,7 @@ interface CreateOrderMeta {
 interface OrderState {
   id: string | null;
   clientSecret: string | null;
+  paymentIntentId: string | null;
   status: "draft" | "pending" | "paid" | "failed";
   userId: string | null;
   userType: "registered" | "guest";
@@ -31,6 +32,7 @@ export const useOrderStore = defineStore("order", {
   state: (): OrderState => ({
     id: null,
     clientSecret: null,
+    paymentIntentId: null,
     status: "draft",
     userId: null,
     userType: "guest",
@@ -203,6 +205,10 @@ export const useOrderStore = defineStore("order", {
         // Si la respuesta ya incluye un clientSecret, guardarlo
         if (response.clientSecret) {
           this.clientSecret = response.clientSecret;
+          // Si llega también el paymentIntentId, guardarlo
+          if ((response as any).paymentIntentId) {
+            this.paymentIntentId = (response as any).paymentIntentId as string;
+          }
           console.log('ClientSecret recibido directamente en la respuesta de creación de orden');
         } else {
           // Si no, obtener el clientSecret con una llamada separada
@@ -263,6 +269,7 @@ export const useOrderStore = defineStore("order", {
         
         if (response.clientSecret) {
           this.clientSecret = response.clientSecret;
+          this.paymentIntentId = response.paymentIntentId;
           console.log('ClientSecret obtenido/reutilizado:', this.clientSecret.substring(0, 20) + '...');
         } else {
           throw new Error('No se recibió un clientSecret válido del servidor');

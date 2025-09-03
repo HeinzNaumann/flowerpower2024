@@ -102,7 +102,12 @@
               <div class="mb-6">
                 <div class="flex items-center justify-between border p-4 rounded-md bg-emerald-50 border-emerald-200">
                   <div class="flex items-center gap-2">
-                    <UIcon name="i-heroicons-credit-card" class="text-emerald-600" />
+                    <!-- Inline credit-card icon to avoid runtime fetches -->
+                    <svg class="text-emerald-600 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                      <line x1="2" y1="10" x2="22" y2="10"></line>
+                      <line x1="6" y1="15" x2="10" y2="15"></line>
+                    </svg>
                     <span class="font-medium">{{ $t('checkout.creditCard') || 'Tarjeta de crédito/débito' }}</span>
                   </div>
                   <div class="flex gap-2">
@@ -130,11 +135,17 @@
               <div class="mb-6">
                 <label class="block text-sm font-medium mb-1">{{ $t('checkout.paymentCard') || 'Detalles de la tarjeta' }}</label>
                 <div v-if="loadingStripe" class="flex justify-center items-center h-24">
-                  <UIcon name="i-heroicons-arrow-path" class="animate-spin text-2xl text-emerald-600" />
+                  <!-- Inline spinner icon -->
+                  <svg class="animate-spin h-7 w-7 text-emerald-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
                 </div>
                 <div v-show="!loadingStripe">
                   <!-- Payment Element contendrá todos los campos de pago -->
-                  <div id="payment-element" class="py-4 px-3 mb-4 min-h-[200px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow"></div>
+                  <div :key="order.paymentIntentId || order.clientSecret || 'no-secret'">
+                    <div id="payment-element" class="py-4 px-3 mb-4 min-h-[200px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow"></div>
+                  </div>
                 </div>
                 <div class="text-xs text-neutral-500 mb-4">
                   {{ $t('checkout.cardInfo') || 'Introduce los datos de tu tarjeta para completar el pago.' }}
@@ -174,7 +185,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, nextTick } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick, shallowRef } from "vue";
 import { useRouter } from "vue-router";
 import { loadStripe } from "@stripe/stripe-js";
 import { useOrderStore } from "~/stores/order";
@@ -217,9 +228,11 @@ const loading = ref(false);
 const paymentLoading = ref(false);
 const loadingStripe = ref(true);
 const error = ref("");
-const stripe = ref<any>(null);
-const elements = ref<any>(null);
-const cardNumber = ref<any>(null);
+const stripe = shallowRef<any>(null);
+const elements = shallowRef<any>(null);
+const paymentElement = shallowRef<any>(null);
+const lastClientSecret = ref<string | null>(null);
+const cardNumber = ref<any>(null); // kept for backward compatibility where used below
 const cardExpiry = ref<any>(null);
 const cardCvc = ref<any>(null);
 const cardholder = ref("");
@@ -269,8 +282,18 @@ function updateDebugLogs() {
 }
 onMounted(updateDebugLogs);
 
+// Limpieza segura del Payment Element
+function unmountStripe() {
+  try {
+    paymentElement.value?.unmount?.();
+  } catch {}
+  paymentElement.value = null;
+  elements.value = null;
+}
+
 // Payment Element (moderna)
 async function initializeStripe() {
+  if (!process.client) return;
   if (!order.clientSecret) {
     error.value = t("checkout.invalidOrderMessage")||"Falta clientSecret";
     loadingStripe.value = false;
@@ -281,6 +304,15 @@ async function initializeStripe() {
     error.value = "Error configuración Stripe";
     loadingStripe.value = false;
     return;
+  }
+  // Evitar re-inicializar si ya está montado con el mismo clientSecret
+  if (elements.value && lastClientSecret.value === order.clientSecret) {
+    loadingStripe.value = false;
+    return;
+  }
+  // Si existe pero con otro secret, desmontar primero
+  if (elements.value && lastClientSecret.value !== order.clientSecret) {
+    unmountStripe();
   }
   loading.value = true;
   try {
@@ -297,33 +329,20 @@ async function initializeStripe() {
         spacingUnit: "6px"
       }
     };
-    
-    // Usar Payment Element en lugar de elementos separados
     elements.value = stripe.value.elements({ 
       clientSecret: order.clientSecret, 
       appearance,
       locale: locale.value === 'es' ? 'es' : 'en'
     });
-    
-    // Crear Payment Element unificado
-    const paymentElement = elements.value.create('payment', {
-      layout: 'tabs'
-    });
-    
+    paymentElement.value = elements.value.create('payment', { layout: 'tabs' });
     await nextTick();
-    paymentElement.mount('#payment-element');
-    
-    paymentElement.on('change', (event: any) => {
-      if (event.error) {
-        error.value = event.error.message;
-      } else {
-        error.value = '';
-      }
+    paymentElement.value.mount('#payment-element');
+    paymentElement.value.on('change', (event: any) => {
+      if (event.error) error.value = event.error.message; else error.value = '';
     });
-    
-    // Guardar referencia para usar en confirmPayment
-    cardNumber.value = paymentElement;
-    
+    // Guardar referencia legacy
+    cardNumber.value = paymentElement.value;
+    lastClientSecret.value = order.clientSecret;
   } catch (e) {
     error.value = `Error Stripe: ${e instanceof Error ? e.message : e}`;
   } finally {
@@ -385,7 +404,21 @@ async function processPayment() {
   }
 }
 
+// Inicializar en cliente y re-inicializar solo cuando cambie el clientSecret
 onMounted(() => {
-  setTimeout(() => initializeStripe(), 500);
+  initializeStripe();
+});
+
+watch(() => order.clientSecret, async (n, o) => {
+  if (!process.client) return;
+  if (n && n !== o) {
+    loadingStripe.value = true;
+    await nextTick();
+    await initializeStripe();
+  }
+});
+
+onBeforeUnmount(() => {
+  unmountStripe();
 });
 </script>
