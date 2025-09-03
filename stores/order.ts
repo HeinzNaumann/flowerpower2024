@@ -218,7 +218,8 @@ export const useOrderStore = defineStore("order", {
     },
 
     /**
-     * Obtiene un clientSecret de Stripe para procesar el pago
+     * Obtiene o reutiliza un PaymentIntent para la orden actual
+     * Patrón: un PI por orderId, actualizable
      */
     async createPaymentIntent() {
       if (!this.id) {
@@ -231,41 +232,38 @@ export const useOrderStore = defineStore("order", {
       const isRegistered = auth.isAuthenticated();
       
       try {
-        console.log('Solicitando clientSecret para la orden:', this.id);
+        console.log('Solicitando/reutilizando PaymentIntent para orden:', this.id);
         
-        // Llamar al endpoint de pago con el ID de la orden
         interface PaymentResponse {
           clientSecret: string;
+          paymentIntentId: string;
           [key: string]: any;
         }
         
-        // Asegurar que el token tiene el formato correcto para la autorización
         const headers: Record<string, string> = {
           'Content-Type': 'application/json'
         };
         
-        // Solo añadir el header de autorización si el usuario está autenticado y el token existe
         if (isRegistered && token.value) {
           headers['Authorization'] = `Bearer ${token.value}`;
-          console.log('Enviando token JWT:', `Bearer ${token.value?.substring(0, 15)}...`);
-        } else {
-          console.log('Usuario no autenticado o token no disponible');
         }
         
-        console.log('Headers de la petición:', headers);
-        
-        const response = await $fetch<PaymentResponse>(`${config.public.apiBaseUrl}/orders/pay`, {
+        // Endpoint que busca PI existente o crea uno nuevo
+        const response = await $fetch<PaymentResponse>(`${config.public.apiBaseUrl}/orders/${this.id}/payment-intent`, {
           method: "POST",
           headers,
-          body: { orderId: this.id }
+          body: { 
+            orderId: this.id,
+            amount: Math.round((this.total + this.shippingCost) * 100), // En centavos
+            currency: 'eur'
+          }
         });
         
-        console.log('Respuesta del intent de pago:', response);
+        console.log('PaymentIntent response:', response);
         
-        // Guardar el clientSecret
         if (response.clientSecret) {
           this.clientSecret = response.clientSecret;
-          console.log('ClientSecret obtenido:', this.clientSecret);
+          console.log('ClientSecret obtenido/reutilizado:', this.clientSecret.substring(0, 20) + '...');
         } else {
           throw new Error('No se recibió un clientSecret válido del servidor');
         }
@@ -273,7 +271,7 @@ export const useOrderStore = defineStore("order", {
         return this.clientSecret;
         
       } catch (error) {
-        console.error('Error al obtener el intent de pago:', error);
+        console.error('Error al obtener PaymentIntent:', error);
         throw error;
       }
     },

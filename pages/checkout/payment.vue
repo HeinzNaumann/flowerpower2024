@@ -126,24 +126,15 @@
                 </div>
               </div>
 
-              <!-- Detalles de la tarjeta -->
+              <!-- Payment Element unificado -->
               <div class="mb-6">
                 <label class="block text-sm font-medium mb-1">{{ $t('checkout.paymentCard') || 'Detalles de la tarjeta' }}</label>
                 <div v-if="loadingStripe" class="flex justify-center items-center h-24">
                   <UIcon name="i-heroicons-arrow-path" class="animate-spin text-2xl text-emerald-600" />
                 </div>
                 <div v-show="!loadingStripe">
-                  <div id="card-number-element" class="py-4 px-3 mb-4 min-h-[54px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow"></div>
-                  <div class="flex gap-4">
-                    <div class="flex-1">
-                      <label class="block text-sm font-medium mb-1">{{ $t('checkout.cardExpiry') || 'Caducidad' }}</label>
-                      <div id="card-expiry-element" class="py-4 px-3 mb-4 min-h-[54px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow"></div>
-                    </div>
-                    <div class="flex-1">
-                      <label class="block text-sm font-medium mb-1">CVC</label>
-                      <div id="card-cvc-element" class="py-4 px-3 mb-4 min-h-[54px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow"></div>
-                    </div>
-                  </div>
+                  <!-- Payment Element contendrá todos los campos de pago -->
+                  <div id="payment-element" class="py-4 px-3 mb-4 min-h-[200px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow"></div>
                 </div>
                 <div class="text-xs text-neutral-500 mb-4">
                   {{ $t('checkout.cardInfo') || 'Introduce los datos de tu tarjeta para completar el pago.' }}
@@ -278,7 +269,7 @@ function updateDebugLogs() {
 }
 onMounted(updateDebugLogs);
 
-// Stripe Split Fields
+// Payment Element (moderna)
 async function initializeStripe() {
   if (!order.clientSecret) {
     error.value = t("checkout.invalidOrderMessage")||"Falta clientSecret";
@@ -304,32 +295,35 @@ async function initializeStripe() {
         fontFamily: "Inter, ui-sans-serif, system-ui, sans-serif",
         borderRadius: "14px",
         spacingUnit: "6px"
-      },
-      rules: {
-        ".Input": {
-          border: "none",
-          borderBottom: "2px solid #d1fae5",
-          backgroundColor: "transparent",
-          padding: "14px 0 10px 0",
-          fontWeight: "600",
-          color: "#1a202c"
-        },
-        ".Input:focus": { borderBottomColor: "#10b981" },
-        ".Label": { fontWeight: "700", fontSize: "16px" },
-        ".Error": { color: "#e11d48", fontWeight: "600", fontSize: "14px" }
       }
     };
-    elements.value = stripe.value.elements({ clientSecret: order.clientSecret, appearance });
-    cardNumber.value = elements.value.create("cardNumber");
-    cardExpiry.value = elements.value.create("cardExpiry");
-    cardCvc.value = elements.value.create("cardCvc");
-    await nextTick();
-    cardNumber.value.mount("#card-number-element");
-    cardExpiry.value.mount("#card-expiry-element");
-    cardCvc.value.mount("#card-cvc-element");
-    [cardNumber, cardExpiry, cardCvc].forEach(el => {
-      el.value.on("change", (e:any) => { error.value = e.error?.message||""; });
+    
+    // Usar Payment Element en lugar de elementos separados
+    elements.value = stripe.value.elements({ 
+      clientSecret: order.clientSecret, 
+      appearance,
+      locale: locale.value === 'es' ? 'es' : 'en'
     });
+    
+    // Crear Payment Element unificado
+    const paymentElement = elements.value.create('payment', {
+      layout: 'tabs'
+    });
+    
+    await nextTick();
+    paymentElement.mount('#payment-element');
+    
+    paymentElement.on('change', (event: any) => {
+      if (event.error) {
+        error.value = event.error.message;
+      } else {
+        error.value = '';
+      }
+    });
+    
+    // Guardar referencia para usar en confirmPayment
+    cardNumber.value = paymentElement;
+    
   } catch (e) {
     error.value = `Error Stripe: ${e instanceof Error ? e.message : e}`;
   } finally {
@@ -344,31 +338,48 @@ async function processPayment() {
   if (!stripe.value || !elements.value) {
     error.value = t("checkout.stripeNotReady")||"Pago no listo"; return;
   }
-  paymentLoading.value = true; error.value = "";
+  
+  // Prevenir doble click
+  if (paymentLoading.value) return;
+  
+  paymentLoading.value = true; 
+  error.value = "";
+  
   try {
-    const result = await stripe.value.confirmCardPayment(order.clientSecret, {
-      payment_method: {
-        card: cardNumber.value,
-        billing_details: {
-          name: cardholder.value||`${order.shipping?.name||""} ${order.shipping?.surname||""}`.trim(),
-          email: order.shipping?.email||""
+    // Usar confirmPayment con Payment Element (API moderna)
+    const { error: confirmError } = await stripe.value.confirmPayment({
+      elements: elements.value,
+      confirmParams: {
+        return_url: `${window.location.origin}/checkout/success`,
+        payment_method_data: {
+          billing_details: {
+            name: cardholder.value || `${order.shipping?.name || ""} ${order.shipping?.surname || ""}`.trim(),
+            email: order.shipping?.email || ""
+          }
         }
       },
-      return_url: `${window.location.origin}/checkout/success`
+      redirect: 'if_required' // Solo redirige si es necesario (3DS)
     });
-    if (result.error) {
-      error.value = result.error.message||t("checkout.paymentFailed")||"Pago fallido";
-    } else if (result.paymentIntent?.status==="succeeded") {
-      await order.markPaid(result.paymentIntent.id);
-      await cart.clearCart();
-      router.push("/checkout/success");
-    } else if (result.paymentIntent?.status==="requires_action") {
-      // 3DS handling by Stripe
+    
+    if (confirmError) {
+      // Error en el pago
+      error.value = confirmError.message || t("checkout.paymentFailed") || "Pago fallido";
+      console.error('Error en confirmPayment:', confirmError);
     } else {
-      error.value = `Estado intermedio: ${result.paymentIntent?.status||"?"}`;
+      // Pago exitoso (sin redirección)
+      console.log('Pago completado exitosamente');
+      
+      // Marcar como pagado y limpiar carrito
+      await order.markPaid();
+      await cart.clearCart();
+      
+      // Redirigir a página de éxito
+      router.push("/checkout/success");
     }
+    
   } catch (e) {
-    error.value = t("checkout.processError")||"Error inesperado";
+    console.error('Error inesperado en processPayment:', e);
+    error.value = t("checkout.processError") || "Error inesperado";
   } finally {
     paymentLoading.value = false;
   }
