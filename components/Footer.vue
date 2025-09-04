@@ -11,12 +11,21 @@
             <h3 class="font-bold text-xl">
               {{ $t("footer.sections.getHelp") }}
             </h3>
-            <img
-              src="/assets/icons/plus.svg"
-              :alt="$t('footer.alt.expand')"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               class="w-6 h-6 transition-transform duration-200"
               :class="{ 'rotate-45': openSection === 'help' }"
-            />
+              aria-hidden="true"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
           </button>
           <transition
             enter-active-class="transition duration-200 ease-out"
@@ -59,12 +68,21 @@
             <h3 class="font-bold text-xl">
               {{ $t("footer.sections.aboutFlowerPower") }}
             </h3>
-            <img
-              src="/assets/icons/plus.svg"
-              :alt="$t('footer.alt.expand')"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               class="w-6 h-6 transition-transform duration-200"
               :class="{ 'rotate-45': openSection === 'about' }"
-            />
+              aria-hidden="true"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
           </button>
           <transition
             enter-active-class="transition duration-200 ease-out"
