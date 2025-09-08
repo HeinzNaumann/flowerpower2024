@@ -962,5 +962,13 @@
       "invalidCredentials": "Ungültige Anmeldedaten. Bitte überprüfen Sie Ihre E-Mail und Ihr Passwort.",
       "genericError": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut."
     }
+  },
+  "forgotPassword": {
+    "title": "Passwort vergessen?",
+    "emailLabel": "Ihre E-Mail",
+    "emailPlaceholder": "ihre@email.com",
+    "button": "Anweisungen senden",
+    "success": "Wenn diese E-Mail registriert ist, senden wir Ihnen eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts.",
+    "error": "Die E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es später erneut."
   }
 }

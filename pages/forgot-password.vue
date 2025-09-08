@@ -1,9 +1,16 @@
 <template>
   <div class="max-w-lg mx-auto py-12 px-4">
-    <h1 class="text-2xl font-bold mb-4">¿Olvidaste tu contraseña?</h1>
+    <h1 class="text-2xl font-bold mb-4">{{ $t('forgotPassword.title') }}</h1>
     <UForm :state="{ email }" @submit="submitEmail">
-      <UFormField name="email" label="Tu email">
-        <UInput v-model="email" type="email" required autocomplete="email" class="w-full" />
+      <UFormField name="email" :label="$t('forgotPassword.emailLabel')">
+        <UInput
+          v-model="email"
+          type="email"
+          required
+          autocomplete="email"
+          :placeholder="$t('forgotPassword.emailPlaceholder')"
+          class="w-full"
+        />
       </UFormField>
 
       <UButton
@@ -11,7 +18,7 @@
         :loading="loading"
         class="mt-6 inline-block px-6 py-2 bg-white text-neutral-900 rounded-full border border-neutral-300 hover:bg-neutral-200 text-sm md:text-lg disabled:opacity-60 focus:outline-none focus:ring-2 focus:ring-[#3F2D50]/40"
       >
-        Enviar instrucciones
+        {{ $t('forgotPassword.button') }}
       </UButton>
     </UForm>
 
@@ -22,6 +29,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useI18n } from '#imports'
+const { t } = useI18n()
 const email = ref("");
 const message = ref("");
 const error = ref("");
@@ -41,9 +50,9 @@ async function submitEmail() {
         body: { email: email.value },
       }
     );
-    message.value = res.message;
+    message.value = res.message || t('forgotPassword.success');
   } catch (err: any) {
-    error.value = err.data?.message || "Error al enviar el correo";
+    error.value = err?.data?.message || t('forgotPassword.error');
   } finally {
     loading.value = false;
   }

@@ -972,5 +972,13 @@
       "acceptTOS": "Debes aceptar los términos y condiciones.",
       "emailMismatch": "Los correos electrónicos no coinciden"
     }
+  },
+  "forgotPassword": {
+    "title": "¿Olvidaste tu contraseña?",
+    "emailLabel": "Tu email",
+    "emailPlaceholder": "tu@email.com",
+    "button": "Enviar instrucciones",
+    "success": "Si este correo está registrado, te enviaremos un email con instrucciones para restablecer tu contraseña.",
+    "error": "No se pudo enviar el correo. Inténtalo de nuevo más tarde."
   }
 }

@@ -982,5 +982,13 @@
       "acceptTOS": "You must accept the terms and conditions.",
       "emailMismatch": "Emails do not match"
     }
+  },
+  "forgotPassword": {
+    "title": "Forgot your password?",
+    "emailLabel": "Your email",
+    "emailPlaceholder": "your@email.com",
+    "button": "Send instructions",
+    "success": "If this email is registered, we will send you an email with instructions to reset your password.",
+    "error": "We couldn’t send the email. Please try again later."
   }
 }
