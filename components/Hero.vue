@@ -16,12 +16,16 @@
       </NuxtLink>
     </div>
 
-    <div class="w-full md:w-1/2 lg:w-2/3 relative">
+    <div class="w-full md:w-2/3 lg:w-2/3 relative">
       <img
         src="/images/floristeriaFlowerPower-Hero.webp"
-        alt="{{ $t('header.alt.logo') }}"
-        class="h-[80vh] object-cover w-full"
+        :alt="$t('header.alt.logo')"
+        class="block w-full h-auto object-cover"
+        width="1920"
+        height="1080"
         loading="eager"
+        fetchpriority="high"
+        decoding="async"
       />
 
       <div
@@ -44,6 +48,17 @@
 </template>
 
 <script setup lang="ts">
-import { useLocalePath } from '#imports'
+import { useLocalePath, useHead } from '#imports'
 const $localePath = useLocalePath()
+
+useHead({
+  link: [
+    {
+      rel: 'preload',
+      as: 'image',
+      href: '/images/floristeriaFlowerPower-Hero.webp',
+      // fetchpriority is not standard in link, but some browsers read it from images; keep it on the <img> too.
+    }
+  ]
+})
 </script>
