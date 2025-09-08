@@ -222,7 +222,7 @@
     <!-- Bottom Footer -->
 
     <div
-      class="container mx-auto px-4 flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0 pt-10 pb-5"
+      class="container mx-auto px-4 flex flex-col xl:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0 pt-10 pb-5"
     >
       <div
         class="flex flex-col lg:flex-row items-center space-y-2 lg:space-y-0 lg:space-x-4 lg:pb-0 pb-10"
