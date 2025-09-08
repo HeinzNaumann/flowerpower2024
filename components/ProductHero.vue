@@ -18,7 +18,7 @@
         </h2>
         <NuxtLink
           :to="$localePath('/shop')"
-          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-neutral-200 text-sm md:text-lg"
+          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-neutral-200 text-sm md:text-base font-medium"
         >
           {{ $t("home.cta.primary") }}
         </NuxtLink>
@@ -39,7 +39,7 @@
         </h2>
         <NuxtLink
           :to="$localePath('/shop')"
-          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-neutral-200 text-sm md:text-lg"
+          class="px-6 py-2 bg-white text-grey-900 rounded-full hover:bg-neutral-200 text-sm md:text-base font-medium"
         >
           {{ $t("home.cta.primary") }}
         </NuxtLink>
