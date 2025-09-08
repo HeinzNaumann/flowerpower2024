@@ -10,7 +10,7 @@
       <p class="text-lg text-left !text-white">{{ $t("home.hero.subtitle") }}</p>
       <NuxtLink
         :to="$localePath('/shop')"
-        class="inline-block bg-white text-neutral-900 font-bold py-2 px-5 rounded-full hover:bg-neutral-200 transition duration-200 transform hover:scale-105"
+        class="inline-block bg-white text-neutral-900 font-medium py-2 px-5 rounded-full hover:bg-neutral-200 transition duration-200 transform hover:scale-105"
       >
         {{ $t("home.cta.primary") }}
       </NuxtLink>

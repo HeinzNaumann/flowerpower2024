@@ -8,7 +8,11 @@
       <img
         src="public/images/floristeriaFlowerPower-Hero-big.webp"
         alt="Ramo de flores con anémonas moradas, dalias lilas y lisianthus"
-        class="w-full h-full object-cover"
+        class="block w-full h-auto object-cover"
+        width="1920"
+        height="1080"
+        loading="lazy"
+        decoding="async"
       />
       <div
         class="cta-image-container absolute bottom-5 left-5 md:bottom-10 md:left-10"
