@@ -966,7 +966,7 @@
   "forgotPassword": {
     "title": "Passwort vergessen?",
     "emailLabel": "Ihre E-Mail",
-    "emailPlaceholder": "ihre@email.com",
+    "emailPlaceholder": "ihre.email.com",
     "button": "Anweisungen senden",
     "success": "Wenn diese E-Mail registriert ist, senden wir Ihnen eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts.",
     "error": "Die E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es später erneut."
