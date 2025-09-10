@@ -16,7 +16,6 @@ export const useFetchApi = (typeRequest: string) => {
   const error = ref<Error | null>(null);
   const pending = ref<boolean>(true);
   
-  // Construye dinámicamente la query basada en los filtros disponibles
   const queryParams = computed(() => {
     const {
       tags,
