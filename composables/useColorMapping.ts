@@ -1,4 +1,4 @@
-import { computed } from "vue";
+import { computed, unref, type Ref } from "vue";
 import { useI18n } from "vue-i18n";
 
 const colorMapping: Record<string, Record<string, string>> = {
@@ -40,12 +40,14 @@ const colorMapping: Record<string, Record<string, string>> = {
   },
 };
 
-export function useColorMapping(colors: string[]) {
+export function useColorMapping(colorsInput: Ref<string[]> | string[]) {
   const { locale } = useI18n();
 
-  console.log("colors", colors);
+  // Optional debug: current colors input
+  // console.log("colors", unref(colorsInput));
 
   const mappedColors = computed(() => {
+    const colors = unref(colorsInput) ?? [];
     const currentLang = locale.value || "es";
     const mapping = colorMapping[currentLang] || {};
     const classMap = new Map<string, string>();

@@ -258,26 +258,13 @@
 import CartDrawer from "~/components/CartDrawer.vue";
 import { ref, computed } from "vue";
 import { useCartStore } from "~/stores/cart";
+import { useColorMapping } from "~/composables/useColorMapping";
 
 const config = useRuntimeConfig();
 const route = useRoute();
 const slug = route.query.slug;
 const { locale, t } = useI18n();
 import { useHead } from '#imports';
-
-// SEO dinámico multilingüe para producto
-useHead(() => {
-  const productName = product.value?.title || '';
-  return {
-    title: t('productPage.seo.title', { product: productName }),
-    meta: [
-      {
-        name: 'description',
-        content: t('productPage.seo.description', { product: productName })
-      }
-    ]
-  };
-});
 
 const cart = useCartStore();
 
@@ -304,7 +291,23 @@ const {
   }
 );
 
-const { mappedColors } = useColorMapping(product.value.colors);
+// Mapeo reactivo de colores del producto (actualiza cuando llega el producto)
+const productColors = computed(() => Array.isArray(product.value?.colors) ? product.value.colors : []);
+const { mappedColors } = useColorMapping(productColors);
+
+// SEO dinámico multilingüe para producto (debe ir después de declarar 'product')
+useHead(() => {
+  const productName = product.value?.title || '';
+  return {
+    title: t('productPage.seo.title', { product: productName }),
+    meta: [
+      {
+        name: 'description',
+        content: t('productPage.seo.description', { product: productName })
+      }
+    ]
+  };
+});
 
 // Complements selection state
 const selectedComplements = ref({
