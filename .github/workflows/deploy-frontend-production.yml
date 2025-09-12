@@ -31,6 +31,10 @@ jobs:
 
       - name: Build Nuxt app
         run: pnpm build
+        env:
+          NODE_ENV: production
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          NUXT_PUBLIC_STRIPE_PUBLIC_KEY: ${{ secrets.STRIPE_PUBLIC_KEY }}
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
