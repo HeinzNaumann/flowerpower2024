@@ -217,35 +217,35 @@
         <div class="flex flex-col gap-2 mt-4">
           <NuxtLink
             :to="localePath({ name: 'shop', query: { tags: $t('header.links.flores') } })"
-            class="hover:text-neutral-600"
+            :class="['hover:text-neutral-600', isActiveTag('flores') && 'nav-active text-neutral-900']"
             @click="handleMenuLinkClick"
           >
             {{ $t("header.links.flores") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ name: 'shop', query: { tags: $t('header.links.rosas') } })"
-            class="hover:text-neutral-600"
+            :class="['hover:text-neutral-600', isActiveTag('rosas') && 'nav-active text-neutral-900']"
             @click="handleMenuLinkClick"
           >
             {{ $t("header.links.rosas") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ name: 'shop', query: { tags: $t('header.links.plantas') } })"
-            class="hover:text-neutral-600"
+            :class="['hover:text-neutral-600', isActiveTag('plantas') && 'nav-active text-neutral-900']"
             @click="handleMenuLinkClick"
           >
             {{ $t("header.links.plantas") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ name: 'shop', query: { tags: $t('header.links.momentos') } })"
-            class="hover:text-neutral-600"
+            :class="['hover:text-neutral-600', isActiveTag('momentos') && 'nav-active text-neutral-900']"
             @click="handleMenuLinkClick"
           >
             {{ $t("header.links.momentos") }}
           </NuxtLink>
           <NuxtLink
             :to="localePath({ path: '/shop' })"
-            class="hover:text-neutral-600"
+            :class="['hover:text-neutral-600', isActiveShopNoTag && 'nav-active text-neutral-900']"
             @click="handleMenuLinkClick"
           >
             {{ $t("header.links.tienda") }}
@@ -289,7 +289,7 @@
               query: { tags: $t('header.links.flores') },
             })
           "
-          class="hover:text-neutral-600"
+          :class="['hover:text-neutral-600', isActiveTag('flores') && 'nav-active']"
         >
           {{ $t("header.links.flores") }}
         </NuxtLink>
@@ -300,7 +300,7 @@
               query: { tags: $t('header.links.rosas') },
             })
           "
-          class="hover:text-neutral-600"
+          :class="['hover:text-neutral-600', isActiveTag('rosas') && 'nav-active']"
         >
           {{ $t("header.links.rosas") }}
         </NuxtLink>
@@ -311,7 +311,7 @@
               query: { tags: $t('header.links.plantas') },
             })
           "
-          class="hover:text-neutral-600"
+          :class="['hover:text-neutral-600', isActiveTag('plantas') && 'nav-active']"
         >
           {{ $t("header.links.plantas") }}
         </NuxtLink>
@@ -322,13 +322,13 @@
               query: { tags: $t('header.links.momentos') },
             })
           "
-          class="hover:text-neutral-600"
+          :class="['hover:text-neutral-600', isActiveTag('momentos') && 'nav-active']"
         >
           {{ $t("header.links.momentos") }}
         </NuxtLink>
         <NuxtLink
           :to="localePath({ path: '/shop' })"
-          class="hover:text-neutral-600"
+          :class="['hover:text-neutral-600', isActiveShopNoTag && 'nav-active']"
         >
           {{ $t("header.links.tienda") }}
         </NuxtLink>
@@ -366,7 +366,7 @@
 </template>
 
 <script setup>
-import { inject, ref, onMounted, watchEffect } from 'vue';
+import { inject, ref, onMounted, watchEffect, computed } from 'vue';
 import CartDrawer from '~/components/CartDrawer.vue';
 import { useCartDrawer } from '~/composables/useCartDrawer';
 const { showCartDrawer } = useCartDrawer();
@@ -401,7 +401,7 @@ function handleCartDrawerFromMenu() {
 
 
 import LoginRegister from "~/components/LoginRegister.vue";
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 const localePath = useLocalePath();
 const switchLocalePath = useSwitchLocalePath();
 const route = useRoute();
@@ -617,6 +617,28 @@ onMounted(() => {
     }
   });
 });
+
+// Active state helpers for navbar (robust with i18n route naming)
+const isOnShop = computed(() => {
+  const name = String(route.name || '');
+  return name.startsWith('shop') || route.path.endsWith('/shop');
+});
+
+const isOnProduct = computed(() => {
+  const name = String(route.name || '');
+  return name.startsWith('product') || route.path.includes('/product');
+});
+
+const isActiveTag = (key) => {
+  // Compare localized tag in query with the localized label
+  const target = t(`header.links.${key}`);
+  return isOnShop.value && route.query?.tags === target;
+};
+
+const isActiveShopNoTag = computed(() => {
+  // Active when on the shop without a specific tag or when viewing a product page
+  return (isOnShop.value && !route.query?.tags) || isOnProduct.value;
+});
 </script>
 
 <style scoped>
@@ -636,5 +658,12 @@ onMounted(() => {
 .expand-leave-from {
   transform: scaleX(1);
   opacity: 1;
+}
+
+/* Underline for active navigation link */
+.nav-active {
+  display: inline-block;
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
 }
 </style>
