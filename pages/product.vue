@@ -74,15 +74,15 @@
 
         <div class="flex flex-col justify-between p-6">
           <div class="flex md:flex-row flex-col justify-between">
-            <h2 class="text-2xl font-semibold">{{ product.title }}</h2>
+            <h1 class="text-2xl font-semibold text-neutral-900">{{ product.title }}</h1>
             <div class="text-2xl">€ {{ product.price }}</div>
           </div>
           <p class="text-neutral-600 mb-6">{{ product.shortDescription }}</p>
 
           <div class="mt-8 md:mt-12">
-            <h3 class="text-lg font-medium mb-4">
+            <h4 class="text-lg font-medium mb-4">
               {{ $t("productPage.addYourComplement") }}:
-            </h3>
+            </h4>
             <div class="grid grid-cols-3 gap-4 md:ml-8">
               <div
                 class="rounded-lg p-4 text-center cursor-pointer border-2 transition-all"
