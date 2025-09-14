@@ -25,8 +25,10 @@
     </div>
 
     <div v-else>
-      <h1 class="text-2xl font-bold mb-8">
-        {{ $t("productPage.product") }} / {{ product.title }}
+      <h1 class="text-lg mb-5">
+        <span class="font-normal">{{ $t("productPage.product") }}</span>
+        <span class="mx-1">/</span>
+        <span class="font-medium">{{ product.title }}</span>
       </h1>
 
       <div class="flex flex-col md:flex-row justify-around">
@@ -72,7 +74,7 @@
 
         <div class="flex flex-col justify-between p-6">
           <div class="flex md:flex-row flex-col justify-between">
-            <h2 class="text-2xl">{{ product.title }}</h2>
+            <h2 class="text-2xl font-semibold">{{ product.title }}</h2>
             <div class="text-2xl">€ {{ product.price }}</div>
           </div>
           <p class="text-neutral-600 mb-6">{{ product.shortDescription }}</p>
