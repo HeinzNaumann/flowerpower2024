@@ -93,16 +93,16 @@ export function useProductFilters() {
       let matchesColors = true;
       let matchesTags = true;
 
-      // Filtro de búsqueda
+      // Filtro de búsqueda (insensible a mayúsculas y acentos)
       if (activeFilters.value.search) {
-        const searchLower = activeFilters.value.search.toLowerCase();
+        const searchNorm = normalizeText(activeFilters.value.search);
         matchesSearch = (
-          (product.title?.toLowerCase() || '').includes(searchLower) ||
-          (product.shortDescription?.toLowerCase() || '').includes(searchLower) ||
-          (product.description?.toLowerCase() || '').includes(searchLower) ||
-          (product.flowers || []).some(item => (item.toLowerCase() || '').includes(searchLower)) ||
-          (product.moments || []).some(item => (item.toLowerCase() || '').includes(searchLower)) ||
-          (product.occasions || []).some(item => (item.toLowerCase() || '').includes(searchLower))
+          normalizeText(product.title || '').includes(searchNorm) ||
+          normalizeText(product.shortDescription || '').includes(searchNorm) ||
+          normalizeText(product.description || '').includes(searchNorm) ||
+          (product.flowers || []).some(item => normalizeText(item || '').includes(searchNorm)) ||
+          (product.moments || []).some(item => normalizeText(item || '').includes(searchNorm)) ||
+          (product.occasions || []).some(item => normalizeText(item || '').includes(searchNorm))
         );
       }
 
@@ -176,9 +176,17 @@ export function useProductFilters() {
   };
   
   // Normaliza un valor para comparación en filtros
-  const normalizeFilterValue = (value: string): string => {
+  // Normaliza texto eliminando acentos y pasando a minúsculas
+  const normalizeText = (value: string): string => {
     if (!value) return '';
-    return value.toLowerCase().replace(/\s+/g, '');
+    return value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+  };
+
+  const normalizeFilterValue = (value: string): string => {
+    return normalizeText(value).replace(/\s+/g, '');
   };
 
   // Aplicar un filtro

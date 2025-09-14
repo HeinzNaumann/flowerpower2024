@@ -119,7 +119,7 @@
     "sections": {
       "occasions": "Occasions",
       "moments": "Moments",
-      "weddings": "Weddings"
+      "flowers": "Flowers"
     },
     "links": {
       "birthday": "Birthday",
@@ -128,10 +128,10 @@
       "loremIpsum": "Lorem ipsum",
       "romantic": "Romantic",
       "sayThankYou": "Say thank you",
-      "goodMorning": "Good morning",
-      "goodNight": "Good night",
-      "proposal": "Proposal",
-      "anniversary": "Anniversary"
+      "gratitude": "Gratitude",
+      "roses": "Roses",
+      "margaritas": "Margaritas",
+      "gerberas": "Gerberas"
     }
   },
   "filters": {

@@ -63,6 +63,11 @@
       "occasions": "Anlässe",
       "colors": "Farben"
     },
+
+    "flowers": "Blumen",
+    "moments": "Momente",
+    "occasions": "Anlässe",
+    "colors": "Farben",
     "sort": "Sortieren nach",
     "priceLowToHigh": "Preis: Niedrig zu Hoch",
     "priceHighToLow": "Preis: Hoch zu Niedrig",
@@ -119,7 +124,7 @@
     "sections": {
       "occasions": "Anlässe",
       "moments": "Momente",
-      "weddings": "Hochzeiten"
+      "flowers": "Blumen"
     },
     "links": {
       "birthday": "Geburtstag",
@@ -128,10 +133,10 @@
       "loremIpsum": "Lorem ipsum",
       "romantic": "Romantisch",
       "sayThankYou": "Danke sagen",
-      "goodMorning": "Guten Morgen",
-      "goodNight": "Gute Nacht",
-      "proposal": "Heiratsantrag",
-      "anniversary": "Jahrestag"
+      "gratitude": "Dankbarkeit",
+      "roses": "Rosen",
+      "margaritas": "Margeriten",
+      "gerberas": "Gerbera"
     }
   },
   "filters": {

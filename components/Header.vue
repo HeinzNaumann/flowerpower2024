@@ -366,7 +366,7 @@
 </template>
 
 <script setup>
-import { inject, ref, onMounted } from 'vue';
+import { inject, ref, onMounted, watchEffect } from 'vue';
 import CartDrawer from '~/components/CartDrawer.vue';
 import { useCartDrawer } from '~/composables/useCartDrawer';
 const { showCartDrawer } = useCartDrawer();

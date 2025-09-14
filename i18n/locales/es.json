@@ -123,7 +123,7 @@
     "sections": {
       "occasions": "Ocasiones",
       "moments": "Momentos",
-      "weddings": "Bodas"
+      "flowers": "Flores"
     },
     "links": {
       "birthday": "Cumpleaños",
@@ -132,11 +132,11 @@
       "loremIpsum": "Lorem ipsum",
       "romantic": "Romántico",
       "sayThankYou": "Dar las gracias",
-      "goodMorning": "Buenos días",
-      "goodNight": "Buenas noches",
-      "proposal": "Pedida de mano",
-      "anniversary": "Aniversario", 
-      "wedding": "Boda",
+      "gratitude": "Gratitud",
+      "roses": "Rosas",
+      "margaritas": "Margaritas", 
+      "flowers": "Flores",
+      "gerberas": "Gerberas",
       "weddingDecoration": "Decoración de boda",
       "weddingBouquet": "Ramo de novia"
     }
