@@ -241,13 +241,15 @@ const cardholder = ref("");
 const cartItems = computed(() => order.items?.length ? order.items : (cart.items || []));
 const shippingCost = computed(() => {
   if (order.shippingCost !== undefined) return order.shippingCost;
-  try {
-    const data = localStorage.getItem("lastOrderData");
-    if (data) {
-      const d = JSON.parse(data);
-      if (d.shippingCost !== undefined) return d.shippingCost;
-    }
-  } catch {}
+  if (import.meta.client) {
+    try {
+      const data = localStorage.getItem("lastOrderData");
+      if (data) {
+        const d = JSON.parse(data);
+        if (d.shippingCost !== undefined) return d.shippingCost;
+      }
+    } catch {}
+  }
   return 0;
 });
 const subtotalPrice = computed(() => cartItems.value.reduce((s, i) => s + i.price * (i.quantity||1), 0));
@@ -293,7 +295,7 @@ function unmountStripe() {
 
 // Payment Element (moderna)
 async function initializeStripe() {
-  if (!process.client) return;
+  if (!import.meta.client) return;
   if (!order.clientSecret) {
     error.value = t("checkout.invalidOrderMessage")||"Falta clientSecret";
     loadingStripe.value = false;
@@ -366,7 +368,7 @@ async function processPayment() {
   
   try {
     // Usar confirmPayment con Payment Element (API moderna)
-    const { error: confirmError } = await stripe.value.confirmPayment({
+    const { error: confirmError, paymentIntent } = await stripe.value.confirmPayment({
       elements: elements.value,
       confirmParams: {
         return_url: `${window.location.origin}/checkout/success`,
@@ -386,12 +388,15 @@ async function processPayment() {
       console.error('Error en confirmPayment:', confirmError);
     } else {
       // Pago exitoso (sin redirección)
-      console.log('Pago completado exitosamente');
-      
-      // Marcar como pagado y limpiar carrito
-      await order.markPaid();
+      console.log('Pago completado exitosamente', paymentIntent?.id ? `PaymentIntent: ${paymentIntent.id}` : '');
+
+      if (paymentIntent?.id) {
+        await order.markPaid({ id: paymentIntent.id });
+      } else {
+        await order.markPaid();
+      }
       await cart.clearCart();
-      
+
       // Redirigir a página de éxito
       router.push("/checkout/success");
     }
@@ -410,7 +415,7 @@ onMounted(() => {
 });
 
 watch(() => order.clientSecret, async (n, o) => {
-  if (!process.client) return;
+  if (!import.meta.client) return;
   if (n && n !== o) {
     loadingStripe.value = true;
     await nextTick();

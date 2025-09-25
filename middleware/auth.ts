@@ -10,7 +10,7 @@ export default defineNuxtRouteMiddleware((to) => {
   }
 
   // Solo redirigir si estamos en cliente y la URL es incorrecta
-  if (process.client) {
+  if (import.meta.client) {
     const correctPath = `/userPanel/${userName}`;
     if (to.fullPath !== correctPath) {
       window.location.replace(correctPath);

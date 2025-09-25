@@ -369,11 +369,6 @@ async function loadOrderData() {
 onMounted(async () => {
   // Intentar cargar los datos del pedido
   await loadOrderData();
-  
-  // Marcar el pedido como pagado y limpiar el carrito
-  // Esto asegura que no se pueda volver a pagar el mismo pedido
-  order.markPaid();
-  cart.clearCart();
 });
 </script>
 
