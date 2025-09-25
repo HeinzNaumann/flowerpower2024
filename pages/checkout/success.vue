@@ -154,7 +154,7 @@ import { useOrderStore } from "~/stores/order";
 import { useCartStore } from "~/stores/cart";
 import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const config = useRuntimeConfig?.() || {};
 
 // Función para construir la URL de la imagen
@@ -225,15 +225,17 @@ const shippingAddress = ref({
   city: '',
   zip: '',
   country: '',
-  deliveryDate: getTomorrow(), // Usar la fecha de mañana como valor predeterminado
-  deliveryTime: '12:00', // Usar las 12:00 como hora predeterminada
+  deliveryDate: '',
+  deliveryTime: '',
 });
 
 // Formatear fecha para mostrar
 function formatDate(dateString: string) {
   if (!dateString) return '';
-  const date = new Date(dateString);
-  return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  const [year, month, day] = dateString.split('-').map(Number);
+  if (!year || !month || !day) return '';
+  const date = new Date(year, month - 1, day);
+  return date.toLocaleDateString(locale.value || 'es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
 }
 
 // Formatear hora para mostrar
@@ -253,7 +255,10 @@ function generateOrderId() {
 function getTomorrow() {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  return tomorrow.toISOString().split('T')[0];
+  const year = tomorrow.getFullYear();
+  const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+  const day = String(tomorrow.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 // Cargar los datos del pedido
@@ -273,8 +278,8 @@ async function loadOrderData() {
         city: order.shipping.city || '',
         zip: order.shipping.postalCode || '',
         country: order.shipping.country || '',
-        deliveryDate: (order.shipping as any).deliveryDate || getTomorrow(),
-        deliveryTime: (order.shipping as any).deliveryTime || '12:00'
+        deliveryDate: order.deliveryDate || (order.shipping as any).deliveryDate || getTomorrow(),
+        deliveryTime: order.deliveryTime || (order.shipping as any).deliveryTime || '12:00'
       };
       
       // Productos
@@ -287,7 +292,7 @@ async function loadOrderData() {
       }));
       
       // Nota de la tarjeta y costo de envío
-      cardNote.value = (order.shipping as any).cardNote || '';
+      cardNote.value = order.cardNote || (order.shipping as any).cardNote || '';
       
       // Obtener el costo de envío desde el store de la orden o del pedido
       const orderData = (order as any).orderData || {};

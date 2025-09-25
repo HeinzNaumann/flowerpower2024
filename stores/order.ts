@@ -25,6 +25,9 @@ interface OrderState {
   billing: Address | null; // Dirección de facturación
   total: number; // Total de la orden
   shippingCost: number; // Costo de envío
+  deliveryDate: string | null;
+  deliveryTime: string | null;
+  cardNote: string;
 }
 
 export const useOrderStore = defineStore("order", {
@@ -40,7 +43,10 @@ export const useOrderStore = defineStore("order", {
     shipping: null,
     billing: null,
     total: 0,
-    shippingCost: 0
+    shippingCost: 0,
+    deliveryDate: null,
+    deliveryTime: null,
+    cardNote: ""
   }),
 
   actions: {
@@ -59,12 +65,9 @@ export const useOrderStore = defineStore("order", {
       console.log('Dirección de envío:', shipping);
       console.log('Dirección de facturación:', billing);
       console.log('Meta:', meta);
-      
       const cart = useCartStore();
       const auth = useAuth();
       const { token, userInfo } = auth;
-      
-      // Determinar si el usuario está registrado o es invitado
       const isRegistered = auth.isAuthenticated();
       const userType = isRegistered ? "registered" : "guest";
       console.log('Usuario registrado:', isRegistered);
@@ -118,6 +121,10 @@ export const useOrderStore = defineStore("order", {
       if (meta.shippingCost !== undefined) {
         this.shippingCost = meta.shippingCost;
       }
+
+      this.deliveryDate = meta.deliveryDate;
+      this.deliveryTime = meta.deliveryTime;
+      this.cardNote = meta.cardNote || "";
 
       // Obtener el idioma actual
       const currentLocale = useNuxtApp().$i18n?.locale?.value || 'es';
