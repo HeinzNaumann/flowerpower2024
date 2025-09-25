@@ -3,7 +3,7 @@
     <div class="max-w-3xl mx-auto bg-white rounded-lg shadow-sm p-8">
       <!-- Cabecera con animación de éxito -->
       <div class="text-center mb-8">
-        <div class="success-checkmark mb-6">
+        <div class="success-checkmark mb-8 h-[105px]">
           <div class="check-icon">
             <span class="icon-line line-tip"></span>
             <span class="icon-line line-long"></span>
@@ -136,6 +136,7 @@
           {{ $t('checkout.continueShopping') || 'Continuar comprando' }}
         </UButton>
         <UButton
+          v-if="!isGuestOrder"
           to="/account/orders"
           color="primary"
           class="sm:w-auto"
@@ -200,6 +201,7 @@ const orderData = ref<any>(null);
 const shippingCost = ref(0);
 const orderItems = ref<any[]>([]);
 const cardNote = ref('');
+const isGuestOrder = ref(true);
 
 // Subtotal (sin envío)
 const subtotalPrice = computed(() => {
@@ -260,6 +262,8 @@ async function loadOrderData() {
     // Primero intentar obtener los datos del store de la orden
     if (order.shipping && order.items && order.items.length > 0) {
       console.log('Cargando datos del pedido desde el store de orden');
+
+      isGuestOrder.value = order.userType === 'guest';
       
       // Datos de envío
       shippingAddress.value = {
@@ -306,6 +310,10 @@ async function loadOrderData() {
         const data = JSON.parse(storedOrderData);
         orderData.value = data;
         console.log('Datos del pedido cargados desde localStorage:', data);
+
+        if (typeof data.userType === 'string') {
+          isGuestOrder.value = data.userType === 'guest';
+        }
         
         // IMPORTANTE: Las propiedades deliveryDate, deliveryTime y cardNote 
         // están en la raíz del objeto en localStorage, no dentro de shipping
@@ -369,6 +377,11 @@ async function loadOrderData() {
 onMounted(async () => {
   // Intentar cargar los datos del pedido
   await loadOrderData();
+  
+  // Marcar el pedido como pagado y limpiar el carrito
+  // Esto asegura que no se pueda volver a pagar el mismo pedido
+  order.markPaid();
+  cart.clearCart();
 });
 </script>
 

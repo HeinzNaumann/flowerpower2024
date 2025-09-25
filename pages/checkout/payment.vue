@@ -241,15 +241,13 @@ const cardholder = ref("");
 const cartItems = computed(() => order.items?.length ? order.items : (cart.items || []));
 const shippingCost = computed(() => {
   if (order.shippingCost !== undefined) return order.shippingCost;
-  if (import.meta.client) {
-    try {
-      const data = localStorage.getItem("lastOrderData");
-      if (data) {
-        const d = JSON.parse(data);
-        if (d.shippingCost !== undefined) return d.shippingCost;
-      }
-    } catch {}
-  }
+  try {
+    const data = localStorage.getItem("lastOrderData");
+    if (data) {
+      const d = JSON.parse(data);
+      if (d.shippingCost !== undefined) return d.shippingCost;
+    }
+  } catch {}
   return 0;
 });
 const subtotalPrice = computed(() => cartItems.value.reduce((s, i) => s + i.price * (i.quantity||1), 0));
@@ -295,7 +293,7 @@ function unmountStripe() {
 
 // Payment Element (moderna)
 async function initializeStripe() {
-  if (!import.meta.client) return;
+  if (!process.client) return;
   if (!order.clientSecret) {
     error.value = t("checkout.invalidOrderMessage")||"Falta clientSecret";
     loadingStripe.value = false;
@@ -392,15 +390,12 @@ async function processPayment() {
       order.setStatusForUi("failed");
     } else {
       // Pago exitoso (sin redirección)
-      console.log('Pago completado exitosamente', paymentIntent?.id ? `PaymentIntent: ${paymentIntent.id}` : '');
-
-      if (paymentIntent?.id) {
-        await order.markPaid({ id: paymentIntent.id });
-      } else {
-        await order.markPaid();
-      }
+      console.log('Pago completado exitosamente');
+      
+      // Marcar como pagado y limpiar carrito
+      await order.markPaid();
       await cart.clearCart();
-
+      
       // Redirigir a página de éxito
       router.push("/checkout/success");
     }
@@ -420,7 +415,7 @@ onMounted(() => {
 });
 
 watch(() => order.clientSecret, async (n, o) => {
-  if (!import.meta.client) return;
+  if (!process.client) return;
   if (n && n !== o) {
     loadingStripe.value = true;
     await nextTick();
