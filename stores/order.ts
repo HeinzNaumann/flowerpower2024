@@ -12,12 +12,11 @@ interface CreateOrderMeta {
   shippingCost?: number;
   language?: string;
 }
-
 interface OrderState {
   id: string | null;
   clientSecret: string | null;
   paymentIntentId: string | null;
-  status: "draft" | "pending" | "paid" | "failed";
+  status: "draft" | "pending" | "processing" | "paid" | "failed"; // Uso local para feedback de UI (la autoridad real es el backend)
   userId: string | null;
   userType: "registered" | "guest";
   userEmail: string | null;
@@ -283,6 +282,15 @@ export const useOrderStore = defineStore("order", {
       }
     },
     
+    /**
+     * Actualiza el estado local únicamente para feedback visual.
+     * El backend sigue siendo la fuente de verdad (webhooks/refetch).
+     */
+    setStatusForUi(status: OrderState["status"]) {
+      console.log(`[Order] Estado local para UI: ${this.status} -> ${status}`);
+      this.status = status;
+    },
+
     /** 
      * Guardar metadatos del pago tras confirmación en cliente.
      * El backend actualizará el estado real mediante webhook.
@@ -299,6 +307,8 @@ export const useOrderStore = defineStore("order", {
         this.paymentIntentId = paymentIntentId;
       }
 
+      this.setStatusForUi("paid");
+      console.log('[Order] Estado local "paid" es optimista: el backend confirmará o corregirá vía webhook.');
       console.log(`[Order] markPaid ya no realiza actualizaciones manuales. El backend actualizará la orden ${this.id} vía webhook.`);
       console.log('[Order] Estado local actual:', {
         status: this.status,

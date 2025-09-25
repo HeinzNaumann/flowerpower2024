@@ -318,6 +318,8 @@ async function initializeStripe() {
   }
   loading.value = true;
   try {
+    // Estado optimista: estamos montando el Payment Element, aseguramos feedback en UI
+    order.setStatusForUi("pending");
     stripe.value = await stripePromise;
     const appearance = {
       theme: "flat",
@@ -368,6 +370,7 @@ async function processPayment() {
   
   try {
     // Usar confirmPayment con Payment Element (API moderna)
+    order.setStatusForUi("processing");
     const { error: confirmError, paymentIntent } = await stripe.value.confirmPayment({
       elements: elements.value,
       confirmParams: {
@@ -386,6 +389,7 @@ async function processPayment() {
       // Error en el pago
       error.value = confirmError.message || t("checkout.paymentFailed") || "Pago fallido";
       console.error('Error en confirmPayment:', confirmError);
+      order.setStatusForUi("failed");
     } else {
       // Pago exitoso (sin redirección)
       console.log('Pago completado exitosamente', paymentIntent?.id ? `PaymentIntent: ${paymentIntent.id}` : '');
@@ -404,6 +408,7 @@ async function processPayment() {
   } catch (e) {
     console.error('Error inesperado en processPayment:', e);
     error.value = t("checkout.processError") || "Error inesperado";
+    order.setStatusForUi("failed");
   } finally {
     paymentLoading.value = false;
   }
