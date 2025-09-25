@@ -389,7 +389,6 @@ onMounted(async () => {
 /* Animación del check de éxito */
 .success-checkmark {
   width: 80px;
-  height: 80px;
   margin: 0 auto;
 }
 
