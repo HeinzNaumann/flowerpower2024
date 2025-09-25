@@ -300,6 +300,20 @@ const zipCodeMessage = ref('');
 const zipCodeMessageType = ref<'success' | 'error'>('success');
 const isShippingAvailable = ref(false); // Controla si el envío está disponible para el código postal
 
+function formatDateToYMD(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function formatCalendarDateToYMD(date: CalendarDate) {
+  const year = date.year;
+  const month = String(date.month).padStart(2, '0');
+  const day = String(date.day).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 // Funciones para limpiar errores al escribir
 function clearError(field: string) {
   if (errors[field]) {
@@ -398,7 +412,7 @@ const showTitle = ref(true);
 const minDeliveryDate = computed(() => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  return tomorrow.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+  return formatDateToYMD(tomorrow); // Formato YYYY-MM-DD
 });
 
 // Fecha mínima para el calendario (un día después del actual)
@@ -446,9 +460,8 @@ function handleTimeChange(event: Event) {
 
 // Función para manejar el cambio de fecha en el calendario
 function handleDateChange(date: CalendarDate) {
-  // Convertir el objeto CalendarDate a string en formato YYYY-MM-DD
-  const jsDate = date.toDate(getLocalTimeZone());
-  form.deliveryDate = jsDate.toISOString().split('T')[0];
+  // Convertir el objeto CalendarDate a string en formato YYYY-MM-DD sin afectar por zonas horarias
+  form.deliveryDate = formatCalendarDateToYMD(date);
   // Limpiar error si existe
   clearError('deliveryDate');
 };
@@ -518,7 +531,7 @@ onMounted(async () => {
     }
     
     // Formatear la fecha y asignarla al formulario
-    form.deliveryDate = tomorrow.toISOString().split('T')[0];
+    form.deliveryDate = formatDateToYMD(tomorrow);
     deliveryDateObject.value = new CalendarDate(
       tomorrow.getFullYear(), 
       tomorrow.getMonth() + 1, 
