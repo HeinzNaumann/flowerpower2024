@@ -284,32 +284,58 @@ export const useOrderStore = defineStore("order", {
     },
     
     /** 
-     * Guardar metadatos del pago tras confirmación en cliente.
-     * El backend actualizará el estado real mediante webhook.
+     * Marcar la orden como pagada y comunicar al backend
+     * @param paymentIntentId El ID del PaymentIntent de Stripe (opcional)
      */
-    async markPaid(paymentIntent?: string | { id?: string | null }) {
+    async markPaid(paymentIntentId?: string) {
       if (!this.id) {
         console.error('[Order] No se puede marcar como pagada una orden sin ID');
         throw new Error('No hay una orden activa para marcar como pagada');
       }
-
-      const paymentIntentId = typeof paymentIntent === 'string' ? paymentIntent : paymentIntent?.id ?? null;
-
-      if (paymentIntentId) {
-        this.paymentIntentId = paymentIntentId;
+      
+      this.status = "paid";
+      console.log(`[Order] Marcando orden ${this.id} como pagada localmente`);
+      
+      const config = useRuntimeConfig();
+      const auth = useAuth();
+      const { token } = auth;
+      const isRegistered = auth.isAuthenticated();
+      
+      try {
+        // Preparar los headers
+        const headers: Record<string, string> = {
+          'Content-Type': 'application/json'
+        };
+        
+        // Solo añadir el header de autorización si el usuario está autenticado
+        if (isRegistered && token.value) {
+          headers['Authorization'] = `Bearer ${token.value}`;
+        }
+        
+        // Datos para enviar al backend
+        const payload = {
+          orderId: this.id,
+          status: "paid",
+          paymentIntentId // Opcional, útil para verificación en backend
+        };
+        
+        console.log('[Order] Enviando actualización de estado al backend:', payload);
+        
+        // Enviar actualización al backend
+        const response = await $fetch(`${config.public.apiBaseUrl}/orders/status`, {
+          method: "POST",
+          headers,
+          body: payload
+        });
+        
+        console.log('[Order] Respuesta de actualización de estado:', response);
+        return response;
+        
+      } catch (error) {
+        console.error('[Order] Error al actualizar el estado de la orden:', error);
+        // No lanzamos el error aquí para no interrumpir el flujo del usuario
+        // pero lo registramos para debugging
       }
-
-      console.log(`[Order] markPaid ya no realiza actualizaciones manuales. El backend actualizará la orden ${this.id} vía webhook.`);
-      console.log('[Order] Estado local actual:', {
-        status: this.status,
-        paymentIntentId: this.paymentIntentId
-      });
-
-      return {
-        id: this.id,
-        status: this.status,
-        paymentIntentId: this.paymentIntentId
-      };
     },
   },
 
