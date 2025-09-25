@@ -390,10 +390,13 @@ async function processPayment() {
       order.setStatusForUi("failed");
     } else {
       // Pago exitoso (sin redirección)
-      console.log('Pago completado exitosamente');
-      
-      // Marcar como pagado y limpiar carrito
-      await order.markPaid();
+      console.log('Pago completado exitosamente', paymentIntent?.id ? `PaymentIntent: ${paymentIntent.id}` : '');
+
+      if (paymentIntent?.id) {
+        await order.markPaid({ id: paymentIntent.id });
+      } else {
+        await order.markPaid();
+      }
       await cart.clearCart();
       
       // Redirigir a página de éxito
