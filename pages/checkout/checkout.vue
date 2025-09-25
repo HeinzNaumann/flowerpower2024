@@ -710,7 +710,8 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
         cardNote: form.cardNote,
         items: cartStore.items,
         shippingCost: currentShippingCost.value, // shippingCost en el nivel superior
-        total: cartStore.totalPrice + currentShippingCost.value
+        total: cartStore.totalPrice + currentShippingCost.value,
+        userType: isAuthenticated ? 'registered' : 'guest'
       };
       
       // Guardar en localStorage
