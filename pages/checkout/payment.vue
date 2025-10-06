@@ -390,16 +390,7 @@ async function initializeStripe() {
       appearance,
       locale: locale.value === 'es' ? 'es' : 'en'
     });
-    paymentElement.value = elements.value.create('payment', { 
-      layout: 'tabs',
-      fields: {
-        billingDetails: {
-          name: 'never',
-          email: 'never',
-          phone: 'never'
-        }
-      }
-    });
+    paymentElement.value = elements.value.create('payment', { layout: 'tabs' });
     await nextTick();
     paymentElement.value.mount('#payment-element');
     paymentElement.value.on('change', (event: any) => {
