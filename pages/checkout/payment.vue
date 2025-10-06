@@ -388,9 +388,24 @@ async function initializeStripe() {
     elements.value = stripe.value.elements({ 
       clientSecret: order.clientSecret, 
       appearance,
-      locale: locale.value === 'es' ? 'es' : 'en'
+      locale: locale.value === 'es' ? 'es' : 'en',
+      loader: 'auto'
     });
-    paymentElement.value = elements.value.create('payment', { layout: 'tabs' });
+    paymentElement.value = elements.value.create('payment', { 
+      layout: 'tabs',
+      wallets: {
+        applePay: 'auto',
+        googlePay: 'auto'
+      },
+      fields: {
+        billingDetails: {
+          email: 'never',
+          name: 'auto',
+          phone: 'never',
+          address: 'never'
+        }
+      }
+    });
     await nextTick();
     paymentElement.value.mount('#payment-element');
     paymentElement.value.on('change', (event: any) => {
