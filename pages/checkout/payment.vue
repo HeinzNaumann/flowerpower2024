@@ -130,7 +130,7 @@
                   <input 
                     v-model="cardholder"
                     type="text" 
-                    class="w-full py-4 px-3 min-h-[54px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-emerald-200 focus:border-emerald-300" 
+                    class="w-full py-4 px-3 min-h-[54px] bg-white border border-gray-300 rounded-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" 
                     :placeholder="$t('checkout.cardholderNamePlaceholder') || 'Nombre completo'"
                   />
                 </div>
