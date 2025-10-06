@@ -190,12 +190,6 @@ export const useOrderStore = defineStore("order", {
           ...orderPayload.meta,
           shippingCost: typeof orderPayload.meta.shippingCost === 'number' ? orderPayload.meta.shippingCost : 0,
           language: orderPayload.meta.language || currentLocale
-        },
-        userInfo: {
-          name: userName,
-          surname: userSurname,
-          email: userEmail,
-          phone: userPhone
         }
       };
 

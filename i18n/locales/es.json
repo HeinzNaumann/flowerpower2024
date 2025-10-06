@@ -228,8 +228,6 @@
     "deliveryDateSummary": "Fecha",
     "deliveryTimeSummary": "Hora",
     "deliveryPhoneSummary": "Teléfono",
-    "deliveryRecipientName": "Nombre del destinatario",
-    "deliveryRecipientSurname": "Apellidos del destinatario",
     "cardNoteLabel": "Mensaje para la tarjeta",
     "formError": "Por favor, completa todos los campos obligatorios",
     "subtotalPrice": "Subtotal",

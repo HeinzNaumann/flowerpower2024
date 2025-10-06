@@ -322,9 +322,7 @@
     "viewOrders": "Meine Bestellungen anzeigen",
     "continueShopping": "Weiter einkaufen",
     "cardEnding": "Karte endend auf",
-    "deliveryDate": "Lieferdatum",
-    "deliveryRecipientName": "Name des Empfängers",
-    "deliveryRecipientSurname": "Nachname des Empfängers"
+    "deliveryDate": "Lieferdatum"
   },
   "shippingPage": {
     "title": "Versand & Lieferung",
