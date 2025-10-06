@@ -105,7 +105,7 @@
               
               <!-- Opciones de pago -->
               <div class="mb-6">
-                <div class="flex items-center justify-between border p-4 rounded-md bg-emerald-50 border-emerald-200">
+                <div class="flex items-center justify-between border p-4 rounded-md bg-white border-gray-200">
                   <div class="flex items-center gap-2">
                     <!-- Inline credit-card icon to avoid runtime fetches -->
                     <svg class="text-emerald-600 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -130,7 +130,7 @@
                   <input 
                     v-model="cardholder"
                     type="text" 
-                    class="w-full py-4 px-3 min-h-[54px] bg-white border border-gray-300 rounded-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" 
+                    class="w-full py-4 px-3 min-h-[54px] bg-gray-50 border border-gray-200 rounded-lg transition-shadow focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" 
                     :placeholder="$t('checkout.cardholderNamePlaceholder') || 'Nombre completo'"
                   />
                 </div>
@@ -149,7 +149,7 @@
                 <div v-show="!loadingStripe">
                   <!-- Payment Element contendrá todos los campos de pago -->
                   <div :key="order.paymentIntentId || order.clientSecret || 'no-secret'">
-                    <div id="payment-element" class="py-4 px-3 mb-4 min-h-[200px] bg-emerald-50 border border-emerald-100 rounded-lg transition-shadow"></div>
+                    <div id="payment-element" class="py-4 px-3 mb-4 min-h-[200px] bg-white border border-gray-200 rounded-lg transition-shadow"></div>
                   </div>
                 </div>
                 <div class="text-xs text-neutral-500 mb-4">
