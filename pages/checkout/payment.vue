@@ -401,8 +401,8 @@ async function initializeStripe() {
         billingDetails: {
           email: 'never',
           name: 'auto',
-          phone: 'never',
-          address: 'never'
+          phone: 'auto',
+          address: 'auto'
         }
       }
     });
