@@ -104,19 +104,30 @@ export function useAuth() {
   const updateAddress = async (addr: Address) => {
     if (!isAuthenticated()) return null;
     try {
+      const body: Record<string, any> = {
+        street: addr.street,
+        city: addr.city,
+        postalCode: addr.postalCode,
+        country: addr.country,
+        type: addr.type,
+      };
+
+      if (addr.name) body.name = addr.name;
+      if (addr.surname) body.surname = addr.surname;
+      if (addr.email) body.email = addr.email;
+      if (addr.phone) body.phone = addr.phone;
+      if (addr.deliveryPhone) body.deliveryPhone = addr.deliveryPhone;
+      if (addr.deliveryRecipientName) body.deliveryRecipientName = addr.deliveryRecipientName;
+      if (addr.deliveryRecipientSurname) body.deliveryRecipientSurname = addr.deliveryRecipientSurname;
+      if (typeof addr.isDefault === "boolean") body.isDefault = addr.isDefault;
+
       return await $fetch<Address>(`${apiUrl}/addresses/${addr.id}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token.value}`,
           "Content-Type": "application/json",
         },
-        body: {
-          street: addr.street,
-          city: addr.city,
-          postalCode: addr.postalCode,
-          country: addr.country,
-          type: addr.type,
-        },
+        body,
       });
     } catch (err) {
       console.error("Error updating address:", err);

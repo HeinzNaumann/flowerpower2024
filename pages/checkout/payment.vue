@@ -61,11 +61,16 @@
               <div class="border-t pt-4 mb-4">
                 <h3 class="font-medium mb-2">{{ $t('checkout.shippingInfo') || 'Información de envío' }}</h3>
                 <div class="text-sm text-neutral-600">
-                  <p>{{ shippingAddress.name }} {{ shippingAddress.surname }}</p>
-                  <p>{{ shippingAddress.address || shippingAddress.street }}</p>
-                  <p>{{ shippingAddress.zip || shippingAddress.postalCode }}, {{ shippingAddress.city }}</p>
+                  <p>{{ shippingAddress.recipientName }} {{ shippingAddress.recipientSurname }}</p>
+                  <p>{{ shippingAddress.street }}</p>
+                  <p>{{ shippingAddress.postalCode }}, {{ shippingAddress.city }}</p>
                   <p>{{ shippingAddress.country }}</p>
-                  <p class="mt-2">{{ $t('checkout.delivery') || 'Entrega' }}: {{ formatDate(shippingAddress.deliveryDate) }} - {{ formatTime(shippingAddress.deliveryTime) }}</p>
+                  <p v-if="shippingAddress.phone" class="mt-1">
+                    {{ $t('checkout.deliveryPhoneSummary') || 'Teléfono' }}: {{ shippingAddress.phone }}
+                  </p>
+                  <p class="mt-2">
+                    {{ $t('checkout.delivery') || 'Entrega' }}: {{ formatDate(shippingAddress.deliveryDate) }} - {{ formatTime(shippingAddress.deliveryTime) }}
+                  </p>
                 </div>
               </div>
             </template>
@@ -191,6 +196,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useOrderStore } from "~/stores/order";
 import { useCartStore } from "~/stores/cart";
 import { useI18n } from "vue-i18n";
+import type {
+  CheckoutDraft,
+  CustomerContact,
+  DeliveryAddress,
+  DeliveryContact
+} from "~/types/types";
 
 // Import credit card logos
 import visaLogo from '~/assets/images/visa.svg';
@@ -222,6 +233,23 @@ const stripePromise = stripePublicKey ? loadStripe(stripePublicKey) : null;
 
 const order = useOrderStore();
 const cart = useCartStore();
+const orderDraft = ref<CheckoutDraft | null>(null);
+
+function loadStoredDraft() {
+  if (!process.client) return;
+  try {
+    const raw = localStorage.getItem("lastOrderData");
+    if (!raw) {
+      orderDraft.value = null;
+      return;
+    }
+    const parsed = JSON.parse(raw) as CheckoutDraft;
+    orderDraft.value = parsed;
+  } catch (error) {
+    console.error("Error parsing checkout draft:", error);
+    orderDraft.value = null;
+  }
+}
 const router = useRouter();
 
 const loading = ref(false);
@@ -238,38 +266,62 @@ const cardCvc = ref<any>(null);
 const cardholder = ref("");
 
 // Computeds carrito y envío
-const cartItems = computed(() => order.items?.length ? order.items : (cart.items || []));
-const shippingCost = computed(() => {
-  if (order.shippingCost !== undefined) return order.shippingCost;
-  try {
-    const data = localStorage.getItem("lastOrderData");
-    if (data) {
-      const d = JSON.parse(data);
-      if (d.shippingCost !== undefined) return d.shippingCost;
-    }
-  } catch {}
-  return 0;
+const cartItems = computed(() => {
+  if (order.items?.length) return order.items;
+  if (orderDraft.value?.items?.length) return orderDraft.value.items;
+  return cart.items || [];
 });
-const subtotalPrice = computed(() => cartItems.value.reduce((s, i) => s + i.price * (i.quantity||1), 0));
-const totalPrice = computed(() => order.total > 0 ? Number(order.total) : subtotalPrice.value + shippingCost.value);
 
-interface ShippingAddress {
-  name: string; surname: string; address?: string; street?: string;
-  city: string; zip?: string; postalCode?: string; country: string;
-  deliveryDate: string; deliveryTime: string;
-}
-const shippingAddress = computed<ShippingAddress>(() => {
-  if (order.shipping) {
-    const o = order as any;
-    return {
-      name: order.shipping.name||"", surname: order.shipping.surname||"",
-      address: order.shipping.street||"", street: order.shipping.street||"",
-      city: order.shipping.city||"", zip: order.shipping.postalCode||"",
-      postalCode: order.shipping.postalCode||"", country: order.shipping.country||"",
-      deliveryDate: o.shipping?.deliveryDate||"", deliveryTime: o.shipping?.deliveryTime||""
-    };
+const shippingCost = computed(() => {
+  if (typeof order.shippingCost === "number" && order.shippingCost >= 0) {
+    return order.shippingCost;
   }
-  return { name:"",surname:"",address:"",street:"",city:"",zip:"",postalCode:"",country:"",deliveryDate:"",deliveryTime:"" };
+  const draftCost = orderDraft.value?.meta?.shippingCost;
+  return typeof draftCost === "number" ? draftCost : 0;
+});
+
+const subtotalPrice = computed(() =>
+  cartItems.value.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 1), 0)
+);
+
+const totalPrice = computed(() =>
+  order.total > 0 ? Number(order.total) : subtotalPrice.value + shippingCost.value
+);
+
+interface ShippingSummary {
+  recipientName: string;
+  recipientSurname: string;
+  street: string;
+  city: string;
+  postalCode: string;
+  country: string;
+  phone?: string;
+  deliveryDate: string;
+  deliveryTime: string;
+}
+
+const shippingAddress = computed<ShippingSummary>(() => {
+  const delivery: DeliveryAddress | undefined = order.shipping || orderDraft.value?.delivery || undefined;
+  const contact: DeliveryContact | undefined = delivery?.contact || orderDraft.value?.delivery?.contact;
+  const deliveryDate = order.deliveryDate || orderDraft.value?.meta?.deliveryDate || "";
+  const deliveryTime = order.deliveryTime || orderDraft.value?.meta?.deliveryTime || "";
+
+  return {
+    recipientName: contact?.recipientName || "",
+    recipientSurname: contact?.recipientSurname || "",
+    street: delivery?.street || "",
+    city: delivery?.city || "",
+    postalCode: delivery?.postalCode || "",
+    country: delivery?.country || "",
+    phone: contact?.phone || "",
+    deliveryDate,
+    deliveryTime
+  };
+});
+
+const customerContact = computed<CustomerContact | null>(() => {
+  if (order.customer) return order.customer;
+  return orderDraft.value?.customer ?? null;
 });
 
 // Validación orden
@@ -277,7 +329,9 @@ const isValidOrder = computed(() => order.clientSecret ? true : (totalPrice.valu
 
 function updateDebugLogs() {
   console.log("[DEBUG] Orden:", {
-    totalPrice: totalPrice.value, items: cartItems.value.length, secret: !!order.clientSecret
+    totalPrice: totalPrice.value,
+    items: cartItems.value.length,
+    secret: !!order.clientSecret
   });
 }
 onMounted(updateDebugLogs);
@@ -369,14 +423,25 @@ async function processPayment() {
   try {
     // Usar confirmPayment con Payment Element (API moderna)
     order.setStatusForUi("processing");
+    const fallbackNameParts: string[] = [];
+    if (customerContact.value?.name) fallbackNameParts.push(customerContact.value.name);
+    if (customerContact.value?.surname) fallbackNameParts.push(customerContact.value.surname);
+    if (!fallbackNameParts.length) {
+      if (shippingAddress.value.recipientName) fallbackNameParts.push(shippingAddress.value.recipientName);
+      if (shippingAddress.value.recipientSurname) fallbackNameParts.push(shippingAddress.value.recipientSurname);
+    }
+    const mergedName = fallbackNameParts.join(" ").trim();
+    const billingName = cardholder.value || mergedName;
+    const billingEmail = customerContact.value?.email || "";
+
     const { error: confirmError, paymentIntent } = await stripe.value.confirmPayment({
       elements: elements.value,
       confirmParams: {
         return_url: `${window.location.origin}/checkout/success`,
         payment_method_data: {
           billing_details: {
-            name: cardholder.value || `${order.shipping?.name || ""} ${order.shipping?.surname || ""}`.trim(),
-            email: order.shipping?.email || ""
+            name: billingName,
+            email: billingEmail
           }
         }
       },
@@ -414,6 +479,7 @@ async function processPayment() {
 
 // Inicializar en cliente y re-inicializar solo cuando cambie el clientSecret
 onMounted(() => {
+  loadStoredDraft();
   initializeStripe();
 });
 

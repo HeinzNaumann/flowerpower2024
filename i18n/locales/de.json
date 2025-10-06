@@ -245,6 +245,11 @@
   },
   "checkout": {
     "shippingTitle": "Lieferadresse",
+    "contactSectionTitle": "Kontaktdaten",
+    "contactSectionDescription": "Wir verwenden diese Daten, um dir Bestätigungen und Updates zu deiner Bestellung zu senden.",
+    "contactSectionAccountEmail": "Wir benachrichtigen dich über die Bestellung unter {email}.",
+    "deliverySectionTitle": "Lieferinformationen",
+    "deliverySectionDescription": "Gib an, wer den Blumenstrauß erhält und wohin er geliefert werden soll.",
     "paymentCard": "Zahlung mit Karte",
     "name": "Name",
     "surname": "Nachname",
@@ -317,7 +322,9 @@
     "viewOrders": "Meine Bestellungen anzeigen",
     "continueShopping": "Weiter einkaufen",
     "cardEnding": "Karte endend auf",
-    "deliveryDate": "Lieferdatum"
+    "deliveryDate": "Lieferdatum",
+    "deliveryRecipientName": "Name des Empfängers",
+    "deliveryRecipientSurname": "Nachname des Empfängers"
   },
   "shippingPage": {
     "title": "Versand & Lieferung",

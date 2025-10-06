@@ -32,10 +32,14 @@
             <div class="md:w-1/2 mb-4 md:mb-0">
               <h3 class="font-medium text-primary-700 mb-2">{{ $t('checkout.shippingDetails') || 'Detalles de envío' }}</h3>
               <div class="text-sm text-neutral-600">
-                <p>{{ shippingAddress.name }} {{ shippingAddress.surname }}</p>
-                <p>{{ shippingAddress.address }}</p>
-                <p>{{ shippingAddress.zip }}, {{ shippingAddress.city }}</p>
+                <p>{{ shippingAddress.recipientName }} {{ shippingAddress.recipientSurname }}</p>
+                <p>{{ shippingAddress.street }}</p>
+                <p>{{ shippingAddress.postalCode }}, {{ shippingAddress.city }}</p>
                 <p>{{ shippingAddress.country }}</p>
+                <p v-if="shippingAddress.phone" class="mt-2 flex items-center gap-2">
+                  <UIcon name="i-heroicons-phone" class="w-4 h-4" />
+                  <span>{{ shippingAddress.phone }}</span>
+                </p>
               </div>
             </div>
             <div class="md:w-1/2">
@@ -153,6 +157,11 @@ import { ref, computed, onMounted } from "vue";
 import { useOrderStore } from "~/stores/order";
 import { useCartStore } from "~/stores/cart";
 import { useI18n } from "vue-i18n";
+import type {
+  CheckoutDraft,
+  DeliveryAddress,
+  DeliveryContact
+} from "~/types/types";
 
 const { t, locale } = useI18n();
 const config = useRuntimeConfig?.() || {};
@@ -197,7 +206,7 @@ const cart = useCartStore();
 const orderId = ref('');
 
 // Información del pedido
-const orderData = ref<any>(null);
+const orderData = ref<CheckoutDraft | null>(null);
 const shippingCost = ref(0);
 const orderItems = ref<any[]>([]);
 const cardNote = ref('');
@@ -219,12 +228,13 @@ const totalPrice = computed(() => {
 
 // Datos de envío
 const shippingAddress = ref({
-  name: '',
-  surname: '',
-  address: '',
+  recipientName: '',
+  recipientSurname: '',
+  street: '',
   city: '',
-  zip: '',
+  postalCode: '',
   country: '',
+  phone: '',
   deliveryDate: '',
   deliveryTime: '',
 });
@@ -272,14 +282,15 @@ async function loadOrderData() {
       
       // Datos de envío
       shippingAddress.value = {
-        name: order.shipping.name || '',
-        surname: order.shipping.surname || '',
-        address: order.shipping.street || '',
+        recipientName: order.shipping.contact?.recipientName || '',
+        recipientSurname: order.shipping.contact?.recipientSurname || '',
+        street: order.shipping.street || '',
         city: order.shipping.city || '',
-        zip: order.shipping.postalCode || '',
+        postalCode: order.shipping.postalCode || '',
         country: order.shipping.country || '',
-        deliveryDate: order.deliveryDate || (order.shipping as any).deliveryDate || getTomorrow(),
-        deliveryTime: order.deliveryTime || (order.shipping as any).deliveryTime || '12:00'
+        phone: order.shipping.contact?.phone || '',
+        deliveryDate: order.deliveryDate || getTomorrow(),
+        deliveryTime: order.deliveryTime || '12:00'
       };
       
       // Productos
@@ -292,14 +303,11 @@ async function loadOrderData() {
       }));
       
       // Nota de la tarjeta y costo de envío
-      cardNote.value = order.cardNote || (order.shipping as any).cardNote || '';
+      cardNote.value = order.cardNote || '';
       
       // Obtener el costo de envío desde el store de la orden o del pedido
       const orderData = (order as any).orderData || {};
-      shippingCost.value = (order as any).shippingCost || 
-                          orderData.shippingCost || 
-                          (order.shipping as any)?.shippingCost || 
-                          0;
+      shippingCost.value = typeof order.shippingCost === 'number' ? Number(order.shippingCost) : 0;
       
       console.log('Costo de envío cargado desde el store:', shippingCost.value);
       orderId.value = (order as any).id || generateOrderId();
@@ -312,31 +320,31 @@ async function loadOrderData() {
     
     if (storedOrderData) {
       try {
-        const data = JSON.parse(storedOrderData);
+        const data = JSON.parse(storedOrderData) as CheckoutDraft;
         orderData.value = data;
         console.log('Datos del pedido cargados desde localStorage:', data);
 
         if (typeof data.userType === 'string') {
           isGuestOrder.value = data.userType === 'guest';
         }
-        
-        // IMPORTANTE: Las propiedades deliveryDate, deliveryTime y cardNote 
-        // están en la raíz del objeto en localStorage, no dentro de shipping
-        
-        // Datos de envío
-        if (data.shipping) {
+
+        const delivery: DeliveryAddress | undefined = data.delivery;
+        const contact: DeliveryContact | undefined = delivery?.contact;
+
+        // Datos de envío (estructura CheckoutDraft)
+        if (delivery) {
           shippingAddress.value = {
-            name: data.shipping.name || '',
-            surname: data.shipping.surname || '',
-            address: data.shipping.street || '',
-            city: data.shipping.city || '',
-            zip: data.shipping.postalCode || '',
-            country: data.shipping.country || '',
-            // Obtener fecha y hora del objeto raíz
-            deliveryDate: data.deliveryDate || getTomorrow(),
-            deliveryTime: data.deliveryTime || '12:00'
+            recipientName: contact?.recipientName || '',
+            recipientSurname: contact?.recipientSurname || '',
+            street: delivery.street || '',
+            city: delivery.city || '',
+            postalCode: delivery.postalCode || '',
+            country: delivery.country || '',
+            phone: contact?.phone || '',
+            deliveryDate: data.meta?.deliveryDate || getTomorrow(),
+            deliveryTime: data.meta?.deliveryTime || '12:00'
           };
-          console.log('Fecha y hora de entrega:', data.deliveryDate, data.deliveryTime);
+          console.log('Fecha y hora de entrega:', data.meta?.deliveryDate, data.meta?.deliveryTime);
         }
         
         // Productos
@@ -351,24 +359,20 @@ async function loadOrderData() {
         }
         
         // Nota de la tarjeta y costo de envío (desde el objeto raíz)
-        cardNote.value = data.cardNote || '';
-        console.log('Nota de la tarjeta:', data.cardNote);
-        
+        cardNote.value = data.meta?.cardNote || '';
+        console.log('Nota de la tarjeta:', data.meta?.cardNote);
+
         // Obtener el costo de envío del objeto data
-        shippingCost.value = data.shippingCost || 
-                            (data.orderData?.shippingCost) || 
-                            (data.shipping as any)?.shippingCost || 
-                            0;
-        
+        shippingCost.value = data.meta?.shippingCost ?? (order as any).shippingCost ?? 0;
+
         console.log('Costo de envío cargado desde localStorage:', shippingCost.value);
-        orderId.value = data.id || generateOrderId();
+        orderId.value = data.meta?.orderId || (order as any).id || generateOrderId();
       } catch (error) {
         console.error('Error al parsear los datos del pedido:', error);
       }
       
       return;
     }
-    
     // Si no hay datos disponibles, generar datos por defecto
     console.log('No se encontraron datos del pedido, usando valores por defecto');
     orderId.value = generateOrderId();

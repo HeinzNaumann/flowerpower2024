@@ -1,17 +1,77 @@
 // stores/order.ts
 import { defineStore } from "pinia";
-import type { Address } from "~/types/types";
+import type {
+  CheckoutOrderPayload,
+  DeliveryAddress,
+  DeliveryContact,
+  BillingAddress,
+  CustomerContact
+} from "~/types/types";
 import { useCartStore } from "~/stores/cart";
 import { useAuth } from "~/composables/useAuth";
 import { useRuntimeConfig } from "#app";
 
-interface CreateOrderMeta {
-  deliveryDate: string;
-  deliveryTime: string;
-  cardNote?: string;
-  shippingCost?: number;
-  language?: string;
+function normalizeDeliveryAddress(
+  serverDelivery: Partial<DeliveryAddress> | (Record<string, any> & { contact?: Partial<DeliveryContact> }) | null | undefined,
+  fallback: DeliveryAddress
+): DeliveryAddress {
+  const fallbackContact: DeliveryContact = fallback.contact || {
+    recipientName: "",
+    recipientSurname: "",
+    phone: ""
+  };
+
+  if (!serverDelivery) {
+    return {
+      street: fallback.street,
+      city: fallback.city,
+      postalCode: fallback.postalCode,
+      country: fallback.country,
+      id: fallback.id,
+      isDefault: fallback.isDefault,
+      contact: fallbackContact
+    };
+  }
+
+  const legacyContact = {
+    recipientName:
+      (serverDelivery as any)?.deliveryRecipientName ??
+      (serverDelivery as any)?.recipientName ??
+      (serverDelivery as any)?.name ??
+      fallbackContact.recipientName,
+    recipientSurname:
+      (serverDelivery as any)?.deliveryRecipientSurname ??
+      (serverDelivery as any)?.recipientSurname ??
+      (serverDelivery as any)?.surname ??
+      fallbackContact.recipientSurname,
+    phone:
+      (serverDelivery as any)?.deliveryPhone ??
+      (serverDelivery as any)?.contactPhone ??
+      (serverDelivery as any)?.phone ??
+      fallbackContact.phone
+  };
+
+  const normalizedContact: DeliveryContact = {
+    recipientName: serverDelivery.contact?.recipientName ?? legacyContact.recipientName ?? "",
+    recipientSurname: serverDelivery.contact?.recipientSurname ?? legacyContact.recipientSurname ?? "",
+    phone: serverDelivery.contact?.phone ?? legacyContact.phone ?? ""
+  };
+
+  return {
+    street: serverDelivery.street ?? (serverDelivery as any)?.address ?? fallback.street,
+    city: serverDelivery.city ?? fallback.city,
+    postalCode:
+      serverDelivery.postalCode ??
+      (serverDelivery as any)?.zip ??
+      (serverDelivery as any)?.postal_code ??
+      fallback.postalCode,
+    country: serverDelivery.country ?? fallback.country,
+    id: serverDelivery.id ?? fallback.id,
+    isDefault: serverDelivery.isDefault ?? fallback.isDefault,
+    contact: normalizedContact
+  };
 }
+
 interface OrderState {
   id: string | null;
   clientSecret: string | null;
@@ -20,9 +80,10 @@ interface OrderState {
   userId: string | null;
   userType: "registered" | "guest";
   userEmail: string | null;
+  customer: CustomerContact | null;
   items: any[]; // Productos en la orden
-  shipping: Address | null; // Dirección de envío
-  billing: Address | null; // Dirección de facturación
+  shipping: DeliveryAddress | null; // Dirección de envío
+  billing: BillingAddress | null; // Dirección de facturación
   total: number; // Total de la orden
   shippingCost: number; // Costo de envío
   deliveryDate: string | null;
@@ -39,6 +100,7 @@ export const useOrderStore = defineStore("order", {
     userId: null,
     userType: "guest",
     userEmail: null,
+    customer: null,
     items: [],
     shipping: null,
     billing: null,
@@ -52,19 +114,10 @@ export const useOrderStore = defineStore("order", {
   actions: {
     /**
      * Crea la orden + PaymentIntent y guarda el clientSecret
-     * @param shipping Dirección de envío
-     * @param billing Dirección de facturación (o null)
-     * @param meta  Datos adicionales de entrega
      */
-    async createOrder(
-      shipping: Address,
-      billing: Address | null,
-      meta: CreateOrderMeta & { shippingCost?: number }
-    ) {
+    async createOrder(orderPayload: CheckoutOrderPayload) {
       console.log('Datos recibidos en createOrder:');
-      console.log('Dirección de envío:', shipping);
-      console.log('Dirección de facturación:', billing);
-      console.log('Meta:', meta);
+      console.log('Payload de la orden:', orderPayload);
       const cart = useCartStore();
       const auth = useAuth();
       const { token, userInfo } = auth;
@@ -74,11 +127,7 @@ export const useOrderStore = defineStore("order", {
       console.log('Datos del usuario registrado:', userInfo.value);
       
       // Verificar si la dirección de envío contiene información del usuario
-      console.log('Información del usuario en la dirección de envío:');
-      console.log('shipping.name:', shipping.name);
-      console.log('shipping.surname:', shipping.surname);
-      console.log('shipping.email:', shipping.email);
-      console.log('shipping.phone:', shipping.phone);
+      console.log('Información del destinatario de entrega:', orderPayload.delivery.contact);
       
       // Obtener información del usuario, ya sea del usuario registrado o de la dirección de envío
       let userName = null;
@@ -95,10 +144,11 @@ export const useOrderStore = defineStore("order", {
         console.log('Usando información del usuario registrado');
       } else {
         // Usuario invitado - obtener datos de la dirección de envío
-        userName = shipping.name || null;
-        userSurname = shipping.surname || null;
-        userEmail = shipping.email || null;
-        userPhone = shipping.phone || null;
+        const { customer } = orderPayload;
+        userName = customer?.name || null;
+        userSurname = customer?.surname || null;
+        userEmail = customer?.email || null;
+        userPhone = customer?.phone || null;
         console.log('Usando información del usuario de la dirección de envío');
       }
       
@@ -116,35 +166,31 @@ export const useOrderStore = defineStore("order", {
       this.userType = userType;
       this.userEmail = userEmail;
       this.userId = userId;
+      this.customer = orderPayload.customer;
 
       // Actualizar el costo de envío si se proporciona
-      if (meta.shippingCost !== undefined) {
-        this.shippingCost = meta.shippingCost;
+      if (orderPayload.meta.shippingCost !== undefined) {
+        this.shippingCost = orderPayload.meta.shippingCost;
       }
 
-      this.deliveryDate = meta.deliveryDate;
-      this.deliveryTime = meta.deliveryTime;
-      this.cardNote = meta.cardNote || "";
+      this.deliveryDate = orderPayload.meta.deliveryDate;
+      this.deliveryTime = orderPayload.meta.deliveryTime;
+      this.cardNote = orderPayload.meta.cardNote || "";
 
       // Obtener el idioma actual
       const currentLocale = useNuxtApp().$i18n?.locale?.value || 'es';
       
       // Preparar el payload según el formato que espera el backend
-      const payload = {
-        items: cart.items, // tu lista de productos
-        shipping: {
-          ...shipping
-          // Ya no incluimos shippingCost aquí, va en el nivel superior
+      const requestPayload = {
+        items: orderPayload.items,
+        customer: orderPayload.customer,
+        delivery: orderPayload.delivery,
+        billing: orderPayload.billing ?? null,
+        meta: {
+          ...orderPayload.meta,
+          shippingCost: typeof orderPayload.meta.shippingCost === 'number' ? orderPayload.meta.shippingCost : 0,
+          language: orderPayload.meta.language || currentLocale
         },
-        billing, // facturación (o null)
-        deliveryDate: meta.deliveryDate,
-        deliveryTime: meta.deliveryTime,
-        cardNote: meta.cardNote || "",
-        // Incluir el shippingCost en el nivel superior del payload como número
-        shippingCost: typeof meta.shippingCost === 'number' ? meta.shippingCost : 0, // Asegurar que sea un número
-        // Incluir el idioma para los correos electrónicos
-        language: currentLocale,
-        // Información del usuario para el backend según el UserInfoDto
         userInfo: {
           name: userName,
           surname: userSurname,
@@ -152,8 +198,6 @@ export const useOrderStore = defineStore("order", {
           phone: userPhone
         }
       };
-      
-      console.log('Payload de la orden:', payload);
 
       // Obtener la configuración de runtime de Nuxt
       const config = useRuntimeConfig();
@@ -165,8 +209,8 @@ export const useOrderStore = defineStore("order", {
         total: number;
         clientSecret?: string; // Puede venir directamente en la respuesta
         items?: any[];
-        shipping?: Address;
-        billing?: Address | null;
+        shipping?: DeliveryAddress;
+        billing?: BillingAddress | null;
         [key: string]: any; // Para otros campos que pueda tener la respuesta
       }
       
@@ -175,7 +219,7 @@ export const useOrderStore = defineStore("order", {
         const response = await $fetch<OrderResponse>(`${config.public.apiBaseUrl}/orders`, {
           method: "POST",
           headers: isRegistered ? { Authorization: `Bearer ${token.value}` } : {},
-          body: payload,
+          body: requestPayload,
         });
         
         console.log('Respuesta del servidor:', response);
@@ -194,16 +238,16 @@ export const useOrderStore = defineStore("order", {
            
         const finalShippingCost = !isNaN(serverShippingCost) ? 
           serverShippingCost : 
-          (typeof meta.shippingCost === 'number' ? meta.shippingCost : 0);
+          (typeof orderPayload.meta.shippingCost === 'number' ? orderPayload.meta.shippingCost : 0);
         
         console.log('Costo de envío - Respuesta del servidor:', response.shippingCost, '(tipo:', typeof response.shippingCost, ')');
-        console.log('Costo de envío - Meta:', meta.shippingCost, '(tipo:', typeof meta.shippingCost, ')');
+        console.log('Costo de envío - Meta:', orderPayload.meta.shippingCost, '(tipo:', typeof orderPayload.meta.shippingCost, ')');
         console.log('Costo de envío final:', finalShippingCost, '(tipo:', typeof finalShippingCost, ')');
         
         // Guardar los items y direcciones
-        this.items = cart.items;
-        this.shipping = response.shipping || shipping;
-        this.billing = response.billing || billing;
+        this.items = orderPayload.items;
+        this.shipping = normalizeDeliveryAddress(response.shipping, orderPayload.delivery);
+        this.billing = response.billing || (orderPayload.billing as any) || null;
         
         // Guardar el shippingCost en el estado de la orden como número
         (this as any).shippingCost = Number(finalShippingCost) || 0;

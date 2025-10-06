@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row md:items-start md:gap-8">
+    <div class="flex flex-col md:flex-row gap-8">
       <!-- Formulario dirección (columna izquierda en desktop)-->
       <div class="flex-1">
         <h1 v-if="showTitle" class="text-2xl font-bold mb-6">{{ $t("checkout.shippingTitle") }}</h1>
@@ -10,150 +10,291 @@
           :state="form"
           @submit="submit"
           class="space-y-4 max-w-xl"
+          :validate-on="[]"
         >
-      <!-- SHIPPING campos… -->
-      <div class="grid grid-cols-2 gap-4">
-        <UFormField
-          name="name"
-          :label="$t('checkout.name')"
-          :class="{ 'text-red-500': errors.name }"
-        >
-          <UInput v-model="form.name" class="w-full" @input="clearError('name')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.name ? 'ring-red-500' : 'ring-gray-300') }" />
-        </UFormField>
-        <UFormField
-          name="surname"
-          :label="$t('checkout.surname')"
-          :class="{ 'text-red-500': errors.surname }"
-        >
-          <UInput v-model="form.surname" class="w-full" @input="clearError('surname')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.surname ? 'ring-red-500' : 'ring-gray-300') }" />
-        </UFormField>
-      </div>
-
-      <!-- EMAIL for guest checkout -->
-      <div v-if="!isAuthenticated" class="mb-2">
-        <UFormField
-          name="email"
-          :label="$t('checkout.email')"
-          :class="{ 'text-red-500': errors.email }"
-        >
-          <UInput
-            v-model="form.email"
-            type="email"
-            autocomplete="email"
-            class="w-full"
-            @input="clearError('email')"
-            :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.email ? 'ring-red-500' : 'ring-gray-300') }"
-          />
-          <template #help v-if="errors.email">
-            <span class="text-xs text-red-500">{{ errors.email }}</span>
-          </template>
-        </UFormField>
-      </div>
-
-      <UFormField
-        name="phone"
-        :label="$t('checkout.phone')"
-        :class="{ 'text-red-500': errors.phone }"
-      >
-        <UInput v-model="form.phone" type="tel" class="w-full" @input="clearError('phone')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.phone ? 'ring-red-500' : 'ring-gray-300') }" />
-      </UFormField>
-      <UFormField name="zip" :label="$t('checkout.zip')" :class="{ 'text-red-500': errors.zip || !isShippingAvailable }">
-        <UInput 
-          v-model="form.zip" 
-          class="w-full" 
-          @input="handleZipCodeChange"
-          @blur="validateZipCode" 
-          :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + ((errors.zip || !isShippingAvailable) ? 'ring-red-500' : 'ring-gray-300') }" 
-        />
-        <div v-if="zipCodeMessage" :class="[zipCodeMessageType === 'error' ? 'text-red-500' : 'text-green-600', 'text-xs mt-1']">{{ zipCodeMessage }}</div>
-      </UFormField>
-      <UFormField
-        name="country"
-        :label="$t('checkout.country')"
-        :class="{ 'text-red-500': errors.country }"
-      >
-        <UInput v-model="form.country" class="w-full" @input="clearError('country')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.country ? 'ring-red-500' : 'ring-gray-300') }" />
-      </UFormField>
-      <UFormField name="city" :label="$t('checkout.city')" :class="{ 'text-red-500': errors.city }">
-        <UInput v-model="form.city" class="w-full" @input="clearError('city')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.city ? 'ring-red-500' : 'ring-gray-300') }" />
-      </UFormField>
-      <UFormField
-        name="address"
-        :label="$t('checkout.street')"
-        :class="{ 'text-red-500': errors.address }"
-      >
-        <UInput v-model="form.address" class="w-full" @input="clearError('address')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.address ? 'ring-red-500' : 'ring-gray-300') }" />
-      </UFormField>
-      <!-- NUEVOS campos -->
-      <div class="grid grid-cols-2 gap-4">
-        <UFormField
-          name="deliveryDate"
-          :label="$t('checkout.deliveryDate')"
-          :class="{ 'text-red-500': errors.deliveryDate }"
-        >
-          <UPopover>
+      <section class="space-y-4 rounded-lg border border-neutral-200 bg-white/90 p-4 sm:p-6 shadow-sm">
+        <div class="space-y-1">
+          <h2 class="text-lg font-semibold text-primary-900">{{ $t('checkout.contactSectionTitle') }}</h2>
+          <p class="text-sm text-neutral-600">
+            {{ $t('checkout.contactSectionDescription') }}
+          </p>
+          <p
+            v-if="isAuthenticated && accountEmail"
+            class="text-xs text-neutral-500"
+          >
+            {{ $t('checkout.contactSectionAccountEmail', { email: accountEmail }) }}
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <UFormField
+            name="name"
+            :label="$t('checkout.name')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.name }"
+          >
             <UInput
-              v-model="formattedDeliveryDate"
-              readonly
-              class="w-full cursor-pointer"
-              :class="{ 'ring-red-500': errors.deliveryDate }"
-              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryDate ? 'ring-red-500' : 'ring-gray-300') }"
-              icon="i-lucide-calendar"
+              v-model="form.name"
+              class="w-full"
+              @input="clearError('name')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.name ? 'ring-red-500' : 'ring-gray-300') }"
             />
-            <template #content>
-              <div class="p-4 bg-white rounded-lg shadow-lg border border-gray-200">
-                <MondayFirstCalendar
-                  v-model="deliveryDateObject"
-                  :min-value="minCalendarDate"
-                  :is-date-disabled="isDateDisabled"
-                  @update:model-value="handleDateChange"
-                  class="bg-white text-gray-900 font-medium"
-                />
-                <div class="mt-2 text-xs text-gray-500 text-center">
-                  {{ $t('checkout.selectDeliveryDate') }}
+            <div v-if="errors.name" class="text-xs text-red-500 mt-1">{{ errors.name }}</div>
+            <template #error></template>
+          </UFormField>
+          <UFormField
+            name="surname"
+            :label="$t('checkout.surname')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.surname }"
+          >
+            <UInput
+              v-model="form.surname"
+              class="w-full"
+              @input="clearError('surname')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.surname ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.surname" class="text-xs text-red-500 mt-1">{{ errors.surname }}</div>
+            <template #error></template>
+          </UFormField>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <UFormField
+            v-if="!isAuthenticated"
+            name="email"
+            :label="$t('checkout.email')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.email }"
+          >
+            <UInput
+              v-model="form.email"
+              type="email"
+              autocomplete="email"
+              class="w-full"
+              @input="clearError('email')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.email ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.email" class="text-xs text-red-500 mt-1">{{ errors.email }}</div>
+            <template #error></template>
+          </UFormField>
+          <UFormField
+            name="phone"
+            :label="$t('checkout.phone')"
+            :class="[
+              'md:col-span-1',
+              { 'md:col-span-2': isAuthenticated, 'text-red-500': errors.phone }
+            ]"
+          >
+            <UInput
+              v-model="form.phone"
+              type="tel"
+              class="w-full"
+              @input="clearError('phone')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.phone ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.phone" class="text-xs text-red-500 mt-1">{{ errors.phone }}</div>
+            <template #error></template>
+          </UFormField>
+        </div>
+      </section>
+
+      <!-- Delivery section -->
+      <section class="space-y-4 rounded-lg border border-neutral-200 bg-white/90 p-4 sm:p-6 shadow-sm">
+        <div class="space-y-1">
+          <h2 class="text-lg font-semibold text-primary-900">{{ $t('checkout.deliverySectionTitle') }}</h2>
+          <p class="text-sm text-neutral-600">
+            {{ $t('checkout.deliverySectionDescription') }}
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <UFormField
+            name="deliveryRecipientName"
+            :label="$t('checkout.deliveryRecipientName')"
+            :class="{ 'text-red-500': errors.deliveryRecipientName }"
+          >
+            <UInput
+              v-model="form.deliveryRecipientName"
+              class="w-full"
+              @input="clearError('deliveryRecipientName')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryRecipientName ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.deliveryRecipientName" class="text-xs text-red-500 mt-1">{{ errors.deliveryRecipientName }}</div>
+            <template #error></template>
+          </UFormField>
+          <UFormField
+            name="deliveryRecipientSurname"
+            :label="$t('checkout.deliveryRecipientSurname')"
+            :class="{ 'text-red-500': errors.deliveryRecipientSurname }"
+          >
+            <UInput
+              v-model="form.deliveryRecipientSurname"
+              class="w-full"
+              @input="clearError('deliveryRecipientSurname')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryRecipientSurname ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.deliveryRecipientSurname" class="text-xs text-red-500 mt-1">{{ errors.deliveryRecipientSurname }}</div>
+            <template #error></template>
+          </UFormField>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <UFormField
+            name="address"
+            :label="$t('checkout.street')"
+            class="md:col-span-2"
+            :class="{ 'text-red-500': errors.address }"
+          >
+            <UInput
+              v-model="form.address"
+              class="w-full"
+              @input="clearError('address')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.address ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.address" class="text-xs text-red-500 mt-1">{{ errors.address }}</div>
+            <template #error></template>
+          </UFormField>
+          <UFormField
+            name="city"
+            :label="$t('checkout.city')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.city }"
+          >
+            <UInput
+              v-model="form.city"
+              class="w-full"
+              @input="clearError('city')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.city ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.city" class="text-xs text-red-500 mt-1">{{ errors.city }}</div>
+            <template #error></template>
+          </UFormField>
+          <UFormField
+            name="zip"
+            :label="$t('checkout.zip')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.zip || zipCodeError }"
+          >
+            <UInput 
+              v-model="form.zip" 
+              class="w-full" 
+              @input="handleZipCodeChange"
+              @blur="validateZipCode" 
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + ((errors.zip || zipCodeError) ? 'ring-red-500' : 'ring-gray-300') }" 
+            />
+            <div v-if="errors.zip" class="text-xs text-red-500 mt-1">{{ errors.zip }}</div>
+            <div v-else-if="zipCodeMessage" :class="[zipCodeMessageType === 'error' ? 'text-red-500' : 'text-green-600', 'text-xs mt-1']">
+              {{ zipCodeMessage }}
+            </div>
+            <template #error></template>
+          </UFormField>
+          <UFormField
+            name="country"
+            :label="$t('checkout.country')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.country }"
+          >
+            <UInput
+              v-model="form.country"
+              class="w-full"
+              @input="clearError('country')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.country ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.country" class="text-xs text-red-500 mt-1">{{ errors.country }}</div>
+            <template #error></template>
+          </UFormField>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <UFormField
+            name="deliveryDate"
+            :label="$t('checkout.deliveryDate')"
+            :class="{ 'text-red-500': errors.deliveryDate }"
+          >
+            <UPopover>
+              <UInput
+                v-model="formattedDeliveryDate"
+                readonly
+                class="w-full cursor-pointer"
+                :class="{ 'ring-red-500': errors.deliveryDate }"
+                :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryDate ? 'ring-red-500' : 'ring-gray-300') }"
+                icon="i-lucide-calendar"
+              />
+              <template #content>
+                <div class="p-4 bg-white rounded-lg shadow-lg border border-gray-200">
+                  <MondayFirstCalendar
+                    v-model="deliveryDateObject"
+                    :min-value="minCalendarDate"
+                    :is-date-disabled="isDateDisabled"
+                    @update:model-value="handleDateChange"
+                    class="bg-white text-gray-900 font-medium"
+                  />
+                  <div class="mt-2 text-xs text-gray-500 text-center">
+                    {{ $t('checkout.selectDeliveryDate') }}
+                  </div>
+                  <div class="mt-1 text-xs text-red-500 text-center">
+                    {{ $t('checkout.noSundayDelivery') }}
+                  </div>
                 </div>
-                <div class="mt-1 text-xs text-red-500 text-center">
-                  {{ $t('checkout.noSundayDelivery') }}
-                </div>
-              </div>
-            </template>
-          </UPopover>
-        </UFormField>
+              </template>
+            </UPopover>
+            <div v-if="errors.deliveryDate" class="text-xs text-red-500 mt-1">{{ errors.deliveryDate }}</div>
+            <template #error></template>
+          </UFormField>
+          <UFormField
+            name="deliveryTime"
+            :label="$t('checkout.deliveryTime')"
+            :class="{ 'text-red-500': errors.deliveryTime }"
+          >
+            <UInput 
+              v-model="form.deliveryTime" 
+              type="time" 
+              min="09:00" 
+              max="19:00" 
+              class="w-full" 
+              @input="handleTimeChange" 
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryTime ? 'ring-red-500' : 'ring-gray-300') }" 
+            />
+            <div class="text-xs text-gray-500 mt-1">
+              {{ $t('checkout.deliveryTimeRange') }}
+            </div>
+            <div v-if="errors.deliveryTime" class="text-xs text-red-500 mt-1">{{ errors.deliveryTime }}</div>
+            <template #error></template>
+          </UFormField>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <UFormField
+            name="deliveryPhone"
+            :label="$t('checkout.deliveryPhoneLabel')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.deliveryPhone }"
+          >
+            <UInput
+              v-model="form.deliveryPhone"
+              type="tel"
+              class="w-full"
+              @input="clearError('deliveryPhone')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryPhone ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.deliveryPhone" class="text-xs text-red-500 mt-1">{{ errors.deliveryPhone }}</div>
+            <template #error></template>
+          </UFormField>
+        </div>
+        <p class="text-xs text-neutral-600">
+          {{ $t('checkout.deliveryInfoImportant') }}
+        </p>
         <UFormField
-          name="deliveryTime"
-          :label="$t('checkout.deliveryTime')"
-          :class="{ 'text-red-500': errors.deliveryTime }"
+          name="cardNote"
+          :label="$t('checkout.cardNoteLabel')"
+          :class="{ 'text-red-500': errors.cardNote }"
         >
-          <UInput 
-            v-model="form.deliveryTime" 
-            type="time" 
-            min="09:00" 
-            max="19:00" 
-            class="w-full" 
-            @input="handleTimeChange" 
-            :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryTime ? 'ring-red-500' : 'ring-gray-300') }" 
+          <textarea
+            v-model="form.cardNote"
+            class="w-full rounded p-2 shadow-sm ring-1 ring-inset"
+            :class="errors.cardNote ? 'ring-red-500' : 'ring-gray-300'"
+            @input="clearError('cardNote')"
+            rows="4"
           />
-          <div class="text-xs text-gray-500 mt-1">
-            {{ $t('checkout.deliveryTimeRange') }}
-          </div>
+          <div v-if="errors.cardNote" class="text-xs text-red-500 mt-1">{{ errors.cardNote }}</div>
+          <template #error></template>
         </UFormField>
-      </div>
-      <p class="text-xs text-neutral-600">
-        {{ $t("checkout.deliveryInfoImportant") }}
-      </p>
-      <UFormField
-        name="cardNote"
-        :label="$t('checkout.cardNoteLabel')"
-        :class="{ 'text-red-500': errors.cardNote }"
-      >
-        <textarea
-          v-model="form.cardNote"
-          class="w-full rounded p-2 shadow-sm ring-1 ring-inset"
-          :class="errors.cardNote ? 'ring-red-500' : 'ring-gray-300'"
-          @input="clearError('cardNote')"
-          rows="4"
-        />
-      </UFormField>
+      </section>
 
       <!-- BILLING checkbox y campos -->
       <UFormField>
@@ -183,6 +324,8 @@
           :class="{ 'text-red-500': errors.billingAddress }"
         >
           <UInput v-model="billing.address" class="w-full" @input="clearError('billingAddress')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.billingAddress ? 'ring-red-500' : 'ring-gray-300') }" />
+          <div v-if="errors.billingAddress" class="text-xs text-red-500 mt-1">{{ errors.billingAddress }}</div>
+          <template #error></template>
         </UFormField>
         <div class="flex gap-4">
           <UFormField
@@ -191,6 +334,8 @@
             :class="{ 'text-red-500': errors.billingCity }"
           >
             <UInput v-model="billing.city" class="w-full" @input="clearError('billingCity')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.billingCity ? 'ring-red-500' : 'ring-gray-300') }" />
+            <div v-if="errors.billingCity" class="text-xs text-red-500 mt-1">{{ errors.billingCity }}</div>
+            <template #error></template>
           </UFormField>
           <UFormField
             name="billingZip"
@@ -198,6 +343,8 @@
             :class="{ 'text-red-500': errors.billingZip }"
           >
             <UInput v-model="billing.zip" class="w-full" @input="clearError('billingZip')" :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.billingZip ? 'ring-red-500' : 'ring-gray-300') }" />
+            <div v-if="errors.billingZip" class="text-xs text-red-500 mt-1">{{ errors.billingZip }}</div>
+            <template #error></template>
           </UFormField>
         </div>
       </div>
@@ -229,7 +376,15 @@ import { useI18n } from "vue-i18n";
 import { useAuth } from "~/composables/useAuth";
 import { useOrderStore } from "~/stores/order";
 import { useCartStore } from "~/stores/cart";
-import type { Address } from "~/types/types";
+import type {
+  Address,
+  BillingAddress,
+  CheckoutDraft,
+  CheckoutOrderPayload,
+  CustomerContact,
+  DeliveryAddress,
+  DeliveryContact
+} from "~/types/types";
 
 const { t, locale } = useI18n()
 const router = useRouter();
@@ -237,6 +392,8 @@ const router = useRouter();
 const orderStore = useOrderStore();
 const cartStore = useCartStore();
 const { getAddress, createAddress, updateAddress, userInfo, fetchUserInfo } = useAuth();
+
+const accountEmail = computed(() => userInfo?.value?.email ?? "");
 
 // Authentication state
 const isAuthenticated = computed(() => {
@@ -264,6 +421,9 @@ const form = reactive({
   country: "ES",
   deliveryDate: "",
   deliveryTime: "12:00",
+  deliveryPhone: "",
+  deliveryRecipientName: "",
+  deliveryRecipientSurname: "",
   cardNote: "",
 });
 const billing = reactive({ address: "", city: "", zip: "", country: "ES" });
@@ -369,39 +529,37 @@ function validateZipCode() {
       isShippingAvailable.value = true;
       isShippingCostValid.value = true;
       zipCodeError.value = false;
-      // Limpiar el borde rojo si existía
-      const zipInput = document.getElementById('zip-input');
-      if (zipInput) {
-        zipInput.style.borderColor = '';
-      }
+      zipCodeMessage.value = '';
+      zipCodeMessageType.value = 'success';
     } else {
       // Código postal no disponible para envío
       currentShippingCost.value = 0;
       isShippingAvailable.value = false;
-      errors['shipping'] = t('checkout.shippingUnavailableError') || 'No realizamos entregas a este código postal';
+      const unavailableMsg = t('checkout.shippingUnavailableError') || 'No realizamos entregas a este código postal';
+      errors['shipping'] = unavailableMsg;
+      errors['zip'] = unavailableMsg;
       zipCodeError.value = true;
-      
-      // Añadir borde rojo al input
-      const zipInput = document.getElementById('zip-input');
-      if (zipInput) {
-        zipInput.style.borderColor = 'red';
-      }
+      zipCodeMessage.value = unavailableMsg;
+      zipCodeMessageType.value = 'error';
     }
   } else if (zipCode && zipCode.length > 0) {
     // Código postal inválido (no tiene 5 dígitos)
     currentShippingCost.value = 0;
     isShippingAvailable.value = false;
     zipCodeError.value = true;
-    
-    // Añadir borde rojo al input
-    const zipInput = document.getElementById('zip-input');
-    if (zipInput) {
-      zipInput.style.borderColor = 'red';
-    }
+    const invalidMsg = t('validation.postalCode') || 'Introduce un código postal válido';
+    errors['zip'] = invalidMsg;
+    zipCodeMessage.value = invalidMsg;
+    zipCodeMessageType.value = 'error';
   } else {
     // No hay código postal
     isShippingAvailable.value = false;
-    errors['shipping'] = t('validation.required') || 'El código postal es obligatorio';
+    const requiredMsg = t('validation.required') || 'El código postal es obligatorio';
+    errors['shipping'] = requiredMsg;
+    errors['zip'] = requiredMsg;
+    zipCodeError.value = true;
+    zipCodeMessage.value = requiredMsg;
+    zipCodeMessageType.value = 'error';
   }
 }
 
@@ -468,7 +626,7 @@ function handleDateChange(date: CalendarDate) {
 
 // Función para verificar si todos los campos obligatorios están completos
 function checkAllFieldsCompleted() {
-  const requiredFields = ['name', 'surname', 'phone', 'address', 'city', 'zip', 'country', 'deliveryDate', 'deliveryTime'];
+  const requiredFields = ['name', 'surname', 'phone', 'address', 'city', 'zip', 'country', 'deliveryDate', 'deliveryTime', 'deliveryPhone', 'deliveryRecipientName', 'deliveryRecipientSurname'];
   const allCompleted = requiredFields.every(field => {
     // Usar acceso tipado para evitar errores de TypeScript
     return form[field as keyof typeof form] && (form[field as keyof typeof form] as string).trim() !== '';
@@ -494,6 +652,9 @@ const addressSchema = z.object({
   country: z.string().min(1, t("validation.required")),
   deliveryDate: z.string().min(1, t("validation.required")),
   deliveryTime: z.string().min(1, t("validation.required")),
+  deliveryPhone: z.string().min(1, t("validation.required")),
+  deliveryRecipientName: z.string().min(1, t("validation.required")),
+  deliveryRecipientSurname: z.string().min(1, t("validation.required")),
   cardNote: z.string().optional(),
 });
 const billingSchema = z.object({
@@ -517,6 +678,9 @@ onMounted(async () => {
       email: userInfo.value.email,
       phone: userInfo.value.phone,
     });
+    if (!form.deliveryPhone && userInfo.value.phone) {
+      form.deliveryPhone = userInfo.value.phone;
+    }
   }
   
   // Establecer la fecha mínima como valor por defecto si no hay fecha establecida
@@ -561,6 +725,7 @@ onMounted(async () => {
       zip: ship.postalCode,
       country: ship.country || 'ES', // Añadimos el país y usamos 'ES' como valor por defecto
     });
+    form.deliveryPhone = ship.deliveryPhone || ship.phone || form.deliveryPhone || '';
     
     // Actualizar los gastos de envío con el código postal cargado
     if (ship.postalCode) {
@@ -589,6 +754,10 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
   // clear previous errors
   Object.keys(errors).forEach((k) => delete errors[k]);
 
+  // Normalizar valores críticos antes de validar
+  form.phone = form.phone.trim();
+  form.deliveryPhone = form.deliveryPhone.trim();
+
   // Email validation for guest checkout
   if (!isAuthenticated.value) {
     if (!form.email) {
@@ -596,6 +765,10 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
     } else if (!isValidEmail(form.email)) {
       errors.email = t('validation.email') || 'Introduce un email válido';
     }
+  }
+
+  if (!form.phone) {
+    errors.phone = t('validation.required') || 'El teléfono es obligatorio';
   }
 
   // Verificar la disponibilidad de envío antes de continuar
@@ -659,7 +832,7 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
     console.log('Usuario autenticado:', isAuthenticated);
     
     // Siempre incluir la información del usuario en el payload, independientemente de si está autenticado o no
-    const shippingPayload: Address = {
+    const shippingAddressPayload: Address = {
       id: shippingId || "",
       type: "shipping" as const,
       isDefault: saveAsDefault.value,
@@ -667,17 +840,18 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
       city: form.city,
       postalCode: form.zip,
       country: form.country || "ES",
-      // Incluir información del usuario siempre
       name: form.name,
       surname: form.surname,
       email: form.email,
-      phone: form.phone
+      phone: form.phone,
+      deliveryPhone: form.deliveryPhone,
+      deliveryRecipientName: form.deliveryRecipientName,
+      deliveryRecipientSurname: form.deliveryRecipientSurname
     };
     
-    // Usar el shippingPayload sin modificar (el shippingCost va en el nivel superior)
-    console.log('Dirección de envío con información del usuario:', shippingPayload);
+    console.log('Dirección de envío con información del usuario:', shippingAddressPayload);
     
-    const billingPayload = isBillingSameAsShipping.value
+    const billingAddressPayload: Address | null = isBillingSameAsShipping.value
       ? null
       : {
           id: billingId || "",
@@ -687,7 +861,6 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
           city: billing.city,
           postalCode: billing.zip,
           country: billing.country || "ES",
-          // Incluir información del usuario solo para usuarios invitados
           ...(!isAuthenticated ? {
             name: form.name,
             surname: form.surname,
@@ -695,6 +868,66 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
             phone: form.phone
           } : {}),
         };
+
+    const customerPayload: CustomerContact = {
+      name: form.name,
+      surname: form.surname,
+      email: form.email,
+      phone: form.phone
+    };
+
+    const deliveryContact: DeliveryContact = {
+      recipientName: form.deliveryRecipientName,
+      recipientSurname: form.deliveryRecipientSurname,
+      phone: form.deliveryPhone
+    };
+
+    const deliveryPayload: DeliveryAddress = {
+      id: shippingId || undefined,
+      isDefault: saveAsDefault.value || undefined,
+      street: form.address,
+      city: form.city,
+      postalCode: form.zip,
+      country: form.country || "ES",
+      contact: deliveryContact
+    };
+
+    const billingPayloadForOrder: BillingAddress | null = isBillingSameAsShipping.value
+      ? null
+      : {
+          id: billingId || undefined,
+          isDefault: saveAsDefault.value || undefined,
+          street: billing.address,
+          city: billing.city,
+          postalCode: billing.zip,
+          country: billing.country || "ES"
+        };
+
+    const checkoutMeta = {
+      deliveryDate: form.deliveryDate,
+      deliveryTime: form.deliveryTime,
+      cardNote: form.cardNote,
+      shippingCost: currentShippingCost.value,
+      language: locale.value
+    };
+
+    const orderDraft: CheckoutDraft = {
+      customer: customerPayload,
+      delivery: deliveryPayload,
+      billing: billingPayloadForOrder,
+      meta: checkoutMeta,
+      items: cartStore.items,
+      userType: isAuthenticated ? 'registered' : 'guest',
+      total: cartStore.totalPrice + currentShippingCost.value
+    };
+
+    const orderPayload: CheckoutOrderPayload = {
+      customer: customerPayload,
+      delivery: deliveryPayload,
+      billing: billingPayloadForOrder,
+      meta: checkoutMeta,
+      items: cartStore.items
+    };
         
     console.log('Costo de envío actual:', currentShippingCost.value);
 
@@ -702,12 +935,12 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
     // Usamos el shippingPayload original (sin shippingCost) para guardar la dirección
     if (saveAsDefault.value) {
       shippingExists.value
-        ? await updateAddress(shippingPayload)
-        : await createAddress(shippingPayload);
-      if (billingPayload) {
+        ? await updateAddress(shippingAddressPayload)
+        : await createAddress(shippingAddressPayload);
+      if (billingAddressPayload) {
         billingExists.value
-          ? await updateAddress(billingPayload)
-          : await createAddress(billingPayload);
+          ? await updateAddress(billingAddressPayload)
+          : await createAddress(billingAddressPayload);
       }
     }
 
@@ -715,30 +948,14 @@ async function submit(callbacks?: { onError?: (errors: Record<string, string>) =
     // create order in store (this will call your /api/orders)
     try {
       // Guardar los datos de la orden en localStorage para que estén disponibles en la página de pago
-      const orderData = {
-        shipping: shippingPayload, // Usar el payload original (sin shippingCost)
-        billing: billingPayload,
-        deliveryDate: form.deliveryDate,
-        deliveryTime: form.deliveryTime,
-        cardNote: form.cardNote,
-        items: cartStore.items,
-        shippingCost: currentShippingCost.value, // shippingCost en el nivel superior
-        total: cartStore.totalPrice + currentShippingCost.value,
-        userType: isAuthenticated ? 'registered' : 'guest'
-      };
+      const orderData = orderDraft;
       
       // Guardar en localStorage
       localStorage.setItem('lastOrderData', JSON.stringify(orderData));
       console.log('Datos de la orden guardados en localStorage:', orderData);
       
       // Crear la orden en el backend con el idioma actual
-      await orderStore.createOrder(shippingPayload, billingPayload, {
-        deliveryDate: form.deliveryDate,
-        deliveryTime: form.deliveryTime,
-        cardNote: form.cardNote,
-        shippingCost: currentShippingCost.value,
-        language: locale.value // Usar el locale obtenido en el setup
-      });
+      await orderStore.createOrder(orderPayload);
       console.log('Orden creada correctamente');
       console.log('ClientSecret:', orderStore.clientSecret);
       
