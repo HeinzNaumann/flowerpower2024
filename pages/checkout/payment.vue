@@ -396,14 +396,6 @@ async function initializeStripe() {
       wallets: {
         applePay: 'auto',
         googlePay: 'auto'
-      },
-      fields: {
-        billingDetails: {
-          email: 'never',
-          name: 'auto',
-          phone: 'auto',
-          address: 'auto'
-        }
       }
     });
     await nextTick();

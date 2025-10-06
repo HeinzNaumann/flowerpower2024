@@ -313,7 +313,7 @@
     "deliveryTime": "Delivery Time",
     "deliveryTimeRange": "Available hours: 9:00 AM - 7:00 PM",
     "deliveryInfoImportant": "It is important to select a delivery date and time to ensure your order is processed correctly.",
-    "deliveryPhoneLabel": "Delivery contact phone",
+    "deliveryPhoneLabel": "Delivery phone",
     "deliveryPhonePlaceholder": "Recipient’s phone number",
     "deliveryInfoSummary": "Delivery",
     "deliveryDateSummary": "Date",

@@ -200,6 +200,22 @@
             <div v-if="errors.country" class="text-xs text-red-500 mt-1">{{ errors.country }}</div>
             <template #error></template>
           </UFormField>
+          <UFormField
+            name="deliveryPhone"
+            :label="$t('checkout.deliveryPhoneLabel')"
+            class="md:col-span-1"
+            :class="{ 'text-red-500': errors.deliveryPhone }"
+          >
+            <UInput
+              v-model="form.deliveryPhone"
+              type="tel"
+              class="w-full"
+              @input="clearError('deliveryPhone')"
+              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryPhone ? 'ring-red-500' : 'ring-gray-300') }"
+            />
+            <div v-if="errors.deliveryPhone" class="text-xs text-red-500 mt-1">{{ errors.deliveryPhone }}</div>
+            <template #error></template>
+          </UFormField>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <UFormField
@@ -255,24 +271,6 @@
               {{ $t('checkout.deliveryTimeRange') }}
             </div>
             <div v-if="errors.deliveryTime" class="text-xs text-red-500 mt-1">{{ errors.deliveryTime }}</div>
-            <template #error></template>
-          </UFormField>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <UFormField
-            name="deliveryPhone"
-            :label="$t('checkout.deliveryPhoneLabel')"
-            class="md:col-span-1"
-            :class="{ 'text-red-500': errors.deliveryPhone }"
-          >
-            <UInput
-              v-model="form.deliveryPhone"
-              type="tel"
-              class="w-full"
-              @input="clearError('deliveryPhone')"
-              :ui="{ base: 'relative block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ' + (errors.deliveryPhone ? 'ring-red-500' : 'ring-gray-300') }"
-            />
-            <div v-if="errors.deliveryPhone" class="text-xs text-red-500 mt-1">{{ errors.deliveryPhone }}</div>
             <template #error></template>
           </UFormField>
         </div>

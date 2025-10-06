@@ -222,7 +222,7 @@
     "deliveryTime": "Hora de entrega",
     "deliveryTimeRange": "Horario disponible: 9:00 - 19:00",
     "deliveryInfoImportant": "Es importante que selecciones una fecha y hora de entrega para que podamos planificar tu pedido correctamente.",
-    "deliveryPhoneLabel": "Teléfono de contacto para entrega",
+    "deliveryPhoneLabel": "Teléfono de entrega",
     "deliveryPhonePlaceholder": "Teléfono de la persona que recibe",
     "deliveryInfoSummary": "Entrega",
     "deliveryDateSummary": "Fecha",
