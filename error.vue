@@ -1,16 +1,8 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-white">
-    <header class="w-full pt-4 px-4">
-      <NuxtLink to="/" class="inline-block">
-        <img
-          src="/logo-floristeria-flowerpower.png"
-          alt="Flower Power Logo"
-          class="w-auto h-[60px] md:h-[90px]"
-        />
-      </NuxtLink>
-    </header>
+  <div class="flex flex-col min-h-screen">
+    <Header />
     
-    <div class="flex-grow flex items-center justify-center px-4">
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
       <div class="max-w-md w-full text-center">
         <div class="mb-8">
           <h1 class="text-6xl font-bold text-gray-900 mb-4">
@@ -41,7 +33,9 @@
           </button>
         </div>
       </div>
-    </div>
+    </main>
+    
+    <Footer />
   </div>
 </template>
 
