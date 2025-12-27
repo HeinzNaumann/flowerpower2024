@@ -137,4 +137,25 @@ export default defineNuxtConfig({
       stripePublicKey: process.env.NUXT_PUBLIC_STRIPE_PUBLIC_KEY || "",
     },
   },
+  
+  nitro: {
+    compressPublicAssets: true,
+    routeRules: {
+      '/**': {
+        headers: {
+          'X-Content-Type-Options': 'nosniff',
+          'X-Frame-Options': 'SAMEORIGIN',
+          'X-XSS-Protection': '1; mode=block'
+        }
+      }
+    }
+  },
+  
+  hooks: {
+    'render:errorMiddleware': (error) => {
+      if (process.server) {
+        console.error('SSR Error:', error)
+      }
+    }
+  }
 });

@@ -1003,5 +1003,21 @@
     "button": "Send instructions",
     "success": "If this email is registered, we will send you an email with instructions to reset your password.",
     "error": "We couldn’t send the email. Please try again later."
+  },
+  "error": {
+    "404": {
+      "title": "Page not found",
+      "message": "Sorry, the page you are looking for does not exist or has been moved."
+    },
+    "500": {
+      "title": "Server error",
+      "message": "An error occurred on our server. We are working to fix it."
+    },
+    "default": {
+      "title": "An error occurred",
+      "message": "Sorry, something went wrong. Please try again later."
+    },
+    "backHome": "Back to home",
+    "retry": "Try again"
   }
 }

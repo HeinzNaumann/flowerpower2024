@@ -993,5 +993,21 @@
     "button": "Enviar instrucciones",
     "success": "Si este correo está registrado, te enviaremos un email con instrucciones para restablecer tu contraseña.",
     "error": "No se pudo enviar el correo. Inténtalo de nuevo más tarde."
+  },
+  "error": {
+    "404": {
+      "title": "Página no encontrada",
+      "message": "Lo sentimos, la página que buscas no existe o ha sido movida."
+    },
+    "500": {
+      "title": "Error del servidor",
+      "message": "Ha ocurrido un error en nuestro servidor. Estamos trabajando para solucionarlo."
+    },
+    "default": {
+      "title": "Ha ocurrido un error",
+      "message": "Lo sentimos, algo salió mal. Por favor, inténtalo de nuevo más tarde."
+    },
+    "backHome": "Volver al inicio",
+    "retry": "Intentar de nuevo"
   }
 }

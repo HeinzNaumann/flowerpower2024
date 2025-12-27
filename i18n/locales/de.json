@@ -986,5 +986,21 @@
     "button": "Anweisungen senden",
     "success": "Wenn diese E-Mail registriert ist, senden wir Ihnen eine E-Mail mit Anweisungen zum Zurücksetzen Ihres Passworts.",
     "error": "Die E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es später erneut."
+  },
+  "error": {
+    "404": {
+      "title": "Seite nicht gefunden",
+      "message": "Entschuldigung, die gesuchte Seite existiert nicht oder wurde verschoben."
+    },
+    "500": {
+      "title": "Serverfehler",
+      "message": "Auf unserem Server ist ein Fehler aufgetreten. Wir arbeiten daran, ihn zu beheben."
+    },
+    "default": {
+      "title": "Ein Fehler ist aufgetreten",
+      "message": "Entschuldigung, etwas ist schief gelaufen. Bitte versuchen Sie es später erneut."
+    },
+    "backHome": "Zurück zur Startseite",
+    "retry": "Erneut versuchen"
   }
 }
