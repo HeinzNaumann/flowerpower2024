@@ -44,15 +44,14 @@ jobs:
       - name: Add server to known_hosts
         run: ssh-keyscan -H 54.73.233.6 >> ~/.ssh/known_hosts
 
-      - name: Limpiar .output viejo en el servidor (BORRADO COMPLETO Y RECREACIÓN)
+      - name: Preparar directorio temporal para nuevo build
         run: |
-          ssh ubuntu@54.73.233.6 'rm -rf /var/www/flowerpower-staging/flowerpower-frontend/.output'
-          ssh ubuntu@54.73.233.6 'mkdir -p /var/www/flowerpower-staging/flowerpower-frontend/.output'
+          ssh ubuntu@54.73.233.6 'mkdir -p /var/www/flowerpower-staging/flowerpower-frontend/.output-new'
 
-      # --- COPIAR NUEVO .output ---
-      - name: Rsync .output al servidor (solo build ya generado)
+      # --- COPIAR NUEVO .output A DIRECTORIO TEMPORAL ---
+      - name: Rsync .output al directorio temporal
         run: |
-          rsync -avz --delete .output/ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/.output
+          rsync -avz --delete .output/ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/.output-new
           rsync -avz --delete public/ ubuntu@54.73.233.6:/var/www/flowerpower-staging/flowerpower-frontend/public || true
 
       - name: Copiar package.json y pnpm-lock.yaml
@@ -68,7 +67,7 @@ jobs:
           ssh ubuntu@54.73.233.6 'echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
           ssh ubuntu@54.73.233.6 'echo "STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}" >> /var/www/flowerpower-staging/flowerpower-frontend/.env'
 
-      - name: Instalar solo dependencias de prod y restart con PM2
+      - name: Despliegue Blue-Green con PM2 (sin downtime)
         run: |
           ssh ubuntu@54.73.233.6 '
             export NVM_DIR="$HOME/.nvm"
@@ -78,6 +77,19 @@ jobs:
             set -a
             source .env
             set +a
-            pm2 delete flowerpower-frontend-staging || true
-            pm2 start .output/server/index.mjs --name flowerpower-frontend-staging --interpreter $(which node)
+            
+            # Intercambio atómico: renombrar .output viejo y activar nuevo
+            if [ -d .output ]; then
+              mv .output .output-old
+            fi
+            mv .output-new .output
+            
+            # Reload PM2 (reload hace rolling restart sin downtime)
+            pm2 reload flowerpower-frontend-staging || pm2 start .output/server/index.mjs --name flowerpower-frontend-staging --interpreter $(which node)
+            
+            # Esperar a que el nuevo proceso esté estable
+            sleep 5
+            
+            # Limpiar build antiguo
+            rm -rf .output-old
           '
