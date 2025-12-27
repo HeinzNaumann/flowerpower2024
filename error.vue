@@ -27,7 +27,7 @@
         <div class="space-y-4">
           <NuxtLink
             to="/"
-            class="inline-block px-6 py-3 bg-[#8B4513] text-white rounded-lg hover:bg-[#6B3410] transition-colors"
+            class="inline-block px-6 py-3 bg-[#3F2D50] text-white rounded-lg hover:bg-[#2F1D40] transition-colors"
           >
             {{ t('error.backHome') }}
           </NuxtLink>
