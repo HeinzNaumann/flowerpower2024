@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col min-h-screen">
+    <VacationBanner />
     <Header />
     <CartDrawer v-model:open="showCartDrawer" />
     <main class="flex-grow">

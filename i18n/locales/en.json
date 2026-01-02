@@ -1,5 +1,9 @@
 {
   "welcome": "Welcome",
+  "vacationBanner": {
+    "message": "We are closed for vacation until February 2nd 2026. You can place orders for delivery from February 3rd onwards.",
+    "understood": "Understood"
+  },
   "underConstruction": {
     "heading": "Flower Power Website is under construction",
     "message": "We apologize for the inconvenience, but our website is currently being excitingly updated and improved.",
@@ -209,7 +213,8 @@
     "edit": "Edit",
     "shop": "Shop",
     "yes": "Yes",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "understood": "Understood"
   },
   "dialog": {
     "ok": "OK",
@@ -310,6 +315,7 @@
     "billingInfo": "Billing Information",
     "selectDeliveryDate": "Select a delivery date",
     "noSundayDelivery": "We do not make deliveries on Sundays",
+    "vacationNote": "Closed for vacation until 02/02. Deliveries available from 03/02.",
     "deliveryTime": "Delivery Time",
     "deliveryTimeRange": "Available hours: 9:00 AM - 7:00 PM",
     "deliveryInfoImportant": "It is important to select a delivery date and time to ensure your order is processed correctly.",

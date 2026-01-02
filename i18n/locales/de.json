@@ -1,5 +1,9 @@
 {
   "welcome": "Willkommen",
+  "vacationBanner": {
+    "message": "Wir sind wegen Urlaub bis zum 2. Februar 2026 geschlossen. Sie können Bestellungen mit Lieferung ab dem 3. Februar aufgeben.",
+    "understood": "Verstanden"
+  },
   "underConstruction": {
     "heading": "Flower Power Website ist im Aufbau",
     "message": "Wir entschuldigen uns für die Unannehmlichkeiten, aber unsere Website wird derzeit aufregend aktualisiert und verbessert.",
@@ -215,7 +219,8 @@
     "delete": "Löschen",
     "yes": "Ja",
     "cancel": "Abbrechen",
-    "shop": "Geschäft"
+    "shop": "Geschäft",
+    "understood": "Verstanden"
   },
   "cart": {
     "title": "Dein Warenkorb",
@@ -273,6 +278,7 @@
     "saveAsDefault": "Adresse als Standard speichern",
     "paymentTitle": "Kauf abschließen",
     "deliveryTimeRange": "Verfugbare Stunden: 9:00 AM - 7:00 PM",
+    "vacationNote": "Wegen Urlaub bis 02.02. geschlossen. Lieferungen ab 03.02. verfügbar.",
     "paymentSubtitle": "Schließen Sie Ihre Bestellung sicher ab",
     "deliveryInfoImportant": "Es ist wichtig, eine Lieferdatum und eine Lieferzeit auszuwählen, um Ihre Bestellung korrekt zu verarbeiten.",
     "orderSummary": "Bestellzusammenfassung",
