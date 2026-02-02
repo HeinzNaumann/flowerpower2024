@@ -1,14 +1,9 @@
 {
   "welcome": "Bienvenido",
-  "vacationBanner": {
-    "message": "Estamos cerrados por vacaciones hasta el 2 de febrero del 2026. Puedes hacer pedidos con entrega a partir del 3 de febrero.",
-    "understood": "Entendido"
-  },
   "common": {
     "shop": "Tienda",
     "yes": "Sí",
-    "cancel": "Cancelar",
-    "understood": "Entendido"
+    "cancel": "Cancelar"
   },
   "underConstruction": {
     "heading": "Flower Power Website en construcción",
@@ -224,7 +219,6 @@
     "deliveryDate": "Fecha de entrega",
     "selectDeliveryDate": "Selecciona una fecha de entrega",
     "noSundayDelivery": "No realizamos entregas los domingos",
-    "vacationNote": "Cerrados por vacaciones hasta el 02/02. Entregas disponibles a partir del 03/02.",
     "deliveryTime": "Hora de entrega",
     "deliveryTimeRange": "Horario disponible: 9:00 - 19:00",
     "deliveryInfoImportant": "Es importante que selecciones una fecha y hora de entrega para que podamos planificar tu pedido correctamente.",

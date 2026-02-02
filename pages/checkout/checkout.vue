@@ -247,9 +247,6 @@
                   <div class="mt-1 text-xs text-red-500 text-center">
                     {{ $t('checkout.noSundayDelivery') }}
                   </div>
-                  <div class="mt-2 text-xs text-amber-600 font-medium text-center bg-amber-50 p-2 rounded">
-                    {{ $t('checkout.vacationNote') }}
-                  </div>
                 </div>
               </template>
             </UPopover>
@@ -567,26 +564,18 @@ function validateZipCode() {
 // Variable reactiva para controlar la visibilidad del título
 const showTitle = ref(true);
 
-// Calcular la fecha mínima de entrega (03/02/2026 por vacaciones, o un día después si es posterior)
+// Calcular la fecha mínima de entrega (un día después del actual)
 const minDeliveryDate = computed(() => {
-  const vacationEndDate = new Date('2026-02-03T00:00:00');
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  
-  // Usar la fecha más tardía entre mañana y el fin de vacaciones
-  const minDate = tomorrow > vacationEndDate ? tomorrow : vacationEndDate;
-  return formatDateToYMD(minDate); // Formato YYYY-MM-DD
+  return formatDateToYMD(tomorrow); // Formato YYYY-MM-DD
 });
 
-// Fecha mínima para el calendario (03/02/2026 por vacaciones, o un día después si es posterior)
+// Fecha mínima para el calendario (un día después del actual)
 const minCalendarDate = computed(() => {
-  const vacationEndDate = new Date('2026-02-03T00:00:00');
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  
-  // Usar la fecha más tardía entre mañana y el fin de vacaciones
-  const minDate = tomorrow > vacationEndDate ? tomorrow : vacationEndDate;
-  return new CalendarDate(minDate.getFullYear(), minDate.getMonth() + 1, minDate.getDate());
+  return new CalendarDate(tomorrow.getFullYear(), tomorrow.getMonth() + 1, tomorrow.getDate());
 });
 
 // Función para verificar si una fecha debe estar deshabilitada (domingos)
@@ -694,25 +683,21 @@ onMounted(async () => {
   
   // Establecer la fecha mínima como valor por defecto si no hay fecha establecida
   if (!form.deliveryDate) {
-    // Obtener la fecha mínima considerando vacaciones
-    const vacationEndDate = new Date('2026-02-03T00:00:00');
+    // Obtener la fecha de mañana
     let tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     
-    // Usar la fecha más tardía entre mañana y el fin de vacaciones
-    let defaultDate = tomorrow > vacationEndDate ? tomorrow : vacationEndDate;
-    
-    // Si la fecha por defecto es domingo, avanzar al lunes
-    if (defaultDate.getDay() === 0) {
-      defaultDate.setDate(defaultDate.getDate() + 1);
+    // Si mañana es domingo, avanzar al lunes
+    if (tomorrow.getDay() === 0) {
+      tomorrow.setDate(tomorrow.getDate() + 1);
     }
     
     // Formatear la fecha y asignarla al formulario
-    form.deliveryDate = formatDateToYMD(defaultDate);
+    form.deliveryDate = formatDateToYMD(tomorrow);
     deliveryDateObject.value = new CalendarDate(
-      defaultDate.getFullYear(), 
-      defaultDate.getMonth() + 1, 
-      defaultDate.getDate()
+      tomorrow.getFullYear(), 
+      tomorrow.getMonth() + 1, 
+      tomorrow.getDate()
     );
   } else {
     // Si ya hay una fecha, convertirla a objeto CalendarDate para el calendario
